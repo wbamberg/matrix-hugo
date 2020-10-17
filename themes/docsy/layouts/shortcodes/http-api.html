@@ -1,3 +1,0 @@
-{{$file := .Get "src"}}
-{{ $spec := $file  | readFile | transform.Unmarshal }}
-{{ $spec.paths }}
