@@ -1,17 +1,45 @@
 <style>
+
+  /*
+  Give top-level Toc items bold style
+  */
   #TableOfContents > ul > li > a {
     font-weight: bold;
   }
 
+  /*
+  Use standard #333 for ToC text
+  */
   .td-toc #TableOfContents a {
     color: #333;
   }
 
+  /*
+  This is needed to stop the bottom of the Matrix icon from getting snipped off.
+  */
   .td-navbar .navbar-brand svg {
     height: 32px;
   }
 
+  /*
+  This overrides calc(100vh - 10rem);, which gives us a blank space at the bottom of the ToC
+  */
   .td-toc {
     height: calc(100vh - 5rem);
   }
+
+  /*
+  Give code samples and pre elements full-width
+  */
+  .td-content > .highlight, .td-content > pre {
+      max-width: 100%;
+  }
+
+  /*
+  Make padding symmetrical (this selector is used to apply padding-left: 3rem)
+  */
+  .pl-md-5, .px-md-5 {
+    padding-right: 3rem;
+}
+
 </style>
