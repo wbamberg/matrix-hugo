@@ -75,10 +75,12 @@ inconsistency.
 Any errors which occur at the Matrix API level MUST return a "standard
 error response". This is a JSON object which looks like:
 
-    {
-      "errcode": "<error code>",
-      "error": "<error message>"
-    }
+```json
+{
+  "errcode": "<error code>",
+  "error": "<error message>"
+}
+```
 
 The `error` string will be a human-readable error message, usually a
 sentence explaining what went wrong. The `errcode` string will be a
@@ -446,22 +448,24 @@ homeserver returns an HTTP 401 response, with a JSON body, as follows:
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
+```json
+{
+  "flows": [
     {
-      "flows": [
-        {
-          "stages": [ "example.type.foo", "example.type.bar" ]
-        },
-        {
-          "stages": [ "example.type.foo", "example.type.baz" ]
-        }
-      ],
-      "params": {
-          "example.type.baz": {
-              "example_key": "foobar"
-          }
-      },
-      "session": "xxxxxx"
+      "stages": [ "example.type.foo", "example.type.bar" ]
+    },
+    {
+      "stages": [ "example.type.foo", "example.type.baz" ]
     }
+  ],
+  "params": {
+      "example.type.baz": {
+          "example_key": "foobar"
+      }
+  },
+  "session": "xxxxxx"
+}
+```
 
 In addition to the `flows`, this object contains some extra information:
 
@@ -489,15 +493,17 @@ type `example.type.foo`, it might submit something like this:
     POST /_matrix/client/r0/endpoint HTTP/1.1
     Content-Type: application/json
 
-    {
-      "a_request_parameter": "something",
-      "another_request_parameter": "something else",
-      "auth": {
-          "type": "example.type.foo",
-          "session": "xxxxxx",
-          "example_credential": "verypoorsharedsecret"
-      }
-    }
+```json
+{
+  "a_request_parameter": "something",
+  "another_request_parameter": "something else",
+  "auth": {
+      "type": "example.type.foo",
+      "session": "xxxxxx",
+      "example_credential": "verypoorsharedsecret"
+  }
+}
+```
 
 If the homeserver deems the authentication attempt to be successful but
 still requires more stages to be completed, it returns HTTP status 401
@@ -508,23 +514,25 @@ client has completed successfully:
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
+```json
+{
+  "completed": [ "example.type.foo" ],
+  "flows": [
     {
-      "completed": [ "example.type.foo" ],
-      "flows": [
-        {
-          "stages": [ "example.type.foo", "example.type.bar" ]
-        },
-        {
-          "stages": [ "example.type.foo", "example.type.baz" ]
-        }
-      ],
-      "params": {
-          "example.type.baz": {
-              "example_key": "foobar"
-          }
-      },
-      "session": "xxxxxx"
+      "stages": [ "example.type.foo", "example.type.bar" ]
+    },
+    {
+      "stages": [ "example.type.foo", "example.type.baz" ]
     }
+  ],
+  "params": {
+      "example.type.baz": {
+          "example_key": "foobar"
+      }
+  },
+  "session": "xxxxxx"
+}
+```
 
 Individual stages may require more than one request to complete, in
 which case the response will be as if the request was unauthenticated
@@ -538,25 +546,27 @@ status 401 response as above, with the addition of the standard
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
+```json
+{
+  "errcode": "M_FORBIDDEN",
+  "error": "Invalid password",
+  "completed": [ "example.type.foo" ],
+  "flows": [
     {
-      "errcode": "M_FORBIDDEN",
-      "error": "Invalid password",
-      "completed": [ "example.type.foo" ],
-      "flows": [
-        {
-          "stages": [ "example.type.foo", "example.type.bar" ]
-        },
-        {
-          "stages": [ "example.type.foo", "example.type.baz" ]
-        }
-      ],
-      "params": {
-          "example.type.baz": {
-              "example_key": "foobar"
-          }
-      },
-      "session": "xxxxxx"
+      "stages": [ "example.type.foo", "example.type.bar" ]
+    },
+    {
+      "stages": [ "example.type.foo", "example.type.baz" ]
     }
+  ],
+  "params": {
+      "example.type.baz": {
+          "example_key": "foobar"
+      }
+  },
+  "session": "xxxxxx"
+}
+```
 
 If the request fails for a reason other than authentication, the server
 returns an error message in the standard format. For example:
@@ -564,10 +574,12 @@ returns an error message in the standard format. For example:
     HTTP/1.1 400 Bad request
     Content-Type: application/json
 
-    {
-      "errcode": "M_EXAMPLE_ERROR",
-      "error": "Something was wrong"
-    }
+```json
+{
+  "errcode": "M_EXAMPLE_ERROR",
+  "error": "Something was wrong"
+}
+```
 
 If the client has completed all stages of a flow, the homeserver
 performs the API call and returns the result as normal. Completed stages
@@ -661,30 +673,34 @@ described in [Identifier types](#identifier-types).
 For example, to authenticate using the user's Matrix ID, clients would
 submit:
 
-    {
-      "type": "m.login.password",
-      "identifier": {
-        "type": "m.id.user",
-        "user": "<user_id or user localpart>"
-      },
-      "password": "<password>",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.password",
+  "identifier": {
+    "type": "m.id.user",
+    "user": "<user_id or user localpart>"
+  },
+  "password": "<password>",
+  "session": "<session ID>"
+}
+```
 
 Alternatively reply using a 3PID bound to the user's account on the
 homeserver using the `/account/3pid`\_ API rather then giving the `user`
 explicitly as follows:
 
-    {
-      "type": "m.login.password",
-      "identifier": {
-        "type": "m.id.thirdparty",
-        "medium": "<The medium of the third party identifier.>",
-        "address": "<The third party address of the user>"
-      },
-      "password": "<password>",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.password",
+  "identifier": {
+    "type": "m.id.thirdparty",
+    "medium": "<The medium of the third party identifier.>",
+    "address": "<The third party address of the user>"
+  },
+  "password": "<password>",
+  "session": "<session ID>"
+}
+```
 
 In the case that the homeserver does not know about the supplied 3PID,
 the homeserver must respond with 403 Forbidden.
@@ -700,11 +716,13 @@ The user completes a Google ReCaptcha 2.0 challenge
 To use this authentication type, clients should submit an auth dict as
 follows:
 
-    {
-      "type": "m.login.recaptcha",
-      "response": "<captcha response>",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.recaptcha",
+  "response": "<captcha response>",
+  "session": "<session ID>"
+}
+```
 
 #### Single Sign-On
 
@@ -736,18 +754,20 @@ information should be submitted to the homeserver.
 To use this authentication type, clients should submit an auth dict as
 follows:
 
+```json
+{
+  "type": "m.login.email.identity",
+  "threepidCreds": [
     {
-      "type": "m.login.email.identity",
-      "threepidCreds": [
-        {
-          "sid": "<identity server session id>",
-          "client_secret": "<identity server client secret>",
-          "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
-          "id_access_token": "<access token previously registered with the identity server>"
-        }
-      ],
-      "session": "<session ID>"
+      "sid": "<identity server session id>",
+      "client_secret": "<identity server client secret>",
+      "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
+      "id_access_token": "<access token previously registered with the identity server>"
     }
+  ],
+  "session": "<session ID>"
+}
+```
 
 Note that `id_server` (and therefore `id_access_token`) is optional if
 the `/requestToken` request did not include them.
@@ -768,18 +788,20 @@ information should be submitted to the homeserver.
 To use this authentication type, clients should submit an auth dict as
 follows:
 
+```json
+{
+  "type": "m.login.msisdn",
+  "threepidCreds": [
     {
-      "type": "m.login.msisdn",
-      "threepidCreds": [
-        {
-          "sid": "<identity server session id>",
-          "client_secret": "<identity server client secret>",
-          "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
-          "id_access_token": "<access token previously registered with the identity server>"
-        }
-      ],
-      "session": "<session ID>"
+      "sid": "<identity server session id>",
+      "client_secret": "<identity server client secret>",
+      "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
+      "id_access_token": "<access token previously registered with the identity server>"
     }
+  ],
+  "session": "<session ID>"
+}
+```
 
 Note that `id_server` (and therefore `id_access_token`) is optional if
 the `/requestToken` request did not include them.
@@ -804,10 +826,12 @@ server can instead send flows `m.login.recaptcha, m.login.dummy` and
 To use this authentication type, clients should submit an auth dict with
 just the type and session, if provided:
 
-    {
-      "type": "m.login.dummy",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.dummy",
+  "session": "<session ID>"
+}
+```
 
 ##### Fallback
 
@@ -826,11 +850,13 @@ This MUST return an HTML page which can perform this authentication
 stage. This page must use the following JavaScript when the
 authentication has been completed:
 
-    if (window.onAuthDone) {
-        window.onAuthDone();
-    } else if (window.opener && window.opener.postMessage) {
-        window.opener.postMessage("authDone", "*");
-    }
+```js
+if (window.onAuthDone) {
+    window.onAuthDone();
+} else if (window.opener && window.opener.postMessage) {
+    window.opener.postMessage("authDone", "*");
+}
+```
 
 This allows the client to either arrange for the global function
 `onAuthDone` to be defined in an embedded browser, or to use the HTML5
@@ -842,64 +868,68 @@ Once a client receives the notificaton that the authentication stage has
 been completed, it should resubmit the request with an auth dict with
 just the session ID:
 
-    {
-      "session": "<session ID>"
-    }
+```json
+{
+  "session": "<session ID>"
+}
+```
 
 #### Example
 
 A client webapp might use the following javascript to open a popup
 window which will handle unknown login types:
 
-    /**
-     * Arguments:
-     *     homeserverUrl: the base url of the homeserver (eg "https://matrix.org")
-     *
-     *     apiEndpoint: the API endpoint being used (eg
-     *        "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/password")
-     *
-     *     loginType: the loginType being attempted (eg "m.login.recaptcha")
-     *
-     *     sessionID: the session ID given by the homeserver in earlier requests
-     *
-     *     onComplete: a callback which will be called with the results of the request
-     */
-    function unknownLoginType(homeserverUrl, apiEndpoint, loginType, sessionID, onComplete) {
-        var popupWindow;
+```js
+/**
+ * Arguments:
+ *     homeserverUrl: the base url of the homeserver (eg "https://matrix.org")
+ *
+ *     apiEndpoint: the API endpoint being used (eg
+ *        "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/password")
+ *
+ *     loginType: the loginType being attempted (eg "m.login.recaptcha")
+ *
+ *     sessionID: the session ID given by the homeserver in earlier requests
+ *
+ *     onComplete: a callback which will be called with the results of the request
+ */
+function unknownLoginType(homeserverUrl, apiEndpoint, loginType, sessionID, onComplete) {
+    var popupWindow;
 
-        var eventListener = function(ev) {
-            // check it's the right message from the right place.
-            if (ev.data !== "authDone" || ev.origin !== homeserverUrl) {
-                return;
-            }
+    var eventListener = function(ev) {
+        // check it's the right message from the right place.
+        if (ev.data !== "authDone" || ev.origin !== homeserverUrl) {
+            return;
+        }
 
-            // close the popup
-            popupWindow.close();
-            window.removeEventListener("message", eventListener);
+        // close the popup
+        popupWindow.close();
+        window.removeEventListener("message", eventListener);
 
-            // repeat the request
-            var requestBody = {
-                auth: {
-                    session: sessionID,
-                },
-            };
-
-            request({
-                method:'POST', url:apiEndpint, json:requestBody,
-            }, onComplete);
+        // repeat the request
+        var requestBody = {
+            auth: {
+                session: sessionID,
+            },
         };
 
-        window.addEventListener("message", eventListener);
+        request({
+            method:'POST', url:apiEndpint, json:requestBody,
+        }, onComplete);
+    };
 
-        var url = homeserverUrl +
-            "/_matrix/client/%CLIENT_MAJOR_VERSION%/auth/" +
-            encodeURIComponent(loginType) +
-            "/fallback/web?session=" +
-            encodeURIComponent(sessionID);
+    window.addEventListener("message", eventListener);
+
+    var url = homeserverUrl +
+        "/_matrix/client/%CLIENT_MAJOR_VERSION%/auth/" +
+        encodeURIComponent(loginType) +
+        "/fallback/web?session=" +
+        encodeURIComponent(sessionID);
 
 
-       popupWindow = window.open(url);
-    }
+   popupWindow = window.open(url);
+}
+```
 
 ##### Identifier types
 
