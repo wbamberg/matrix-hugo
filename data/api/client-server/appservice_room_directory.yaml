@@ -1,0 +1,51 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Updates the visibility of a given room on the application service's room\ndirectory.\n\nThis API is similar to the room directory visibility API used by clients\nto update the homeserver's more general room directory.\n\nThis API requires the use of an application service access token (``as_token``)\ninstead of a typical client's access_token. This API cannot be invoked by\nusers who are not identified as application services.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "Whether the room should be visible (public) in the directory\nor not (private).",
+                    "name": "visibility",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The protocol (network) ID to update the room list for. This would\nhave been provided by the application service as being listed as\na supported protocol.",
+                    "name": "networkId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The room ID to add to the directory.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/directory/list/appservice/{networkId}/{roomId}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The room's directory visibility has been updated.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Updates a room's visibility in the application service's room directory."
+    }
+]

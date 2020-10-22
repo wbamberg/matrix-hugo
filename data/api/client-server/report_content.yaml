@@ -1,0 +1,57 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Reports an event as inappropriate to the server, which may then notify\nthe appropriate people.",
+        "method": "POST",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The score to rate this content as where -100 is most offensive\nand 0 is inoffensive.",
+                    "name": "score",
+                    "required": false,
+                    "type": "integer"
+                },
+                {
+                    "description": "The reason the content is being reported. May be blank.",
+                    "name": "reason",
+                    "required": false,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room in which the event being reported is located.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The event to report.",
+                    "name": "eventId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/report/{eventId}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The event has been reported successfully.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Reports an event as inappropriate."
+    }
+]

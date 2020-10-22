@@ -1,0 +1,92 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This API provides credentials for the client to use when initiating\ncalls.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": []
+        },
+        "path": "/voip/turnServer",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The TURN server credentials.",
+                "examples": {
+                    "application/json": {
+                        "password": "JlKfBy1QwLrO20385QyAtEyIv0=",
+                        "ttl": 86400,
+                        "uris": [
+                            "turn:turn.example.com:3478?transport=udp",
+                            "turn:10.20.30.40:3478?transport=tcp",
+                            "turns:10.20.30.40:443?transport=tcp"
+                        ],
+                        "username": "1443779631:@user:example.com"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "The username to use.",
+                        "name": "username",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The password to use.",
+                        "name": "password",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A list of TURN URIs",
+                        "name": "uris",
+                        "required": true,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "The time-to-live in seconds",
+                        "name": "ttl",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Obtain TURN server credentials."
+    }
+]

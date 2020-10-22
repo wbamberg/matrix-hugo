@@ -1,0 +1,73 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/.well-known",
+        "description": "Gets discovery information about the domain. The file may include\nadditional keys, which MUST follow the Java package naming convention,\ne.g. ``com.example.myapp.property``. This ensures property names are\nsuitably namespaced for each application and reduces the risk of\nclashes.\n\nNote that this endpoint is not necessarily handled by the homeserver,\nbut by another webserver, to be used for discovering the homeserver URL.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": []
+        },
+        "path": "/matrix/client",
+        "rate_limited": false,
+        "requires_auth": false,
+        "responses": [
+            {
+                "additional_types": [
+                    {
+                        "name": "Homeserver Information",
+                        "properties": [
+                            {
+                                "description": "The base URL for the homeserver for client-server connections.",
+                                "name": "base_url",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Identity Server Information",
+                        "properties": [
+                            {
+                                "description": "The base URL for the identity server for client-server connections.",
+                                "name": "base_url",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ]
+                    }
+                ],
+                "description": "Server discovery information.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "Used by clients to discover homeserver information.",
+                        "name": "m.homeserver",
+                        "required": true,
+                        "type": "Homeserver Information"
+                    },
+                    {
+                        "description": "Used by clients to discover identity server information.",
+                        "name": "m.identity_server",
+                        "required": false,
+                        "type": "Identity Server Information"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "No server discovery information available.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 404
+            }
+        ],
+        "summary": "Gets Matrix server discovery information about the domain."
+    }
+]

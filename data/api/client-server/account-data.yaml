@@ -1,0 +1,174 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get some account_data for the client. This config is only visible to the user\nthat set the account_data.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the user to get account_data for. The access token must be\nauthorized to make requests for this user ID.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The event type of the account_data to get. Custom types should be\nnamespaced to avoid clashes.",
+                    "name": "type",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/account_data/{type}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The account data content for the given type.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Get some account_data for the user."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Set some account_data for the client. This config is only visible to the user\nthat set the account_data. The config will be synced to clients in the\ntop-level ``account_data``.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the user to set account_data for. The access token must be\nauthorized to make requests for this user ID.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The event type of the account_data to set. Custom types should be\nnamespaced to avoid clashes.",
+                    "name": "type",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/account_data/{type}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The account_data was successfully added.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Set some account_data for the user."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get some account_data for the client on a given room. This config is only\nvisible to the user that set the account_data.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the user to set account_data for. The access token must be\nauthorized to make requests for this user ID.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the room to get account_data for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The event type of the account_data to get. Custom types should be\nnamespaced to avoid clashes.",
+                    "name": "type",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/rooms/{roomId}/account_data/{type}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The account data content for the given type.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Get some account_data for the user."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Set some account_data for the client on a given room. This config is only\nvisible to the user that set the account_data. The config will be synced to\nclients in the per-room ``account_data``.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the user to set account_data for. The access token must be\nauthorized to make requests for this user ID.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the room to set account_data on.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The event type of the account_data to set. Custom types should be\nnamespaced to avoid clashes.",
+                    "name": "type",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/rooms/{roomId}/account_data/{type}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The account_data was successfully added.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Set some account_data for the user."
+    }
+]

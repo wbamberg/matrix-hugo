@@ -1,0 +1,192 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get the given user's presence state.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The user whose presence state to get.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/presence/{userId}/status",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The presence state for this user.",
+                "examples": {
+                    "application/json": {
+                        "last_active_ago": 420845,
+                        "presence": "unavailable"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "This user's presence.",
+                        "name": "presence",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The length of time in milliseconds since an action was performed\nby this user.",
+                        "name": "last_active_ago",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "The state message for this user if one was set.",
+                        "name": "status_msg",
+                        "required": false,
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    {
+                        "description": "Whether the user is currently active",
+                        "name": "currently_active",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "There is no presence state for this user. This user may not exist or\nisn't exposing presence information to you.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "You are not allowed to see this user's presence status.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_FORBIDDEN",
+                        "error": "You are not allowed to see their presence"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            }
+        ],
+        "summary": "Get this user's presence state."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This API sets the given user's presence state. When setting the status,\nthe activity time is updated to reflect that activity; the client does\nnot need to specify the ``last_active_ago`` field. You cannot set the\npresence state of another user.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The new presence state.",
+                    "name": "presence",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The status message to attach to this state.",
+                    "name": "status_msg",
+                    "required": false,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The user whose presence state to update.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/presence/{userId}/status",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The new presence state was set.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Update this user's presence state."
+    }
+]

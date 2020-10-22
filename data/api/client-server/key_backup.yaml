@@ -1,0 +1,1578 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get information about the latest backup version.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": []
+        },
+        "path": "/room_keys/version",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The information about the backup.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The algorithm used for storing backups.",
+                        "name": "algorithm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Algorithm-dependent data. See the documentation for the backup\nalgorithms in `Server-side key backups`_ for more information on the\nexpected format of the data.",
+                        "name": "auth_data",
+                        "required": true,
+                        "type": "object"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup.",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "An opaque string representing stored keys in the backup.\nClients can compare it with the ``etag`` value they received\nin the request of their last key storage request.  If not\nequal, another client has modified the backup.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The backup version.",
+                        "name": "version",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "No backup exists.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "No current backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Get information about the latest backup version."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Creates a new backup.",
+        "method": "POST",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The algorithm used for storing backups.",
+                    "name": "algorithm",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Algorithm-dependent data. See the documentation for the backup\nalgorithms in `Server-side key backups`_ for more information on the\nexpected format of the data.",
+                    "name": "auth_data",
+                    "required": true,
+                    "type": "object"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": []
+        },
+        "path": "/room_keys/version",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The version id of the new backup.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The backup version. This is an opaque string.",
+                        "name": "version",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Create a new backup."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get information about an existing backup.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The backup version to get, as returned in the ``version`` parameter\nof the response in `POST /_matrix/client/r0/room_keys/version`_ or\nthis endpoint.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/room_keys/version/{version}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The information about the requested backup.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The algorithm used for storing backups.",
+                        "name": "algorithm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Algorithm-dependent data. See the documentation for the backup\nalgorithms in `Server-side key backups`_ for more information on the\nexpected format of the data.",
+                        "name": "auth_data",
+                        "required": true,
+                        "type": "object"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup.",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "An opaque string representing stored keys in the backup.\nClients can compare it with the ``etag`` value they received\nin the request of their last key storage request.  If not\nequal, another client has modified the backup.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The backup version.",
+                        "name": "version",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The backup specified does not exist.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Get information about an existing backup."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Update information about an existing backup.  Only ``auth_data`` can be modified.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The algorithm used for storing backups.  Must be the same as\nthe algorithm currently used by the backup.",
+                    "name": "algorithm",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Algorithm-dependent data. See the documentation for the backup\nalgorithms in `Server-side key backups`_ for more information on the\nexpected format of the data.",
+                    "name": "auth_data",
+                    "required": true,
+                    "type": "object"
+                },
+                {
+                    "description": "The backup version.  If present, must be the same as the\nversion in the path parameter.",
+                    "name": "version",
+                    "required": false,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The backup version to update, as returned in the ``version``\nparameter in the response of `POST\n/_matrix/client/r0/room_keys/version`_ or `GET\n/_matrix/client/r0/room_keys/version/{version}`_.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/room_keys/version/{version}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The update succeeded.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "A parameter was incorrect.  For example, the ``algorithm`` does not\nmatch the current backup algorithm, or the ``version`` in the body\ndoes not match the ``version`` in the path.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_INVALID_PARAM",
+                        "error": "Algorithm does not match"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 400
+            },
+            {
+                "additional_types": [],
+                "description": "The backup specified does not exist.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Update information about an existing backup."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Delete an existing key backup. Both the information about the backup,\nas well as all key data related to the backup will be deleted.",
+        "method": "DELETE",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The backup version to delete, as returned in the ``version``\nparameter in the response of `POST\n/_matrix/client/r0/room_keys/version`_ or `GET\n/_matrix/client/r0/room_keys/version/{version}`_.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/room_keys/version/{version}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The delete succeeded, or the specified backup was previously\ndeleted.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The backup specified does not exist. If the backup was previously\ndeleted, the call should succeed rather than returning an error.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Delete an existing key backup."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Retrieve a key from the backup.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room that the requested key is for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the megolm session whose key is requested.",
+                    "name": "sessionId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "The backup from which to retrieve the key.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys/{roomId}/{sessionId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The key data",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The index of the first message in the session that the key can decrypt.",
+                        "name": "first_message_index",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "The number of times this key has been forwarded via key-sharing between devices.",
+                        "name": "forwarded_count",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "Whether the device backing up the key verified the device that the key\nis from.",
+                        "name": "is_verified",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "Algorithm-dependent data.  See the documentation for the backup\nalgorithms in `Server-side key backups`_ for more information on the\nexpected format of the data.",
+                        "name": "session_data",
+                        "required": true,
+                        "type": "object"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The key or backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Key not found."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Retrieve a key from the backup"
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Store a key in the backup.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The index of the first message in the session that the key can decrypt.",
+                    "name": "first_message_index",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "description": "The number of times this key has been forwarded via key-sharing between devices.",
+                    "name": "forwarded_count",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "description": "Whether the device backing up the key verified the device that the key\nis from.",
+                    "name": "is_verified",
+                    "required": true,
+                    "type": "boolean"
+                },
+                {
+                    "description": "Algorithm-dependent data.  See the documentation for the backup\nalgorithms in `Server-side key backups`_ for more information on the\nexpected format of the data.",
+                    "name": "session_data",
+                    "required": true,
+                    "type": "object"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room that the key is for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the megolm session that the key is for.",
+                    "name": "sessionId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "The backup in which to store the key. Must be the current backup.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys/{roomId}/{sessionId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The update succeeded.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The new etag value representing stored keys in the backup.\nSee ``GET /room_keys/version/{version}`` for more details.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The version specified does not match the current backup version.\nThe current version will be included in the ``current_version``\nfield.",
+                "examples": {
+                    "application/json": {
+                        "current_version": "42",
+                        "errcode": "M_WRONG_ROOM_KEYS_VERSION",
+                        "error": "Wrong backup version."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Store a key in the backup."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Delete a key from the backup.",
+        "method": "DELETE",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room that the specified key is for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the megolm session whose key is to be deleted.",
+                    "name": "sessionId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "The backup from which to delete the key",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys/{roomId}/{sessionId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The update succeeded",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The new etag value representing stored keys in the backup.\nSee ``GET /room_keys/version/{version}`` for more details.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Delete a key from the backup"
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Retrieve the keys from the backup for a given room",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room that the requested key is for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "The backup from which to retrieve the key.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys/{roomId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The key data.  If no keys are found, then an object with an empty\n``sessions`` property will be returned (``{\"sessions\": {}}``).",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "A map of session IDs to key data.",
+                        "name": "sessions",
+                        "required": true,
+                        "type": "object"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Retrieve the keys from the backup for a given room"
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Store a key in the backup.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "A map of session IDs to key data.",
+                    "name": "sessions",
+                    "required": true,
+                    "type": "object"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room that the keys are for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "The backup in which to store the keys. Must be the current backup.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys/{roomId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The update succeeded",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The new etag value representing stored keys in the backup.\nSee ``GET /room_keys/version/{version}`` for more details.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The version specified does not match the current backup version.\nThe current version will be included in the ``current_version``\nfield.",
+                "examples": {
+                    "application/json": {
+                        "current_version": "42",
+                        "errcode": "M_WRONG_ROOM_KEYS_VERSION",
+                        "error": "Wrong backup version."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            },
+            {
+                "additional_types": [],
+                "description": "The backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Store several keys in the backup for a given room."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Delete a key from the backup.",
+        "method": "DELETE",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room that the specified key is for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "The backup from which to delete the key.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys/{roomId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The update succeeded",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The new etag value representing stored keys in the backup.\nSee ``GET /room_keys/version/{version}`` for more details.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Delete a key from the backup"
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Retrieve the keys from the backup for a given room",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": [
+                {
+                    "description": "The backup from which to retrieve the keys.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The key data.  If no keys are found, then an object with an empty\n``rooms`` property will be returned (``{\"rooms\": {}}``).",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "A map of room IDs to room key backup data.",
+                        "name": "rooms",
+                        "required": false,
+                        "type": "object"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Retrieve the keys from the backup for a given room"
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Store several keys in the backup.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "A map of room IDs to room key backup data.",
+                    "name": "rooms",
+                    "required": true,
+                    "type": "object"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": [
+                {
+                    "description": "The backup in which to store the keys. Must be the current backup.",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The update succeeded",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The new etag value representing stored keys in the backup.\nSee ``GET /room_keys/version/{version}`` for more details.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The version specified does not match the current backup version.\nThe current version will be included in the ``current_version``\nfield.",
+                "examples": {
+                    "application/json": {
+                        "current_version": "42",
+                        "errcode": "M_WRONG_ROOM_KEYS_VERSION",
+                        "error": "Wrong backup version."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            },
+            {
+                "additional_types": [],
+                "description": "The backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Store several keys in the backup."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Delete a key from the backup.",
+        "method": "DELETE",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": [
+                {
+                    "description": "The backup from which to delete the key",
+                    "name": "version",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/room_keys/keys",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The update succeeded",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The new etag value representing stored keys in the backup.\nSee ``GET /room_keys/version/{version}`` for more details.",
+                        "name": "etag",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of keys stored in the backup",
+                        "name": "count",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The backup was not found.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Unknown backup version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Delete a key from the backup"
+    }
+]

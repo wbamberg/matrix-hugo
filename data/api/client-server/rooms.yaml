@@ -1,0 +1,627 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get a single event based on ``roomId/eventId``. You must have permission to\nretrieve this event e.g. by being a member in the room for this event.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room the event is in.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The event ID to get.",
+                    "name": "eventId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/event/{eventId}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The full event.",
+                "examples": {
+                    "application/json": {
+                        "content": {
+                            "body": "This is an example text message",
+                            "format": "org.matrix.custom.html",
+                            "formatted_body": "<b>This is an example text message</b>",
+                            "msgtype": "m.text"
+                        },
+                        "event_id": "$143273582443PhrSn:example.org",
+                        "origin_server_ts": 1432735824653,
+                        "room_id": "!636q39766251:matrix.org",
+                        "sender": "@example:example.org",
+                        "type": "m.room.message",
+                        "unsigned": {
+                            "age": 1234
+                        }
+                    }
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The event was not found or you do not have permission to read this event.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_NOT_FOUND",
+                        "error": "Event not found."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 404
+            }
+        ],
+        "summary": "Get a single event by event ID."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": ".. For backwards compatibility with older links...\n.. _`get-matrix-client-%CLIENT_MAJOR_VERSION%-rooms-roomid-state-eventtype`:\n\nLooks up the contents of a state event in a room. If the user is\njoined to the room then the state is taken from the current\nstate of the room. If the user has left the room then the state is\ntaken from the state of the room when they left.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room to look up the state in.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The type of state to look up.",
+                    "name": "eventType",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The key of the state to look up. Defaults to an empty string. When\nan empty string, the trailing slash on this endpoint is optional.",
+                    "name": "stateKey",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/state/{eventType}/{stateKey}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The content of the state event.",
+                "examples": {
+                    "application/json": {
+                        "name": "Example room name"
+                    }
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The room has no state with the given type or key.",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 404
+            },
+            {
+                "additional_types": [],
+                "description": "You aren't a member of the room and weren't previously a member of the room.\n",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 403
+            }
+        ],
+        "summary": "Get the state identified by the type and key."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get the state events for the current state of a room.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room to look up the state for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/state",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The current state of the room",
+                "examples": {
+                    "application/json": [
+                        {
+                            "content": {
+                                "join_rule": "public"
+                            },
+                            "event_id": "$143273582443PhrSn:example.org",
+                            "origin_server_ts": 1432735824653,
+                            "room_id": "!636q39766251:example.com",
+                            "sender": "@example:example.org",
+                            "state_key": "",
+                            "type": "m.room.join_rules",
+                            "unsigned": {
+                                "age": 1234
+                            }
+                        },
+                        {
+                            "content": {
+                                "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
+                                "displayname": "Alice Margatroid",
+                                "membership": "join"
+                            },
+                            "event_id": "$143273582443PhrSn:example.org",
+                            "origin_server_ts": 1432735824653,
+                            "room_id": "!636q39766251:example.com",
+                            "sender": "@example:example.org",
+                            "state_key": "@alice:example.org",
+                            "type": "m.room.member",
+                            "unsigned": {
+                                "age": 1234
+                            }
+                        },
+                        {
+                            "content": {
+                                "creator": "@example:example.org",
+                                "m.federate": true,
+                                "predecessor": {
+                                    "event_id": "$something:example.org",
+                                    "room_id": "!oldroom:example.org"
+                                },
+                                "room_version": "1"
+                            },
+                            "event_id": "$143273582443PhrSn:example.org",
+                            "origin_server_ts": 1432735824653,
+                            "room_id": "!636q39766251:example.com",
+                            "sender": "@example:example.org",
+                            "state_key": "",
+                            "type": "m.room.create",
+                            "unsigned": {
+                                "age": 1234
+                            }
+                        },
+                        {
+                            "content": {
+                                "ban": 50,
+                                "events": {
+                                    "m.room.name": 100,
+                                    "m.room.power_levels": 100
+                                },
+                                "events_default": 0,
+                                "invite": 50,
+                                "kick": 50,
+                                "notifications": {
+                                    "room": 20
+                                },
+                                "redact": 50,
+                                "state_default": 50,
+                                "users": {
+                                    "@example:localhost": 100
+                                },
+                                "users_default": 0
+                            },
+                            "event_id": "$143273582443PhrSn:example.org",
+                            "origin_server_ts": 1432735824653,
+                            "room_id": "!636q39766251:example.com",
+                            "sender": "@example:example.org",
+                            "state_key": "",
+                            "type": "m.room.power_levels",
+                            "unsigned": {
+                                "age": 1234
+                            }
+                        }
+                    ]
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "You aren't a member of the room and weren't previously a member of the room.\n",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 403
+            }
+        ],
+        "summary": "Get all state events in the current state of a room."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Get the list of members for this room.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room to get the member events for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "The point in time (pagination token) to return members for in the room.\nThis token can be obtained from a ``prev_batch`` token returned for\neach room by the sync API. Defaults to the current state of the room,\nas determined by the server.",
+                    "name": "at",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of membership to filter for. Defaults to no filtering if\nunspecified. When specified alongside ``not_membership``, the two\nparameters create an 'or' condition: either the membership *is*\nthe same as ``membership`` **or** *is not* the same as ``not_membership``.",
+                    "name": "membership",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of membership to exclude from the results. Defaults to no\nfiltering if unspecified.",
+                    "name": "not_membership",
+                    "required": false,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/rooms/{roomId}/members",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [
+                    {
+                        "name": "Signatures",
+                        "properties": []
+                    },
+                    {
+                        "name": "signed",
+                        "properties": [
+                            {
+                                "description": "The invited matrix user ID. Must be equal to the user_id property of the event.",
+                                "name": "mxid",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "A single signature from the verifying server, in the format specified by the Signing Events section of the server-server API.",
+                                "name": "signatures",
+                                "required": true,
+                                "type": "Signatures"
+                            },
+                            {
+                                "description": "The token property of the containing third_party_invite object.",
+                                "name": "token",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Invite",
+                        "properties": [
+                            {
+                                "description": "A name which can be displayed to represent the user instead of their third party identifier",
+                                "name": "display_name",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "A block of content which has been signed, which servers can use to verify the event. Clients should ignore this.",
+                                "name": "signed",
+                                "required": true,
+                                "type": "signed"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "EventContent",
+                        "properties": [
+                            {
+                                "description": "The avatar URL for this user, if any.",
+                                "name": "avatar_url",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "description": "The display name for this user, if any.",
+                                "name": "displayname",
+                                "required": false,
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            {
+                                "description": "The membership state of the user.",
+                                "name": "membership",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "Flag indicating if the room containing this event was created with the intention of being a direct chat. See `Direct Messaging`_.",
+                                "name": "is_direct",
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            {
+                                "description": "",
+                                "name": "third_party_invite",
+                                "required": false,
+                                "type": "Invite"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Event",
+                        "properties": []
+                    },
+                    {
+                        "name": "StrippedState",
+                        "properties": [
+                            {
+                                "description": "The ``content`` for the event.",
+                                "name": "content",
+                                "required": true,
+                                "type": "EventContent"
+                            },
+                            {
+                                "description": "The ``state_key`` for the event.",
+                                "name": "state_key",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "The ``type`` for the event.",
+                                "name": "type",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "The ``sender`` for the event.",
+                                "name": "sender",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "UnsignedData",
+                        "properties": [
+                            {
+                                "description": "The time in milliseconds that has elapsed since the event was sent. This field is generated by the local homeserver, and may be incorrect if the local time on at least one of the two servers is out of sync, which can cause the age to either be negative or greater than it actually is.",
+                                "name": "age",
+                                "required": false,
+                                "type": "integer"
+                            },
+                            {
+                                "description": "The event that redacted this event, if any.",
+                                "name": "redacted_because",
+                                "required": false,
+                                "type": "Event"
+                            },
+                            {
+                                "description": "The client-supplied transaction ID, for example, provided via\n``PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}``,\nif the client being given the event is the same one which sent it.\n",
+                                "name": "transaction_id",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "description": "A subset of the state of the room at the time of the invite, if ``membership`` is ``invite``. Note that this state is informational, and SHOULD NOT be trusted; once the client has joined the room, it SHOULD fetch the live state from the server and discard the invite_room_state. Also, clients must not rely on any particular state being present here; they SHOULD behave properly (with possibly a degraded but not a broken experience) in the absence of any particular events here. If they are set on the room, at least the state for ``m.room.avatar``, ``m.room.canonical_alias``, ``m.room.join_rules``, and ``m.room.name`` SHOULD be included.",
+                                "name": "invite_room_state",
+                                "required": false,
+                                "type": "[StrippedState]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "MemberEvent",
+                        "properties": [
+                            {
+                                "description": "",
+                                "name": "content",
+                                "required": true,
+                                "type": "EventContent"
+                            },
+                            {
+                                "description": "",
+                                "name": "type",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "The globally unique event identifier.",
+                                "name": "event_id",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "Contains the fully-qualified ID of the user who sent this event.",
+                                "name": "sender",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                "name": "origin_server_ts",
+                                "required": true,
+                                "type": "integer"
+                            },
+                            {
+                                "description": "Contains optional extra information about the event.",
+                                "name": "unsigned",
+                                "required": false,
+                                "type": "UnsignedData"
+                            },
+                            {
+                                "description": "The ID of the room associated with this event. Will not be present on events\nthat arrive through ``/sync``, despite being required everywhere else.",
+                                "name": "room_id",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "Optional. The previous ``content`` for this event. If there is no previous content, this key will be missing.",
+                                "name": "prev_content",
+                                "required": false,
+                                "type": "EventContent"
+                            },
+                            {
+                                "description": "The ``user_id`` this membership event relates to. In all cases except for when ``membership`` is\n``join``, the user ID sending the event does not need to match the user ID in the ``state_key``,\nunlike other events. Regular authorisation rules still apply.",
+                                "name": "state_key",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ]
+                    }
+                ],
+                "description": "A list of members of the room. If you are joined to the room then\nthis will be the current members of the room. If you have left the\nroom then this will be the members of the room when you left.",
+                "examples": {
+                    "application/json": {
+                        "chunk": [
+                            {
+                                "content": {
+                                    "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
+                                    "displayname": "Alice Margatroid",
+                                    "membership": "join"
+                                },
+                                "event_id": "$143273582443PhrSn:example.org",
+                                "origin_server_ts": 1432735824653,
+                                "room_id": "!636q39766251:example.com",
+                                "sender": "@example:example.org",
+                                "state_key": "@alice:example.org",
+                                "type": "m.room.member",
+                                "unsigned": {
+                                    "age": 1234
+                                }
+                            }
+                        ]
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "name": "chunk",
+                        "required": false,
+                        "type": "[MemberEvent]"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "You aren't a member of the room and weren't previously a member of the room.\n",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 403
+            }
+        ],
+        "summary": "Get the m.room.member events for the room."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This API returns a map of MXIDs to member info objects for members of the room. The current user must be in the room for it to work, unless it is an Application Service in which case any of the AS's users must be in the room. This API is primarily for Application Services and should be faster to respond than ``/members`` as it can be implemented more efficiently on the server.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room to get the members of.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/joined_members",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "A map of MXID to room member objects.",
+                "examples": {
+                    "application/json": {
+                        "joined": {
+                            "@bar:example.com": {
+                                "avatar_url": "mxc://riot.ovh/printErCATzZijQsSDWorRaK",
+                                "display_name": "Bar"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A map from user ID to a RoomMember object.",
+                        "name": "joined",
+                        "required": false,
+                        "type": "object"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "You aren't a member of the room.\n",
+                "examples": "",
+                "parameters": [],
+                "required": false,
+                "status": 403
+            }
+        ],
+        "summary": "Gets the list of currently joined users and their profile data."
+    }
+]

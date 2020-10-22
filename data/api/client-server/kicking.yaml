@@ -1,0 +1,77 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Kick a user from the room.\n\nThe caller must have the required power level in order to perform this operation.\n\nKicking a user adjusts the target member's membership state to be ``leave`` with an\noptional ``reason``. Like with other membership changes, a user can directly adjust\nthe target member's state by making a request to ``/rooms/<room id>/state/m.room.member/<user id>``.",
+        "method": "POST",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The fully qualified user ID of the user being kicked.",
+                    "name": "user_id",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The reason the user has been kicked. This will be supplied as the \n``reason`` on the target's updated `m.room.member`_ event.",
+                    "name": "reason",
+                    "required": false,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room identifier (not alias) from which the user should be kicked.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/kick",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The user has been kicked from the room.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "You do not have permission to kick the user from the room. A meaningful ``errcode`` and\ndescription error text will be returned. Example reasons for rejections are:\n\n- The kicker is not currently in the room.\n- The kickee is not currently in the room.\n- The kicker's power level is insufficient to kick users from the room.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_FORBIDDEN",
+                        "error": "You do not have a high enough power level to kick from this room."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            }
+        ],
+        "summary": "Kick a user from the room."
+    }
+]

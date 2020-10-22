@@ -1,0 +1,350 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Synchronise the client's state with the latest state on the server.\nClients use this API when they first log in to get an initial snapshot\nof the state on the server, and then continue to call this API to get\nincremental deltas to the state, and to receive new messages.\n\n*Note*: This endpoint supports lazy-loading. See `Filtering <#filtering>`_\nfor more information. Lazy-loading members is only supported on a ``StateFilter``\nfor this endpoint. When lazy-loading is enabled, servers MUST include the\nsyncing user's own membership event when they join a room, or when the\nfull state of rooms is requested, to aid discovering the user's avatar &\ndisplayname.\n\nFurther, like other members, the user's own membership event is eligible\nfor being considered redundant by the server. When a sync is ``limited``,\nthe server MUST return membership events for events in the gap\n(between ``since`` and the start of the returned timeline), regardless\nas to whether or not they are redundant. This ensures that joins/leaves\nand profile changes which occur during the gap are not lost.\n\nNote that the default behaviour of ``state`` is to include all membership\nevents, alongside other state, when lazy-loading is not enabled.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": [
+                {
+                    "description": "The ID of a filter created using the filter API or a filter JSON\nobject encoded as a string. The server will detect whether it is\nan ID or a JSON object by whether the first character is a ``\"{\"``\nopen brace. Passing the JSON inline is best suited to one off\nrequests. Creating a filter using the filter API is recommended for\nclients that reuse the same filter multiple times, for example in\nlong poll requests.\n\nSee `Filtering <#filtering>`_ for more information.",
+                    "name": "filter",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "A point in time to continue a sync from.",
+                    "name": "since",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "Controls whether to include the full state for all rooms the user\nis a member of.\n\nIf this is set to ``true``, then all state events will be returned,\neven if ``since`` is non-empty. The timeline will still be limited\nby the ``since`` parameter. In this case, the ``timeout`` parameter\nwill be ignored and the query will return immediately, possibly with\nan empty timeline.\n\nIf ``false``, and ``since`` is non-empty, only state which has\nchanged since the point indicated by ``since`` will be returned.\n\nBy default, this is ``false``.",
+                    "name": "full_state",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "description": "Controls whether the client is automatically marked as online by\npolling this API. If this parameter is omitted then the client is\nautomatically marked as online when it uses this API. Otherwise if\nthe parameter is set to \"offline\" then the client is not marked as\nbeing online when it uses this API. When set to \"unavailable\", the\nclient is marked as being idle.",
+                    "name": "set_presence",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "The maximum time to wait, in milliseconds, before returning this\nrequest. If no events (or other data) become available before this\ntime elapses, the server will return a response with empty fields.\n\nBy default, this is ``0``, so the server will return immediately\neven if the response is empty.",
+                    "name": "timeout",
+                    "required": false,
+                    "type": "integer"
+                }
+            ]
+        },
+        "path": "/sync",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [
+                    {
+                        "name": "Joined Rooms",
+                        "properties": []
+                    },
+                    {
+                        "name": "Invited Rooms",
+                        "properties": []
+                    },
+                    {
+                        "name": "Left rooms",
+                        "properties": []
+                    },
+                    {
+                        "name": "Rooms",
+                        "properties": [
+                            {
+                                "description": "The rooms that the user has joined, mapped as room ID to\nroom information.",
+                                "name": "join",
+                                "required": false,
+                                "type": "Joined Rooms"
+                            },
+                            {
+                                "description": "The rooms that the user has been invited to, mapped as room ID to\nroom information.",
+                                "name": "invite",
+                                "required": false,
+                                "type": "Invited Rooms"
+                            },
+                            {
+                                "description": "The rooms that the user has left or been banned from, mapped as room ID to\nroom information.",
+                                "name": "leave",
+                                "required": false,
+                                "type": "Left rooms"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Event",
+                        "properties": [
+                            {
+                                "description": "The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                "name": "content",
+                                "required": true,
+                                "type": "object"
+                            },
+                            {
+                                "description": "The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                "name": "type",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Presence",
+                        "properties": [
+                            {
+                                "description": "List of events.",
+                                "name": "events",
+                                "required": false,
+                                "type": "[Event]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Account Data",
+                        "properties": [
+                            {
+                                "description": "List of events.",
+                                "name": "events",
+                                "required": false,
+                                "type": "[Event]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "ToDevice",
+                        "properties": []
+                    },
+                    {
+                        "name": "DeviceLists",
+                        "properties": []
+                    },
+                    {
+                        "name": "One-time keys count",
+                        "properties": []
+                    }
+                ],
+                "description": "The initial snapshot or delta for the client to use to update their state.",
+                "examples": {
+                    "application/json": {
+                        "account_data": {
+                            "events": [
+                                {
+                                    "content": {
+                                        "custom_config_key": "custom_config_value"
+                                    },
+                                    "type": "org.example.custom.config"
+                                }
+                            ]
+                        },
+                        "next_batch": "s72595_4483_1934",
+                        "presence": {
+                            "events": [
+                                {
+                                    "content": {
+                                        "avatar_url": "mxc://localhost:wefuiwegh8742w",
+                                        "currently_active": false,
+                                        "last_active_ago": 2478593,
+                                        "presence": "online",
+                                        "status_msg": "Making cupcakes"
+                                    },
+                                    "sender": "@example:localhost",
+                                    "type": "m.presence"
+                                }
+                            ]
+                        },
+                        "rooms": {
+                            "invite": {
+                                "!696r7674:example.com": {
+                                    "invite_state": {
+                                        "events": [
+                                            {
+                                                "content": {
+                                                    "name": "My Room Name"
+                                                },
+                                                "sender": "@alice:example.com",
+                                                "state_key": "",
+                                                "type": "m.room.name"
+                                            },
+                                            {
+                                                "content": {
+                                                    "membership": "invite"
+                                                },
+                                                "sender": "@alice:example.com",
+                                                "state_key": "@bob:example.com",
+                                                "type": "m.room.member"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "join": {
+                                "!726s6s6q:example.com": {
+                                    "account_data": {
+                                        "events": [
+                                            {
+                                                "content": {
+                                                    "tags": {
+                                                        "u.work": {
+                                                            "order": 0.9
+                                                        }
+                                                    }
+                                                },
+                                                "type": "m.tag"
+                                            },
+                                            {
+                                                "content": {
+                                                    "custom_config_key": "custom_config_value"
+                                                },
+                                                "type": "org.example.custom.room.config"
+                                            }
+                                        ]
+                                    },
+                                    "ephemeral": {
+                                        "events": [
+                                            {
+                                                "content": {
+                                                    "user_ids": [
+                                                        "@alice:matrix.org",
+                                                        "@bob:example.com"
+                                                    ]
+                                                },
+                                                "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+                                                "type": "m.typing"
+                                            }
+                                        ]
+                                    },
+                                    "state": {
+                                        "events": [
+                                            {
+                                                "content": {
+                                                    "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
+                                                    "displayname": "Alice Margatroid",
+                                                    "membership": "join"
+                                                },
+                                                "event_id": "$143273582443PhrSn:example.org",
+                                                "origin_server_ts": 1432735824653,
+                                                "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+                                                "sender": "@example:example.org",
+                                                "state_key": "@alice:example.org",
+                                                "type": "m.room.member",
+                                                "unsigned": {
+                                                    "age": 1234
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "summary": {
+                                        "m.heroes": [
+                                            "@alice:example.com",
+                                            "@bob:example.com"
+                                        ],
+                                        "m.invited_member_count": 0,
+                                        "m.joined_member_count": 2
+                                    },
+                                    "timeline": {
+                                        "events": [
+                                            {
+                                                "content": {
+                                                    "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
+                                                    "displayname": "Alice Margatroid",
+                                                    "membership": "join"
+                                                },
+                                                "event_id": "$143273582443PhrSn:example.org",
+                                                "origin_server_ts": 1432735824653,
+                                                "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+                                                "sender": "@example:example.org",
+                                                "state_key": "@alice:example.org",
+                                                "type": "m.room.member",
+                                                "unsigned": {
+                                                    "age": 1234
+                                                }
+                                            },
+                                            {
+                                                "content": {
+                                                    "body": "This is an example text message",
+                                                    "format": "org.matrix.custom.html",
+                                                    "formatted_body": "<b>This is an example text message</b>",
+                                                    "msgtype": "m.text"
+                                                },
+                                                "event_id": "$143273582443PhrSn:example.org",
+                                                "origin_server_ts": 1432735824653,
+                                                "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+                                                "sender": "@example:example.org",
+                                                "type": "m.room.message",
+                                                "unsigned": {
+                                                    "age": 1234
+                                                }
+                                            }
+                                        ],
+                                        "limited": true,
+                                        "prev_batch": "t34-23535_0_0"
+                                    }
+                                }
+                            },
+                            "leave": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "The batch token to supply in the ``since`` param of the next\n``/sync`` request.",
+                        "name": "next_batch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Updates to rooms.",
+                        "name": "rooms",
+                        "required": false,
+                        "type": "Rooms"
+                    },
+                    {
+                        "description": "The updates to the presence status of other users.",
+                        "name": "presence",
+                        "required": false,
+                        "type": "Presence"
+                    },
+                    {
+                        "description": "The global private data created by this user.",
+                        "name": "account_data",
+                        "required": false,
+                        "type": "Account Data"
+                    },
+                    {
+                        "description": "Information on the send-to-device messages for the client\ndevice, as defined in |send_to_device_sync|_.",
+                        "name": "to_device",
+                        "required": false,
+                        "type": "ToDevice"
+                    },
+                    {
+                        "description": "Information on end-to-end device updates, as specified in\n|device_lists_sync|_.",
+                        "name": "device_lists",
+                        "required": false,
+                        "type": "DeviceLists"
+                    },
+                    {
+                        "description": "Information on end-to-end encryption keys, as specified\nin |device_lists_sync|_.",
+                        "name": "device_one_time_keys_count",
+                        "required": false,
+                        "type": "One-time keys count"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Synchronise the client's state and receive new messages."
+    }
+]

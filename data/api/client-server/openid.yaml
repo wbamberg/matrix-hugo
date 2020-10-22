@@ -1,0 +1,95 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Gets an OpenID token object that the requester may supply to another\nservice to verify their identity in Matrix. The generated token is only\nvalid for exchanging for user information from the federation API for\nOpenID.\n\nThe access token generated is only valid for the OpenID API. It cannot\nbe used to request another OpenID access token or call ``/sync``, for\nexample.",
+        "method": "POST",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The user to request and OpenID token for. Should be the user who\nis authenticated for the request.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/openid/request_token",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "OpenID token information. This response is nearly compatible with the\nresponse documented in the `OpenID Connect 1.0 Specification <http://openid.net/specs/openid-connect-core-1_0.html#TokenResponse>`_\nwith the only difference being the lack of an ``id_token``. Instead,\nthe Matrix homeserver's name is provided.",
+                "examples": {
+                    "application/json": {
+                        "access_token": "SomeT0kenHere",
+                        "expires_in": 3600,
+                        "matrix_server_name": "example.com",
+                        "token_type": "Bearer"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An access token the consumer may use to verify the identity of\nthe person who generated the token. This is given to the federation\nAPI ``GET /openid/userinfo`` to verify the user's identity.",
+                        "name": "access_token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The string ``Bearer``.",
+                        "name": "token_type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The homeserver domain the consumer should use when attempting to\nverify the user's identity.",
+                        "name": "matrix_server_name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of seconds before this token expires and a new one must\nbe generated.",
+                        "name": "expires_in",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Get an OpenID token object to verify the requester's identity."
+    }
+]

@@ -1,0 +1,117 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Performs a search for users. The homeserver may\ndetermine which subset of users are searched, however the homeserver\nMUST at a minimum consider the users the requesting user shares a\nroom with and those who reside in public rooms (known to the homeserver).\nThe search MUST consider local users to the homeserver, and SHOULD\nquery remote users as part of the search.\n\nThe search is performed case-insensitively on user IDs and display\nnames preferably using a collation determined based upon the \n``Accept-Language`` header provided in the request, if present.",
+        "method": "POST",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The term to search for",
+                    "name": "search_term",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The maximum number of results to return. Defaults to 10.",
+                    "name": "limit",
+                    "required": false,
+                    "type": "integer"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": []
+        },
+        "path": "/user_directory/search",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [
+                    {
+                        "name": "User",
+                        "properties": [
+                            {
+                                "description": "The user's matrix user ID.",
+                                "name": "user_id",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "The display name of the user, if one exists.",
+                                "name": "display_name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "description": "The avatar url, as an MXC, if one exists.",
+                                "name": "avatar_url",
+                                "required": false,
+                                "type": "string"
+                            }
+                        ]
+                    }
+                ],
+                "description": "The results of the search.",
+                "examples": {
+                    "application/json": {
+                        "limited": false,
+                        "results": [
+                            {
+                                "avatar_url": "mxc://bar.com/foo",
+                                "display_name": "Foo",
+                                "user_id": "@foo:bar.com"
+                            }
+                        ]
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "Ordered by rank and then whether or not profile info is available.",
+                        "name": "results",
+                        "required": true,
+                        "type": "[User]"
+                    },
+                    {
+                        "description": "Indicates if the result list has been truncated by the limit.",
+                        "name": "limited",
+                        "required": true,
+                        "type": "boolean"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Searches the user directory."
+    }
+]

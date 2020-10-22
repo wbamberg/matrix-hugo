@@ -1,0 +1,111 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": ".. For backwards compatibility with older links...\n.. _`put-matrix-client-%CLIENT_MAJOR_VERSION%-rooms-roomid-state-eventtype`:\n\nState events can be sent using this endpoint.  These events will be\noverwritten if ``<room id>``, ``<event type>`` and ``<state key>`` all\nmatch.\n\nRequests to this endpoint **cannot use transaction IDs**\nlike other ``PUT`` paths because they cannot be differentiated from the\n``state_key``. Furthermore, ``POST`` is unsupported on state paths.\n\nThe body of the request should be the content object of the event; the\nfields in this object will vary depending on the type of event. See\n`Room Events`_ for the ``m.`` event specification.\n\nIf the event type being sent is ``m.room.canonical_alias`` servers\nSHOULD ensure that any new aliases being listed in the event are valid\nper their grammar/syntax and that they point to the room ID where the\nstate event is to be sent. Servers do not validate aliases which are\nbeing removed or are already present in the state event.\n",
+        "method": "PUT",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room to set the state in",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The type of event to send.",
+                    "name": "eventType",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The state_key for the state to send. Defaults to the empty string. When\nan empty string, the trailing slash on this endpoint is optional.",
+                    "name": "stateKey",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/state/{eventType}/{stateKey}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "An ID for the sent event.",
+                "examples": {
+                    "application/json": {
+                        "event_id": "$YUwRidLecu:example.com"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A unique identifier for the event.",
+                        "name": "event_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The sender doesn't have permission to send the event into the room.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_FORBIDDEN",
+                        "error": "You do not have permission to send the event."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            },
+            {
+                "additional_types": [],
+                "description": "The sender's request is malformed.\n\nSome example error codes include:\n\n* ``M_INVALID_PARAMETER``: One or more aliases within the ``m.room.canonical_alias``\n  event have invalid syntax.\n\n* ``M_BAD_ALIAS``: One or more aliases within the ``m.room.canonical_alias`` event\n  do not point to the room ID for which the state event is to be sent to.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_BAD_ALIAS",
+                        "error": "The alias '#hello:example.org' does not point to this room."
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 400
+            }
+        ],
+        "summary": "Send a state event to the given room."
+    }
+]

@@ -1,0 +1,106 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Upgrades the given room to a particular room version.",
+        "method": "POST",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The new version for the room.",
+                    "name": "new_version",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The ID of the room to upgrade.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/upgrade",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The room was successfully upgraded.",
+                "examples": {
+                    "application/json": {
+                        "replacement_room": "!newroom:example.org"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "The ID of the new room.",
+                        "name": "replacement_room",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "The request was invalid. One way this can happen is if the room version\nrequested is not supported by the homeserver.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_UNSUPPORTED_ROOM_VERSION",
+                        "error": "This server does not support that room version"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 400
+            },
+            {
+                "additional_types": [],
+                "description": "The user is not permitted to upgrade the room.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_FORBIDDEN",
+                        "error": "You cannot upgrade this room"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            }
+        ],
+        "summary": "Upgrades a room to a new room version."
+    }
+]

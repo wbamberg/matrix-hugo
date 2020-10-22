@@ -1,0 +1,84 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This tells the server that the user is typing for the next N\nmilliseconds where N is the value specified in the ``timeout`` key.\nAlternatively, if ``typing`` is ``false``, it tells the server that the\nuser has stopped typing.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "Whether the user is typing or not. If ``false``, the ``timeout``\nkey can be omitted.",
+                    "name": "typing",
+                    "required": true,
+                    "type": "boolean"
+                },
+                {
+                    "description": "The length of time in milliseconds to mark this user as typing.",
+                    "name": "timeout",
+                    "required": false,
+                    "type": "integer"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The user who has started to type.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The room in which the user is typing.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/typing/{userId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The new typing state was set.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Informs the server that the user has started or stopped typing."
+    }
+]

@@ -1,0 +1,160 @@
+{{ $data := index .Site.Data.api .Params.spec .Params.api }}
+
+{{ range $data }}
+
+{{ $basePath := replace .basePath "%CLIENT_MAJOR_VERSION%"  "r0" }}
+
+<details class="http-api {{ .method }}">
+
+ <summary>
+  <h1>
+  <span class="http-api-method {{ .method }}">{{ .method }}</span>
+  <span class="endpoint"><code>{{ $basePath }}{{ .path }}</code></span>
+  <span class="http-api-method-summary">{{ .summary }}</span>
+  </h1>
+ </summary>
+
+<p>{{ .description }}
+
+<table class>
+ <tr>
+  <td><strong>Requires authentication:</strong></td>
+  <td>{{ if .requires_auth }}Yes{{ else }}No{{ end }}</td>
+ </tr>
+ <tr>
+  <td><strong>Rate-limited:</strong></td>
+  <td>{{ if .rate_limited }}Yes{{ else }}No{{ end }}</td>
+ </tr>
+</table>
+
+<h2>Request parameters</h2>
+
+{{ range $type, $params := .parameters }}
+
+{{ with . }}
+<table class>
+ <caption>{{ $type }}</caption>
+ <thead>
+  <td class="col-name">Name</td>
+  <td class="col-type">Type</td>
+  <td class="col-description">Description</td>
+ </thead>
+
+{{ range . }}
+ <tr>
+  <td><code>{{ .name }}</code></td>
+  <td><code>{{ .type }}</code></td>
+  <td>{{ with .required }}<strong>Required: </strong>{{ end }}{{ .description | markdownify }}</td>
+ </tr>
+{{ end }}
+
+</table>
+
+{{ end }}
+
+{{ end }}
+
+{{ with .additional_types }}
+
+<h3>Additional types</h3>
+
+{{ range . }}
+
+<table class>
+ <caption>{{ .name }}</caption>
+ <thead>
+  <td class="col-name">Name</td>
+  <td class="col-type">Type</td>
+  <td class="col-description">Description</td>
+ </thead>
+
+{{ range .properties }}
+ <tr>
+  <td><code>{{ .name }}</code></td>
+  <td><code>{{ .type }}</code></td>
+  <td>{{ with .required }}<strong>Required: </strong>{{ end }}{{ .description | markdownify }}</td>
+ </tr>
+{{ end }}
+
+</table>
+
+{{ end }}
+
+{{ end }}
+
+<h2>Responses</h2>
+
+<table class>
+ <thead>
+  <td class="col-status">Status</td>
+  <td class="col-status-description">Description</td>
+ </thead>
+
+{{ range .responses }}
+
+ <tr>
+  <td><code>{{ .status }}</code></td>
+  <td>{{ .description | markdownify }}</td>
+ </tr>
+
+{{ end }}
+
+</table>
+
+{{ range .responses }}
+
+{{ if .parameters }}
+
+<table class>
+ <caption>{{ .status }} response details</caption>
+ <thead>
+  <td class="col-name">Name</td>
+  <td class="col-type">Type</td>
+  <td class="col-description">Description</td>
+ </thead>
+
+{{ range .parameters }}
+ <tr>
+  <td><code>{{ .name }}</code></td>
+  <td><code>{{ .type }}</code></td>
+  <td>{{ with .required }}<strong>Required: </strong>{{ end }}{{ .description | markdownify }}</td>
+ </tr>
+{{ end }}
+
+</table>
+
+{{ end }}
+
+{{ with .additional_types }}
+
+<h3>Additional types</h3>
+
+{{ range . }}
+
+<table class>
+ <caption>{{ .name }}</caption>
+ <thead>
+  <td class="col-name">Name</td>
+  <td class="col-type">Type</td>
+  <td class="col-description">Description</td>
+ </thead>
+
+{{ range .properties }}
+ <tr>
+  <td><code>{{ .name }}</code></td>
+  <td><code>{{ .type }}</code></td>
+  <td>{{ with .required }}<strong>Required: </strong>{{ end }}{{ .description | markdownify }}</td>
+ </tr>
+{{ end }}
+
+</table>
+
+{{ end }}
+
+{{ end }}
+
+{{ end }}
+
+</details>
+
+{{ end }}

@@ -1,0 +1,833 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Retrieve all push rulesets for this user. Clients can \"drill-down\" on\nthe rulesets by suffixing a ``scope`` to this path e.g.\n``/pushrules/global/``. This will return a subset of this data under the\nspecified key e.g. the ``global`` key.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": []
+        },
+        "path": "/pushrules/",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [
+                    {
+                        "name": "PushCondition",
+                        "properties": [
+                            {
+                                "description": "The kind of condition to apply. See `conditions <#conditions>`_ for\nmore information on the allowed kinds and how they work.",
+                                "name": "kind",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "Required for ``event_match`` conditions. The dot-separated field of the\nevent to match.\n\nRequired for ``sender_notification_permission`` conditions. The field in\nthe power level event the user needs a minimum power level for. Fields\nmust be specified under the ``notifications`` property in the power level\nevent's ``content``.",
+                                "name": "key",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "description": "Required for ``event_match`` conditions. The glob-style pattern to\nmatch against. Patterns with no special glob characters should be\ntreated as having asterisks prepended and appended when testing the\ncondition.",
+                                "name": "pattern",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "description": "Required for ``room_member_count`` conditions. A decimal integer\noptionally prefixed by one of, ==, <, >, >= or <=. A prefix of < matches\nrooms where the member count is strictly less than the given number and\nso forth. If no prefix is present, this parameter defaults to ==.",
+                                "name": "is",
+                                "required": false,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "PushRule",
+                        "properties": [
+                            {
+                                "description": "The actions to perform when this rule is matched.",
+                                "name": "actions",
+                                "required": true,
+                                "type": "[object or string]"
+                            },
+                            {
+                                "description": "Whether this is a default rule, or has been set explicitly.",
+                                "name": "default",
+                                "required": true,
+                                "type": "boolean"
+                            },
+                            {
+                                "description": "Whether the push rule is enabled or not.",
+                                "name": "enabled",
+                                "required": true,
+                                "type": "boolean"
+                            },
+                            {
+                                "description": "The ID of this rule.",
+                                "name": "rule_id",
+                                "required": true,
+                                "type": "string"
+                            },
+                            {
+                                "description": "The conditions that must hold true for an event in order for a rule to be\napplied to an event. A rule with no conditions always matches. Only\napplicable to ``underride`` and ``override`` rules.",
+                                "name": "conditions",
+                                "required": false,
+                                "type": "[PushCondition]"
+                            },
+                            {
+                                "description": "The glob-style pattern to match against.  Only applicable to ``content``\nrules.",
+                                "name": "pattern",
+                                "required": false,
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Ruleset",
+                        "properties": [
+                            {
+                                "description": "",
+                                "name": "content",
+                                "required": false,
+                                "type": "[PushRule]"
+                            },
+                            {
+                                "description": "",
+                                "name": "override",
+                                "required": false,
+                                "type": "[PushRule]"
+                            },
+                            {
+                                "description": "",
+                                "name": "room",
+                                "required": false,
+                                "type": "[PushRule]"
+                            },
+                            {
+                                "description": "",
+                                "name": "sender",
+                                "required": false,
+                                "type": "[PushRule]"
+                            },
+                            {
+                                "description": "",
+                                "name": "underride",
+                                "required": false,
+                                "type": "[PushRule]"
+                            }
+                        ]
+                    }
+                ],
+                "description": "All the push rulesets for this user.",
+                "examples": {
+                    "application/json": {
+                        "global": {
+                            "content": [
+                                {
+                                    "actions": [
+                                        "notify",
+                                        {
+                                            "set_tweak": "sound",
+                                            "value": "default"
+                                        },
+                                        {
+                                            "set_tweak": "highlight"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "pattern": "alice",
+                                    "rule_id": ".m.rule.contains_user_name"
+                                }
+                            ],
+                            "override": [
+                                {
+                                    "actions": [
+                                        "dont_notify"
+                                    ],
+                                    "conditions": [],
+                                    "default": true,
+                                    "enabled": false,
+                                    "rule_id": ".m.rule.master"
+                                },
+                                {
+                                    "actions": [
+                                        "dont_notify"
+                                    ],
+                                    "conditions": [
+                                        {
+                                            "key": "content.msgtype",
+                                            "kind": "event_match",
+                                            "pattern": "m.notice"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "rule_id": ".m.rule.suppress_notices"
+                                }
+                            ],
+                            "room": [],
+                            "sender": [],
+                            "underride": [
+                                {
+                                    "actions": [
+                                        "notify",
+                                        {
+                                            "set_tweak": "sound",
+                                            "value": "ring"
+                                        },
+                                        {
+                                            "set_tweak": "highlight",
+                                            "value": false
+                                        }
+                                    ],
+                                    "conditions": [
+                                        {
+                                            "key": "type",
+                                            "kind": "event_match",
+                                            "pattern": "m.call.invite"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "rule_id": ".m.rule.call"
+                                },
+                                {
+                                    "actions": [
+                                        "notify",
+                                        {
+                                            "set_tweak": "sound",
+                                            "value": "default"
+                                        },
+                                        {
+                                            "set_tweak": "highlight"
+                                        }
+                                    ],
+                                    "conditions": [
+                                        {
+                                            "kind": "contains_display_name"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "rule_id": ".m.rule.contains_display_name"
+                                },
+                                {
+                                    "actions": [
+                                        "notify",
+                                        {
+                                            "set_tweak": "sound",
+                                            "value": "default"
+                                        },
+                                        {
+                                            "set_tweak": "highlight",
+                                            "value": false
+                                        }
+                                    ],
+                                    "conditions": [
+                                        {
+                                            "is": "2",
+                                            "kind": "room_member_count"
+                                        },
+                                        {
+                                            "key": "type",
+                                            "kind": "event_match",
+                                            "pattern": "m.room.message"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "rule_id": ".m.rule.room_one_to_one"
+                                },
+                                {
+                                    "actions": [
+                                        "notify",
+                                        {
+                                            "set_tweak": "sound",
+                                            "value": "default"
+                                        },
+                                        {
+                                            "set_tweak": "highlight",
+                                            "value": false
+                                        }
+                                    ],
+                                    "conditions": [
+                                        {
+                                            "key": "type",
+                                            "kind": "event_match",
+                                            "pattern": "m.room.member"
+                                        },
+                                        {
+                                            "key": "content.membership",
+                                            "kind": "event_match",
+                                            "pattern": "invite"
+                                        },
+                                        {
+                                            "key": "state_key",
+                                            "kind": "event_match",
+                                            "pattern": "@alice:example.com"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "rule_id": ".m.rule.invite_for_me"
+                                },
+                                {
+                                    "actions": [
+                                        "notify",
+                                        {
+                                            "set_tweak": "highlight",
+                                            "value": false
+                                        }
+                                    ],
+                                    "conditions": [
+                                        {
+                                            "key": "type",
+                                            "kind": "event_match",
+                                            "pattern": "m.room.member"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "rule_id": ".m.rule.member_event"
+                                },
+                                {
+                                    "actions": [
+                                        "notify",
+                                        {
+                                            "set_tweak": "highlight",
+                                            "value": false
+                                        }
+                                    ],
+                                    "conditions": [
+                                        {
+                                            "key": "type",
+                                            "kind": "event_match",
+                                            "pattern": "m.room.message"
+                                        }
+                                    ],
+                                    "default": true,
+                                    "enabled": true,
+                                    "rule_id": ".m.rule.message"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "The global ruleset.",
+                        "name": "global",
+                        "required": true,
+                        "type": "Ruleset"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Retrieve all push rulesets."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Retrieve a single specified push rule.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "``global`` to specify global rules.",
+                    "name": "scope",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of rule\n",
+                    "name": "kind",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The identifier for the rule.\n",
+                    "name": "ruleId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/pushrules/{scope}/{kind}/{ruleId}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The specific push rule. This will also include keys specific to the\nrule itself such as the rule's ``actions`` and ``conditions`` if set.",
+                "examples": {
+                    "application/json": {
+                        "actions": [
+                            "dont_notify"
+                        ],
+                        "default": false,
+                        "enabled": true,
+                        "pattern": "cake*lie",
+                        "rule_id": "nocake"
+                    }
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Retrieve a push rule."
+    },
+    {
+        "additional_types": [
+            {
+                "name": "PushCondition",
+                "properties": [
+                    {
+                        "description": "The kind of condition to apply. See `conditions <#conditions>`_ for\nmore information on the allowed kinds and how they work.",
+                        "name": "kind",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Required for ``event_match`` conditions. The dot-separated field of the\nevent to match.\n\nRequired for ``sender_notification_permission`` conditions. The field in\nthe power level event the user needs a minimum power level for. Fields\nmust be specified under the ``notifications`` property in the power level\nevent's ``content``.",
+                        "name": "key",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Required for ``event_match`` conditions. The glob-style pattern to\nmatch against. Patterns with no special glob characters should be\ntreated as having asterisks prepended and appended when testing the\ncondition.",
+                        "name": "pattern",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Required for ``room_member_count`` conditions. A decimal integer\noptionally prefixed by one of, ==, <, >, >= or <=. A prefix of < matches\nrooms where the member count is strictly less than the given number and\nso forth. If no prefix is present, this parameter defaults to ==.",
+                        "name": "is",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            }
+        ],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This endpoint allows the creation, modification and deletion of pushers\nfor this user ID. The behaviour of this endpoint varies depending on the\nvalues in the JSON body.\n\nWhen creating push rules, they MUST be enabled by default.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The action(s) to perform when the conditions for this rule are met.",
+                    "name": "actions",
+                    "required": true,
+                    "type": "[string or object]"
+                },
+                {
+                    "description": "The conditions that must hold true for an event in order for a\nrule to be applied to an event. A rule with no conditions\nalways matches. Only applicable to ``underride`` and ``override`` rules.",
+                    "name": "conditions",
+                    "required": false,
+                    "type": "[PushCondition]"
+                },
+                {
+                    "description": "Only applicable to ``content`` rules. The glob-style pattern to match against.",
+                    "name": "pattern",
+                    "required": false,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "``global`` to specify global rules.",
+                    "name": "scope",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of rule\n",
+                    "name": "kind",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The identifier for the rule.\n",
+                    "name": "ruleId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": [
+                {
+                    "description": "Use 'before' with a ``rule_id`` as its value to make the new rule the\nnext-most important rule with respect to the given user defined rule.\nIt is not possible to add a rule relative to a predefined server rule.",
+                    "name": "before",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "This makes the new rule the next-less important rule relative to the\ngiven user defined rule. It is not possible to add a rule relative\nto a predefined server rule.",
+                    "name": "after",
+                    "required": false,
+                    "type": "string"
+                }
+            ]
+        },
+        "path": "/pushrules/{scope}/{kind}/{ruleId}",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The push rule was created/updated.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "There was a problem configuring this push rule.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_UNKNOWN",
+                        "error": "before/after rule not found: someRuleId"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 400
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Add or change a push rule."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This endpoint removes the push rule defined in the path.",
+        "method": "DELETE",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "``global`` to specify global rules.",
+                    "name": "scope",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of rule\n",
+                    "name": "kind",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The identifier for the rule.\n",
+                    "name": "ruleId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/pushrules/{scope}/{kind}/{ruleId}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The push rule was deleted.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Delete a push rule."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This endpoint gets whether the specified push rule is enabled.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "Either ``global`` or ``device/<profile_tag>`` to specify global\nrules or device rules for the given ``profile_tag``.",
+                    "name": "scope",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of rule\n",
+                    "name": "kind",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The identifier for the rule.\n",
+                    "name": "ruleId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/pushrules/{scope}/{kind}/{ruleId}/enabled",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "Whether the push rule is enabled.",
+                "examples": {
+                    "application/json": {
+                        "enabled": true
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "Whether the push rule is enabled or not.",
+                        "name": "enabled",
+                        "required": true,
+                        "type": "boolean"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Get whether a push rule is enabled"
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This endpoint allows clients to enable or disable the specified push rule.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "Whether the push rule is enabled or not.",
+                    "name": "enabled",
+                    "required": true,
+                    "type": "boolean"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "``global`` to specify global rules.",
+                    "name": "scope",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of rule\n",
+                    "name": "kind",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The identifier for the rule.\n",
+                    "name": "ruleId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/pushrules/{scope}/{kind}/{ruleId}/enabled",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The push rule was enabled or disabled.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Enable or disable a push rule."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This endpoint get the actions for the specified push rule.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "Either ``global`` or ``device/<profile_tag>`` to specify global\nrules or device rules for the given ``profile_tag``.",
+                    "name": "scope",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of rule\n",
+                    "name": "kind",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The identifier for the rule.\n",
+                    "name": "ruleId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/pushrules/{scope}/{kind}/{ruleId}/actions",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The actions for this push rule.",
+                "examples": {
+                    "application/json": {
+                        "actions": [
+                            "notify",
+                            {
+                                "set_tweak": "sound",
+                                "value": "bing"
+                            }
+                        ]
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "The action(s) to perform for this rule.",
+                        "name": "actions",
+                        "required": true,
+                        "type": "[string or object]"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "The actions for a push rule"
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This endpoint allows clients to change the actions of a push rule.\nThis can be used to change the actions of builtin rules.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The action(s) to perform for this rule.",
+                    "name": "actions",
+                    "required": true,
+                    "type": "[string or object]"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "``global`` to specify global rules.",
+                    "name": "scope",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The kind of rule\n",
+                    "name": "kind",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The identifier for the rule.\n",
+                    "name": "ruleId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/pushrules/{scope}/{kind}/{ruleId}/actions",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The actions for the push rule were set.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Set the actions for a push rule."
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "This API returns a list of the user's current rooms.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [],
+            "Query": []
+        },
+        "path": "/joined_rooms",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "A list of the rooms the user is in.",
+                "examples": {
+                    "application/json": {
+                        "joined_rooms": [
+                            "!foo:example.com"
+                        ]
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "The ID of each room in which the user has ``joined`` membership.",
+                        "name": "joined_rooms",
+                        "required": true,
+                        "type": "[string]"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Lists the user's current rooms."
+    }
+]

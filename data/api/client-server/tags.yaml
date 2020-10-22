@@ -1,0 +1,164 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "List the tags set by a user on a room.",
+        "method": "GET",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The id of the user to get tags for. The access token must be\nauthorized to make requests for this user ID.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the room to get tags for.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/rooms/{roomId}/tags",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The list of tags for the user for the room.",
+                "examples": {
+                    "application/json": {
+                        "tags": {
+                            "m.favourite": {
+                                "order": 0.1
+                            },
+                            "u.Customers": {},
+                            "u.Work": {
+                                "order": 0.7
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "name": "tags",
+                        "required": false,
+                        "type": "object"
+                    }
+                ],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "List the tags for a room."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Add a tag to the room.",
+        "method": "PUT",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "A number in a range ``[0,1]`` describing a relative\nposition of the room under the given tag.",
+                    "name": "order",
+                    "required": false,
+                    "type": "number"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The id of the user to add a tag for. The access token must be\nauthorized to make requests for this user ID.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the room to add a tag to.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The tag to add.",
+                    "name": "tag",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/rooms/{roomId}/tags/{tag}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The tag was successfully added.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Add a tag to a room."
+    },
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": "Remove a tag from the room.",
+        "method": "DELETE",
+        "parameters": {
+            "Body": [],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The id of the user to remove a tag for. The access token must be\nauthorized to make requests for this user ID.",
+                    "name": "userId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The ID of the room to remove a tag from.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "The tag to remove.",
+                    "name": "tag",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/user/{userId}/rooms/{roomId}/tags/{tag}",
+        "rate_limited": false,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The tag was successfully removed.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            }
+        ],
+        "summary": "Remove a tag from the room."
+    }
+]

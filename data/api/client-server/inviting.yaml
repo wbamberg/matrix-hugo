@@ -1,0 +1,119 @@
+[
+    {
+        "additional_types": [],
+        "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "description": ".. _invite-by-user-id-endpoint:\n\n*Note that there are two forms of this API, which are documented separately.\nThis version of the API requires that the inviter knows the Matrix\nidentifier of the invitee. The other is documented in the*\n`third party invites section`_.\n\nThis API invites a user to participate in a particular room.\nThey do not start participating in the room until they actually join the\nroom.\n\nOnly users currently in a particular room can invite other users to\njoin that room.\n\nIf the user was invited to the room, the homeserver will append a\n``m.room.member`` event to the room.\n\n.. _third party invites section: `invite-by-third-party-id-endpoint`_",
+        "method": "POST",
+        "parameters": {
+            "Body": [
+                {
+                    "description": "The fully qualified user ID of the invitee.",
+                    "name": "user_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Form": [],
+            "Header": [],
+            "Path": [
+                {
+                    "description": "The room identifier (not alias) to which to invite the user.",
+                    "name": "roomId",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "Query": []
+        },
+        "path": "/rooms/{roomId}/invite ",
+        "rate_limited": true,
+        "requires_auth": true,
+        "responses": [
+            {
+                "additional_types": [],
+                "description": "The user has been invited to join the room.",
+                "examples": {
+                    "application/json": {}
+                },
+                "parameters": [],
+                "required": false,
+                "status": 200
+            },
+            {
+                "additional_types": [],
+                "description": "\nThe request is invalid. A meaningful ``errcode`` and description\nerror text will be returned. Example reasons for rejection include:\n\n- The request body is malformed (``errcode`` set to ``M_BAD_JSON``\n  or ``M_NOT_JSON``).\n\n- One or more users being invited to the room are residents of a\n  homeserver which does not support the requested room version. The\n  ``errcode`` will be ``M_UNSUPPORTED_ROOM_VERSION`` in these cases.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 400
+            },
+            {
+                "additional_types": [],
+                "description": "You do not have permission to invite the user to the room. A meaningful ``errcode`` and description error text will be returned. Example reasons for rejections are:\n\n- The invitee has been banned from the room.\n- The invitee is already a member of the room.\n- The inviter is not currently in the room.\n- The inviter's power level is insufficient to invite users to the room.",
+                "examples": {
+                    "application/json": {
+                        "errcode": "M_FORBIDDEN",
+                        "error": "@cheeky_monkey:matrix.org is banned from the room"
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "An error code.",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "required": false,
+                "status": 403
+            },
+            {
+                "additional_types": [],
+                "description": "This request was rate-limited.",
+                "examples": "",
+                "parameters": [
+                    {
+                        "description": "The M_LIMIT_EXCEEDED error code",
+                        "name": "errcode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A human-readable error message.",
+                        "name": "error",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                        "name": "retry_after_ms",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "required": false,
+                "status": 429
+            }
+        ],
+        "summary": "Invite a user to participate in a particular room."
+    }
+]
