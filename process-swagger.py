@@ -179,13 +179,7 @@ def parse_operation(base_path, path, operation_name, operation):
         "summary": operation["summary"],
         "description": operation.get("description") or "",
         "method": operation_name.upper(),
-        "parameters": {
-            "Path": [],
-            "Query": [],
-            "Header": [],
-            "Form": [],
-            "Body": []
-        },
+        "parameters": {},
         "additional_types": [],
         "responses": [],
         "rate_limited": 429 in operation["responses"],
@@ -198,6 +192,7 @@ def parse_operation(base_path, path, operation_name, operation):
             # Only "body" is allowed to be a compound type (i.e. an object)
             # (https://swagger.io/specification/v2/#parameter-object)
             if parameter["in"] == "body":
+                operation_spec["parameters"]["Body"] = []
                 parse_schema(parameter["schema"], operation_spec["parameters"]["Body"], operation_spec["additional_types"])
             else:
                 this_parameter = {
@@ -208,8 +203,8 @@ def parse_operation(base_path, path, operation_name, operation):
                 }
                 if parameter["type"] == "array":
                     this_parameter["type"] = parse_array_items(parameter, operation_spec["additional_types"])
-                parameter_list = operation_spec["parameters"][parameter["in"].capitalize()]
-                parameter_list.append(this_parameter)
+                operation_spec["parameters"][parameter["in"].capitalize()] = []
+                operation_spec["parameters"][parameter["in"].capitalize()].append(this_parameter)
 
     for response_code in operation["responses"]:
         response = {
@@ -218,12 +213,11 @@ def parse_operation(base_path, path, operation_name, operation):
           "required": operation["responses"][response_code].get("required") or False,
           "examples": operation["responses"][response_code].get("examples") or "",
           "parameters": [],
-          "additional_types": []
         }
         # some responses indicate "no data" by omitting `schema`, while others include an empty `schema`
         # in either case there's nothing to parse
         if operation["responses"][response_code].get("schema") and operation["responses"][response_code]["schema"].get("properties"):
-            parse_schema(operation["responses"][response_code]["schema"], response["parameters"], response["additional_types"])
+            parse_schema(operation["responses"][response_code]["schema"], response["parameters"], operation_spec["additional_types"])
         operation_spec["responses"].append(response)
     return operation_spec
 

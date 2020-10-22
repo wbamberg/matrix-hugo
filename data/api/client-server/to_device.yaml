@@ -13,30 +13,20 @@
                     "type": "object"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The type of event to send.",
-                    "name": "eventType",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The transaction ID for this event. Clients should generate an\nID unique across requests with the same access token; it will be\nused by the server to ensure idempotency of requests.",
                     "name": "txnId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/sendToDevice/{eventType}/{txnId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The message was successfully sent.",
                 "examples": {
                     "application/json": {}

@@ -4,19 +4,12 @@
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Get information about the latest backup version.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/room_keys/version",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The information about the backup.",
                 "examples": "",
                 "parameters": [
@@ -55,7 +48,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "No backup exists.",
                 "examples": {
                     "application/json": {
@@ -81,7 +73,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -129,18 +120,13 @@
                     "required": true,
                     "type": "object"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/room_keys/version",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The version id of the new backup.",
                 "examples": "",
                 "parameters": [
@@ -155,7 +141,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -190,9 +175,6 @@
         "description": "Get information about an existing backup.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The backup version to get, as returned in the ``version`` parameter\nof the response in `POST /_matrix/client/r0/room_keys/version`_ or\nthis endpoint.",
@@ -200,15 +182,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/room_keys/version/{version}",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The information about the requested backup.",
                 "examples": "",
                 "parameters": [
@@ -247,7 +227,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The backup specified does not exist.",
                 "examples": {
                     "application/json": {
@@ -273,7 +252,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -328,8 +306,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The backup version to update, as returned in the ``version``\nparameter in the response of `POST\n/_matrix/client/r0/room_keys/version`_ or `GET\n/_matrix/client/r0/room_keys/version/{version}`_.",
@@ -337,15 +313,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/room_keys/version/{version}",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The update succeeded.",
                 "examples": "",
                 "parameters": [],
@@ -353,7 +327,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "A parameter was incorrect.  For example, the ``algorithm`` does not\nmatch the current backup algorithm, or the ``version`` in the body\ndoes not match the ``version`` in the path.",
                 "examples": {
                     "application/json": {
@@ -379,7 +352,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "The backup specified does not exist.",
                 "examples": {
                     "application/json": {
@@ -405,7 +377,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -440,9 +411,6 @@
         "description": "Delete an existing key backup. Both the information about the backup,\nas well as all key data related to the backup will be deleted.",
         "method": "DELETE",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The backup version to delete, as returned in the ``version``\nparameter in the response of `POST\n/_matrix/client/r0/room_keys/version`_ or `GET\n/_matrix/client/r0/room_keys/version/{version}`_.",
@@ -450,15 +418,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/room_keys/version/{version}",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The delete succeeded, or the specified backup was previously\ndeleted.",
                 "examples": "",
                 "parameters": [],
@@ -466,7 +432,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The backup specified does not exist. If the backup was previously\ndeleted, the call should succeed rather than returning an error.",
                 "examples": {
                     "application/json": {
@@ -492,7 +457,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -527,16 +491,7 @@
         "description": "Retrieve a key from the backup.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The ID of the room that the requested key is for.",
-                    "name": "roomId",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The ID of the megolm session whose key is requested.",
                     "name": "sessionId",
@@ -558,7 +513,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The key data",
                 "examples": "",
                 "parameters": [
@@ -591,7 +545,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The key or backup was not found.",
                 "examples": {
                     "application/json": {
@@ -617,7 +570,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -678,15 +630,7 @@
                     "type": "object"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The ID of the room that the key is for.",
-                    "name": "roomId",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The ID of the megolm session that the key is for.",
                     "name": "sessionId",
@@ -708,7 +652,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The update succeeded.",
                 "examples": "",
                 "parameters": [
@@ -729,7 +672,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The version specified does not match the current backup version.\nThe current version will be included in the ``current_version``\nfield.",
                 "examples": {
                     "application/json": {
@@ -756,7 +698,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -791,16 +732,7 @@
         "description": "Delete a key from the backup.",
         "method": "DELETE",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The ID of the room that the specified key is for.",
-                    "name": "roomId",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The ID of the megolm session whose key is to be deleted.",
                     "name": "sessionId",
@@ -822,7 +754,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The update succeeded",
                 "examples": "",
                 "parameters": [
@@ -843,7 +774,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The backup was not found.",
                 "examples": {
                     "application/json": {
@@ -869,7 +799,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -904,9 +833,6 @@
         "description": "Retrieve the keys from the backup for a given room",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The ID of the room that the requested key is for.",
@@ -929,7 +855,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The key data.  If no keys are found, then an object with an empty\n``sessions`` property will be returned (``{\"sessions\": {}}``).",
                 "examples": "",
                 "parameters": [
@@ -944,7 +869,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The backup was not found.",
                 "examples": {
                     "application/json": {
@@ -970,7 +894,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -1013,8 +936,6 @@
                     "type": "object"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The ID of the room that the keys are for.",
@@ -1037,7 +958,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The update succeeded",
                 "examples": "",
                 "parameters": [
@@ -1058,7 +978,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The version specified does not match the current backup version.\nThe current version will be included in the ``current_version``\nfield.",
                 "examples": {
                     "application/json": {
@@ -1085,7 +1004,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "The backup was not found.",
                 "examples": {
                     "application/json": {
@@ -1111,7 +1029,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -1146,9 +1063,6 @@
         "description": "Delete a key from the backup.",
         "method": "DELETE",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The ID of the room that the specified key is for.",
@@ -1171,7 +1085,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The update succeeded",
                 "examples": "",
                 "parameters": [
@@ -1192,7 +1105,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The backup was not found.",
                 "examples": {
                     "application/json": {
@@ -1218,7 +1130,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -1253,10 +1164,6 @@
         "description": "Retrieve the keys from the backup for a given room",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The backup from which to retrieve the keys.",
@@ -1271,7 +1178,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The key data.  If no keys are found, then an object with an empty\n``rooms`` property will be returned (``{\"rooms\": {}}``).",
                 "examples": "",
                 "parameters": [
@@ -1286,7 +1192,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The backup was not found.",
                 "examples": {
                     "application/json": {
@@ -1312,7 +1217,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -1355,9 +1259,6 @@
                     "type": "object"
                 }
             ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The backup in which to store the keys. Must be the current backup.",
@@ -1372,7 +1273,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The update succeeded",
                 "examples": "",
                 "parameters": [
@@ -1393,7 +1293,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The version specified does not match the current backup version.\nThe current version will be included in the ``current_version``\nfield.",
                 "examples": {
                     "application/json": {
@@ -1420,7 +1319,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "The backup was not found.",
                 "examples": {
                     "application/json": {
@@ -1446,7 +1344,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -1481,10 +1378,6 @@
         "description": "Delete a key from the backup.",
         "method": "DELETE",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The backup from which to delete the key",
@@ -1499,7 +1392,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The update succeeded",
                 "examples": "",
                 "parameters": [
@@ -1520,7 +1412,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The backup was not found.",
                 "examples": {
                     "application/json": {
@@ -1546,7 +1437,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

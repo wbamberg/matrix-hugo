@@ -250,8 +250,6 @@
                     "type": "RoomFilter"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The id of the user uploading the filter. The access token must be authorized to make requests for this user id.",
@@ -259,15 +257,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/user/{userId}/filter",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The filter was created.",
                 "examples": "",
                 "parameters": [
@@ -285,249 +281,238 @@
         "summary": "Upload a new filter."
     },
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "EventFilter",
+                "properties": [
+                    {
+                        "description": "The maximum number of events to return.",
+                        "name": "limit",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "A list of sender IDs to exclude. If this list is absent then no senders are excluded. A matching sender will be excluded even if it is listed in the ``'senders'`` filter.",
+                        "name": "not_senders",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of event types to exclude. If this list is absent then no event types are excluded. A matching type will be excluded even if it is listed in the ``'types'`` filter. A '*' can be used as a wildcard to match any sequence of characters.",
+                        "name": "not_types",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of senders IDs to include. If this list is absent then all senders are included.",
+                        "name": "senders",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of event types to include. If this list is absent then all event types are included. A ``'*'`` can be used as a wildcard to match any sequence of characters.",
+                        "name": "types",
+                        "required": false,
+                        "type": "[string]"
+                    }
+                ]
+            },
+            {
+                "name": "RoomEventFilter",
+                "properties": [
+                    {
+                        "description": "The maximum number of events to return.",
+                        "name": "limit",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "A list of sender IDs to exclude. If this list is absent then no senders are excluded. A matching sender will be excluded even if it is listed in the ``'senders'`` filter.",
+                        "name": "not_senders",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of event types to exclude. If this list is absent then no event types are excluded. A matching type will be excluded even if it is listed in the ``'types'`` filter. A '*' can be used as a wildcard to match any sequence of characters.",
+                        "name": "not_types",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of senders IDs to include. If this list is absent then all senders are included.",
+                        "name": "senders",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of event types to include. If this list is absent then all event types are included. A ``'*'`` can be used as a wildcard to match any sequence of characters.",
+                        "name": "types",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "If ``true``, enables lazy-loading of membership events. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
+                        "name": "lazy_load_members",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "If ``true``, sends all membership events for all events, even if they have already\nbeen sent to the client. Does not\napply unless ``lazy_load_members`` is ``true``. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
+                        "name": "include_redundant_members",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "A list of room IDs to exclude. If this list is absent then no rooms are excluded. A matching room will be excluded even if it is listed in the ``'rooms'`` filter.",
+                        "name": "not_rooms",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of room IDs to include. If this list is absent then all rooms are included.",
+                        "name": "rooms",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "If ``true``, includes only events with a ``url`` key in their content. If ``false``, excludes those events. If omitted, ``url`` key is not considered for filtering.",
+                        "name": "contains_url",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ]
+            },
+            {
+                "name": "StateFilter",
+                "properties": [
+                    {
+                        "description": "The maximum number of events to return.",
+                        "name": "limit",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "A list of sender IDs to exclude. If this list is absent then no senders are excluded. A matching sender will be excluded even if it is listed in the ``'senders'`` filter.",
+                        "name": "not_senders",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of event types to exclude. If this list is absent then no event types are excluded. A matching type will be excluded even if it is listed in the ``'types'`` filter. A '*' can be used as a wildcard to match any sequence of characters.",
+                        "name": "not_types",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of senders IDs to include. If this list is absent then all senders are included.",
+                        "name": "senders",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of event types to include. If this list is absent then all event types are included. A ``'*'`` can be used as a wildcard to match any sequence of characters.",
+                        "name": "types",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "If ``true``, enables lazy-loading of membership events. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
+                        "name": "lazy_load_members",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "If ``true``, sends all membership events for all events, even if they have already\nbeen sent to the client. Does not\napply unless ``lazy_load_members`` is ``true``. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
+                        "name": "include_redundant_members",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "A list of room IDs to exclude. If this list is absent then no rooms are excluded. A matching room will be excluded even if it is listed in the ``'rooms'`` filter.",
+                        "name": "not_rooms",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of room IDs to include. If this list is absent then all rooms are included.",
+                        "name": "rooms",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "If ``true``, includes only events with a ``url`` key in their content. If ``false``, excludes those events. If omitted, ``url`` key is not considered for filtering.",
+                        "name": "contains_url",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ]
+            },
+            {
+                "name": "RoomFilter",
+                "properties": [
+                    {
+                        "description": "A list of room IDs to exclude. If this list is absent then no rooms are excluded. A matching room will be excluded even if it is listed in the ``'rooms'`` filter. This filter is applied before the filters in ``ephemeral``, ``state``, ``timeline`` or ``account_data``",
+                        "name": "not_rooms",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "A list of room IDs to include. If this list is absent then all rooms are included. This filter is applied before the filters in ``ephemeral``, ``state``, ``timeline`` or ``account_data``",
+                        "name": "rooms",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "The events that aren't recorded in the room history, e.g. typing and receipts, to include for rooms.",
+                        "name": "ephemeral",
+                        "required": false,
+                        "type": "RoomEventFilter"
+                    },
+                    {
+                        "description": "Include rooms that the user has left in the sync, default false",
+                        "name": "include_leave",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "The state events to include for rooms.",
+                        "name": "state",
+                        "required": false,
+                        "type": "StateFilter"
+                    },
+                    {
+                        "description": "The message and state update events to include for rooms.",
+                        "name": "timeline",
+                        "required": false,
+                        "type": "RoomEventFilter"
+                    },
+                    {
+                        "description": "The per user account data to include for rooms.",
+                        "name": "account_data",
+                        "required": false,
+                        "type": "RoomEventFilter"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The user ID to download a filter for.",
-                    "name": "userId",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The filter ID to download.",
                     "name": "filterId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/user/{userId}/filter/{filterId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "EventFilter",
-                        "properties": [
-                            {
-                                "description": "The maximum number of events to return.",
-                                "name": "limit",
-                                "required": false,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "A list of sender IDs to exclude. If this list is absent then no senders are excluded. A matching sender will be excluded even if it is listed in the ``'senders'`` filter.",
-                                "name": "not_senders",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of event types to exclude. If this list is absent then no event types are excluded. A matching type will be excluded even if it is listed in the ``'types'`` filter. A '*' can be used as a wildcard to match any sequence of characters.",
-                                "name": "not_types",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of senders IDs to include. If this list is absent then all senders are included.",
-                                "name": "senders",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of event types to include. If this list is absent then all event types are included. A ``'*'`` can be used as a wildcard to match any sequence of characters.",
-                                "name": "types",
-                                "required": false,
-                                "type": "[string]"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "RoomEventFilter",
-                        "properties": [
-                            {
-                                "description": "The maximum number of events to return.",
-                                "name": "limit",
-                                "required": false,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "A list of sender IDs to exclude. If this list is absent then no senders are excluded. A matching sender will be excluded even if it is listed in the ``'senders'`` filter.",
-                                "name": "not_senders",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of event types to exclude. If this list is absent then no event types are excluded. A matching type will be excluded even if it is listed in the ``'types'`` filter. A '*' can be used as a wildcard to match any sequence of characters.",
-                                "name": "not_types",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of senders IDs to include. If this list is absent then all senders are included.",
-                                "name": "senders",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of event types to include. If this list is absent then all event types are included. A ``'*'`` can be used as a wildcard to match any sequence of characters.",
-                                "name": "types",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "If ``true``, enables lazy-loading of membership events. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
-                                "name": "lazy_load_members",
-                                "required": false,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "If ``true``, sends all membership events for all events, even if they have already\nbeen sent to the client. Does not\napply unless ``lazy_load_members`` is ``true``. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
-                                "name": "include_redundant_members",
-                                "required": false,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "A list of room IDs to exclude. If this list is absent then no rooms are excluded. A matching room will be excluded even if it is listed in the ``'rooms'`` filter.",
-                                "name": "not_rooms",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of room IDs to include. If this list is absent then all rooms are included.",
-                                "name": "rooms",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "If ``true``, includes only events with a ``url`` key in their content. If ``false``, excludes those events. If omitted, ``url`` key is not considered for filtering.",
-                                "name": "contains_url",
-                                "required": false,
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "StateFilter",
-                        "properties": [
-                            {
-                                "description": "The maximum number of events to return.",
-                                "name": "limit",
-                                "required": false,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "A list of sender IDs to exclude. If this list is absent then no senders are excluded. A matching sender will be excluded even if it is listed in the ``'senders'`` filter.",
-                                "name": "not_senders",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of event types to exclude. If this list is absent then no event types are excluded. A matching type will be excluded even if it is listed in the ``'types'`` filter. A '*' can be used as a wildcard to match any sequence of characters.",
-                                "name": "not_types",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of senders IDs to include. If this list is absent then all senders are included.",
-                                "name": "senders",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of event types to include. If this list is absent then all event types are included. A ``'*'`` can be used as a wildcard to match any sequence of characters.",
-                                "name": "types",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "If ``true``, enables lazy-loading of membership events. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
-                                "name": "lazy_load_members",
-                                "required": false,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "If ``true``, sends all membership events for all events, even if they have already\nbeen sent to the client. Does not\napply unless ``lazy_load_members`` is ``true``. See\n`Lazy-loading room members <#lazy-loading-room-members>`_\nfor more information. Defaults to ``false``.",
-                                "name": "include_redundant_members",
-                                "required": false,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "A list of room IDs to exclude. If this list is absent then no rooms are excluded. A matching room will be excluded even if it is listed in the ``'rooms'`` filter.",
-                                "name": "not_rooms",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of room IDs to include. If this list is absent then all rooms are included.",
-                                "name": "rooms",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "If ``true``, includes only events with a ``url`` key in their content. If ``false``, excludes those events. If omitted, ``url`` key is not considered for filtering.",
-                                "name": "contains_url",
-                                "required": false,
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "RoomFilter",
-                        "properties": [
-                            {
-                                "description": "A list of room IDs to exclude. If this list is absent then no rooms are excluded. A matching room will be excluded even if it is listed in the ``'rooms'`` filter. This filter is applied before the filters in ``ephemeral``, ``state``, ``timeline`` or ``account_data``",
-                                "name": "not_rooms",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "A list of room IDs to include. If this list is absent then all rooms are included. This filter is applied before the filters in ``ephemeral``, ``state``, ``timeline`` or ``account_data``",
-                                "name": "rooms",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "The events that aren't recorded in the room history, e.g. typing and receipts, to include for rooms.",
-                                "name": "ephemeral",
-                                "required": false,
-                                "type": "RoomEventFilter"
-                            },
-                            {
-                                "description": "Include rooms that the user has left in the sync, default false",
-                                "name": "include_leave",
-                                "required": false,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "The state events to include for rooms.",
-                                "name": "state",
-                                "required": false,
-                                "type": "StateFilter"
-                            },
-                            {
-                                "description": "The message and state update events to include for rooms.",
-                                "name": "timeline",
-                                "required": false,
-                                "type": "RoomEventFilter"
-                            },
-                            {
-                                "description": "The per user account data to include for rooms.",
-                                "name": "account_data",
-                                "required": false,
-                                "type": "RoomEventFilter"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The filter definition.",
                 "examples": {
                     "application/json": {
@@ -617,7 +602,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "Unknown filter.",
                 "examples": "",
                 "parameters": [],

@@ -1062,9 +1062,11 @@ client supports it, the client should redirect the user to the
 After authentication is complete, the client will need to submit a
 `/login` request matching `m.login.token`.
 
-{{login\_cs\_http\_api}}
+{{% http-api spec="client-server" api= "login" %}}
 
-{{logout\_cs\_http\_api}}
+
+{{% http-api spec="client-server" api= "logout" %}}
+
 
 #### Login Fallback
 
@@ -1921,7 +1923,7 @@ A user must be explicitly unbanned with a request to
 `/rooms/<room_id>/unban`\_ before they can re-join the room or be
 re-invited.
 
-{{banning\_cs\_http\_api}}
+{{% http-api spec="client-server" api="banning" %}}
 
 ### Listing rooms
 

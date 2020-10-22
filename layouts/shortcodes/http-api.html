@@ -27,6 +27,8 @@
  </tr>
 </table>
 
+{{ if .parameters }}
+
 <h2>Request parameters</h2>
 
 {{ range $type, $params := .parameters }}
@@ -51,32 +53,6 @@
 </table>
 
 {{ end }}
-
-{{ end }}
-
-{{ with .additional_types }}
-
-<h3>Additional types</h3>
-
-{{ range . }}
-
-<table class>
- <caption>{{ .name }}</caption>
- <thead>
-  <td class="col-name">Name</td>
-  <td class="col-type">Type</td>
-  <td class="col-description">Description</td>
- </thead>
-
-{{ range .properties }}
- <tr>
-  <td><code>{{ .name }}</code></td>
-  <td><code>{{ .type }}</code></td>
-  <td>{{ with .required }}<strong>Required: </strong>{{ end }}{{ .description | markdownify }}</td>
- </tr>
-{{ end }}
-
-</table>
 
 {{ end }}
 
@@ -125,9 +101,12 @@
 
 {{ end }}
 
+{{ end }}
+
+
 {{ with .additional_types }}
 
-<h3>Additional types</h3>
+<h2>Additional types</h2>
 
 {{ range . }}
 
@@ -148,8 +127,6 @@
 {{ end }}
 
 </table>
-
-{{ end }}
 
 {{ end }}
 

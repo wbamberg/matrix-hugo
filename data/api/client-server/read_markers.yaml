@@ -19,8 +19,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room ID to set the read marker in for the user.",
@@ -28,15 +26,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/read_markers",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The read marker, and read receipt if provided, have been updated.",
                 "examples": "",
                 "parameters": [],
@@ -44,7 +40,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

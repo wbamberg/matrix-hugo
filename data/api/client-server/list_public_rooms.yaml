@@ -5,9 +5,6 @@
         "description": "Gets the visibility of a given room on the server's public room directory.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room ID.",
@@ -15,15 +12,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/directory/list/room/{roomId}",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The visibility of the room in the directory",
                 "examples": {
                     "application/json": {
@@ -42,7 +37,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The room is not known to the server",
                 "examples": {
                     "application/json": {
@@ -84,8 +78,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room ID.",
@@ -93,15 +85,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/directory/list/room/{roomId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The visibility was updated, or no change was needed.",
                 "examples": {
                     "application/json": {}
@@ -111,7 +101,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The room is not known to the server",
                 "examples": {
                     "application/json": {
@@ -140,28 +129,72 @@
         "summary": "Sets the visibility of a room in the room directory"
     },
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "PublicRoomsChunk",
+                "properties": [
+                    {
+                        "description": "Aliases of the room. May be empty.",
+                        "name": "aliases",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "The canonical alias of the room, if any.",
+                        "name": "canonical_alias",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the room, if any.",
+                        "name": "name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of members joined to the room.",
+                        "name": "num_joined_members",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "The ID of the room.",
+                        "name": "room_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The topic of the room, if any.",
+                        "name": "topic",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Whether the room may be viewed by guest users without joining.",
+                        "name": "world_readable",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "Whether guest users may join the room and participate in it.\nIf they can, they will be subject to ordinary power level\nrules like any other user.",
+                        "name": "guest_can_join",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "The URL for the room's avatar, if one is set.",
+                        "name": "avatar_url",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Lists the public rooms on the server.\n\nThis API returns paginated responses. The rooms are ordered by the number\nof joined members, with the largest rooms first.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
-                {
-                    "description": "Limit the number of results returned.",
-                    "name": "limit",
-                    "required": false,
-                    "type": "integer"
-                },
-                {
-                    "description": "A pagination token from a previous request, allowing clients to\nget the next (or previous) batch of rooms.\nThe direction of pagination is specified solely by which token\nis supplied, rather than via an explicit flag.",
-                    "name": "since",
-                    "required": false,
-                    "type": "string"
-                },
                 {
                     "description": "The server to fetch the public room lists from. Defaults to the\nlocal server.",
                     "name": "server",
@@ -175,67 +208,6 @@
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "PublicRoomsChunk",
-                        "properties": [
-                            {
-                                "description": "Aliases of the room. May be empty.",
-                                "name": "aliases",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "The canonical alias of the room, if any.",
-                                "name": "canonical_alias",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The name of the room, if any.",
-                                "name": "name",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The number of members joined to the room.",
-                                "name": "num_joined_members",
-                                "required": true,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "The ID of the room.",
-                                "name": "room_id",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The topic of the room, if any.",
-                                "name": "topic",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Whether the room may be viewed by guest users without joining.",
-                                "name": "world_readable",
-                                "required": true,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "Whether guest users may join the room and participate in it.\nIf they can, they will be subject to ordinary power level\nrules like any other user.",
-                                "name": "guest_can_join",
-                                "required": true,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "The URL for the room's avatar, if one is set.",
-                                "name": "avatar_url",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ],
                 "description": "A list of the rooms on the server.",
                 "examples": "",
                 "parameters": [
@@ -282,6 +254,65 @@
                         "type": "string"
                     }
                 ]
+            },
+            {
+                "name": "PublicRoomsChunk",
+                "properties": [
+                    {
+                        "description": "Aliases of the room. May be empty.",
+                        "name": "aliases",
+                        "required": false,
+                        "type": "[string]"
+                    },
+                    {
+                        "description": "The canonical alias of the room, if any.",
+                        "name": "canonical_alias",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the room, if any.",
+                        "name": "name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The number of members joined to the room.",
+                        "name": "num_joined_members",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "The ID of the room.",
+                        "name": "room_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The topic of the room, if any.",
+                        "name": "topic",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Whether the room may be viewed by guest users without joining.",
+                        "name": "world_readable",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "Whether guest users may join the room and participate in it.\nIf they can, they will be subject to ordinary power level\nrules like any other user.",
+                        "name": "guest_can_join",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "The URL for the room's avatar, if one is set.",
+                        "name": "avatar_url",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
             }
         ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
@@ -320,9 +351,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The server to fetch the public room lists from. Defaults to the\nlocal server.",
@@ -337,67 +365,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "PublicRoomsChunk",
-                        "properties": [
-                            {
-                                "description": "Aliases of the room. May be empty.",
-                                "name": "aliases",
-                                "required": false,
-                                "type": "[string]"
-                            },
-                            {
-                                "description": "The canonical alias of the room, if any.",
-                                "name": "canonical_alias",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The name of the room, if any.",
-                                "name": "name",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The number of members joined to the room.",
-                                "name": "num_joined_members",
-                                "required": true,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "The ID of the room.",
-                                "name": "room_id",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The topic of the room, if any.",
-                                "name": "topic",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Whether the room may be viewed by guest users without joining.",
-                                "name": "world_readable",
-                                "required": true,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "Whether guest users may join the room and participate in it.\nIf they can, they will be subject to ordinary power level\nrules like any other user.",
-                                "name": "guest_can_join",
-                                "required": true,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "The URL for the room's avatar, if one is set.",
-                                "name": "avatar_url",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ],
                 "description": "A list of the rooms on the server.",
                 "examples": "",
                 "parameters": [

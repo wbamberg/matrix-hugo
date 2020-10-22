@@ -5,10 +5,6 @@
         "description": "A web-based Matrix client should instruct the user's browser to\nnavigate to this endpoint in order to log in via SSO.\n\nThe server MUST respond with an HTTP redirect to the SSO interface.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "URI to which the user will be redirected after the homeserver has\nauthenticated the user with SSO.",
@@ -23,7 +19,6 @@
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "A redirect to the SSO interface.",
                 "examples": "",
                 "parameters": [],

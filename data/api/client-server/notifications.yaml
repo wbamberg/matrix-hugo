@@ -1,27 +1,137 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "EventContent",
+                "properties": []
+            },
+            {
+                "name": "Event",
+                "properties": []
+            },
+            {
+                "name": "UnsignedData",
+                "properties": [
+                    {
+                        "description": "Time in milliseconds since the event was sent.",
+                        "name": "age",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "Optional. The previous ``content`` for this state. This will be present only for state events appearing in the ``timeline``. If this is not a state event, or there is no previous content, this key will be missing.",
+                        "name": "prev_content",
+                        "required": false,
+                        "type": "EventContent"
+                    },
+                    {
+                        "description": "Optional. The transaction ID set when this message was sent. This key will only be present for message events sent by the device calling this API.",
+                        "name": "transaction_id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Optional. The event that redacted this event, if any.",
+                        "name": "redacted_because",
+                        "required": false,
+                        "type": "Event"
+                    }
+                ]
+            },
+            {
+                "name": "Event",
+                "properties": [
+                    {
+                        "description": "The ID of this event, if applicable.",
+                        "name": "event_id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The content of this event. The fields in this object will vary depending on the type of event.",
+                        "name": "content",
+                        "required": false,
+                        "type": "EventContent"
+                    },
+                    {
+                        "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                        "name": "origin_server_ts",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "The MXID of the user who sent this event.",
+                        "name": "sender",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Optional. This key will only be present for state events. A unique key which defines the overwriting semantics for this piece of room state.",
+                        "name": "state_key",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The type of event.",
+                        "name": "type",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Information about this event which was not sent by the originating homeserver",
+                        "name": "unsigned",
+                        "required": false,
+                        "type": "UnsignedData"
+                    }
+                ]
+            },
+            {
+                "name": "Notification",
+                "properties": [
+                    {
+                        "description": "The action(s) to perform when the conditions for this rule are met.\nSee `Push Rules: API`_.",
+                        "name": "actions",
+                        "required": true,
+                        "type": "[object or string]"
+                    },
+                    {
+                        "description": "The Event object for the event that triggered the notification.",
+                        "name": "event",
+                        "required": true,
+                        "type": "Event"
+                    },
+                    {
+                        "description": "The profile tag of the rule that matched this event.",
+                        "name": "profile_tag",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Indicates whether the user has sent a read receipt indicating\nthat they have read this message.",
+                        "name": "read",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "The ID of the room in which the event was posted.",
+                        "name": "room_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The unix timestamp at which the event notification was sent,\nin milliseconds.",
+                        "name": "ts",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "This API is used to paginate through the list of events that the\nuser has been, or would have been notified about.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
-                {
-                    "description": "Pagination token given to retrieve the next set of events.",
-                    "name": "from",
-                    "required": false,
-                    "type": "string"
-                },
-                {
-                    "description": "Limit on the number of events to return in this request.",
-                    "name": "limit",
-                    "required": false,
-                    "type": "integer"
-                },
                 {
                     "description": "Allows basic filtering of events returned. Supply ``highlight``\nto return only events where the notification had the highlight\ntweak set.",
                     "name": "only",
@@ -35,133 +145,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "EventContent",
-                        "properties": []
-                    },
-                    {
-                        "name": "Event",
-                        "properties": []
-                    },
-                    {
-                        "name": "UnsignedData",
-                        "properties": [
-                            {
-                                "description": "Time in milliseconds since the event was sent.",
-                                "name": "age",
-                                "required": false,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "Optional. The previous ``content`` for this state. This will be present only for state events appearing in the ``timeline``. If this is not a state event, or there is no previous content, this key will be missing.",
-                                "name": "prev_content",
-                                "required": false,
-                                "type": "EventContent"
-                            },
-                            {
-                                "description": "Optional. The transaction ID set when this message was sent. This key will only be present for message events sent by the device calling this API.",
-                                "name": "transaction_id",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Optional. The event that redacted this event, if any.",
-                                "name": "redacted_because",
-                                "required": false,
-                                "type": "Event"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Event",
-                        "properties": [
-                            {
-                                "description": "The ID of this event, if applicable.",
-                                "name": "event_id",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The content of this event. The fields in this object will vary depending on the type of event.",
-                                "name": "content",
-                                "required": false,
-                                "type": "EventContent"
-                            },
-                            {
-                                "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
-                                "name": "origin_server_ts",
-                                "required": false,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "The MXID of the user who sent this event.",
-                                "name": "sender",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Optional. This key will only be present for state events. A unique key which defines the overwriting semantics for this piece of room state.",
-                                "name": "state_key",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The type of event.",
-                                "name": "type",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Information about this event which was not sent by the originating homeserver",
-                                "name": "unsigned",
-                                "required": false,
-                                "type": "UnsignedData"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Notification",
-                        "properties": [
-                            {
-                                "description": "The action(s) to perform when the conditions for this rule are met.\nSee `Push Rules: API`_.",
-                                "name": "actions",
-                                "required": true,
-                                "type": "[object or string]"
-                            },
-                            {
-                                "description": "The Event object for the event that triggered the notification.",
-                                "name": "event",
-                                "required": true,
-                                "type": "Event"
-                            },
-                            {
-                                "description": "The profile tag of the rule that matched this event.",
-                                "name": "profile_tag",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Indicates whether the user has sent a read receipt indicating\nthat they have read this message.",
-                                "name": "read",
-                                "required": true,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "The ID of the room in which the event was posted.",
-                                "name": "room_id",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The unix timestamp at which the event notification was sent,\nin milliseconds.",
-                                "name": "ts",
-                                "required": true,
-                                "type": "integer"
-                            }
-                        ]
-                    }
-                ],
                 "description": "A batch of events is being returned",
                 "examples": {
                     "application/json": {

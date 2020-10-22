@@ -61,9 +61,6 @@
                     "type": "boolean"
                 }
             ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The kind of account to register. Defaults to ``user``.",
@@ -78,7 +75,6 @@
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The account has been registered.",
                 "examples": {
                     "application/json": {
@@ -117,7 +113,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "Part of the request was invalid. This may include one of the following error codes:\n\n* ``M_USER_IN_USE`` : The desired user ID is already taken.\n* ``M_INVALID_USERNAME`` : The desired user ID is not a valid user name.\n* ``M_EXCLUSIVE`` : The desired user ID is in the exclusive namespace\n  claimed by an application service.\n\nThese errors may be returned at any stage of the registration process,\nincluding after authentication if the requested user ID was registered\nwhilst the client was performing authentication.\n\nHomeservers MUST perform the relevant checks and return these codes before\nperforming User-Interactive Authentication, although they may also return\nthem after authentication is completed if, for example, the requested user ID\nwas registered whilst the client was performing authentication.",
                 "examples": {
                     "application/json": {
@@ -143,7 +138,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "The homeserver requires additional authentication information.",
                 "examples": "",
                 "parameters": [
@@ -176,7 +170,6 @@
                 "status": 401
             },
             {
-                "additional_types": [],
                 "description": "The homeserver does not permit registering the account. This response\ncan be used to identify that a particular ``kind`` of account is not\nallowed, or that registration is generally not supported by the homeserver.",
                 "examples": {
                     "application/json": {
@@ -202,7 +195,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -274,18 +266,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/register/email/requestToken",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An email has been sent to the specified address. Note that this\nmay be an email containing the validation token or it may be\ninforming the user of an error.",
                 "examples": "",
                 "parameters": [
@@ -306,7 +293,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver does not permit the address to be bound.",
                 "examples": {
                     "application/json": {
@@ -332,7 +318,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "Part of the request was invalid. This may include one of the following error codes:\n\n* ``M_THREEPID_IN_USE`` : The email address is already registered to an account on this server.\n  However, if the homeserver has the ability to send email, it is recommended that the server\n  instead send an email to the user with instructions on how to reset their password.\n  This prevents malicious parties from being able to determine if a given email address\n  has an account on the homeserver in question.\n* ``M_SERVER_NOT_TRUSTED`` : The ``id_server`` parameter refers to an identity server\n  that is not trusted by this homeserver.",
                 "examples": {
                     "application/json": {
@@ -409,18 +394,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/register/msisdn/requestToken",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An SMS message has been sent to the specified phone number. Note\nthat this may be an SMS message containing the validation token or\nit may be informing the user of an error.",
                 "examples": "",
                 "parameters": [
@@ -441,7 +421,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver does not permit the address to be bound.",
                 "examples": {
                     "application/json": {
@@ -467,7 +446,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "Part of the request was invalid. This may include one of the following error codes:\n\n* ``M_THREEPID_IN_USE`` : The phone number is already registered to an account on this server.\n  However, if the homeserver has the ability to send SMS message, it is recommended that the server\n  instead send an SMS message to the user with instructions on how to reset their password.\n  This prevents malicious parties from being able to determine if a given phone number\n  has an account on the homeserver in question.\n* ``M_SERVER_NOT_TRUSTED`` : The ``id_server`` parameter refers to an identity server\n  that is not trusted by this homeserver.",
                 "examples": {
                     "application/json": {
@@ -538,18 +516,13 @@
                     "required": false,
                     "type": "Authentication Data"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/password",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The password has been changed.",
                 "examples": {
                     "application/json": {}
@@ -559,7 +532,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver requires additional authentication information.",
                 "examples": "",
                 "parameters": [
@@ -592,7 +564,6 @@
                 "status": 401
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -664,18 +635,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/password/email/requestToken",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An email was sent to the given address.",
                 "examples": "",
                 "parameters": [
@@ -696,7 +662,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
                 "examples": {
                     "application/json": {
@@ -722,7 +687,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "The referenced third party identifier is not recognised by the\nhomeserver, or the request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
                 "examples": {
                     "application/json": {
@@ -799,18 +763,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/password/msisdn/requestToken",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An SMS message was sent to the given phone number.",
                 "examples": "",
                 "parameters": [
@@ -831,7 +790,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
                 "examples": {
                     "application/json": {
@@ -857,7 +815,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "The referenced third party identifier is not recognised by the\nhomeserver, or the request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
                 "examples": {
                     "application/json": {
@@ -922,18 +879,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/deactivate",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The account has been deactivated.",
                 "examples": "",
                 "parameters": [
@@ -948,7 +900,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver requires additional authentication information.",
                 "examples": "",
                 "parameters": [
@@ -981,7 +932,6 @@
                 "status": 401
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -1016,10 +966,6 @@
         "description": "Checks to see if a username is available, and valid, for the server.\n\nThe server should check to ensure that, at the time of the request, the\nusername requested is available for use. This includes verifying that an\napplication service has not claimed the username and that the username\nfits the server's desired requirements (for example, a server could dictate\nthat it does not permit usernames with underscores).\n\nMatrix clients may wish to use this API prior to attempting registration,\nhowever the clients must also be aware that using this API does not normally\nreserve the username. This can mean that the username becomes unavailable\nbetween checking its availability and attempting to register it.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The username to check the availability of.",
@@ -1034,7 +980,6 @@
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The username is available",
                 "examples": {
                     "application/json": {
@@ -1053,7 +998,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "Part of the request was invalid or the username is not available. This may\ninclude one of the following error codes:\n\n* ``M_USER_IN_USE`` : The desired username is already taken.\n* ``M_INVALID_USERNAME`` : The desired username is not a valid user name.\n* ``M_EXCLUSIVE`` : The desired username is in the exclusive namespace\n  claimed by an application service.",
                 "examples": {
                     "application/json": {
@@ -1079,7 +1023,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

@@ -1,68 +1,61 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "ChangePasswordCapability",
+                "properties": [
+                    {
+                        "description": "True if the user can change their password, false otherwise.",
+                        "name": "enabled",
+                        "required": true,
+                        "type": "boolean"
+                    }
+                ]
+            },
+            {
+                "name": "RoomVersionsCapability",
+                "properties": [
+                    {
+                        "description": "The default room version the server is using for new rooms.",
+                        "name": "default",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A detailed description of the room versions the server supports.",
+                        "name": "available",
+                        "required": true,
+                        "type": "object"
+                    }
+                ]
+            },
+            {
+                "name": "Capabilities",
+                "properties": [
+                    {
+                        "description": "Capability to indicate if the user can change their password.",
+                        "name": "m.change_password",
+                        "required": false,
+                        "type": "ChangePasswordCapability"
+                    },
+                    {
+                        "description": "The room versions the server supports.",
+                        "name": "m.room_versions",
+                        "required": false,
+                        "type": "RoomVersionsCapability"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Gets information about the server's supported feature set\nand other relevant capabilities.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/capabilities",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "ChangePasswordCapability",
-                        "properties": [
-                            {
-                                "description": "True if the user can change their password, false otherwise.",
-                                "name": "enabled",
-                                "required": true,
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "RoomVersionsCapability",
-                        "properties": [
-                            {
-                                "description": "The default room version the server is using for new rooms.",
-                                "name": "default",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "A detailed description of the room versions the server supports.",
-                                "name": "available",
-                                "required": true,
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Capabilities",
-                        "properties": [
-                            {
-                                "description": "Capability to indicate if the user can change their password.",
-                                "name": "m.change_password",
-                                "required": false,
-                                "type": "ChangePasswordCapability"
-                            },
-                            {
-                                "description": "The room versions the server supports.",
-                                "name": "m.room_versions",
-                                "required": false,
-                                "type": "RoomVersionsCapability"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The capabilities of the server.",
                 "examples": {
                     "application/json": {
@@ -97,7 +90,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

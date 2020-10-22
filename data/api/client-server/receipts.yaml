@@ -6,36 +6,20 @@
         "method": "POST",
         "parameters": {
             "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The room in which to send the event.",
-                    "name": "roomId",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The type of receipt to send.",
-                    "name": "receiptType",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The event ID to acknowledge up to.",
                     "name": "eventId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/receipt/{receiptType}/{eventId}",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The receipt was sent.",
                 "examples": {
                     "application/json": {}
@@ -45,7 +29,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

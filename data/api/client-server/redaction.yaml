@@ -13,36 +13,20 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The room from which to redact the event.",
-                    "name": "roomId",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The ID of the event to redact",
-                    "name": "eventId",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The transaction ID for this event. Clients should generate a\nunique ID; it will be used by the server to ensure idempotency of requests.",
                     "name": "txnId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/redact/{eventId}/{txnId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An ID for the redaction event.",
                 "examples": {
                     "application/json": {

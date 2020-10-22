@@ -5,9 +5,6 @@
         "description": "Get the given user's presence state.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user whose presence state to get.",
@@ -15,15 +12,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/presence/{userId}/status",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The presence state for this user.",
                 "examples": {
                     "application/json": {
@@ -64,7 +59,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "There is no presence state for this user. This user may not exist or\nisn't exposing presence information to you.",
                 "examples": "",
                 "parameters": [
@@ -85,7 +79,6 @@
                 "status": 404
             },
             {
-                "additional_types": [],
                 "description": "You are not allowed to see this user's presence status.",
                 "examples": {
                     "application/json": {
@@ -133,8 +126,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user whose presence state to update.",
@@ -142,15 +133,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/presence/{userId}/status",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The new presence state was set.",
                 "examples": {
                     "application/json": {}
@@ -160,7 +149,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

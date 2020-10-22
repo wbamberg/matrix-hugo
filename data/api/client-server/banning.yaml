@@ -19,8 +19,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier (not alias) from which the user should be banned.",
@@ -28,15 +26,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/ban",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The user has been kicked and banned from the room.",
                 "examples": {
                     "application/json": {}
@@ -46,7 +42,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "You do not have permission to ban the user from the room. A meaningful ``errcode`` and description error text will be returned. Example reasons for rejections are:\n\n- The banner is not currently in the room.\n- The banner's power level is insufficient to ban users from the room.",
                 "examples": {
                     "application/json": {
@@ -88,8 +83,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier (not alias) from which the user should be unbanned.",
@@ -97,15 +90,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/unban",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The user has been unbanned from the room.",
                 "examples": {
                     "application/json": {}
@@ -115,7 +106,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "You do not have permission to unban the user from the room. A meaningful ``errcode`` and description error text will be returned. Example reasons for rejections are:\n\n- The unbanner's power level is insufficient to unban users from the room.",
                 "examples": {
                     "application/json": {

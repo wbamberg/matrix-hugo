@@ -13,8 +13,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The ID of the room to upgrade.",
@@ -22,15 +20,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/upgrade",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The room was successfully upgraded.",
                 "examples": {
                     "application/json": {
@@ -49,7 +45,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The request was invalid. One way this can happen is if the room version\nrequested is not supported by the homeserver.",
                 "examples": {
                     "application/json": {
@@ -75,7 +70,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "The user is not permitted to upgrade the room.",
                 "examples": {
                     "application/json": {

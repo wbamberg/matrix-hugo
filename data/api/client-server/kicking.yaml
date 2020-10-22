@@ -19,8 +19,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier (not alias) from which the user should be kicked.",
@@ -28,15 +26,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/kick",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The user has been kicked from the room.",
                 "examples": {
                     "application/json": {}
@@ -46,7 +42,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "You do not have permission to kick the user from the room. A meaningful ``errcode`` and\ndescription error text will be returned. Example reasons for rejections are:\n\n- The kicker is not currently in the room.\n- The kickee is not currently in the room.\n- The kicker's power level is insufficient to kick users from the room.",
                 "examples": {
                     "application/json": {

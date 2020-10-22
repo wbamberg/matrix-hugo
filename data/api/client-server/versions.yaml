@@ -4,19 +4,12 @@
         "basePath": "/_matrix/client",
         "description": "Gets the versions of the specification supported by the server.\n\nValues will take the form ``rX.Y.Z``.\n\nOnly the latest ``Z`` value will be reported for each supported ``X.Y`` value.\ni.e. if the server implements ``r0.0.0``, ``r0.0.1``, and ``r1.2.0``, it will report ``r0.0.1`` and ``r1.2.0``.\n\nThe server may additionally advertise experimental features it supports\nthrough ``unstable_features``. These features should be namespaced and\nmay optionally include version information within their name if desired.\nFeatures listed here are not for optionally toggling parts of the Matrix\nspecification and should only be used to advertise support for a feature\nwhich has not yet landed in the spec. For example, a feature currently\nundergoing the proposal process may appear here and eventually be taken\noff this list once the feature lands in the spec and the server deems it\nreasonable to do so. Servers may wish to keep advertising features here\nafter they've been released into the spec to give clients a chance to\nupgrade appropriately. Additionally, clients should avoid using unstable\nfeatures in their stable releases.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/versions",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The versions supported by the server.",
                 "examples": {
                     "application/json": {

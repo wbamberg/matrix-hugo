@@ -5,9 +5,6 @@
         "description": "Requests that the server resolve a room alias to a room ID.\n\nThe server will use the federation API to resolve the alias if the\ndomain part of the alias does not correspond to the server's own\ndomain.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room alias.",
@@ -15,15 +12,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/directory/room/{roomAlias}",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The room ID and other information for this alias.",
                 "examples": {
                     "application/json": {
@@ -53,7 +48,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "There is no mapped room ID for this room alias.",
                 "examples": {
                     "application/json": {
@@ -95,8 +89,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room alias to set.",
@@ -104,15 +96,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/directory/room/{roomAlias}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The mapping was created.",
                 "examples": {
                     "application/json": {}
@@ -122,7 +112,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "A room alias with that name already exists.",
                 "examples": {
                     "application/json": {
@@ -156,9 +145,6 @@
         "description": "Remove a mapping of room alias to room ID.\n\nServers may choose to implement additional access control checks here, for instance that\nroom aliases can only be deleted by their creator or a server administrator.\n\n.. Note::\n   Servers may choose to update the ``alt_aliases`` for the ``m.room.canonical_alias``\n   state event in the room when an alias is removed. Servers which choose to update the\n   canonical alias event are recommended to, in addition to their other relevant permission\n   checks, delete the alias and return a successful response even if the user does not\n   have permission to update the ``m.room.canonical_alias`` event.",
         "method": "DELETE",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room alias to remove.",
@@ -166,15 +152,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/directory/room/{roomAlias}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The mapping was deleted.",
                 "examples": {
                     "application/json": {}
@@ -184,7 +168,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "There is no mapped room ID for this room alias.",
                 "examples": {
                     "application/json": {
@@ -218,9 +201,6 @@
         "description": "Get a list of aliases maintained by the local server for the\ngiven room.\n\nThis endpoint can be called by users who are in the room (external\nusers receive an ``M_FORBIDDEN`` error response). If the room's\n``m.room.history_visibility`` maps to ``world_readable``, any\nuser can call this endpoint.\n\nServers may choose to implement additional access control checks here,\nsuch as allowing server administrators to view aliases regardless of\nmembership.\n\n.. Note::\n   Clients are recommended not to display this list of aliases prominently\n   as they are not curated, unlike those listed in the ``m.room.canonical_alias``\n   state event.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room ID to find local aliases of.",
@@ -228,15 +208,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/aliases",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The list of local aliases for the room.",
                 "examples": {
                     "application/json": {
@@ -259,7 +237,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The user is not permitted to retrieve the list of local aliases for the room.",
                 "examples": {
                     "application/json": {
@@ -285,7 +262,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

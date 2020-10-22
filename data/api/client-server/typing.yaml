@@ -19,30 +19,20 @@
                     "type": "integer"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The user who has started to type.",
-                    "name": "userId",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The room in which the user is typing.",
                     "name": "roomId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/typing/{userId}",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The new typing state was set.",
                 "examples": {
                     "application/json": {}
@@ -52,7 +42,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

@@ -5,9 +5,6 @@
         "description": "Get the user's display name. This API may be used to fetch the user's\nown displayname or to query the name of other users; either locally or\non remote homeservers.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user whose display name to get.",
@@ -15,15 +12,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/profile/{userId}/displayname",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The display name for this user.",
                 "examples": {
                     "application/json": {
@@ -42,7 +37,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "There is no display name for this user or this user does not exist.",
                 "examples": "",
                 "parameters": [],
@@ -66,8 +60,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user whose display name to set.",
@@ -75,15 +67,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/profile/{userId}/displayname",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The display name was set.",
                 "examples": {
                     "application/json": {}
@@ -93,7 +83,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -128,9 +117,6 @@
         "description": "Get the user's avatar URL. This API may be used to fetch the user's\nown avatar URL or to query the URL of other users; either locally or\non remote homeservers.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user whose avatar URL to get.",
@@ -138,15 +124,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/profile/{userId}/avatar_url",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The avatar URL for this user.",
                 "examples": {
                     "application/json": {
@@ -165,7 +149,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "There is no avatar URL for this user or this user does not exist.",
                 "examples": "",
                 "parameters": [],
@@ -189,8 +172,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user whose avatar URL to set.",
@@ -198,15 +179,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/profile/{userId}/avatar_url",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The avatar URL was set.",
                 "examples": {
                     "application/json": {}
@@ -216,7 +195,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -251,9 +229,6 @@
         "description": "Get the combined profile information for this user. This API may be used\nto fetch the user's own profile information or other users; either\nlocally or on remote homeservers. This API may return keys which are not\nlimited to ``displayname`` or ``avatar_url``.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user whose profile information to get.",
@@ -261,15 +236,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/profile/{userId}",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The avatar URL for this user.",
                 "examples": {
                     "application/json": {
@@ -295,7 +268,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "There is no profile information for this user or this user does not exist.",
                 "examples": "",
                 "parameters": [],

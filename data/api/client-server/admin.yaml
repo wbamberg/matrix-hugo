@@ -5,9 +5,6 @@
         "description": "Gets information about a particular user.\n\nThis API may be restricted to only be called by the user being looked\nup, or by a server admin. Server-local administrator privileges are not\nspecified in this document.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The user to look up.",
@@ -15,15 +12,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/admin/whois/{userId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The lookup was successful.",
                 "examples": {
                     "application/json": {

@@ -5,9 +5,6 @@
         "description": "This API stops a user participating in a particular room.\n\nIf the user was already in the room, they will no longer be able to see\nnew events in the room. If the room requires an invite to join, they\nwill need to be re-invited before they can re-join.\n\nIf the user was invited to the room, but had not joined, this call\nserves to reject the invite.\n\nThe user will still be allowed to retrieve history from the room which\nthey were previously allowed to see.",
         "method": "POST",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier to leave.",
@@ -15,15 +12,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/leave",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The room has been left.",
                 "examples": {
                     "application/json": {}
@@ -33,7 +28,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -68,9 +62,6 @@
         "description": "This API stops a user remembering about a particular room.\n\nIn general, history is a first class citizen in Matrix. After this API\nis called, however, a user will no longer be able to retrieve history\nfor this room. If all users on a homeserver forget a room, the room is\neligible for deletion from that homeserver.\n\nIf the user is currently joined to the room, they must leave the room\nbefore calling this API.",
         "method": "POST",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier to forget.",
@@ -78,15 +69,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/forget",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The room has been forgotten.",
                 "examples": {
                     "application/json": {}
@@ -96,7 +85,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The user has not left the room",
                 "examples": {
                     "application/json": {
@@ -122,7 +110,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

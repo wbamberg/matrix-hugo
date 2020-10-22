@@ -4,19 +4,12 @@
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "This API provides credentials for the client to use when initiating\ncalls.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/voip/turnServer",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The TURN server credentials.",
                 "examples": {
                     "application/json": {
@@ -60,7 +53,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

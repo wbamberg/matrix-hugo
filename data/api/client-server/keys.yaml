@@ -58,18 +58,13 @@
                     "required": false,
                     "type": "object"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/keys/upload",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The provided keys were successfully uploaded.",
                 "examples": "",
                 "parameters": [
@@ -111,18 +106,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/keys/query",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The device information",
                 "examples": "",
                 "parameters": [
@@ -164,18 +154,13 @@
                     "required": true,
                     "type": "object"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/keys/claim",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The claimed keys.",
                 "examples": "",
                 "parameters": [
@@ -204,17 +189,7 @@
         "description": "Gets a list of users who have updated their device identity keys since a\nprevious sync token.\n\nThe server should include in the results any users who:\n\n* currently share a room with the calling user (ie, both users have\n  membership state ``join``); *and*\n* added new device identity keys or removed an existing device with\n  identity keys, between ``from`` and ``to``.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
-                {
-                    "description": "The desired start point of the list. Should be the ``next_batch`` field\nfrom a response to an earlier call to |/sync|. Users who have not\nuploaded new device identity keys since this point, nor deleted\nexisting devices with identity keys since then, will be excluded\nfrom the results.",
-                    "name": "from",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The desired end point of the list. Should be the ``next_batch``\nfield from a recent call to |/sync| - typically the most recent\nsuch call. This may be used by the server as a hint to check its\ncaches are up to date.",
                     "name": "to",
@@ -228,7 +203,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The list of users who updated their devices.",
                 "examples": "",
                 "parameters": [

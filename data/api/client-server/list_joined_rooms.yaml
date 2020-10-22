@@ -4,19 +4,12 @@
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "This API returns a list of the user's current rooms.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/joined_rooms",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "A list of the rooms the user is in.",
                 "examples": {
                     "application/json": {

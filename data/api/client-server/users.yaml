@@ -1,6 +1,30 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "User",
+                "properties": [
+                    {
+                        "description": "The user's matrix user ID.",
+                        "name": "user_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The display name of the user, if one exists.",
+                        "name": "display_name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The avatar url, as an MXC, if one exists.",
+                        "name": "avatar_url",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Performs a search for users. The homeserver may\ndetermine which subset of users are searched, however the homeserver\nMUST at a minimum consider the users the requesting user shares a\nroom with and those who reside in public rooms (known to the homeserver).\nThe search MUST consider local users to the homeserver, and SHOULD\nquery remote users as part of the search.\n\nThe search is performed case-insensitively on user IDs and display\nnames preferably using a collation determined based upon the \n``Accept-Language`` header provided in the request, if present.",
         "method": "POST",
@@ -18,42 +42,13 @@
                     "required": false,
                     "type": "integer"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/user_directory/search",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "User",
-                        "properties": [
-                            {
-                                "description": "The user's matrix user ID.",
-                                "name": "user_id",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The display name of the user, if one exists.",
-                                "name": "display_name",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The avatar url, as an MXC, if one exists.",
-                                "name": "avatar_url",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The results of the search.",
                 "examples": {
                     "application/json": {
@@ -85,7 +80,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

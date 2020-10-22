@@ -1,128 +1,121 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "PushCondition",
+                "properties": [
+                    {
+                        "description": "The kind of condition to apply. See `conditions <#conditions>`_ for\nmore information on the allowed kinds and how they work.",
+                        "name": "kind",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Required for ``event_match`` conditions. The dot-separated field of the\nevent to match.\n\nRequired for ``sender_notification_permission`` conditions. The field in\nthe power level event the user needs a minimum power level for. Fields\nmust be specified under the ``notifications`` property in the power level\nevent's ``content``.",
+                        "name": "key",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Required for ``event_match`` conditions. The glob-style pattern to\nmatch against. Patterns with no special glob characters should be\ntreated as having asterisks prepended and appended when testing the\ncondition.",
+                        "name": "pattern",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Required for ``room_member_count`` conditions. A decimal integer\noptionally prefixed by one of, ==, <, >, >= or <=. A prefix of < matches\nrooms where the member count is strictly less than the given number and\nso forth. If no prefix is present, this parameter defaults to ==.",
+                        "name": "is",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "PushRule",
+                "properties": [
+                    {
+                        "description": "The actions to perform when this rule is matched.",
+                        "name": "actions",
+                        "required": true,
+                        "type": "[object or string]"
+                    },
+                    {
+                        "description": "Whether this is a default rule, or has been set explicitly.",
+                        "name": "default",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "Whether the push rule is enabled or not.",
+                        "name": "enabled",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "The ID of this rule.",
+                        "name": "rule_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The conditions that must hold true for an event in order for a rule to be\napplied to an event. A rule with no conditions always matches. Only\napplicable to ``underride`` and ``override`` rules.",
+                        "name": "conditions",
+                        "required": false,
+                        "type": "[PushCondition]"
+                    },
+                    {
+                        "description": "The glob-style pattern to match against.  Only applicable to ``content``\nrules.",
+                        "name": "pattern",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "Ruleset",
+                "properties": [
+                    {
+                        "description": "",
+                        "name": "content",
+                        "required": false,
+                        "type": "[PushRule]"
+                    },
+                    {
+                        "description": "",
+                        "name": "override",
+                        "required": false,
+                        "type": "[PushRule]"
+                    },
+                    {
+                        "description": "",
+                        "name": "room",
+                        "required": false,
+                        "type": "[PushRule]"
+                    },
+                    {
+                        "description": "",
+                        "name": "sender",
+                        "required": false,
+                        "type": "[PushRule]"
+                    },
+                    {
+                        "description": "",
+                        "name": "underride",
+                        "required": false,
+                        "type": "[PushRule]"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Retrieve all push rulesets for this user. Clients can \"drill-down\" on\nthe rulesets by suffixing a ``scope`` to this path e.g.\n``/pushrules/global/``. This will return a subset of this data under the\nspecified key e.g. the ``global`` key.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/pushrules/",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "PushCondition",
-                        "properties": [
-                            {
-                                "description": "The kind of condition to apply. See `conditions <#conditions>`_ for\nmore information on the allowed kinds and how they work.",
-                                "name": "kind",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Required for ``event_match`` conditions. The dot-separated field of the\nevent to match.\n\nRequired for ``sender_notification_permission`` conditions. The field in\nthe power level event the user needs a minimum power level for. Fields\nmust be specified under the ``notifications`` property in the power level\nevent's ``content``.",
-                                "name": "key",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Required for ``event_match`` conditions. The glob-style pattern to\nmatch against. Patterns with no special glob characters should be\ntreated as having asterisks prepended and appended when testing the\ncondition.",
-                                "name": "pattern",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Required for ``room_member_count`` conditions. A decimal integer\noptionally prefixed by one of, ==, <, >, >= or <=. A prefix of < matches\nrooms where the member count is strictly less than the given number and\nso forth. If no prefix is present, this parameter defaults to ==.",
-                                "name": "is",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "PushRule",
-                        "properties": [
-                            {
-                                "description": "The actions to perform when this rule is matched.",
-                                "name": "actions",
-                                "required": true,
-                                "type": "[object or string]"
-                            },
-                            {
-                                "description": "Whether this is a default rule, or has been set explicitly.",
-                                "name": "default",
-                                "required": true,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "Whether the push rule is enabled or not.",
-                                "name": "enabled",
-                                "required": true,
-                                "type": "boolean"
-                            },
-                            {
-                                "description": "The ID of this rule.",
-                                "name": "rule_id",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The conditions that must hold true for an event in order for a rule to be\napplied to an event. A rule with no conditions always matches. Only\napplicable to ``underride`` and ``override`` rules.",
-                                "name": "conditions",
-                                "required": false,
-                                "type": "[PushCondition]"
-                            },
-                            {
-                                "description": "The glob-style pattern to match against.  Only applicable to ``content``\nrules.",
-                                "name": "pattern",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Ruleset",
-                        "properties": [
-                            {
-                                "description": "",
-                                "name": "content",
-                                "required": false,
-                                "type": "[PushRule]"
-                            },
-                            {
-                                "description": "",
-                                "name": "override",
-                                "required": false,
-                                "type": "[PushRule]"
-                            },
-                            {
-                                "description": "",
-                                "name": "room",
-                                "required": false,
-                                "type": "[PushRule]"
-                            },
-                            {
-                                "description": "",
-                                "name": "sender",
-                                "required": false,
-                                "type": "[PushRule]"
-                            },
-                            {
-                                "description": "",
-                                "name": "underride",
-                                "required": false,
-                                "type": "[PushRule]"
-                            }
-                        ]
-                    }
-                ],
                 "description": "All the push rulesets for this user.",
                 "examples": {
                     "application/json": {
@@ -339,37 +332,20 @@
         "description": "Retrieve a single specified push rule.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "``global`` to specify global rules.",
-                    "name": "scope",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The kind of rule\n",
-                    "name": "kind",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The identifier for the rule.\n",
                     "name": "ruleId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/pushrules/{scope}/{kind}/{ruleId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The specific push rule. This will also include keys specific to the\nrule itself such as the rule's ``actions`` and ``conditions`` if set.",
                 "examples": {
                     "application/json": {
@@ -445,21 +421,7 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "``global`` to specify global rules.",
-                    "name": "scope",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The kind of rule\n",
-                    "name": "kind",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The identifier for the rule.\n",
                     "name": "ruleId",
@@ -468,12 +430,6 @@
                 }
             ],
             "Query": [
-                {
-                    "description": "Use 'before' with a ``rule_id`` as its value to make the new rule the\nnext-most important rule with respect to the given user defined rule.\nIt is not possible to add a rule relative to a predefined server rule.",
-                    "name": "before",
-                    "required": false,
-                    "type": "string"
-                },
                 {
                     "description": "This makes the new rule the next-less important rule relative to the\ngiven user defined rule. It is not possible to add a rule relative\nto a predefined server rule.",
                     "name": "after",
@@ -487,7 +443,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The push rule was created/updated.",
                 "examples": {
                     "application/json": {}
@@ -497,7 +452,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "There was a problem configuring this push rule.",
                 "examples": {
                     "application/json": {
@@ -523,7 +477,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -558,37 +511,20 @@
         "description": "This endpoint removes the push rule defined in the path.",
         "method": "DELETE",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "``global`` to specify global rules.",
-                    "name": "scope",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The kind of rule\n",
-                    "name": "kind",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The identifier for the rule.\n",
                     "name": "ruleId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/pushrules/{scope}/{kind}/{ruleId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The push rule was deleted.",
                 "examples": {
                     "application/json": {}
@@ -606,37 +542,20 @@
         "description": "This endpoint gets whether the specified push rule is enabled.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "Either ``global`` or ``device/<profile_tag>`` to specify global\nrules or device rules for the given ``profile_tag``.",
-                    "name": "scope",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The kind of rule\n",
-                    "name": "kind",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The identifier for the rule.\n",
                     "name": "ruleId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/pushrules/{scope}/{kind}/{ruleId}/enabled",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "Whether the push rule is enabled.",
                 "examples": {
                     "application/json": {
@@ -671,36 +590,20 @@
                     "type": "boolean"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "``global`` to specify global rules.",
-                    "name": "scope",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The kind of rule\n",
-                    "name": "kind",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The identifier for the rule.\n",
                     "name": "ruleId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/pushrules/{scope}/{kind}/{ruleId}/enabled",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The push rule was enabled or disabled.",
                 "examples": {
                     "application/json": {}
@@ -718,37 +621,20 @@
         "description": "This endpoint get the actions for the specified push rule.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "Either ``global`` or ``device/<profile_tag>`` to specify global\nrules or device rules for the given ``profile_tag``.",
-                    "name": "scope",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The kind of rule\n",
-                    "name": "kind",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The identifier for the rule.\n",
                     "name": "ruleId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/pushrules/{scope}/{kind}/{ruleId}/actions",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The actions for this push rule.",
                 "examples": {
                     "application/json": {
@@ -789,36 +675,20 @@
                     "type": "[string or object]"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "``global`` to specify global rules.",
-                    "name": "scope",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "description": "The kind of rule\n",
-                    "name": "kind",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The identifier for the rule.\n",
                     "name": "ruleId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/pushrules/{scope}/{kind}/{ruleId}/actions",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The actions for the push rule were set.",
                 "examples": {
                     "application/json": {}

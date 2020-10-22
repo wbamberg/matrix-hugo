@@ -1,52 +1,45 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "Device",
+                "properties": [
+                    {
+                        "description": "Identifier of this device.",
+                        "name": "device_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Display name set by the user for this device. Absent if no name has been\nset.",
+                        "name": "display_name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The IP address where this device was last seen. (May be a few minutes out\nof date, for efficiency reasons).",
+                        "name": "last_seen_ip",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The timestamp (in milliseconds since the unix epoch) when this devices\nwas last seen. (May be a few minutes out of date, for efficiency\nreasons).",
+                        "name": "last_seen_ts",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Gets information about all devices for the current user.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/devices",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "Device",
-                        "properties": [
-                            {
-                                "description": "Identifier of this device.",
-                                "name": "device_id",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Display name set by the user for this device. Absent if no name has been\nset.",
-                                "name": "display_name",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The IP address where this device was last seen. (May be a few minutes out\nof date, for efficiency reasons).",
-                                "name": "last_seen_ip",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The timestamp (in milliseconds since the unix epoch) when this devices\nwas last seen. (May be a few minutes out of date, for efficiency\nreasons).",
-                                "name": "last_seen_ts",
-                                "required": false,
-                                "type": "integer"
-                            }
-                        ]
-                    }
-                ],
                 "description": "Device information",
                 "examples": {
                     "application/json": {
@@ -80,9 +73,6 @@
         "description": "Gets information on a single device, by device id.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The device to retrieve.",
@@ -90,15 +80,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/devices/{deviceId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "Device information",
                 "examples": {
                     "application/json": {
@@ -113,7 +101,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The current user has no device with the given ID.",
                 "examples": "",
                 "parameters": [],
@@ -137,8 +124,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The device to update.",
@@ -146,15 +131,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/devices/{deviceId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The device was successfully updated.",
                 "examples": {
                     "application/json": {}
@@ -164,7 +147,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The current user has no device with the given ID.",
                 "examples": "",
                 "parameters": [],
@@ -206,8 +188,6 @@
                     "type": "Authentication Data"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The device to delete.",
@@ -215,15 +195,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/devices/{deviceId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The device was successfully removed, or had been removed\npreviously.",
                 "examples": {
                     "application/json": {}
@@ -233,7 +211,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver requires additional authentication information.",
                 "examples": "",
                 "parameters": [
@@ -305,18 +282,13 @@
                     "required": false,
                     "type": "Authentication Data"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/delete_devices",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The devices were successfully removed, or had been removed\npreviously.",
                 "examples": {
                     "application/json": {}
@@ -326,7 +298,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver requires additional authentication information.",
                 "examples": "",
                 "parameters": [

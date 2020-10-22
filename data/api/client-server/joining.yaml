@@ -47,8 +47,6 @@
                     "type": "Third Party Signed"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier (not alias) to join.",
@@ -56,15 +54,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/join",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The room has been joined.\n\nThe joined room ID must be returned in the ``room_id`` field.",
                 "examples": {
                     "application/json": {
@@ -83,7 +79,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "You do not have permission to join the room. A meaningful ``errcode``\nand description error text will be returned. Example reasons for rejection are:\n\n- The room is invite-only and the user was not invited.\n- The user has been banned from the room.",
                 "examples": {
                     "application/json": {
@@ -109,7 +104,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -186,8 +180,6 @@
                     "type": "Third Party Signed"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier or alias to join.",
@@ -210,7 +202,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The room has been joined.\n\nThe joined room ID must be returned in the ``room_id`` field.",
                 "examples": {
                     "application/json": {
@@ -229,7 +220,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "You do not have permission to join the room. A meaningful ``errcode``\nand description error text will be returned. Example reasons for rejection are:\n\n- The room is invite-only and the user was not invited.\n- The user has been banned from the room.",
                 "examples": {
                     "application/json": {
@@ -255,7 +245,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

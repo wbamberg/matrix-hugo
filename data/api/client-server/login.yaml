@@ -1,34 +1,27 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "LoginFlow",
+                "properties": [
+                    {
+                        "description": "The login type. This is supplied as the ``type`` when\nlogging in.",
+                        "name": "type",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Gets the homeserver's supported login types to authenticate users. Clients\nshould pick one of these and supply it as the ``type`` when logging in.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/login",
         "rate_limited": true,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "LoginFlow",
-                        "properties": [
-                            {
-                                "description": "The login type. This is supplied as the ``type`` when\nlogging in.",
-                                "name": "type",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The login types the homeserver supports",
                 "examples": {
                     "application/json": {
@@ -51,7 +44,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -90,6 +82,45 @@
                         "name": "type",
                         "required": true,
                         "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "Homeserver Information",
+                "properties": [
+                    {
+                        "description": "The base URL for the homeserver for client-server connections.",
+                        "name": "base_url",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "Identity Server Information",
+                "properties": [
+                    {
+                        "description": "The base URL for the identity server for client-server connections.",
+                        "name": "base_url",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "Discovery Information",
+                "properties": [
+                    {
+                        "description": "Used by clients to discover homeserver information.",
+                        "name": "m.homeserver",
+                        "required": true,
+                        "type": "Homeserver Information"
+                    },
+                    {
+                        "description": "Used by clients to discover identity server information.",
+                        "name": "m.identity_server",
+                        "required": false,
+                        "type": "Identity Server Information"
                     }
                 ]
             }
@@ -153,58 +184,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/login",
         "rate_limited": true,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "Homeserver Information",
-                        "properties": [
-                            {
-                                "description": "The base URL for the homeserver for client-server connections.",
-                                "name": "base_url",
-                                "required": true,
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Identity Server Information",
-                        "properties": [
-                            {
-                                "description": "The base URL for the identity server for client-server connections.",
-                                "name": "base_url",
-                                "required": true,
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Discovery Information",
-                        "properties": [
-                            {
-                                "description": "Used by clients to discover homeserver information.",
-                                "name": "m.homeserver",
-                                "required": true,
-                                "type": "Homeserver Information"
-                            },
-                            {
-                                "description": "Used by clients to discover identity server information.",
-                                "name": "m.identity_server",
-                                "required": false,
-                                "type": "Identity Server Information"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The user has been authenticated.",
                 "examples": {
                     "application/json": {
@@ -257,7 +243,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "Part of the request was invalid. For example, the login type may not be recognised.",
                 "examples": {
                     "application/json": {
@@ -283,7 +268,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "The login attempt failed. This can include one of the following error codes:\n  * ``M_FORBIDDEN``: The provided authentication data was incorrect.\n  * ``M_USER_DEACTIVATED``: The user has been deactivated.",
                 "examples": {
                     "application/json": {
@@ -308,7 +292,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

@@ -19,30 +19,20 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
-                {
-                    "description": "The room in which the event being reported is located.",
-                    "name": "roomId",
-                    "required": true,
-                    "type": "string"
-                },
                 {
                     "description": "The event to report.",
                     "name": "eventId",
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/report/{eventId}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The event has been reported successfully.",
                 "examples": {
                     "application/json": {}

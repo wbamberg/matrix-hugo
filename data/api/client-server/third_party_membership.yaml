@@ -31,8 +31,6 @@
                     "type": "string"
                 }
             ],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The room identifier (not alias) to which to invite the user.",
@@ -40,15 +38,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/rooms/{roomId}/invite",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The user has been invited to join the room.",
                 "examples": {
                     "application/json": {}
@@ -58,7 +54,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "You do not have permission to invite the user to the room. A meaningful ``errcode`` and description error text will be returned. Example reasons for rejections are:\n\n- The invitee has been banned from the room.\n- The invitee is already a member of the room.\n- The inviter is not currently in the room.\n- The inviter's power level is insufficient to invite users to the room.",
                 "examples": {
                     "application/json": {
@@ -84,7 +79,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [

@@ -4,19 +4,12 @@
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Invalidates an existing access token, so that it can no longer be used for\nauthorization. The device associated with the access token is also deleted.\n`Device keys <#device-keys>`_ for the device are deleted alongside the device.",
         "method": "POST",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/logout",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The access token used in the request was successfully invalidated.",
                 "examples": "",
                 "parameters": [],
@@ -31,19 +24,12 @@
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Invalidates all access tokens for a user, so that they can no longer be used for\nauthorization. This includes the access token that made this request. All devices\nfor the user are also deleted. `Device keys <#device-keys>`_ for the device are\ndeleted alongside the device.\n\nThis endpoint does not use the `User-Interactive Authentication API`_ because\nUser-Interactive Authentication is designed to protect against attacks where the\nsomeone gets hold of a single access token then takes over the account. This\nendpoint invalidates all access tokens for the user, including the token used in\nthe request, and therefore the attacker is unable to take over the account in\nthis way.",
         "method": "POST",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/logout/all",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The user's access tokens were successfully invalidated.",
                 "examples": "",
                 "parameters": [],

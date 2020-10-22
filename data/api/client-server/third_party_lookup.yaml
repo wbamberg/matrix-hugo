@@ -4,19 +4,12 @@
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Fetches the overall metadata about protocols supported by the\nhomeserver. Includes both the available protocols and all fields\nrequired for queries against each protocol.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/thirdparty/protocols",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The protocols supported by the homeserver.",
                 "examples": "",
                 "parameters": [],
@@ -27,14 +20,45 @@
         "summary": "Retrieve metadata about all protocols that a homeserver supports."
     },
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "Field Types",
+                "properties": []
+            },
+            {
+                "name": "Protocol Instance",
+                "properties": [
+                    {
+                        "description": "A human-readable description for the protocol, such as the name.",
+                        "name": "desc",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "An optional content URI representing the protocol. Overrides the one provided\nat the higher level Protocol object.",
+                        "name": "icon",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Preset values for ``fields`` the client may use to search by.",
+                        "name": "fields",
+                        "required": true,
+                        "type": "object"
+                    },
+                    {
+                        "description": "A unique identifier across all instances.",
+                        "name": "network_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Fetches the metadata from the homeserver about a particular third party protocol.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The name of the protocol.",
@@ -42,49 +66,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Query": []
+            ]
         },
         "path": "/thirdparty/protocol/{protocol}",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "Field Types",
-                        "properties": []
-                    },
-                    {
-                        "name": "Protocol Instance",
-                        "properties": [
-                            {
-                                "description": "A human-readable description for the protocol, such as the name.",
-                                "name": "desc",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "An optional content URI representing the protocol. Overrides the one provided\nat the higher level Protocol object.",
-                                "name": "icon",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "Preset values for ``fields`` the client may use to search by.",
-                                "name": "fields",
-                                "required": true,
-                                "type": "object"
-                            },
-                            {
-                                "description": "A unique identifier across all instances.",
-                                "name": "network_id",
-                                "required": true,
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The protocol was found and metadata returned.",
                 "examples": "",
                 "parameters": [
@@ -123,7 +111,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The protocol is unknown.",
                 "examples": {
                     "application/json": {
@@ -156,9 +143,6 @@
         "description": "Requesting this endpoint with a valid protocol name results in a list\nof successful mapping results in a JSON array. Each result contains\nobjects to represent the Matrix room or rooms that represent a portal\nto this third party network. Each has the Matrix room alias string,\nan identifier for the particular third party network protocol, and an\nobject containing the network-specific fields that comprise this\nidentifier. It should attempt to canonicalise the identifier as much\nas reasonably possible given the network type.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The protocol used to communicate to the third party network.",
@@ -181,7 +165,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "At least one portal room was found.",
                 "examples": "",
                 "parameters": [],
@@ -189,7 +172,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "No portal rooms were found.",
                 "examples": {
                     "application/json": {
@@ -222,9 +204,6 @@
         "description": "Retrieve a Matrix User ID linked to a user on the third party service, given\na set of user parameters.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
             "Path": [
                 {
                     "description": "The name of the protocol.",
@@ -247,7 +226,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The Matrix User IDs found with the given parameters.",
                 "examples": "",
                 "parameters": [],
@@ -255,7 +233,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The Matrix User ID was not found",
                 "examples": {
                     "application/json": {
@@ -288,10 +265,6 @@
         "description": "Retrieve an array of third party network locations from a Matrix room\nalias.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The Matrix room alias to look up.",
@@ -306,7 +279,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "All found third party locations.",
                 "examples": "",
                 "parameters": [],
@@ -314,7 +286,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The Matrix room alias was not found",
                 "examples": {
                     "application/json": {
@@ -347,10 +318,6 @@
         "description": "Retrieve an array of third party users from a Matrix User ID.",
         "method": "GET",
         "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
             "Query": [
                 {
                     "description": "The Matrix User ID to look up.",
@@ -365,7 +332,6 @@
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An array of third party users.",
                 "examples": "",
                 "parameters": [],
@@ -373,7 +339,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The Matrix User ID was not found",
                 "examples": {
                     "application/json": {

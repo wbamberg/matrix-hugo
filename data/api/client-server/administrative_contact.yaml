@@ -1,52 +1,45 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "Third party identifier",
+                "properties": [
+                    {
+                        "description": "The medium of the third party identifier.",
+                        "name": "medium",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The third party identifier address.",
+                        "name": "address",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The timestamp, in milliseconds, when the identifier was\nvalidated by the identity server.",
+                        "name": "validated_at",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "The timestamp, in milliseconds, when the homeserver associated the third party identifier with the user.",
+                        "name": "added_at",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Gets a list of the third party identifiers that the homeserver has\nassociated with the user's account.\n\nThis is *not* the same as the list of third party identifiers bound to\nthe user's Matrix ID in identity servers.\n\nIdentifiers in this list may be used by the homeserver as, for example,\nidentifiers that it will accept to reset the user's account password.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/account/3pid",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "Third party identifier",
-                        "properties": [
-                            {
-                                "description": "The medium of the third party identifier.",
-                                "name": "medium",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The third party identifier address.",
-                                "name": "address",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The timestamp, in milliseconds, when the identifier was\nvalidated by the identity server.",
-                                "name": "validated_at",
-                                "required": true,
-                                "type": "integer"
-                            },
-                            {
-                                "description": "The timestamp, in milliseconds, when the homeserver associated the third party identifier with the user.",
-                                "name": "added_at",
-                                "required": true,
-                                "type": "integer"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The lookup was successful.",
                 "examples": {
                     "application/json": {
@@ -117,18 +110,13 @@
                     "required": true,
                     "type": "ThreePidCredentials"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/3pid",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The addition was successful.",
                 "examples": {
                     "application/json": {
@@ -150,7 +138,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The credentials could not be verified with the identity server.",
                 "examples": {
                     "application/json": {
@@ -221,18 +208,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/3pid/add",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The addition was successful.",
                 "examples": {
                     "application/json": {},
@@ -245,7 +227,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver requires additional authentication information.",
                 "examples": "",
                 "parameters": [
@@ -278,7 +259,6 @@
                 "status": 401
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -338,18 +318,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/3pid/bind",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The addition was successful.",
                 "examples": {
                     "application/json": {},
@@ -362,7 +337,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
@@ -416,18 +390,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/3pid/delete",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The homeserver has disassociated the third party identifier from the\nuser.",
                 "examples": "",
                 "parameters": [
@@ -469,18 +438,13 @@
                     "required": true,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/3pid/unbind",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The identity server has disassociated the third party identifier from the\nuser.",
                 "examples": "",
                 "parameters": [
@@ -540,18 +504,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/3pid/email/requestToken",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An email was sent to the given address. Note that this may be an\nemail containing the validation token or it may be informing the\nuser of an error.",
                 "examples": "",
                 "parameters": [
@@ -572,7 +531,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
                 "examples": {
                     "application/json": {
@@ -598,7 +556,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "The third party identifier is already in use on the homeserver, or\nthe request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
                 "examples": {
                     "application/json": {
@@ -675,18 +632,13 @@
                     "required": false,
                     "type": "string"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/account/3pid/msisdn/requestToken",
         "rate_limited": false,
         "requires_auth": false,
         "responses": [
             {
-                "additional_types": [],
                 "description": "An SMS message was sent to the given phone number.",
                 "examples": "",
                 "parameters": [
@@ -707,7 +659,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
                 "examples": {
                     "application/json": {
@@ -733,7 +684,6 @@
                 "status": 403
             },
             {
-                "additional_types": [],
                 "description": "The third party identifier is already in use on the homeserver, or\nthe request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
                 "examples": {
                     "application/json": {

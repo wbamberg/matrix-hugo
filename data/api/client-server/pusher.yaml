@@ -1,93 +1,86 @@
 [
     {
-        "additional_types": [],
+        "additional_types": [
+            {
+                "name": "PusherData",
+                "properties": [
+                    {
+                        "description": "Required if ``kind`` is ``http``. The URL to use to send\nnotifications to.",
+                        "name": "url",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The format to use when sending notifications to the Push\nGateway.",
+                        "name": "format",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "Pusher",
+                "properties": [
+                    {
+                        "description": "This is a unique identifier for this pusher. See ``/set`` for\nmore detail.\nMax length, 512 bytes.",
+                        "name": "pushkey",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The kind of pusher. ``\"http\"`` is a pusher that\nsends HTTP pokes.",
+                        "name": "kind",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "This is a reverse-DNS style identifier for the application.\nMax length, 64 chars.",
+                        "name": "app_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A string that will allow the user to identify what application\nowns this pusher.",
+                        "name": "app_display_name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A string that will allow the user to identify what device owns\nthis pusher.",
+                        "name": "device_display_name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "This string determines which set of device specific rules this\npusher executes.",
+                        "name": "profile_tag",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The preferred language for receiving notifications (e.g. 'en'\nor 'en-US')",
+                        "name": "lang",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A dictionary of information for the pusher implementation\nitself.",
+                        "name": "data",
+                        "required": true,
+                        "type": "PusherData"
+                    }
+                ]
+            }
+        ],
         "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
         "description": "Gets all currently active pushers for the authenticated user.",
         "method": "GET",
-        "parameters": {
-            "Body": [],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
-        },
+        "parameters": {},
         "path": "/pushers",
         "rate_limited": false,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [
-                    {
-                        "name": "PusherData",
-                        "properties": [
-                            {
-                                "description": "Required if ``kind`` is ``http``. The URL to use to send\nnotifications to.",
-                                "name": "url",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The format to use when sending notifications to the Push\nGateway.",
-                                "name": "format",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Pusher",
-                        "properties": [
-                            {
-                                "description": "This is a unique identifier for this pusher. See ``/set`` for\nmore detail.\nMax length, 512 bytes.",
-                                "name": "pushkey",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The kind of pusher. ``\"http\"`` is a pusher that\nsends HTTP pokes.",
-                                "name": "kind",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "This is a reverse-DNS style identifier for the application.\nMax length, 64 chars.",
-                                "name": "app_id",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "A string that will allow the user to identify what application\nowns this pusher.",
-                                "name": "app_display_name",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "A string that will allow the user to identify what device owns\nthis pusher.",
-                                "name": "device_display_name",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "This string determines which set of device specific rules this\npusher executes.",
-                                "name": "profile_tag",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "description": "The preferred language for receiving notifications (e.g. 'en'\nor 'en-US')",
-                                "name": "lang",
-                                "required": true,
-                                "type": "string"
-                            },
-                            {
-                                "description": "A dictionary of information for the pusher implementation\nitself.",
-                                "name": "data",
-                                "required": true,
-                                "type": "PusherData"
-                            }
-                        ]
-                    }
-                ],
                 "description": "The pushers for this user.",
                 "examples": {
                     "application/json": {
@@ -200,18 +193,13 @@
                     "required": false,
                     "type": "boolean"
                 }
-            ],
-            "Form": [],
-            "Header": [],
-            "Path": [],
-            "Query": []
+            ]
         },
         "path": "/pushers/set",
         "rate_limited": true,
         "requires_auth": true,
         "responses": [
             {
-                "additional_types": [],
                 "description": "The pusher was set.",
                 "examples": {
                     "application/json": {}
@@ -221,7 +209,6 @@
                 "status": 200
             },
             {
-                "additional_types": [],
                 "description": "One or more of the pusher values were invalid.",
                 "examples": {
                     "application/json": {
@@ -247,7 +234,6 @@
                 "status": 400
             },
             {
-                "additional_types": [],
                 "description": "This request was rate-limited.",
                 "examples": "",
                 "parameters": [
