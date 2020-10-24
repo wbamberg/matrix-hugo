@@ -1,0 +1,284 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Gets information on all of the user's devices",
+                "example": {
+                    "req": "GET /_matrix/federation/v1/user/devices/%40alice%3Aexample.org HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/federation/v1/user/devices/{userId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The user ID to retrieve devices for. Must be a user local to the\nreceiving homeserver.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The user ID devices were requested for.",
+                                "key": "user_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** A unique ID for a given user_id which describes the version of\nthe returned device list.  This is matched with the ``stream_id``\nfield in ``m.device_list_update`` EDUs in order to incrementally\nupdate the returned device_list.",
+                                "key": "stream_id",
+                                "required": true,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "**Required.** The user's devices. May be empty.",
+                                "key": "devices",
+                                "required": true,
+                                "title": "[User Device]"
+                            }
+                        ]
+                    ],
+                    [
+                        "User Device",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The device ID.",
+                                "key": "device_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Identity keys for the device.",
+                                "key": "keys",
+                                "required": true,
+                                "title": "DeviceKeys"
+                            },
+                            {
+                                "desc": "Optional display name for the device.",
+                                "key": "device_display_name",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ],
+                    [
+                        "DeviceKeys",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The ID of the user the device belongs to. Must match the user ID used\nwhen logging in.",
+                                "key": "user_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The ID of the device these keys belong to. Must match the device ID used\nwhen logging in.",
+                                "key": "device_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The encryption algorithms supported by this device.",
+                                "key": "algorithms",
+                                "required": true,
+                                "title": "[string]"
+                            },
+                            {
+                                "desc": "**Required.** Public identity keys. The names of the properties should be in the\nformat ``<algorithm>:<device_id>``. The keys themselves should be\nencoded as specified by the key algorithm.",
+                                "key": "keys",
+                                "required": true,
+                                "title": "{string: string}"
+                            },
+                            {
+                                "desc": "**Required.** Signatures for the device key object. A map from user ID, to a map from\n``<algorithm>:<device_id>`` to the signature.\n\nThe signature is calculated using the process described at `Signing\nJSON`_.",
+                                "key": "signatures",
+                                "required": true,
+                                "title": "Signatures"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The user's devices.",
+                        "example": "{\n  \"user_id\": \"@alice:example.org\",\n  \"stream_id\": 5,\n  \"devices\": [\n    {\n      \"device_id\": \"JLAFKJWSCS\",\n      \"keys\": {\n        \"user_id\": \"@alice:example.com\",\n        \"device_id\": \"JLAFKJWSCS\",\n        \"algorithms\": [\n          \"m.olm.v1.curve25519-aes-sha2\",\n          \"m.megolm.v1.aes-sha2\"\n        ],\n        \"keys\": {\n          \"curve25519:JLAFKJWSCS\": \"3C5BFWi2Y8MaVvjM8M22DBmh24PmgR0nPvJOIArzgyI\",\n          \"ed25519:JLAFKJWSCS\": \"lEuiRJBit0IG6nUf5pUzWTUEsRVVe/HJkoKuEww9ULI\"\n        },\n        \"signatures\": {\n          \"@alice:example.com\": {\n            \"ed25519:JLAFKJWSCS\": \"dSO80A01XiigH3uBiDVx/EjzaoycHcjq9lfQX0uWsqxl2giMIiSPR8a4d291W1ihKJL/a+myXS367WT6NAIcBA\"\n          }\n        }\n      },\n      \"device_display_name\": \"Alice's Mobile Phone\"\n    }\n  ]\n}"
+                    }
+                ],
+                "title": "Gets all of the user's devices"
+            }
+        ],
+        "group": "user_devices_ss"
+    },
+    "basePath": "/_matrix/federation/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation User Device Management API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/user/devices/{userId}": {
+            "get": {
+                "description": "Gets information on all of the user's devices",
+                "operationId": "getUserDevices",
+                "parameters": [
+                    {
+                        "description": "The user ID to retrieve devices for. Must be a user local to the\nreceiving homeserver.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.org"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The user's devices.",
+                        "schema": {
+                            "properties": {
+                                "devices": {
+                                    "description": "The user's devices. May be empty.",
+                                    "items": {
+                                        "properties": {
+                                            "device_display_name": {
+                                                "description": "Optional display name for the device.",
+                                                "example": "Alice's Mobile Phone",
+                                                "type": "string"
+                                            },
+                                            "device_id": {
+                                                "description": "The device ID.",
+                                                "example": "JLAFKJWSCS",
+                                                "type": "string"
+                                            },
+                                            "keys": {
+                                                "description": "Identity keys for the device.",
+                                                "properties": {
+                                                    "algorithms": {
+                                                        "description": "The encryption algorithms supported by this device.",
+                                                        "example": [
+                                                            "m.olm.v1.curve25519-aes-sha2",
+                                                            "m.megolm.v1.aes-sha2"
+                                                        ],
+                                                        "items": {
+                                                            "type": "string"
+                                                        },
+                                                        "type": "array"
+                                                    },
+                                                    "device_id": {
+                                                        "description": "The ID of the device these keys belong to. Must match the device ID used\nwhen logging in.",
+                                                        "example": "JLAFKJWSCS",
+                                                        "type": "string"
+                                                    },
+                                                    "keys": {
+                                                        "additionalProperties": {
+                                                            "type": "string"
+                                                        },
+                                                        "description": "Public identity keys. The names of the properties should be in the\nformat ``<algorithm>:<device_id>``. The keys themselves should be\nencoded as specified by the key algorithm.",
+                                                        "example": {
+                                                            "curve25519:JLAFKJWSCS": "3C5BFWi2Y8MaVvjM8M22DBmh24PmgR0nPvJOIArzgyI",
+                                                            "ed25519:JLAFKJWSCS": "lEuiRJBit0IG6nUf5pUzWTUEsRVVe/HJkoKuEww9ULI"
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "signatures": {
+                                                        "additionalProperties": {
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "description": "Signatures for the device key object. A map from user ID, to a map from\n``<algorithm>:<device_id>`` to the signature.\n\nThe signature is calculated using the process described at `Signing\nJSON`_.",
+                                                        "example": {
+                                                            "@alice:example.com": {
+                                                                "ed25519:JLAFKJWSCS": "dSO80A01XiigH3uBiDVx/EjzaoycHcjq9lfQX0uWsqxl2giMIiSPR8a4d291W1ihKJL/a+myXS367WT6NAIcBA"
+                                                            }
+                                                        },
+                                                        "title": "Signatures",
+                                                        "type": "object"
+                                                    },
+                                                    "user_id": {
+                                                        "description": "The ID of the user the device belongs to. Must match the user ID used\nwhen logging in.",
+                                                        "example": "@alice:example.com",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "user_id",
+                                                    "device_id",
+                                                    "algorithms",
+                                                    "keys",
+                                                    "signatures"
+                                                ],
+                                                "title": "DeviceKeys",
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "device_id",
+                                            "keys"
+                                        ],
+                                        "title": "User Device",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "stream_id": {
+                                    "description": "A unique ID for a given user_id which describes the version of\nthe returned device list.  This is matched with the ``stream_id``\nfield in ``m.device_list_update`` EDUs in order to incrementally\nupdate the returned device_list.",
+                                    "example": 5,
+                                    "type": "integer"
+                                },
+                                "user_id": {
+                                    "description": "The user ID devices were requested for.",
+                                    "example": "@alice:example.org",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "user_id",
+                                "stream_id",
+                                "devices"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Gets all of the user's devices"
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "signedRequest": {
+            "description": "The ``Authorization`` header defined in the `Authentication`_ section.",
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

@@ -1,0 +1,115 @@
+{
+    "__meta": {
+        "base": "/_matrix/client",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Gets the versions of the specification supported by the server.\n\nValues will take the form ``rX.Y.Z``.\n\nOnly the latest ``Z`` value will be reported for each supported ``X.Y`` value.\ni.e. if the server implements ``r0.0.0``, ``r0.0.1``, and ``r1.2.0``, it will report ``r0.0.1`` and ``r1.2.0``.\n\nThe server may additionally advertise experimental features it supports\nthrough ``unstable_features``. These features should be namespaced and\nmay optionally include version information within their name if desired.\nFeatures listed here are not for optionally toggling parts of the Matrix\nspecification and should only be used to advertise support for a feature\nwhich has not yet landed in the spec. For example, a feature currently\nundergoing the proposal process may appear here and eventually be taken\noff this list once the feature lands in the spec and the server deems it\nreasonable to do so. Servers may wish to keep advertising features here\nafter they've been released into the spec to give clients a chance to\nupgrade appropriately. Additionally, clients should avoid using unstable\nfeatures in their stable releases.",
+                "example": {
+                    "req": "GET /_matrix/client/versions HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/versions",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {},
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The supported versions.",
+                                "key": "versions",
+                                "required": true,
+                                "title": "[string]"
+                            },
+                            {
+                                "desc": "Experimental features the server supports. Features not listed here,\nor the lack of this property all together, indicate that a feature is\nnot supported.",
+                                "key": "unstable_features",
+                                "required": false,
+                                "title": "{string: boolean}"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The versions supported by the server.",
+                        "example": "{\n  \"versions\": [\n    \"r0.0.1\"\n  ],\n  \"unstable_features\": {\n    \"org.example.my_feature\": true\n  }\n}"
+                    }
+                ],
+                "title": "Gets the versions of the specification supported by the server."
+            }
+        ],
+        "group": "versions_cs"
+    },
+    "basePath": "/_matrix/client",
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Versions API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/versions": {
+            "get": {
+                "description": "Gets the versions of the specification supported by the server.\n\nValues will take the form ``rX.Y.Z``.\n\nOnly the latest ``Z`` value will be reported for each supported ``X.Y`` value.\ni.e. if the server implements ``r0.0.0``, ``r0.0.1``, and ``r1.2.0``, it will report ``r0.0.1`` and ``r1.2.0``.\n\nThe server may additionally advertise experimental features it supports\nthrough ``unstable_features``. These features should be namespaced and\nmay optionally include version information within their name if desired.\nFeatures listed here are not for optionally toggling parts of the Matrix\nspecification and should only be used to advertise support for a feature\nwhich has not yet landed in the spec. For example, a feature currently\nundergoing the proposal process may appear here and eventually be taken\noff this list once the feature lands in the spec and the server deems it\nreasonable to do so. Servers may wish to keep advertising features here\nafter they've been released into the spec to give clients a chance to\nupgrade appropriately. Additionally, clients should avoid using unstable\nfeatures in their stable releases.",
+                "operationId": "getVersions",
+                "responses": {
+                    "200": {
+                        "description": "The versions supported by the server.",
+                        "examples": {
+                            "application/json": {
+                                "unstable_features": {
+                                    "org.example.my_feature": true
+                                },
+                                "versions": [
+                                    "r0.0.1"
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "unstable_features": {
+                                    "additionalProperties": {
+                                        "description": "Whether or not the namespaced feature is supported.",
+                                        "type": "boolean"
+                                    },
+                                    "description": "Experimental features the server supports. Features not listed here,\nor the lack of this property all together, indicate that a feature is\nnot supported.",
+                                    "type": "object"
+                                },
+                                "versions": {
+                                    "description": "The supported versions.",
+                                    "items": {
+                                        "description": "The supported versions",
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "versions"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Gets the versions of the specification supported by the server.",
+                "tags": [
+                    "Server administration"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "swagger": "2.0"
+}

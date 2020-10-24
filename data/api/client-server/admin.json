@@ -1,0 +1,241 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Gets information about a particular user.\n\nThis API may be restricted to only be called by the user being looked\nup, or by a server admin. Server-local administrator privileges are not\nspecified in this document.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/admin/whois/%40peter%3Arabbit.rocks HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/admin/whois/{userId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The user to look up.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "The Matrix user ID of the user.",
+                                "key": "user_id",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "Each key is an identifier for one of the user's devices.",
+                                "key": "devices",
+                                "required": false,
+                                "title": "{string: DeviceInfo}"
+                            }
+                        ]
+                    ],
+                    [
+                        "DeviceInfo",
+                        null,
+                        [
+                            {
+                                "desc": "A user's sessions (i.e. what they did with an access token from one login).",
+                                "key": "sessions",
+                                "required": false,
+                                "title": "[SessionInfo]"
+                            }
+                        ]
+                    ],
+                    [
+                        "SessionInfo",
+                        null,
+                        [
+                            {
+                                "desc": "Information particular connections in the session.",
+                                "key": "connections",
+                                "required": false,
+                                "title": "[ConnectionInfo]"
+                            }
+                        ]
+                    ],
+                    [
+                        "ConnectionInfo",
+                        null,
+                        [
+                            {
+                                "desc": "Most recently seen IP address of the session.",
+                                "key": "ip",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "Unix timestamp that the session was last active.",
+                                "key": "last_seen",
+                                "required": false,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "User agent string last seen in the session.",
+                                "key": "user_agent",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The lookup was successful.",
+                        "example": "{\n  \"user_id\": \"@peter:rabbit.rocks\",\n  \"devices\": {\n    \"teapot\": {\n      \"sessions\": [\n        {\n          \"connections\": [\n            {\n              \"ip\": \"127.0.0.1\",\n              \"last_seen\": 1411996332123,\n              \"user_agent\": \"curl/7.31.0-DEV\"\n            },\n            {\n              \"ip\": \"10.0.0.2\",\n              \"last_seen\": 1411996332123,\n              \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36\"\n            }\n          ]\n        }\n      ]\n    }\n  }\n}"
+                    }
+                ],
+                "title": "Gets information about a particular user."
+            }
+        ],
+        "group": "admin_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Administration API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/admin/whois/{userId}": {
+            "get": {
+                "description": "Gets information about a particular user.\n\nThis API may be restricted to only be called by the user being looked\nup, or by a server admin. Server-local administrator privileges are not\nspecified in this document.",
+                "operationId": "getWhoIs",
+                "parameters": [
+                    {
+                        "description": "The user to look up.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@peter:rabbit.rocks"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The lookup was successful.",
+                        "examples": {
+                            "application/json": {
+                                "devices": {
+                                    "teapot": {
+                                        "sessions": [
+                                            {
+                                                "connections": [
+                                                    {
+                                                        "ip": "127.0.0.1",
+                                                        "last_seen": 1411996332123,
+                                                        "user_agent": "curl/7.31.0-DEV"
+                                                    },
+                                                    {
+                                                        "ip": "10.0.0.2",
+                                                        "last_seen": 1411996332123,
+                                                        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "user_id": "@peter:rabbit.rocks"
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "devices": {
+                                    "additionalProperties": {
+                                        "properties": {
+                                            "sessions": {
+                                                "description": "A user's sessions (i.e. what they did with an access token from one login).",
+                                                "items": {
+                                                    "properties": {
+                                                        "connections": {
+                                                            "description": "Information particular connections in the session.",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "ip": {
+                                                                        "description": "Most recently seen IP address of the session.",
+                                                                        "type": "string"
+                                                                    },
+                                                                    "last_seen": {
+                                                                        "description": "Unix timestamp that the session was last active.",
+                                                                        "format": "int64",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "user_agent": {
+                                                                        "description": "User agent string last seen in the session.",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "title": "ConnectionInfo",
+                                                                "type": "object"
+                                                            },
+                                                            "type": "array"
+                                                        }
+                                                    },
+                                                    "title": "SessionInfo",
+                                                    "type": "object"
+                                                },
+                                                "type": "array"
+                                            }
+                                        },
+                                        "title": "DeviceInfo",
+                                        "type": "object"
+                                    },
+                                    "description": "Each key is an identifier for one of the user's devices.",
+                                    "type": "object"
+                                },
+                                "user_id": {
+                                    "description": "The Matrix user ID of the user.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Gets information about a particular user.",
+                "tags": [
+                    "Server administration"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

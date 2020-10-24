@@ -1,0 +1,221 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Upgrades the given room to a particular room version.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/rooms/%21oldroom%3Aexample.org/upgrade HTTP/1.1\nContent-Type: application/json\n\n{\n  \"new_version\": \"2\"\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/rooms/{roomId}/upgrade",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The new version for the room.",
+                            "key": "new_version",
+                            "required": true,
+                            "title": "string"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The ID of the room to upgrade.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The ID of the new room.",
+                                "key": "replacement_room",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The room was successfully upgraded.",
+                        "example": "{\n  \"replacement_room\": \"!newroom:example.org\"\n}"
+                    },
+                    {
+                        "code": 400,
+                        "description": "The request was invalid. One way this can happen is if the room version\nrequested is not supported by the homeserver.",
+                        "example": "{\n  \"errcode\": \"M_UNSUPPORTED_ROOM_VERSION\",\n  \"error\": \"This server does not support that room version\"\n}"
+                    },
+                    {
+                        "code": 403,
+                        "description": "The user is not permitted to upgrade the room.",
+                        "example": "{\n  \"errcode\": \"M_FORBIDDEN\",\n  \"error\": \"You cannot upgrade this room\"\n}"
+                    }
+                ],
+                "title": "Upgrades a room to a new room version."
+            }
+        ],
+        "group": "room_upgrades_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Room Upgrades API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/rooms/{roomId}/upgrade": {
+            "post": {
+                "description": "Upgrades the given room to a particular room version.",
+                "operationId": "upgradeRoom",
+                "parameters": [
+                    {
+                        "description": "The ID of the room to upgrade.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!oldroom:example.org"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "example": {
+                                "new_version": "2"
+                            },
+                            "properties": {
+                                "new_version": {
+                                    "description": "The new version for the room.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "new_version"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The room was successfully upgraded.",
+                        "examples": {
+                            "application/json": {
+                                "replacement_room": "!newroom:example.org"
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "replacement_room": {
+                                    "description": "The ID of the new room.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "replacement_room"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "The request was invalid. One way this can happen is if the room version\nrequested is not supported by the homeserver.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_UNSUPPORTED_ROOM_VERSION",
+                                "error": "This server does not support that room version"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "403": {
+                        "description": "The user is not permitted to upgrade the room.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_FORBIDDEN",
+                                "error": "You cannot upgrade this room"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Upgrades a room to a new room version.",
+                "tags": [
+                    "Room upgrades"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

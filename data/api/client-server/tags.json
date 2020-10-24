@@ -1,0 +1,387 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "List the tags set by a user on a room.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/user/%40alice%3Aexample.com/rooms/%21726s6s6q%3Aexample.com/tags HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/user/{userId}/rooms/{roomId}/tags",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The id of the user to get tags for. The access token must be\nauthorized to make requests for this user ID.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The ID of the room to get tags for.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "",
+                                "key": "tags",
+                                "required": false,
+                                "title": "{string: Tag}"
+                            }
+                        ]
+                    ],
+                    [
+                        "Tag",
+                        null,
+                        [
+                            {
+                                "desc": "A number in a range ``[0,1]`` describing a relative\nposition of the room under the given tag.",
+                                "key": "order",
+                                "required": false,
+                                "title": "number"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The list of tags for the user for the room.",
+                        "example": "{\n  \"tags\": {\n    \"m.favourite\": {\n      \"order\": 0.1\n    },\n    \"u.Work\": {\n      \"order\": 0.7\n    },\n    \"u.Customers\": {}\n  }\n}"
+                    }
+                ],
+                "title": "List the tags for a room."
+            },
+            {
+                "deprecated": false,
+                "desc": "Add a tag to the room.",
+                "example": {
+                    "req": "PUT /_matrix/client/%CLIENT_MAJOR_VERSION%/user/%40alice%3Aexample.com/rooms/%21726s6s6q%3Aexample.com/tags/u.work HTTP/1.1\nContent-Type: application/json\n\n{\n  \"order\": 0.25\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/user/{userId}/rooms/{roomId}/tags/{tag}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "A number in a range ``[0,1]`` describing a relative\nposition of the room under the given tag.",
+                            "key": "order",
+                            "required": false,
+                            "title": "number"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The id of the user to add a tag for. The access token must be\nauthorized to make requests for this user ID.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The ID of the room to add a tag to.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The tag to add.",
+                            "key": "tag",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The tag was successfully added.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Add a tag to a room."
+            },
+            {
+                "deprecated": false,
+                "desc": "Remove a tag from the room.",
+                "example": {
+                    "req": "DELETE /_matrix/client/%CLIENT_MAJOR_VERSION%/user/%40alice%3Aexample.com/rooms/%21726s6s6q%3Aexample.com/tags/u.work HTTP/1.1\n\n"
+                },
+                "method": "DELETE",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/user/{userId}/rooms/{roomId}/tags/{tag}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The id of the user to remove a tag for. The access token must be\nauthorized to make requests for this user ID.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The ID of the room to remove a tag from.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The tag to remove.",
+                            "key": "tag",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The tag was successfully removed.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Remove a tag from the room."
+            }
+        ],
+        "group": "tags_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server tag API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/user/{userId}/rooms/{roomId}/tags": {
+            "get": {
+                "description": "List the tags set by a user on a room.",
+                "operationId": "getRoomTags",
+                "parameters": [
+                    {
+                        "description": "The id of the user to get tags for. The access token must be\nauthorized to make requests for this user ID.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    },
+                    {
+                        "description": "The ID of the room to get tags for.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!726s6s6q:example.com"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list of tags for the user for the room.",
+                        "examples": {
+                            "application/json": {
+                                "tags": {
+                                    "m.favourite": {
+                                        "order": 0.1
+                                    },
+                                    "u.Customers": {},
+                                    "u.Work": {
+                                        "order": 0.7
+                                    }
+                                }
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "tags": {
+                                    "additionalProperties": {
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "order": {
+                                                "description": "A number in a range ``[0,1]`` describing a relative\nposition of the room under the given tag.",
+                                                "format": "float",
+                                                "type": "number"
+                                            }
+                                        },
+                                        "title": "Tag",
+                                        "type": "object"
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "List the tags for a room.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        },
+        "/user/{userId}/rooms/{roomId}/tags/{tag}": {
+            "delete": {
+                "description": "Remove a tag from the room.",
+                "operationId": "deleteRoomTag",
+                "parameters": [
+                    {
+                        "description": "The id of the user to remove a tag for. The access token must be\nauthorized to make requests for this user ID.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    },
+                    {
+                        "description": "The ID of the room to remove a tag from.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!726s6s6q:example.com"
+                    },
+                    {
+                        "description": "The tag to remove.",
+                        "in": "path",
+                        "name": "tag",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "u.work"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The tag was successfully removed.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Remove a tag from the room.",
+                "tags": [
+                    "User data"
+                ]
+            },
+            "put": {
+                "description": "Add a tag to the room.",
+                "operationId": "setRoomTag",
+                "parameters": [
+                    {
+                        "description": "The id of the user to add a tag for. The access token must be\nauthorized to make requests for this user ID.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    },
+                    {
+                        "description": "The ID of the room to add a tag to.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!726s6s6q:example.com"
+                    },
+                    {
+                        "description": "The tag to add.",
+                        "in": "path",
+                        "name": "tag",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "u.work"
+                    },
+                    {
+                        "description": "Extra data for the tag, e.g. ordering.",
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "additionalProperties": true,
+                            "example": {
+                                "order": 0.25
+                            },
+                            "properties": {
+                                "order": {
+                                    "description": "A number in a range ``[0,1]`` describing a relative\nposition of the room under the given tag.",
+                                    "format": "float",
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The tag was successfully added.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Add a tag to a room.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

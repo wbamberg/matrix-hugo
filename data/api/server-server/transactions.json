@@ -1,0 +1,318 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Push messages representing live activity to another server. The destination name\nwill be set to that of the receiving server itself. Each embedded PDU in the\ntransaction body will be processed.\n\nThe sending server must wait and retry for a 200 OK response before sending a\ntransaction with a different ``txnId`` to the receiving server.\n\nNote that events have a different format depending on the room version - check\nthe `room version specification`_ for precise event formats.",
+                "example": {
+                    "req": "PUT /_matrix/federation/v1/send/S0meTransacti0nId HTTP/1.1\nContent-Type: application/json\n\n{\n  \"origin\": \"example.org\",\n  \"origin_server_ts\": 1532991320875,\n  \"pdus\": [\n    {\n      \"type\": \"m.room.minimal_pdu\",\n      \"room_id\": \"!somewhere:example.org\",\n      \"content\": {\n        \"see_room_version_spec\": \"The event format changes depending on the room version.\"\n      }\n    }\n  ],\n  \"edus\": [\n    {\n      \"edu_type\": \"m.presence\",\n      \"content\": {\n        \"key\": \"value\"\n      }\n    }\n  ]\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/federation/v1/send/{txnId}",
+                "rate_limited": false,
+                "req_body_tables": [
+                    [
+                        "Ephemeral Data Unit",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The type of ephemeral message.",
+                                "key": "edu_type",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The content of the ephemeral message.",
+                                "key": "content",
+                                "required": true,
+                                "title": "object"
+                            }
+                        ]
+                    ]
+                ],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The ``server_name`` of the homeserver sending this transaction.",
+                            "key": "origin",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** POSIX timestamp in milliseconds on originating homeserver when this\ntransaction started.",
+                            "key": "origin_server_ts",
+                            "required": true,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "**Required.** List of persistent updates to rooms. Must not include more than 50 PDUs. Note that\nevents have a different format depending on the room version - check the\n`room version specification`_ for precise event formats.",
+                            "key": "pdus",
+                            "required": true,
+                            "title": "[PDU]"
+                        },
+                        {
+                            "desc": "List of ephemeral messages. May be omitted if there are no ephemeral\nmessages to be sent. Must not include more than 100 EDUs.",
+                            "key": "edus",
+                            "required": false,
+                            "title": "[Ephemeral Data Unit]"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The transaction ID.",
+                            "key": "txnId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        "PDU Processing Results",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The PDUs from the original transaction. The string key represents the ID of the\nPDU (event) that was processed.",
+                                "key": "pdus",
+                                "required": true,
+                                "title": "{string: PDU Processing Result}"
+                            }
+                        ]
+                    ],
+                    [
+                        "PDU Processing Result",
+                        null,
+                        [
+                            {
+                                "desc": "A human readable description about what went wrong in processing this PDU.\nIf no error is present, the PDU can be considered successfully handled.",
+                                "key": "error",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The result of processing the transaction. The server is to use this response even in\nthe event of one or more PDUs failing to be processed.",
+                        "example": "{\n  \"pdus\": {\n    \"$successful_event:example.org\": {},\n    \"$failed_event:example.org\": {\n      \"error\": \"You are not allowed to send a message to this room.\"\n    }\n  }\n}"
+                    }
+                ],
+                "title": "Send a transaction"
+            }
+        ],
+        "group": "transactions_ss"
+    },
+    "basePath": "/_matrix/federation/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation Transaction API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/send/{txnId}": {
+            "put": {
+                "description": "Push messages representing live activity to another server. The destination name\nwill be set to that of the receiving server itself. Each embedded PDU in the\ntransaction body will be processed.\n\nThe sending server must wait and retry for a 200 OK response before sending a\ntransaction with a different ``txnId`` to the receiving server.\n\nNote that events have a different format depending on the room version - check\nthe `room version specification`_ for precise event formats.",
+                "operationId": "sendTransaction",
+                "parameters": [
+                    {
+                        "description": "The transaction ID.",
+                        "in": "path",
+                        "name": "txnId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "S0meTransacti0nId"
+                    },
+                    {
+                        "example": {
+                            "edus": [
+                                {
+                                    "content": {
+                                        "key": "value"
+                                    },
+                                    "edu_type": "m.presence"
+                                }
+                            ],
+                            "origin": "matrix.org",
+                            "origin_server_ts": 1234567890,
+                            "pdus": [
+                                {
+                                    "content": {
+                                        "see_room_version_spec": "The event format changes depending on the room version."
+                                    },
+                                    "room_id": "!somewhere:example.org",
+                                    "type": "m.room.minimal_pdu"
+                                }
+                            ]
+                        },
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "description": "Transaction",
+                                    "example": {
+                                        "origin": "matrix.org",
+                                        "origin_server_ts": 1234567890,
+                                        "pdus": [
+                                            {
+                                                "content": {
+                                                    "see_room_version_spec": "The event format changes depending on the room version."
+                                                },
+                                                "room_id": "!somewhere:example.org",
+                                                "type": "m.room.minimal_pdu"
+                                            }
+                                        ]
+                                    },
+                                    "properties": {
+                                        "origin": {
+                                            "description": "The ``server_name`` of the homeserver sending this transaction.",
+                                            "example": "example.org",
+                                            "type": "string"
+                                        },
+                                        "origin_server_ts": {
+                                            "description": "POSIX timestamp in milliseconds on originating homeserver when this\ntransaction started.",
+                                            "example": 1532991320875,
+                                            "format": "int64",
+                                            "type": "integer"
+                                        },
+                                        "pdus": {
+                                            "description": "List of persistent updates to rooms. Must not include more than 50 PDUs. Note that\nevents have a different format depending on the room version - check the\n`room version specification`_ for precise event formats.",
+                                            "items": {
+                                                "description": "The `PDUs <#pdus>`_ contained in the transaction. The event format varies depending\non the room version - check the `room version specification`_ for precise event formats.",
+                                                "example": {
+                                                    "content": {
+                                                        "see_room_version_spec": "The event format changes depending on the room version."
+                                                    },
+                                                    "room_id": "!somewhere:example.org",
+                                                    "type": "m.room.minimal_pdu"
+                                                },
+                                                "properties": [],
+                                                "title": "PDU",
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        }
+                                    },
+                                    "required": [
+                                        "origin",
+                                        "origin_server_ts",
+                                        "pdus"
+                                    ],
+                                    "title": "Transaction",
+                                    "type": "object"
+                                },
+                                {
+                                    "properties": {
+                                        "edus": {
+                                            "description": "List of ephemeral messages. May be omitted if there are no ephemeral\nmessages to be sent. Must not include more than 100 EDUs.",
+                                            "items": {
+                                                "description": "An ephemeral data unit.",
+                                                "example": {
+                                                    "content": {
+                                                        "key": "value"
+                                                    },
+                                                    "edu_type": "m.presence"
+                                                },
+                                                "properties": {
+                                                    "content": {
+                                                        "description": "The content of the ephemeral message.",
+                                                        "type": "object"
+                                                    },
+                                                    "edu_type": {
+                                                        "description": "The type of ephemeral message.",
+                                                        "example": "m.presence",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "edu_type",
+                                                    "content"
+                                                ],
+                                                "title": "Ephemeral Data Unit",
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            ]
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result of processing the transaction. The server is to use this response even in\nthe event of one or more PDUs failing to be processed.",
+                        "examples": {
+                            "application/json": {
+                                "pdus": {
+                                    "$failed_event:example.org": {
+                                        "error": "You are not allowed to send a message to this room."
+                                    },
+                                    "$successful_event:example.org": {}
+                                }
+                            }
+                        },
+                        "schema": {
+                            "description": "The results for the processing of each PDU in the transaction.",
+                            "properties": {
+                                "pdus": {
+                                    "additionalProperties": {
+                                        "description": "Information about how the PDU was handled.",
+                                        "properties": {
+                                            "error": {
+                                                "description": "A human readable description about what went wrong in processing this PDU.\nIf no error is present, the PDU can be considered successfully handled.",
+                                                "example": "You are not allowed to send a message to this room.",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "title": "PDU Processing Result",
+                                        "type": "object"
+                                    },
+                                    "description": "The PDUs from the original transaction. The string key represents the ID of the\nPDU (event) that was processed.",
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "pdus"
+                            ],
+                            "title": "PDU Processing Results",
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Send a transaction"
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "signedRequest": {
+            "description": "The ``Authorization`` header defined in the `Authentication`_ section.",
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

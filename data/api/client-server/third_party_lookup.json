@@ -1,0 +1,1313 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Fetches the overall metadata about protocols supported by the\nhomeserver. Includes both the available protocols and all fields\nrequired for queries against each protocol.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/protocols HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/protocols",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {},
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        "Protocol",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** Fields which may be used to identify a third party user. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the nickname of a user.",
+                                "key": "user_fields",
+                                "required": true,
+                                "title": "[string]"
+                            },
+                            {
+                                "desc": "**Required.** Fields which may be used to identify a third party location. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the name of a channel.",
+                                "key": "location_fields",
+                                "required": true,
+                                "title": "[string]"
+                            },
+                            {
+                                "desc": "**Required.** A content URI representing an icon for the third party protocol.",
+                                "key": "icon",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The type definitions for the fields defined in the ``user_fields`` and \n``location_fields``. Each entry in those arrays MUST have an entry here. The\n``string`` key for this object is field name itself.\n\nMay be an empty object if no fields are defined.",
+                                "key": "field_types",
+                                "required": true,
+                                "title": "Field Types"
+                            },
+                            {
+                                "desc": "**Required.** A list of objects representing independent instances of configuration.\nFor example, multiple networks on IRC if multiple are provided by the\nsame application service.",
+                                "key": "instances",
+                                "required": true,
+                                "title": "[Protocol Instance]"
+                            }
+                        ]
+                    ],
+                    [
+                        "Field Type",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** A regular expression for validation of a field's value. This may be relatively\ncoarse to verify the value as the application service providing this protocol\nmay apply additional validation or filtering.",
+                                "key": "regexp",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** An placeholder serving as a valid example of the field value.",
+                                "key": "placeholder",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ],
+                    [
+                        "Protocol Instance",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** A human-readable description for the protocol, such as the name.",
+                                "key": "desc",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "An optional content URI representing the protocol. Overrides the one provided\nat the higher level Protocol object.",
+                                "key": "icon",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Preset values for ``fields`` the client may use to search by.",
+                                "key": "fields",
+                                "required": true,
+                                "title": "object"
+                            },
+                            {
+                                "desc": "**Required.** A unique identifier across all instances.",
+                                "key": "network_id",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The protocols supported by the homeserver.",
+                        "example": "{\n  \"irc\": {\n    \"user_fields\": [\n      \"network\",\n      \"nickname\"\n    ],\n    \"location_fields\": [\n      \"network\",\n      \"channel\"\n    ],\n    \"icon\": \"mxc://example.org/aBcDeFgH\",\n    \"field_types\": {\n      \"network\": {\n        \"regexp\": \"([a-z0-9]+\\\\.)*[a-z0-9]+\",\n        \"placeholder\": \"irc.example.org\"\n      },\n      \"nickname\": {\n        \"regexp\": \"[^\\\\s]+\",\n        \"placeholder\": \"username\"\n      },\n      \"channel\": {\n        \"regexp\": \"#[^\\\\s]+\",\n        \"placeholder\": \"#foobar\"\n      }\n    },\n    \"instances\": [\n      {\n        \"network_id\": \"freenode\",\n        \"desc\": \"Freenode\",\n        \"icon\": \"mxc://example.org/JkLmNoPq\",\n        \"fields\": {\n          \"network\": \"freenode.net\"\n        }\n      }\n    ]\n  },\n  \"gitter\": {\n    \"user_fields\": [\n      \"username\"\n    ],\n    \"location_fields\": [\n      \"room\"\n    ],\n    \"field_types\": {\n      \"username\": {\n        \"regexp\": \"@[^\\\\s]+\",\n        \"placeholder\": \"@username\"\n      },\n      \"room\": {\n        \"regexp\": \"[^\\\\s]+\\\\/[^\\\\s]+\",\n        \"placeholder\": \"matrix-org/matrix-doc\"\n      }\n    },\n    \"instances\": [\n      {\n        \"network_id\": \"gitter\",\n        \"desc\": \"Gitter\",\n        \"icon\": \"mxc://example.org/zXyWvUt\",\n        \"fields\": {}\n      }\n    ]\n  }\n}"
+                    }
+                ],
+                "title": "Retrieve metadata about all protocols that a homeserver supports."
+            },
+            {
+                "deprecated": false,
+                "desc": "Fetches the metadata from the homeserver about a particular third party protocol.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/protocol/irc HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/protocol/{protocol}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The name of the protocol.",
+                            "key": "protocol",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        "Protocol",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** Fields which may be used to identify a third party user. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the nickname of a user.",
+                                "key": "user_fields",
+                                "required": true,
+                                "title": "[string]"
+                            },
+                            {
+                                "desc": "**Required.** Fields which may be used to identify a third party location. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the name of a channel.",
+                                "key": "location_fields",
+                                "required": true,
+                                "title": "[string]"
+                            },
+                            {
+                                "desc": "**Required.** A content URI representing an icon for the third party protocol.",
+                                "key": "icon",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The type definitions for the fields defined in the ``user_fields`` and \n``location_fields``. Each entry in those arrays MUST have an entry here. The\n``string`` key for this object is field name itself.\n\nMay be an empty object if no fields are defined.",
+                                "key": "field_types",
+                                "required": true,
+                                "title": "Field Types"
+                            },
+                            {
+                                "desc": "**Required.** A list of objects representing independent instances of configuration.\nFor example, multiple networks on IRC if multiple are provided by the\nsame application service.",
+                                "key": "instances",
+                                "required": true,
+                                "title": "[Protocol Instance]"
+                            }
+                        ]
+                    ],
+                    [
+                        "Field Type",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** A regular expression for validation of a field's value. This may be relatively\ncoarse to verify the value as the application service providing this protocol\nmay apply additional validation or filtering.",
+                                "key": "regexp",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** An placeholder serving as a valid example of the field value.",
+                                "key": "placeholder",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ],
+                    [
+                        "Protocol Instance",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** A human-readable description for the protocol, such as the name.",
+                                "key": "desc",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "An optional content URI representing the protocol. Overrides the one provided\nat the higher level Protocol object.",
+                                "key": "icon",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Preset values for ``fields`` the client may use to search by.",
+                                "key": "fields",
+                                "required": true,
+                                "title": "object"
+                            },
+                            {
+                                "desc": "**Required.** A unique identifier across all instances.",
+                                "key": "network_id",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The protocol was found and metadata returned.",
+                        "example": "{\n  \"user_fields\": [\n    \"network\",\n    \"nickname\"\n  ],\n  \"location_fields\": [\n    \"network\",\n    \"channel\"\n  ],\n  \"icon\": \"mxc://example.org/aBcDeFgH\",\n  \"field_types\": {\n    \"network\": {\n      \"regexp\": \"([a-z0-9]+\\\\.)*[a-z0-9]+\",\n      \"placeholder\": \"irc.example.org\"\n    },\n    \"nickname\": {\n      \"regexp\": \"[^\\\\s#]+\",\n      \"placeholder\": \"username\"\n    },\n    \"channel\": {\n      \"regexp\": \"#[^\\\\s]+\",\n      \"placeholder\": \"#foobar\"\n    }\n  },\n  \"instances\": [\n    {\n      \"desc\": \"Freenode\",\n      \"icon\": \"mxc://example.org/JkLmNoPq\",\n      \"fields\": {\n        \"network\": \"freenode\"\n      },\n      \"network_id\": \"freenode\"\n    }\n  ]\n}"
+                    },
+                    {
+                        "code": 404,
+                        "description": "The protocol is unknown.",
+                        "example": "{\n  \"errcode\": \"M_NOT_FOUND\"\n}"
+                    }
+                ],
+                "title": "Retrieve metadata about a specific protocol that the homeserver supports."
+            },
+            {
+                "deprecated": false,
+                "desc": "Requesting this endpoint with a valid protocol name results in a list\nof successful mapping results in a JSON array. Each result contains\nobjects to represent the Matrix room or rooms that represent a portal\nto this third party network. Each has the Matrix room alias string,\nan identifier for the particular third party network protocol, and an\nobject containing the network-specific fields that comprise this\nidentifier. It should attempt to canonicalise the identifier as much\nas reasonably possible given the network type.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/location/irc HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/location/{protocol}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The protocol used to communicate to the third party network.",
+                            "key": "protocol",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ],
+                    "query": [
+                        {
+                            "desc": "One or more custom fields to help identify the third party\nlocation.",
+                            "key": "searchFields",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "List of matched third party locations.",
+                                "key": "<body>",
+                                "required": false,
+                                "title": "[Location]"
+                            }
+                        ]
+                    ],
+                    [
+                        "Location",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** An alias for a matrix room.",
+                                "key": "alias",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The protocol ID that the third party location is a part of.",
+                                "key": "protocol",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Information used to identify this third party location.",
+                                "key": "fields",
+                                "required": true,
+                                "title": "object"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "At least one portal room was found.",
+                        "example": "[\n  {\n    \"alias\": \"#freenode_#matrix:matrix.org\",\n    \"protocol\": \"irc\",\n    \"fields\": {\n      \"network\": \"freenode\",\n      \"channel\": \"#matrix\"\n    }\n  }\n]"
+                    },
+                    {
+                        "code": 404,
+                        "description": "No portal rooms were found.",
+                        "example": "{\n  \"errcode\": \"M_NOT_FOUND\"\n}"
+                    }
+                ],
+                "title": "Retrieve Matrix-side portals rooms leading to a third party location."
+            },
+            {
+                "deprecated": false,
+                "desc": "Retrieve a Matrix User ID linked to a user on the third party service, given\na set of user parameters.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/user/irc HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/user/{protocol}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The name of the protocol.",
+                            "key": "protocol",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ],
+                    "query": [
+                        {
+                            "desc": "One or more custom fields that are passed to the AS to help identify the user.",
+                            "key": "fields...",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "List of matched third party users.",
+                                "key": "<body>",
+                                "required": false,
+                                "title": "[User]"
+                            }
+                        ]
+                    ],
+                    [
+                        "User",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** A Matrix User ID represting a third party user.",
+                                "key": "userid",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The protocol ID that the third party location is a part of.",
+                                "key": "protocol",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Information used to identify this third party location.",
+                                "key": "fields",
+                                "required": true,
+                                "title": "object"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The Matrix User IDs found with the given parameters.",
+                        "example": "[\n  {\n    \"userid\": \"@_gitter_jim:matrix.org\",\n    \"protocol\": \"gitter\",\n    \"fields\": {\n      \"user\": \"jim\"\n    }\n  }\n]"
+                    },
+                    {
+                        "code": 404,
+                        "description": "The Matrix User ID was not found",
+                        "example": "{\n  \"errcode\": \"M_NOT_FOUND\"\n}"
+                    }
+                ],
+                "title": "Retrieve the Matrix User ID of a corresponding third party user."
+            },
+            {
+                "deprecated": false,
+                "desc": "Retrieve an array of third party network locations from a Matrix room\nalias.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/location?alias=%23matrix%3Amatrix.org HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/location",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "query": [
+                        {
+                            "desc": "**Required.** The Matrix room alias to look up.",
+                            "key": "alias",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "List of matched third party locations.",
+                                "key": "<body>",
+                                "required": false,
+                                "title": "[Location]"
+                            }
+                        ]
+                    ],
+                    [
+                        "Location",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** An alias for a matrix room.",
+                                "key": "alias",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The protocol ID that the third party location is a part of.",
+                                "key": "protocol",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Information used to identify this third party location.",
+                                "key": "fields",
+                                "required": true,
+                                "title": "object"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "All found third party locations.",
+                        "example": "[\n  {\n    \"alias\": \"#freenode_#matrix:matrix.org\",\n    \"protocol\": \"irc\",\n    \"fields\": {\n      \"network\": \"freenode\",\n      \"channel\": \"#matrix\"\n    }\n  }\n]"
+                    },
+                    {
+                        "code": 404,
+                        "description": "The Matrix room alias was not found",
+                        "example": "{\n  \"errcode\": \"M_NOT_FOUND\"\n}"
+                    }
+                ],
+                "title": "Reverse-lookup third party locations given a Matrix room alias."
+            },
+            {
+                "deprecated": false,
+                "desc": "Retrieve an array of third party users from a Matrix User ID.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/user?userid=%40bob%3Amatrix.org HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/thirdparty/user",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "query": [
+                        {
+                            "desc": "**Required.** The Matrix User ID to look up.",
+                            "key": "userid",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "List of matched third party users.",
+                                "key": "<body>",
+                                "required": false,
+                                "title": "[User]"
+                            }
+                        ]
+                    ],
+                    [
+                        "User",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** A Matrix User ID represting a third party user.",
+                                "key": "userid",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The protocol ID that the third party location is a part of.",
+                                "key": "protocol",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Information used to identify this third party location.",
+                                "key": "fields",
+                                "required": true,
+                                "title": "object"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "An array of third party users.",
+                        "example": "[\n  {\n    \"userid\": \"@_gitter_jim:matrix.org\",\n    \"protocol\": \"gitter\",\n    \"fields\": {\n      \"user\": \"jim\"\n    }\n  }\n]"
+                    },
+                    {
+                        "code": 404,
+                        "description": "The Matrix User ID was not found",
+                        "example": "{\n  \"errcode\": \"M_NOT_FOUND\"\n}"
+                    }
+                ],
+                "title": "Reverse-lookup third party users given a Matrix User ID."
+            }
+        ],
+        "group": "third_party_lookup_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Third Party Lookup API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/thirdparty/location": {
+            "get": {
+                "description": "Retrieve an array of third party network locations from a Matrix room\nalias.",
+                "operationId": "queryLocationByAlias",
+                "parameters": [
+                    {
+                        "description": "The Matrix room alias to look up.",
+                        "in": "query",
+                        "name": "alias",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "#matrix:matrix.org"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All found third party locations.",
+                        "schema": {
+                            "description": "List of matched third party locations.",
+                            "items": {
+                                "properties": {
+                                    "alias": {
+                                        "description": "An alias for a matrix room.",
+                                        "example": "#freenode_#matrix:matrix.org",
+                                        "type": "string"
+                                    },
+                                    "fields": {
+                                        "description": "Information used to identify this third party location.",
+                                        "example": {
+                                            "channel": "#matrix",
+                                            "network": "freenode"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "protocol": {
+                                        "description": "The protocol ID that the third party location is a part of.",
+                                        "example": "irc",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "alias",
+                                    "protocol",
+                                    "fields"
+                                ],
+                                "title": "Location",
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "404": {
+                        "description": "The Matrix room alias was not found",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_NOT_FOUND"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Reverse-lookup third party locations given a Matrix room alias."
+            }
+        },
+        "/thirdparty/location/{protocol}": {
+            "get": {
+                "description": "Requesting this endpoint with a valid protocol name results in a list\nof successful mapping results in a JSON array. Each result contains\nobjects to represent the Matrix room or rooms that represent a portal\nto this third party network. Each has the Matrix room alias string,\nan identifier for the particular third party network protocol, and an\nobject containing the network-specific fields that comprise this\nidentifier. It should attempt to canonicalise the identifier as much\nas reasonably possible given the network type.",
+                "operationId": "queryLocationByProtocol",
+                "parameters": [
+                    {
+                        "description": "The protocol used to communicate to the third party network.",
+                        "in": "path",
+                        "name": "protocol",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "irc"
+                    },
+                    {
+                        "description": "One or more custom fields to help identify the third party\nlocation.",
+                        "in": "query",
+                        "name": "searchFields",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "At least one portal room was found.",
+                        "schema": {
+                            "description": "List of matched third party locations.",
+                            "items": {
+                                "properties": {
+                                    "alias": {
+                                        "description": "An alias for a matrix room.",
+                                        "example": "#freenode_#matrix:matrix.org",
+                                        "type": "string"
+                                    },
+                                    "fields": {
+                                        "description": "Information used to identify this third party location.",
+                                        "example": {
+                                            "channel": "#matrix",
+                                            "network": "freenode"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "protocol": {
+                                        "description": "The protocol ID that the third party location is a part of.",
+                                        "example": "irc",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "alias",
+                                    "protocol",
+                                    "fields"
+                                ],
+                                "title": "Location",
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "404": {
+                        "description": "No portal rooms were found.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_NOT_FOUND"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Retrieve Matrix-side portals rooms leading to a third party location."
+            }
+        },
+        "/thirdparty/protocol/{protocol}": {
+            "get": {
+                "description": "Fetches the metadata from the homeserver about a particular third party protocol.",
+                "operationId": "getProtocolMetadata",
+                "parameters": [
+                    {
+                        "description": "The name of the protocol.",
+                        "in": "path",
+                        "name": "protocol",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "irc"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The protocol was found and metadata returned.",
+                        "schema": {
+                            "properties": {
+                                "field_types": {
+                                    "additionalProperties": {
+                                        "description": "Definition of valid values for a field.",
+                                        "properties": {
+                                            "placeholder": {
+                                                "description": "An placeholder serving as a valid example of the field value.",
+                                                "type": "string"
+                                            },
+                                            "regexp": {
+                                                "description": "A regular expression for validation of a field's value. This may be relatively\ncoarse to verify the value as the application service providing this protocol\nmay apply additional validation or filtering.",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "regexp",
+                                            "placeholder"
+                                        ],
+                                        "title": "Field Type",
+                                        "type": "object"
+                                    },
+                                    "description": "The type definitions for the fields defined in the ``user_fields`` and \n``location_fields``. Each entry in those arrays MUST have an entry here. The\n``string`` key for this object is field name itself.\n\nMay be an empty object if no fields are defined.",
+                                    "example": {
+                                        "channel": {
+                                            "placeholder": "#foobar",
+                                            "regexp": "#[^\\s]+"
+                                        },
+                                        "network": {
+                                            "placeholder": "irc.example.org",
+                                            "regexp": "([a-z0-9]+\\.)*[a-z0-9]+"
+                                        },
+                                        "nickname": {
+                                            "placeholder": "username",
+                                            "regexp": "[^\\s#]+"
+                                        }
+                                    },
+                                    "required": [
+                                        "fieldname"
+                                    ],
+                                    "title": "Field Types",
+                                    "type": "object"
+                                },
+                                "icon": {
+                                    "description": "A content URI representing an icon for the third party protocol.",
+                                    "example": "mxc://example.org/aBcDeFgH",
+                                    "type": "string"
+                                },
+                                "instances": {
+                                    "description": "A list of objects representing independent instances of configuration.\nFor example, multiple networks on IRC if multiple are provided by the\nsame application service.",
+                                    "items": {
+                                        "properties": {
+                                            "desc": {
+                                                "description": "A human-readable description for the protocol, such as the name.",
+                                                "example": "Freenode",
+                                                "type": "string"
+                                            },
+                                            "fields": {
+                                                "description": "Preset values for ``fields`` the client may use to search by.",
+                                                "example": {
+                                                    "network": "freenode"
+                                                },
+                                                "type": "object"
+                                            },
+                                            "icon": {
+                                                "description": "An optional content URI representing the protocol. Overrides the one provided\nat the higher level Protocol object.",
+                                                "example": "mxc://example.org/JkLmNoPq",
+                                                "type": "string"
+                                            },
+                                            "network_id": {
+                                                "description": "A unique identifier across all instances.",
+                                                "example": "freenode",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "desc",
+                                            "fields",
+                                            "network_id"
+                                        ],
+                                        "title": "Protocol Instance",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "location_fields": {
+                                    "description": "Fields which may be used to identify a third party location. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the name of a channel.",
+                                    "example": [
+                                        "network",
+                                        "channel"
+                                    ],
+                                    "items": {
+                                        "description": "Field used to identify a third party location.",
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                "user_fields": {
+                                    "description": "Fields which may be used to identify a third party user. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the nickname of a user.",
+                                    "example": [
+                                        "network",
+                                        "nickname"
+                                    ],
+                                    "items": {
+                                        "description": "Field used to identify a third party user.",
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "user_fields",
+                                "location_fields",
+                                "icon",
+                                "field_types",
+                                "instances"
+                            ],
+                            "title": "Protocol",
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "The protocol is unknown.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_NOT_FOUND"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Retrieve metadata about a specific protocol that the homeserver supports."
+            }
+        },
+        "/thirdparty/protocols": {
+            "get": {
+                "description": "Fetches the overall metadata about protocols supported by the\nhomeserver. Includes both the available protocols and all fields\nrequired for queries against each protocol.",
+                "operationId": "getProtocols",
+                "responses": {
+                    "200": {
+                        "description": "The protocols supported by the homeserver.",
+                        "schema": {
+                            "additionalProperties": {
+                                "properties": {
+                                    "field_types": {
+                                        "additionalProperties": {
+                                            "description": "Definition of valid values for a field.",
+                                            "properties": {
+                                                "placeholder": {
+                                                    "description": "An placeholder serving as a valid example of the field value.",
+                                                    "type": "string"
+                                                },
+                                                "regexp": {
+                                                    "description": "A regular expression for validation of a field's value. This may be relatively\ncoarse to verify the value as the application service providing this protocol\nmay apply additional validation or filtering.",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "regexp",
+                                                "placeholder"
+                                            ],
+                                            "title": "Field Type",
+                                            "type": "object"
+                                        },
+                                        "description": "The type definitions for the fields defined in the ``user_fields`` and \n``location_fields``. Each entry in those arrays MUST have an entry here. The\n``string`` key for this object is field name itself.\n\nMay be an empty object if no fields are defined.",
+                                        "example": {
+                                            "channel": {
+                                                "placeholder": "#foobar",
+                                                "regexp": "#[^\\s]+"
+                                            },
+                                            "network": {
+                                                "placeholder": "irc.example.org",
+                                                "regexp": "([a-z0-9]+\\.)*[a-z0-9]+"
+                                            },
+                                            "nickname": {
+                                                "placeholder": "username",
+                                                "regexp": "[^\\s#]+"
+                                            }
+                                        },
+                                        "required": [
+                                            "fieldname"
+                                        ],
+                                        "title": "Field Types",
+                                        "type": "object"
+                                    },
+                                    "icon": {
+                                        "description": "A content URI representing an icon for the third party protocol.",
+                                        "example": "mxc://example.org/aBcDeFgH",
+                                        "type": "string"
+                                    },
+                                    "instances": {
+                                        "description": "A list of objects representing independent instances of configuration.\nFor example, multiple networks on IRC if multiple are provided by the\nsame application service.",
+                                        "items": {
+                                            "properties": {
+                                                "desc": {
+                                                    "description": "A human-readable description for the protocol, such as the name.",
+                                                    "example": "Freenode",
+                                                    "type": "string"
+                                                },
+                                                "fields": {
+                                                    "description": "Preset values for ``fields`` the client may use to search by.",
+                                                    "example": {
+                                                        "network": "freenode"
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "icon": {
+                                                    "description": "An optional content URI representing the protocol. Overrides the one provided\nat the higher level Protocol object.",
+                                                    "example": "mxc://example.org/JkLmNoPq",
+                                                    "type": "string"
+                                                },
+                                                "network_id": {
+                                                    "description": "A unique identifier across all instances.",
+                                                    "example": "freenode",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "desc",
+                                                "fields",
+                                                "network_id"
+                                            ],
+                                            "title": "Protocol Instance",
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "location_fields": {
+                                        "description": "Fields which may be used to identify a third party location. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the name of a channel.",
+                                        "example": [
+                                            "network",
+                                            "channel"
+                                        ],
+                                        "items": {
+                                            "description": "Field used to identify a third party location.",
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "user_fields": {
+                                        "description": "Fields which may be used to identify a third party user. These should be\nordered to suggest the way that entities may be grouped, where higher\ngroupings are ordered first. For example, the name of a network should be\nsearched before the nickname of a user.",
+                                        "example": [
+                                            "network",
+                                            "nickname"
+                                        ],
+                                        "items": {
+                                            "description": "Field used to identify a third party user.",
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "required": [
+                                    "user_fields",
+                                    "location_fields",
+                                    "icon",
+                                    "field_types",
+                                    "instances"
+                                ],
+                                "title": "Protocol",
+                                "type": "object"
+                            },
+                            "description": "Dictionary of supported third party protocols.",
+                            "example": {
+                                "gitter": {
+                                    "field_types": {
+                                        "room": {
+                                            "placeholder": "matrix-org/matrix-doc",
+                                            "regexp": "[^\\s]+\\/[^\\s]+"
+                                        },
+                                        "username": {
+                                            "placeholder": "@username",
+                                            "regexp": "@[^\\s]+"
+                                        }
+                                    },
+                                    "instances": [
+                                        {
+                                            "desc": "Gitter",
+                                            "fields": {},
+                                            "icon": "mxc://example.org/zXyWvUt",
+                                            "network_id": "gitter"
+                                        }
+                                    ],
+                                    "location_fields": [
+                                        "room"
+                                    ],
+                                    "user_fields": [
+                                        "username"
+                                    ]
+                                },
+                                "irc": {
+                                    "field_types": {
+                                        "channel": {
+                                            "placeholder": "#foobar",
+                                            "regexp": "#[^\\s]+"
+                                        },
+                                        "network": {
+                                            "placeholder": "irc.example.org",
+                                            "regexp": "([a-z0-9]+\\.)*[a-z0-9]+"
+                                        },
+                                        "nickname": {
+                                            "placeholder": "username",
+                                            "regexp": "[^\\s]+"
+                                        }
+                                    },
+                                    "icon": "mxc://example.org/aBcDeFgH",
+                                    "instances": [
+                                        {
+                                            "desc": "Freenode",
+                                            "fields": {
+                                                "network": "freenode.net"
+                                            },
+                                            "icon": "mxc://example.org/JkLmNoPq",
+                                            "network_id": "freenode"
+                                        }
+                                    ],
+                                    "location_fields": [
+                                        "network",
+                                        "channel"
+                                    ],
+                                    "user_fields": [
+                                        "network",
+                                        "nickname"
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Retrieve metadata about all protocols that a homeserver supports."
+            }
+        },
+        "/thirdparty/user": {
+            "get": {
+                "description": "Retrieve an array of third party users from a Matrix User ID.",
+                "operationId": "queryUserByID",
+                "parameters": [
+                    {
+                        "description": "The Matrix User ID to look up.",
+                        "in": "query",
+                        "name": "userid",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@bob:matrix.org"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of third party users.",
+                        "schema": {
+                            "description": "List of matched third party users.",
+                            "items": {
+                                "properties": {
+                                    "fields": {
+                                        "description": "Information used to identify this third party location.",
+                                        "example": {
+                                            "user": "jim"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "protocol": {
+                                        "description": "The protocol ID that the third party location is a part of.",
+                                        "example": "gitter",
+                                        "type": "string"
+                                    },
+                                    "userid": {
+                                        "description": "A Matrix User ID represting a third party user.",
+                                        "example": "@_gitter_jim:matrix.org",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "userid",
+                                    "protocol",
+                                    "fields"
+                                ],
+                                "title": "User",
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "404": {
+                        "description": "The Matrix User ID was not found",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_NOT_FOUND"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Reverse-lookup third party users given a Matrix User ID."
+            }
+        },
+        "/thirdparty/user/{protocol}": {
+            "get": {
+                "description": "Retrieve a Matrix User ID linked to a user on the third party service, given\na set of user parameters.",
+                "operationId": "queryUserByProtocol",
+                "parameters": [
+                    {
+                        "description": "The name of the protocol.",
+                        "in": "path",
+                        "name": "protocol",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "irc"
+                    },
+                    {
+                        "description": "One or more custom fields that are passed to the AS to help identify the user.",
+                        "in": "query",
+                        "name": "fields...",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Matrix User IDs found with the given parameters.",
+                        "schema": {
+                            "description": "List of matched third party users.",
+                            "items": {
+                                "properties": {
+                                    "fields": {
+                                        "description": "Information used to identify this third party location.",
+                                        "example": {
+                                            "user": "jim"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "protocol": {
+                                        "description": "The protocol ID that the third party location is a part of.",
+                                        "example": "gitter",
+                                        "type": "string"
+                                    },
+                                    "userid": {
+                                        "description": "A Matrix User ID represting a third party user.",
+                                        "example": "@_gitter_jim:matrix.org",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "userid",
+                                    "protocol",
+                                    "fields"
+                                ],
+                                "title": "User",
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "404": {
+                        "description": "The Matrix User ID was not found",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_NOT_FOUND"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Retrieve the Matrix User ID of a corresponding third party user."
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

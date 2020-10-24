@@ -1,0 +1,147 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Updates the visibility of a given room on the application service's room\ndirectory.\n\nThis API is similar to the room directory visibility API used by clients\nto update the homeserver's more general room directory.\n\nThis API requires the use of an application service access token (``as_token``)\ninstead of a typical client's access_token. This API cannot be invoked by\nusers who are not identified as application services.",
+                "example": {
+                    "req": "PUT /_matrix/client/%CLIENT_MAJOR_VERSION%/directory/list/appservice/irc/%21somewhere%3Aexample.org HTTP/1.1\nContent-Type: application/json\n\n{\n  \"visibility\": \"public\"\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/directory/list/appservice/{networkId}/{roomId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** Whether the room should be visible (public) in the directory\nor not (private). One of: [\"public\", \"private\"]",
+                            "key": "visibility",
+                            "required": true,
+                            "title": "enum"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The protocol (network) ID to update the room list for. This would\nhave been provided by the application service as being listed as\na supported protocol.",
+                            "key": "networkId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The room ID to add to the directory.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The room's directory visibility has been updated.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Updates a room's visibility in the application service's room directory."
+            }
+        ],
+        "group": "appservice_room_directory_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Application Service Room Directory API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/directory/list/appservice/{networkId}/{roomId}": {
+            "put": {
+                "description": "Updates the visibility of a given room on the application service's room\ndirectory.\n\nThis API is similar to the room directory visibility API used by clients\nto update the homeserver's more general room directory.\n\nThis API requires the use of an application service access token (``as_token``)\ninstead of a typical client's access_token. This API cannot be invoked by\nusers who are not identified as application services.",
+                "operationId": "updateAppserviceRoomDirectoryVsibility",
+                "parameters": [
+                    {
+                        "description": "The protocol (network) ID to update the room list for. This would\nhave been provided by the application service as being listed as\na supported protocol.",
+                        "in": "path",
+                        "name": "networkId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "irc"
+                    },
+                    {
+                        "description": "The room ID to add to the directory.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!somewhere:example.org"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "visibility": {
+                                    "description": "Whether the room should be visible (public) in the directory\nor not (private).",
+                                    "enum": [
+                                        "public",
+                                        "private"
+                                    ],
+                                    "example": "public",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "visibility"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The room's directory visibility has been updated.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Updates a room's visibility in the application service's room directory.",
+                "tags": [
+                    "Application service room directory management"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

@@ -1,0 +1,252 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v2",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": ".. Note::\n   This API is nearly identical to the v1 API with the\n   exception of the response format being fixed.\n\nThis endpoint is preferred over the v1 API as it provides\na more standarised response format. Senders which receive\na 400, 404, or other status code which indicates this endpoint\nis not available should retry using the v1 API instead.\n\nSubmits a signed leave event to the resident server for it\nto accept it into the room's graph. Note that events have\na different format depending on the room version - check\nthe `room version specification`_ for precise event formats.\n**The request and response body here describe the common\nevent fields in more detail and may be missing other required\nfields for a PDU.**",
+                "example": {
+                    "req": "PUT /_matrix/federation/v2/send_leave/%21abc123%3Amatrix.org/%24abc123%3Aexample.org HTTP/1.1\nContent-Type: application/json\n\n{\n  \"sender\": \"@someone:example.org\",\n  \"origin\": \"matrix.org\",\n  \"origin_server_ts\": 1234567890,\n  \"type\": \"m.room.member\",\n  \"state_key\": \"@someone:example.org\",\n  \"content\": {\n    \"membership\": \"leave\"\n  },\n  \"depth\": 12\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/federation/v2/send_leave/{roomId}/{eventId}",
+                "rate_limited": false,
+                "req_body_tables": [
+                    [
+                        "Membership Event Content",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The value ``leave``.",
+                                "key": "membership",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The user ID of the leaving member.",
+                            "key": "sender",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The name of the leaving homeserver.",
+                            "key": "origin",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** A timestamp added by the leaving homeserver.",
+                            "key": "origin_server_ts",
+                            "required": true,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "**Required.** The value ``m.room.member``.",
+                            "key": "type",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The user ID of the leaving member.",
+                            "key": "state_key",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The content of the event.",
+                            "key": "content",
+                            "required": true,
+                            "title": "Membership Event Content"
+                        },
+                        {
+                            "desc": "**Required.** This field must be present but is ignored; it may be 0.",
+                            "key": "depth",
+                            "required": true,
+                            "title": "integer"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The room ID that is about to be left.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The event ID for the leave event.",
+                            "key": "eventId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "An empty response to indicate the event was accepted into the graph by\nthe receiving homeserver.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Submit a signed leave event to a resident server"
+            }
+        ],
+        "group": "leaving_v2_ss"
+    },
+    "basePath": "/_matrix/federation/v2",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation Leave Room API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/send_leave/{roomId}/{eventId}": {
+            "put": {
+                "description": ".. Note::\n   This API is nearly identical to the v1 API with the\n   exception of the response format being fixed.\n\nThis endpoint is preferred over the v1 API as it provides\na more standarised response format. Senders which receive\na 400, 404, or other status code which indicates this endpoint\nis not available should retry using the v1 API instead.\n\nSubmits a signed leave event to the resident server for it\nto accept it into the room's graph. Note that events have\na different format depending on the room version - check\nthe `room version specification`_ for precise event formats.\n**The request and response body here describe the common\nevent fields in more detail and may be missing other required\nfields for a PDU.**",
+                "operationId": "sendLeaveV2",
+                "parameters": [
+                    {
+                        "description": "The room ID that is about to be left.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!abc123:matrix.org"
+                    },
+                    {
+                        "description": "The event ID for the leave event.",
+                        "in": "path",
+                        "name": "eventId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "$abc123:example.org"
+                    },
+                    {
+                        "example": {
+                            "content": {
+                                "membership": "leave"
+                            },
+                            "origin": "example.org",
+                            "origin_server_ts": 1549041175876,
+                            "room_id": "!somewhere:example.org",
+                            "sender": "@someone:example.org",
+                            "state_key": "@someone:example.org",
+                            "type": "m.room.member"
+                        },
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "content": {
+                                    "description": "The content of the event.",
+                                    "example": {
+                                        "membership": "leave"
+                                    },
+                                    "properties": {
+                                        "membership": {
+                                            "description": "The value ``leave``.",
+                                            "example": "leave",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "membership"
+                                    ],
+                                    "title": "Membership Event Content",
+                                    "type": "object"
+                                },
+                                "depth": {
+                                    "description": "This field must be present but is ignored; it may be 0.",
+                                    "example": 12,
+                                    "type": "integer"
+                                },
+                                "origin": {
+                                    "description": "The name of the leaving homeserver.",
+                                    "example": "matrix.org",
+                                    "type": "string"
+                                },
+                                "origin_server_ts": {
+                                    "description": "A timestamp added by the leaving homeserver.",
+                                    "example": 1234567890,
+                                    "format": "int64",
+                                    "type": "integer"
+                                },
+                                "sender": {
+                                    "description": "The user ID of the leaving member.",
+                                    "example": "@someone:example.org",
+                                    "type": "string"
+                                },
+                                "state_key": {
+                                    "description": "The user ID of the leaving member.",
+                                    "example": "@someone:example.org",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "The value ``m.room.member``.",
+                                    "example": "m.room.member",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "state_key",
+                                "sender",
+                                "origin",
+                                "origin_server_ts",
+                                "type",
+                                "depth",
+                                "content"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An empty response to indicate the event was accepted into the graph by\nthe receiving homeserver.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "description": "An empty object.",
+                            "title": "Empty Object",
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Submit a signed leave event to a resident server"
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "signedRequest": {
+            "description": "The ``Authorization`` header defined in the `Authentication`_ section.",
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

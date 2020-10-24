@@ -1,0 +1,884 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "This API returns a number of events that happened just before and\nafter the specified event. This allows clients to get the context\nsurrounding an event.\n\n*Note*: This endpoint supports lazy-loading of room member events. See\n`Lazy-loading room members <#lazy-loading-room-members>`_ for more information.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/rooms/%21636q39766251%3Aexample.com/context/%24f3h4d129462ha%3Aexample.com?limit=3&filter=66696p746572 HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/rooms/{roomId}/context/{eventId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The room to get events from.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The event to get context around.",
+                            "key": "eventId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ],
+                    "query": [
+                        {
+                            "desc": "The maximum number of events to return. Default: 10.",
+                            "key": "limit",
+                            "required": false,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "A JSON ``RoomEventFilter`` to filter the returned events with. The\nfilter is only applied to ``events_before``, ``events_after``, and\n``state``. It is not applied to the ``event`` itself. The filter may \nbe applied before or/and after the ``limit`` parameter - whichever the \nhomeserver prefers.\n\nSee `Filtering <#filtering>`_ for more information.",
+                            "key": "filter",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "A token that can be used to paginate backwards with.",
+                                "key": "start",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "A token that can be used to paginate forwards with.",
+                                "key": "end",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "A list of room events that happened just before the\nrequested event, in reverse-chronological order.",
+                                "key": "events_before",
+                                "required": false,
+                                "title": "[RoomEvent]"
+                            },
+                            {
+                                "desc": "Details of the requested event.",
+                                "key": "event",
+                                "required": false,
+                                "title": "RoomEvent"
+                            },
+                            {
+                                "desc": "A list of room events that happened just after the\nrequested event, in chronological order.",
+                                "key": "events_after",
+                                "required": false,
+                                "title": "[RoomEvent]"
+                            },
+                            {
+                                "desc": "The state of the room at the last event returned.",
+                                "key": "state",
+                                "required": false,
+                                "title": "[StateEvent]"
+                            }
+                        ]
+                    ],
+                    [
+                        "RoomEvent",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                "key": "content",
+                                "required": true,
+                                "title": "object"
+                            },
+                            {
+                                "desc": "**Required.** The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                "key": "type",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The globally unique event identifier.",
+                                "key": "event_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Contains the fully-qualified ID of the user who sent this event.",
+                                "key": "sender",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                "key": "origin_server_ts",
+                                "required": true,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "Contains optional extra information about the event.",
+                                "key": "unsigned",
+                                "required": false,
+                                "title": "UnsignedData"
+                            },
+                            {
+                                "desc": "**Required.** The ID of the room associated with this event. Will not be present on events\nthat arrive through ``/sync``, despite being required everywhere else.",
+                                "key": "room_id",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ],
+                    [
+                        "StateEvent",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                "key": "content",
+                                "required": true,
+                                "title": "object"
+                            },
+                            {
+                                "desc": "**Required.** The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                "key": "type",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The globally unique event identifier.",
+                                "key": "event_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Contains the fully-qualified ID of the user who sent this event.",
+                                "key": "sender",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                "key": "origin_server_ts",
+                                "required": true,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "Contains optional extra information about the event.",
+                                "key": "unsigned",
+                                "required": false,
+                                "title": "UnsignedData"
+                            },
+                            {
+                                "desc": "**Required.** The ID of the room associated with this event. Will not be present on events\nthat arrive through ``/sync``, despite being required everywhere else.",
+                                "key": "room_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "Optional. The previous ``content`` for this event. If there is no previous content, this key will be missing.",
+                                "key": "prev_content",
+                                "required": false,
+                                "title": "EventContent"
+                            },
+                            {
+                                "desc": "**Required.** A unique key which defines the overwriting semantics for this piece of room state. This value is often a zero-length string. The presence of this key makes this event a State Event.\nState keys starting with an ``@`` are reserved for referencing user IDs, such as room members. With the exception of a few events, state events set with a given user's ID as the state key MUST only be set by that user.",
+                                "key": "state_key",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ],
+                    [
+                        "UnsignedData",
+                        null,
+                        [
+                            {
+                                "desc": "The time in milliseconds that has elapsed since the event was sent. This field is generated by the local homeserver, and may be incorrect if the local time on at least one of the two servers is out of sync, which can cause the age to either be negative or greater than it actually is.",
+                                "key": "age",
+                                "required": false,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "The event that redacted this event, if any.",
+                                "key": "redacted_because",
+                                "required": false,
+                                "title": "Event"
+                            },
+                            {
+                                "desc": "The client-supplied transaction ID, for example, provided via\n``PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}``,\nif the client being given the event is the same one which sent it.\n",
+                                "key": "transaction_id",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The events and state surrounding the requested event.",
+                        "example": "{\n  \"end\": \"t29-57_2_0_2\",\n  \"events_after\": [\n    {\n      \"content\": {\n        \"body\": \"This is an example text message\",\n        \"msgtype\": \"m.text\",\n        \"format\": \"org.matrix.custom.html\",\n        \"formatted_body\": \"<b>This is an example text message</b>\"\n      },\n      \"type\": \"m.room.message\",\n      \"event_id\": \"$143273582443PhrSn:example.org\",\n      \"room_id\": \"!636q39766251:example.com\",\n      \"sender\": \"@example:example.org\",\n      \"origin_server_ts\": 1432735824653,\n      \"unsigned\": {\n        \"age\": 1234\n      }\n    }\n  ],\n  \"event\": {\n    \"content\": {\n      \"body\": \"filename.jpg\",\n      \"info\": {\n        \"h\": 398,\n        \"w\": 394,\n        \"mimetype\": \"image/jpeg\",\n        \"size\": 31037\n      },\n      \"url\": \"mxc://example.org/JWEIFJgwEIhweiWJE\",\n      \"msgtype\": \"m.image\"\n    },\n    \"type\": \"m.room.message\",\n    \"event_id\": \"$f3h4d129462ha:example.com\",\n    \"room_id\": \"!636q39766251:example.com\",\n    \"sender\": \"@example:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"unsigned\": {\n      \"age\": 1234\n    }\n  },\n  \"events_before\": [\n    {\n      \"content\": {\n        \"body\": \"something-important.doc\",\n        \"filename\": \"something-important.doc\",\n        \"info\": {\n          \"mimetype\": \"application/msword\",\n          \"size\": 46144\n        },\n        \"msgtype\": \"m.file\",\n        \"url\": \"mxc://example.org/FHyPlCeYUSFFxlgbQYZmoEoe\"\n      },\n      \"type\": \"m.room.message\",\n      \"event_id\": \"$143273582443PhrSn:example.org\",\n      \"room_id\": \"!636q39766251:example.com\",\n      \"sender\": \"@example:example.org\",\n      \"origin_server_ts\": 1432735824653,\n      \"unsigned\": {\n        \"age\": 1234\n      }\n    }\n  ],\n  \"start\": \"t27-54_2_0_2\",\n  \"state\": [\n    {\n      \"content\": {\n        \"creator\": \"@example:example.org\",\n        \"room_version\": \"1\",\n        \"m.federate\": true,\n        \"predecessor\": {\n          \"event_id\": \"$something:example.org\",\n          \"room_id\": \"!oldroom:example.org\"\n        }\n      },\n      \"type\": \"m.room.create\",\n      \"event_id\": \"$143273582443PhrSn:example.org\",\n      \"room_id\": \"!636q39766251:example.com\",\n      \"sender\": \"@example:example.org\",\n      \"origin_server_ts\": 1432735824653,\n      \"unsigned\": {\n        \"age\": 1234\n      },\n      \"state_key\": \"\"\n    },\n    {\n      \"content\": {\n        \"membership\": \"join\",\n        \"avatar_url\": \"mxc://example.org/SEsfnsuifSDFSSEF\",\n        \"displayname\": \"Alice Margatroid\"\n      },\n      \"type\": \"m.room.member\",\n      \"event_id\": \"$143273582443PhrSn:example.org\",\n      \"room_id\": \"!636q39766251:example.com\",\n      \"sender\": \"@example:example.org\",\n      \"origin_server_ts\": 1432735824653,\n      \"unsigned\": {\n        \"age\": 1234\n      },\n      \"state_key\": \"@alice:example.org\"\n    }\n  ]\n}"
+                    }
+                ],
+                "title": "Get events and state around the specified event."
+            }
+        ],
+        "group": "event_context_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Event Context API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/rooms/{roomId}/context/{eventId}": {
+            "get": {
+                "description": "This API returns a number of events that happened just before and\nafter the specified event. This allows clients to get the context\nsurrounding an event.\n\n*Note*: This endpoint supports lazy-loading of room member events. See\n`Lazy-loading room members <#lazy-loading-room-members>`_ for more information.",
+                "operationId": "getEventContext",
+                "parameters": [
+                    {
+                        "description": "The room to get events from.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!636q39766251:example.com"
+                    },
+                    {
+                        "description": "The event to get context around.",
+                        "in": "path",
+                        "name": "eventId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "$f3h4d129462ha:example.com"
+                    },
+                    {
+                        "description": "The maximum number of events to return. Default: 10.",
+                        "in": "query",
+                        "name": "limit",
+                        "type": "integer",
+                        "x-example": 3
+                    },
+                    {
+                        "description": "A JSON ``RoomEventFilter`` to filter the returned events with. The\nfilter is only applied to ``events_before``, ``events_after``, and\n``state``. It is not applied to the ``event`` itself. The filter may \nbe applied before or/and after the ``limit`` parameter - whichever the \nhomeserver prefers.\n\nSee `Filtering <#filtering>`_ for more information.",
+                        "in": "query",
+                        "name": "filter",
+                        "type": "string",
+                        "x-example": "66696p746572"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The events and state surrounding the requested event.",
+                        "examples": {
+                            "application/json": {
+                                "end": "t29-57_2_0_2",
+                                "event": {
+                                    "content": {
+                                        "body": "filename.jpg",
+                                        "info": {
+                                            "h": 398,
+                                            "mimetype": "image/jpeg",
+                                            "size": 31037,
+                                            "w": 394
+                                        },
+                                        "msgtype": "m.image",
+                                        "url": "mxc://example.org/JWEIFJgwEIhweiWJE"
+                                    },
+                                    "event_id": "$f3h4d129462ha:example.com",
+                                    "origin_server_ts": 1432735824653,
+                                    "room_id": "!636q39766251:example.com",
+                                    "sender": "@example:example.org",
+                                    "type": "m.room.message",
+                                    "unsigned": {
+                                        "age": 1234
+                                    }
+                                },
+                                "events_after": [
+                                    {
+                                        "content": {
+                                            "body": "This is an example text message",
+                                            "format": "org.matrix.custom.html",
+                                            "formatted_body": "<b>This is an example text message</b>",
+                                            "msgtype": "m.text"
+                                        },
+                                        "event_id": "$143273582443PhrSn:example.org",
+                                        "origin_server_ts": 1432735824653,
+                                        "room_id": "!636q39766251:example.com",
+                                        "sender": "@example:example.org",
+                                        "type": "m.room.message",
+                                        "unsigned": {
+                                            "age": 1234
+                                        }
+                                    }
+                                ],
+                                "events_before": [
+                                    {
+                                        "content": {
+                                            "body": "something-important.doc",
+                                            "filename": "something-important.doc",
+                                            "info": {
+                                                "mimetype": "application/msword",
+                                                "size": 46144
+                                            },
+                                            "msgtype": "m.file",
+                                            "url": "mxc://example.org/FHyPlCeYUSFFxlgbQYZmoEoe"
+                                        },
+                                        "event_id": "$143273582443PhrSn:example.org",
+                                        "origin_server_ts": 1432735824653,
+                                        "room_id": "!636q39766251:example.com",
+                                        "sender": "@example:example.org",
+                                        "type": "m.room.message",
+                                        "unsigned": {
+                                            "age": 1234
+                                        }
+                                    }
+                                ],
+                                "start": "t27-54_2_0_2",
+                                "state": [
+                                    {
+                                        "content": {
+                                            "creator": "@example:example.org",
+                                            "m.federate": true,
+                                            "predecessor": {
+                                                "event_id": "$something:example.org",
+                                                "room_id": "!oldroom:example.org"
+                                            },
+                                            "room_version": "1"
+                                        },
+                                        "event_id": "$143273582443PhrSn:example.org",
+                                        "origin_server_ts": 1432735824653,
+                                        "room_id": "!636q39766251:example.com",
+                                        "sender": "@example:example.org",
+                                        "state_key": "",
+                                        "type": "m.room.create",
+                                        "unsigned": {
+                                            "age": 1234
+                                        }
+                                    },
+                                    {
+                                        "content": {
+                                            "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
+                                            "displayname": "Alice Margatroid",
+                                            "membership": "join"
+                                        },
+                                        "event_id": "$143273582443PhrSn:example.org",
+                                        "origin_server_ts": 1432735824653,
+                                        "room_id": "!636q39766251:example.com",
+                                        "sender": "@example:example.org",
+                                        "state_key": "@alice:example.org",
+                                        "type": "m.room.member",
+                                        "unsigned": {
+                                            "age": 1234
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "description": "The events and state surrounding the requested event.",
+                            "properties": {
+                                "end": {
+                                    "description": "A token that can be used to paginate forwards with.",
+                                    "type": "string"
+                                },
+                                "event": {
+                                    "allOf": [
+                                        {
+                                            "allOf": [
+                                                {
+                                                    "allOf": [
+                                                        {
+                                                            "description": "The basic set of fields all events must have.",
+                                                            "properties": {
+                                                                "content": {
+                                                                    "description": "The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                                                    "type": "object"
+                                                                },
+                                                                "type": {
+                                                                    "description": "The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "type",
+                                                                "content"
+                                                            ],
+                                                            "title": "Event",
+                                                            "type": "object"
+                                                        }
+                                                    ],
+                                                    "description": "In addition to the Event fields, Room Events have the following additional fields.",
+                                                    "properties": {
+                                                        "event_id": {
+                                                            "description": "The globally unique event identifier.",
+                                                            "type": "string"
+                                                        },
+                                                        "origin_server_ts": {
+                                                            "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                                            "format": "int64",
+                                                            "type": "integer"
+                                                        },
+                                                        "sender": {
+                                                            "description": "Contains the fully-qualified ID of the user who sent this event.",
+                                                            "type": "string"
+                                                        },
+                                                        "unsigned": {
+                                                            "description": "Contains optional extra information about the event.",
+                                                            "properties": {
+                                                                "age": {
+                                                                    "description": "The time in milliseconds that has elapsed since the event was sent. This field is generated by the local homeserver, and may be incorrect if the local time on at least one of the two servers is out of sync, which can cause the age to either be negative or greater than it actually is.",
+                                                                    "type": "integer"
+                                                                },
+                                                                "redacted_because": {
+                                                                    "description": "The event that redacted this event, if any.",
+                                                                    "title": "Event",
+                                                                    "type": "object"
+                                                                },
+                                                                "transaction_id": {
+                                                                    "description": "The client-supplied transaction ID, for example, provided via\n``PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}``,\nif the client being given the event is the same one which sent it.\n",
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "title": "UnsignedData",
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "event_id",
+                                                        "sender",
+                                                        "origin_server_ts"
+                                                    ],
+                                                    "title": "SyncRoomEvent",
+                                                    "type": "object"
+                                                }
+                                            ],
+                                            "description": "Room Events have the following fields.",
+                                            "properties": {
+                                                "room_id": {
+                                                    "description": "The ID of the room associated with this event. Will not be present on events\nthat arrive through ``/sync``, despite being required everywhere else.",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "room_id"
+                                            ],
+                                            "title": "RoomEvent",
+                                            "type": "object"
+                                        }
+                                    ],
+                                    "description": "Details of the requested event."
+                                },
+                                "events_after": {
+                                    "description": "A list of room events that happened just after the\nrequested event, in chronological order.",
+                                    "items": {
+                                        "allOf": [
+                                            {
+                                                "allOf": [
+                                                    {
+                                                        "allOf": [
+                                                            {
+                                                                "description": "The basic set of fields all events must have.",
+                                                                "properties": {
+                                                                    "content": {
+                                                                        "description": "The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": {
+                                                                        "description": "The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "type",
+                                                                    "content"
+                                                                ],
+                                                                "title": "Event",
+                                                                "type": "object"
+                                                            }
+                                                        ],
+                                                        "description": "In addition to the Event fields, Room Events have the following additional fields.",
+                                                        "properties": {
+                                                            "event_id": {
+                                                                "description": "The globally unique event identifier.",
+                                                                "type": "string"
+                                                            },
+                                                            "origin_server_ts": {
+                                                                "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                                                "format": "int64",
+                                                                "type": "integer"
+                                                            },
+                                                            "sender": {
+                                                                "description": "Contains the fully-qualified ID of the user who sent this event.",
+                                                                "type": "string"
+                                                            },
+                                                            "unsigned": {
+                                                                "description": "Contains optional extra information about the event.",
+                                                                "properties": {
+                                                                    "age": {
+                                                                        "description": "The time in milliseconds that has elapsed since the event was sent. This field is generated by the local homeserver, and may be incorrect if the local time on at least one of the two servers is out of sync, which can cause the age to either be negative or greater than it actually is.",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "redacted_because": {
+                                                                        "description": "The event that redacted this event, if any.",
+                                                                        "title": "Event",
+                                                                        "type": "object"
+                                                                    },
+                                                                    "transaction_id": {
+                                                                        "description": "The client-supplied transaction ID, for example, provided via\n``PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}``,\nif the client being given the event is the same one which sent it.\n",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "title": "UnsignedData",
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "event_id",
+                                                            "sender",
+                                                            "origin_server_ts"
+                                                        ],
+                                                        "title": "SyncRoomEvent",
+                                                        "type": "object"
+                                                    }
+                                                ],
+                                                "description": "Room Events have the following fields.",
+                                                "properties": {
+                                                    "room_id": {
+                                                        "description": "The ID of the room associated with this event. Will not be present on events\nthat arrive through ``/sync``, despite being required everywhere else.",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "room_id"
+                                                ],
+                                                "title": "RoomEvent",
+                                                "type": "object"
+                                            }
+                                        ]
+                                    },
+                                    "type": "array"
+                                },
+                                "events_before": {
+                                    "description": "A list of room events that happened just before the\nrequested event, in reverse-chronological order.",
+                                    "items": {
+                                        "allOf": [
+                                            {
+                                                "allOf": [
+                                                    {
+                                                        "allOf": [
+                                                            {
+                                                                "description": "The basic set of fields all events must have.",
+                                                                "properties": {
+                                                                    "content": {
+                                                                        "description": "The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": {
+                                                                        "description": "The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "type",
+                                                                    "content"
+                                                                ],
+                                                                "title": "Event",
+                                                                "type": "object"
+                                                            }
+                                                        ],
+                                                        "description": "In addition to the Event fields, Room Events have the following additional fields.",
+                                                        "properties": {
+                                                            "event_id": {
+                                                                "description": "The globally unique event identifier.",
+                                                                "type": "string"
+                                                            },
+                                                            "origin_server_ts": {
+                                                                "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                                                "format": "int64",
+                                                                "type": "integer"
+                                                            },
+                                                            "sender": {
+                                                                "description": "Contains the fully-qualified ID of the user who sent this event.",
+                                                                "type": "string"
+                                                            },
+                                                            "unsigned": {
+                                                                "description": "Contains optional extra information about the event.",
+                                                                "properties": {
+                                                                    "age": {
+                                                                        "description": "The time in milliseconds that has elapsed since the event was sent. This field is generated by the local homeserver, and may be incorrect if the local time on at least one of the two servers is out of sync, which can cause the age to either be negative or greater than it actually is.",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "redacted_because": {
+                                                                        "description": "The event that redacted this event, if any.",
+                                                                        "title": "Event",
+                                                                        "type": "object"
+                                                                    },
+                                                                    "transaction_id": {
+                                                                        "description": "The client-supplied transaction ID, for example, provided via\n``PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}``,\nif the client being given the event is the same one which sent it.\n",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "title": "UnsignedData",
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "event_id",
+                                                            "sender",
+                                                            "origin_server_ts"
+                                                        ],
+                                                        "title": "SyncRoomEvent",
+                                                        "type": "object"
+                                                    }
+                                                ],
+                                                "description": "Room Events have the following fields.",
+                                                "properties": {
+                                                    "room_id": {
+                                                        "description": "The ID of the room associated with this event. Will not be present on events\nthat arrive through ``/sync``, despite being required everywhere else.",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "room_id"
+                                                ],
+                                                "title": "RoomEvent",
+                                                "type": "object"
+                                            }
+                                        ]
+                                    },
+                                    "type": "array"
+                                },
+                                "start": {
+                                    "description": "A token that can be used to paginate backwards with.",
+                                    "type": "string"
+                                },
+                                "state": {
+                                    "description": "The state of the room at the last event returned.",
+                                    "items": {
+                                        "allOf": [
+                                            {
+                                                "allOf": [
+                                                    {
+                                                        "allOf": [
+                                                            {
+                                                                "allOf": [
+                                                                    {
+                                                                        "description": "The basic set of fields all events must have.",
+                                                                        "properties": {
+                                                                            "content": {
+                                                                                "description": "The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                                                                "type": "object"
+                                                                            },
+                                                                            "type": {
+                                                                                "description": "The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                                                                "type": "string"
+                                                                            }
+                                                                        },
+                                                                        "required": [
+                                                                            "type",
+                                                                            "content"
+                                                                        ],
+                                                                        "title": "Event",
+                                                                        "type": "object"
+                                                                    }
+                                                                ],
+                                                                "description": "In addition to the Event fields, Room Events have the following additional fields.",
+                                                                "properties": {
+                                                                    "event_id": {
+                                                                        "description": "The globally unique event identifier.",
+                                                                        "type": "string"
+                                                                    },
+                                                                    "origin_server_ts": {
+                                                                        "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                                                        "format": "int64",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "sender": {
+                                                                        "description": "Contains the fully-qualified ID of the user who sent this event.",
+                                                                        "type": "string"
+                                                                    },
+                                                                    "unsigned": {
+                                                                        "description": "Contains optional extra information about the event.",
+                                                                        "properties": {
+                                                                            "age": {
+                                                                                "description": "The time in milliseconds that has elapsed since the event was sent. This field is generated by the local homeserver, and may be incorrect if the local time on at least one of the two servers is out of sync, which can cause the age to either be negative or greater than it actually is.",
+                                                                                "type": "integer"
+                                                                            },
+                                                                            "redacted_because": {
+                                                                                "description": "The event that redacted this event, if any.",
+                                                                                "title": "Event",
+                                                                                "type": "object"
+                                                                            },
+                                                                            "transaction_id": {
+                                                                                "description": "The client-supplied transaction ID, for example, provided via\n``PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}``,\nif the client being given the event is the same one which sent it.\n",
+                                                                                "type": "string"
+                                                                            }
+                                                                        },
+                                                                        "title": "UnsignedData",
+                                                                        "type": "object"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "event_id",
+                                                                    "sender",
+                                                                    "origin_server_ts"
+                                                                ],
+                                                                "title": "SyncRoomEvent",
+                                                                "type": "object"
+                                                            }
+                                                        ],
+                                                        "description": "Room Events have the following fields.",
+                                                        "properties": {
+                                                            "room_id": {
+                                                                "description": "The ID of the room associated with this event. Will not be present on events\nthat arrive through ``/sync``, despite being required everywhere else.",
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "room_id"
+                                                        ],
+                                                        "title": "RoomEvent",
+                                                        "type": "object"
+                                                    },
+                                                    {
+                                                        "allOf": [
+                                                            {
+                                                                "allOf": [
+                                                                    {
+                                                                        "description": "The basic set of fields all events must have.",
+                                                                        "properties": {
+                                                                            "content": {
+                                                                                "description": "The fields in this object will vary depending on the type of event. When interacting with the REST API, this is the HTTP body.",
+                                                                                "type": "object"
+                                                                            },
+                                                                            "type": {
+                                                                                "description": "The type of event. This SHOULD be namespaced similar to Java package naming conventions e.g. 'com.example.subdomain.event.type'",
+                                                                                "type": "string"
+                                                                            }
+                                                                        },
+                                                                        "required": [
+                                                                            "type",
+                                                                            "content"
+                                                                        ],
+                                                                        "title": "Event",
+                                                                        "type": "object"
+                                                                    }
+                                                                ],
+                                                                "description": "In addition to the Event fields, Room Events have the following additional fields.",
+                                                                "properties": {
+                                                                    "event_id": {
+                                                                        "description": "The globally unique event identifier.",
+                                                                        "type": "string"
+                                                                    },
+                                                                    "origin_server_ts": {
+                                                                        "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                                                        "format": "int64",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "sender": {
+                                                                        "description": "Contains the fully-qualified ID of the user who sent this event.",
+                                                                        "type": "string"
+                                                                    },
+                                                                    "unsigned": {
+                                                                        "description": "Contains optional extra information about the event.",
+                                                                        "properties": {
+                                                                            "age": {
+                                                                                "description": "The time in milliseconds that has elapsed since the event was sent. This field is generated by the local homeserver, and may be incorrect if the local time on at least one of the two servers is out of sync, which can cause the age to either be negative or greater than it actually is.",
+                                                                                "type": "integer"
+                                                                            },
+                                                                            "redacted_because": {
+                                                                                "description": "The event that redacted this event, if any.",
+                                                                                "title": "Event",
+                                                                                "type": "object"
+                                                                            },
+                                                                            "transaction_id": {
+                                                                                "description": "The client-supplied transaction ID, for example, provided via\n``PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}``,\nif the client being given the event is the same one which sent it.\n",
+                                                                                "type": "string"
+                                                                            }
+                                                                        },
+                                                                        "title": "UnsignedData",
+                                                                        "type": "object"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "event_id",
+                                                                    "sender",
+                                                                    "origin_server_ts"
+                                                                ],
+                                                                "title": "SyncRoomEvent",
+                                                                "type": "object"
+                                                            }
+                                                        ],
+                                                        "description": "In addition to the Room Event fields, State Events have the following additional fields.",
+                                                        "properties": {
+                                                            "prev_content": {
+                                                                "description": "Optional. The previous ``content`` for this event. If there is no previous content, this key will be missing.",
+                                                                "title": "EventContent",
+                                                                "type": "object"
+                                                            },
+                                                            "state_key": {
+                                                                "description": "A unique key which defines the overwriting semantics for this piece of room state. This value is often a zero-length string. The presence of this key makes this event a State Event.\nState keys starting with an ``@`` are reserved for referencing user IDs, such as room members. With the exception of a few events, state events set with a given user's ID as the state key MUST only be set by that user.",
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "state_key"
+                                                        ],
+                                                        "title": "SyncStateEvent",
+                                                        "type": "object"
+                                                    }
+                                                ],
+                                                "description": "State Events have the following fields.",
+                                                "title": "StateEvent",
+                                                "type": "object"
+                                            }
+                                        ]
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Get events and state around the specified event.",
+                "tags": [
+                    "Room participation"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

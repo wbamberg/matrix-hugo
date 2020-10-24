@@ -1,0 +1,416 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "This API is used to paginate through the list of events that the\nuser has been, or would have been notified about.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/notifications?from=xxxxx&limit=20&only=highlight HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/notifications",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "query": [
+                        {
+                            "desc": "Pagination token given to retrieve the next set of events.",
+                            "key": "from",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "Limit on the number of events to return in this request.",
+                            "key": "limit",
+                            "required": false,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "Allows basic filtering of events returned. Supply ``highlight``\nto return only events where the notification had the highlight\ntweak set.",
+                            "key": "only",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "The token to supply in the ``from`` param of the next\n``/notifications`` request in order to request more\nevents. If this is absent, there are no more results.",
+                                "key": "next_token",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The list of events that triggered notifications.",
+                                "key": "notifications",
+                                "required": true,
+                                "title": "[Notification]"
+                            }
+                        ]
+                    ],
+                    [
+                        "Notification",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The action(s) to perform when the conditions for this rule are met.\nSee `Push Rules: API`_.",
+                                "key": "actions",
+                                "required": true,
+                                "title": "[object or string]"
+                            },
+                            {
+                                "desc": "**Required.** The Event object for the event that triggered the notification.",
+                                "key": "event",
+                                "required": true,
+                                "title": "Event"
+                            },
+                            {
+                                "desc": "The profile tag of the rule that matched this event.",
+                                "key": "profile_tag",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Indicates whether the user has sent a read receipt indicating\nthat they have read this message.",
+                                "key": "read",
+                                "required": true,
+                                "title": "boolean"
+                            },
+                            {
+                                "desc": "**Required.** The ID of the room in which the event was posted.",
+                                "key": "room_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The unix timestamp at which the event notification was sent,\nin milliseconds.",
+                                "key": "ts",
+                                "required": true,
+                                "title": "integer"
+                            }
+                        ]
+                    ],
+                    [
+                        "Event",
+                        null,
+                        [
+                            {
+                                "desc": "The ID of this event, if applicable.",
+                                "key": "event_id",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "The content of this event. The fields in this object will vary depending on the type of event.",
+                                "key": "content",
+                                "required": false,
+                                "title": "EventContent"
+                            },
+                            {
+                                "desc": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                "key": "origin_server_ts",
+                                "required": false,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "The MXID of the user who sent this event.",
+                                "key": "sender",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "Optional. This key will only be present for state events. A unique key which defines the overwriting semantics for this piece of room state.",
+                                "key": "state_key",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "The type of event.",
+                                "key": "type",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "Information about this event which was not sent by the originating homeserver",
+                                "key": "unsigned",
+                                "required": false,
+                                "title": "UnsignedData"
+                            }
+                        ]
+                    ],
+                    [
+                        "UnsignedData",
+                        null,
+                        [
+                            {
+                                "desc": "Time in milliseconds since the event was sent.",
+                                "key": "age",
+                                "required": false,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "Optional. The previous ``content`` for this state. This will be present only for state events appearing in the ``timeline``. If this is not a state event, or there is no previous content, this key will be missing.",
+                                "key": "prev_content",
+                                "required": false,
+                                "title": "EventContent"
+                            },
+                            {
+                                "desc": "Optional. The transaction ID set when this message was sent. This key will only be present for message events sent by the device calling this API.",
+                                "key": "transaction_id",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "Optional. The event that redacted this event, if any.",
+                                "key": "redacted_because",
+                                "required": false,
+                                "title": "Event"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "A batch of events is being returned",
+                        "example": "{\n  \"next_token\": \"abcdef\",\n  \"notifications\": [\n    {\n      \"actions\": [\n        \"notify\"\n      ],\n      \"profile_tag\": \"hcbvkzxhcvb\",\n      \"read\": true,\n      \"room_id\": \"!abcdefg:example.com\",\n      \"ts\": 1475508881945,\n      \"event\": {\n        \"content\": {\n          \"body\": \"This is an example text message\",\n          \"msgtype\": \"m.text\",\n          \"format\": \"org.matrix.custom.html\",\n          \"formatted_body\": \"<b>This is an example text message</b>\"\n        },\n        \"type\": \"m.room.message\",\n        \"event_id\": \"$143273582443PhrSn:example.org\",\n        \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n        \"sender\": \"@example:example.org\",\n        \"origin_server_ts\": 1432735824653,\n        \"unsigned\": {\n          \"age\": 1234\n        }\n      }\n    }\n  ]\n}"
+                    }
+                ],
+                "title": "Gets a list of events that the user has been notified about"
+            }
+        ],
+        "group": "notifications_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Notifications API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/notifications": {
+            "get": {
+                "description": "This API is used to paginate through the list of events that the\nuser has been, or would have been notified about.",
+                "operationId": "getNotifications",
+                "parameters": [
+                    {
+                        "description": "Pagination token given to retrieve the next set of events.",
+                        "in": "query",
+                        "name": "from",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "xxxxx"
+                    },
+                    {
+                        "description": "Limit on the number of events to return in this request.",
+                        "in": "query",
+                        "name": "limit",
+                        "required": false,
+                        "type": "integer",
+                        "x-example": 20
+                    },
+                    {
+                        "description": "Allows basic filtering of events returned. Supply ``highlight``\nto return only events where the notification had the highlight\ntweak set.",
+                        "in": "query",
+                        "name": "only",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "highlight"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A batch of events is being returned",
+                        "examples": {
+                            "application/json": {
+                                "next_token": "abcdef",
+                                "notifications": [
+                                    {
+                                        "actions": [
+                                            "notify"
+                                        ],
+                                        "event": {
+                                            "content": {
+                                                "body": "This is an example text message",
+                                                "format": "org.matrix.custom.html",
+                                                "formatted_body": "<b>This is an example text message</b>",
+                                                "msgtype": "m.text"
+                                            },
+                                            "event_id": "$143273582443PhrSn:example.org",
+                                            "origin_server_ts": 1432735824653,
+                                            "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+                                            "sender": "@example:example.org",
+                                            "type": "m.room.message",
+                                            "unsigned": {
+                                                "age": 1234
+                                            }
+                                        },
+                                        "profile_tag": "hcbvkzxhcvb",
+                                        "read": true,
+                                        "room_id": "!abcdefg:example.com",
+                                        "ts": 1475508881945
+                                    }
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "next_token": {
+                                    "description": "The token to supply in the ``from`` param of the next\n``/notifications`` request in order to request more\nevents. If this is absent, there are no more results.",
+                                    "type": "string"
+                                },
+                                "notifications": {
+                                    "description": "The list of events that triggered notifications.",
+                                    "items": {
+                                        "properties": {
+                                            "actions": {
+                                                "description": "The action(s) to perform when the conditions for this rule are met.\nSee `Push Rules: API`_.",
+                                                "items": {
+                                                    "type": [
+                                                        "object",
+                                                        "string"
+                                                    ]
+                                                },
+                                                "type": "array"
+                                            },
+                                            "event": {
+                                                "allOf": [
+                                                    {
+                                                        "properties": {
+                                                            "content": {
+                                                                "description": "The content of this event. The fields in this object will vary depending on the type of event.",
+                                                                "title": "EventContent",
+                                                                "type": "object"
+                                                            },
+                                                            "event_id": {
+                                                                "description": "The ID of this event, if applicable.",
+                                                                "type": "string"
+                                                            },
+                                                            "origin_server_ts": {
+                                                                "description": "Timestamp in milliseconds on originating homeserver when this event was sent.",
+                                                                "format": "int64",
+                                                                "type": "integer"
+                                                            },
+                                                            "sender": {
+                                                                "description": "The MXID of the user who sent this event.",
+                                                                "type": "string"
+                                                            },
+                                                            "state_key": {
+                                                                "description": "Optional. This key will only be present for state events. A unique key which defines the overwriting semantics for this piece of room state.",
+                                                                "type": "string"
+                                                            },
+                                                            "type": {
+                                                                "description": "The type of event.",
+                                                                "type": "string"
+                                                            },
+                                                            "unsigned": {
+                                                                "description": "Information about this event which was not sent by the originating homeserver",
+                                                                "properties": {
+                                                                    "age": {
+                                                                        "description": "Time in milliseconds since the event was sent.",
+                                                                        "format": "int64",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "prev_content": {
+                                                                        "description": "Optional. The previous ``content`` for this state. This will be present only for state events appearing in the ``timeline``. If this is not a state event, or there is no previous content, this key will be missing.",
+                                                                        "title": "EventContent",
+                                                                        "type": "object"
+                                                                    },
+                                                                    "redacted_because": {
+                                                                        "description": "Optional. The event that redacted this event, if any.",
+                                                                        "title": "Event",
+                                                                        "type": "object"
+                                                                    },
+                                                                    "transaction_id": {
+                                                                        "description": "Optional. The transaction ID set when this message was sent. This key will only be present for message events sent by the device calling this API.",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "title": "UnsignedData",
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "title": "Event",
+                                                        "type": "object"
+                                                    }
+                                                ],
+                                                "description": "The Event object for the event that triggered the notification.",
+                                                "title": "Event",
+                                                "type": "object"
+                                            },
+                                            "profile_tag": {
+                                                "description": "The profile tag of the rule that matched this event.",
+                                                "type": "string"
+                                            },
+                                            "read": {
+                                                "description": "Indicates whether the user has sent a read receipt indicating\nthat they have read this message.",
+                                                "type": "boolean"
+                                            },
+                                            "room_id": {
+                                                "description": "The ID of the room in which the event was posted.",
+                                                "type": "string"
+                                            },
+                                            "ts": {
+                                                "description": "The unix timestamp at which the event notification was sent,\nin milliseconds.",
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "required": [
+                                            "actions",
+                                            "event",
+                                            "read",
+                                            "room_id",
+                                            "ts"
+                                        ],
+                                        "title": "Notification",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "notifications"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Gets a list of events that the user has been notified about",
+                "tags": [
+                    "Push notifications"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

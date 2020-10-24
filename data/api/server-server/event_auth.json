@@ -1,0 +1,145 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Retrieves the complete auth chain for a given event.",
+                "example": {
+                    "req": "GET /_matrix/federation/v1/event_auth/%21abc123%3Amatrix.org/%24helloworld%3Aexample.org HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/federation/v1/event_auth/{roomId}/{eventId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The room ID to get the auth chain for.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The event ID to get the auth chain of.",
+                            "key": "eventId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The full set of authorization events that make up the state of\nthe room, and their authorization events, recursively. Note that\nevents have a different format depending on the room version -\ncheck the `room version specification`_ for precise event formats.",
+                                "key": "auth_chain",
+                                "required": true,
+                                "title": "[PDU]"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The auth chain for the event.",
+                        "example": "{\n  \"auth_chain\": [\n    {\n      \"type\": \"m.room.minimal_pdu\",\n      \"room_id\": \"!somewhere:example.org\",\n      \"content\": {\n        \"see_room_version_spec\": \"The event format changes depending on the room version.\"\n      }\n    }\n  ]\n}"
+                    }
+                ],
+                "title": "Get the auth chain for a given event"
+            }
+        ],
+        "group": "event_auth_ss"
+    },
+    "basePath": "/_matrix/federation/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation Event Authorization API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/event_auth/{roomId}/{eventId}": {
+            "get": {
+                "description": "Retrieves the complete auth chain for a given event.",
+                "operationId": "getEventAuth",
+                "parameters": [
+                    {
+                        "description": "The room ID to get the auth chain for.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!abc123:matrix.org"
+                    },
+                    {
+                        "description": "The event ID to get the auth chain of.",
+                        "in": "path",
+                        "name": "eventId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "$helloworld:example.org"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The auth chain for the event.",
+                        "schema": {
+                            "properties": {
+                                "auth_chain": {
+                                    "description": "The full set of authorization events that make up the state of\nthe room, and their authorization events, recursively. Note that\nevents have a different format depending on the room version -\ncheck the `room version specification`_ for precise event formats.",
+                                    "items": {
+                                        "description": "The `PDUs <#pdus>`_ contained in the auth chain. The event format\nvaries depending on the room version - check the `room version specification`_\nfor precise event formats.",
+                                        "example": {
+                                            "content": {
+                                                "see_room_version_spec": "The event format changes depending on the room version."
+                                            },
+                                            "room_id": "!somewhere:example.org",
+                                            "type": "m.room.minimal_pdu"
+                                        },
+                                        "properties": [],
+                                        "title": "PDU",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "auth_chain"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Get the auth chain for a given event"
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "signedRequest": {
+            "description": "The ``Authorization`` header defined in the `Authentication`_ section.",
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

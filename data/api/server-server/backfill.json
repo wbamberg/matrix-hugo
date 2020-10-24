@@ -1,0 +1,405 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Retrieves a sliding-window history of previous PDUs that occurred in the given room.\nStarting from the PDU ID(s) given in the ``v`` argument, the PDUs given in ``v`` and\nthe PDUs that preceded them are retrieved, up to the total number given by the ``limit``.",
+                "example": {
+                    "req": "GET /_matrix/federation/v1/backfill/%21SomeRoom%3Amatrix.org?v=%24abc123%3Amatrix.org&limit=2 HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/federation/v1/backfill/{roomId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The room ID to backfill.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ],
+                    "query": [
+                        {
+                            "desc": "**Required.** The event IDs to backfill from.",
+                            "key": "v",
+                            "required": false,
+                            "title": "[string]"
+                        },
+                        {
+                            "desc": "**Required.** The maximum number of PDUs to retrieve, including the given events.",
+                            "key": "limit",
+                            "required": false,
+                            "title": "integer"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        "Transaction",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The ``server_name`` of the homeserver sending this transaction.",
+                                "key": "origin",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** POSIX timestamp in milliseconds on originating homeserver when this\ntransaction started.",
+                                "key": "origin_server_ts",
+                                "required": true,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "**Required.** List of persistent updates to rooms. Note that events have a different format\ndepending on the room version - check the `room version specification`_ for\nprecise event formats.",
+                                "key": "pdus",
+                                "required": true,
+                                "title": "[PDU]"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "A transaction containing the PDUs that preceded the given event(s), including the given\nevent(s), up to the given limit.\n\n.. Note::\n   Though the PDU definitions require that ``prev_events`` and ``auth_events`` be limited\n   in number, the response of backfill MUST NOT be validated on these specific restrictions.\n\n   Due to historical reasons, it is possible that events which were previously accepted\n   would now be rejected by these limitations. The events should be rejected per usual by\n   the ``/send``, ``/get_missing_events``, and remaining endpoints.",
+                        "example": "{\n  \"origin\": \"example.org\",\n  \"origin_server_ts\": 1532991320875,\n  \"pdus\": [\n    {\n      \"type\": \"m.room.minimal_pdu\",\n      \"room_id\": \"!somewhere:example.org\",\n      \"content\": {\n        \"see_room_version_spec\": \"The event format changes depending on the room version.\"\n      }\n    }\n  ]\n}"
+                    }
+                ],
+                "title": "Retrieves the events which precede the given event"
+            },
+            {
+                "deprecated": false,
+                "desc": "Retrieves previous events that the sender is missing. This is done by doing a breadth-first\nwalk of the ``prev_events`` for the ``latest_events``, ignoring any events in ``earliest_events``\nand stopping at the ``limit``.",
+                "example": {
+                    "req": "POST /_matrix/federation/v1/get_missing_events/%21SomeRoom%3Amatrix.org HTTP/1.1\nContent-Type: application/json\n\n{\n  \"limit\": 10,\n  \"min_depth\": 0,\n  \"earliest_events\": [\n    \"$missing_event:example.org\"\n  ],\n  \"latest_events\": [\n    \"$event_that_has_the_missing_event_as_a_previous_event:example.org\"\n  ]\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/federation/v1/get_missing_events/{roomId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "The maximum number of events to retrieve. Defaults to 10.",
+                            "key": "limit",
+                            "required": false,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "The minimum depth of events to retrieve. Defaults to 0.",
+                            "key": "min_depth",
+                            "required": false,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "**Required.** The latest event IDs that the sender already has. These are skipped when retrieving\nthe previous events of ``latest_events``.",
+                            "key": "earliest_events",
+                            "required": true,
+                            "title": "[string]"
+                        },
+                        {
+                            "desc": "**Required.** The event IDs to retrieve the previous events for.",
+                            "key": "latest_events",
+                            "required": true,
+                            "title": "[string]"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The room ID to search in.",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The missing events. The event format varies depending on the room version - check\nthe `room version specification`_ for precise event formats.",
+                                "key": "events",
+                                "required": true,
+                                "title": "[PDU]"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The previous events for ``latest_events``, excluding any ``earliest_events``, up to the\nprovided ``limit``.",
+                        "example": "{\n  \"events\": [\n    {\n      \"type\": \"m.room.minimal_pdu\",\n      \"room_id\": \"!somewhere:example.org\",\n      \"content\": {\n        \"see_room_version_spec\": \"The event format changes depending on the room version.\"\n      }\n    }\n  ]\n}"
+                    }
+                ],
+                "title": "Retrieves events that the sender is missing"
+            }
+        ],
+        "group": "backfill_ss"
+    },
+    "basePath": "/_matrix/federation/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation Events API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/backfill/{roomId}": {
+            "get": {
+                "description": "Retrieves a sliding-window history of previous PDUs that occurred in the given room.\nStarting from the PDU ID(s) given in the ``v`` argument, the PDUs given in ``v`` and\nthe PDUs that preceded them are retrieved, up to the total number given by the ``limit``.",
+                "operationId": "backfillRoom",
+                "parameters": [
+                    {
+                        "description": "The room ID to backfill.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!SomeRoom:matrix.org"
+                    },
+                    {
+                        "description": "The event IDs to backfill from.",
+                        "in": "query",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "v",
+                        "required": true,
+                        "type": "array",
+                        "x-example": [
+                            "$abc123:matrix.org"
+                        ]
+                    },
+                    {
+                        "description": "The maximum number of PDUs to retrieve, including the given events.",
+                        "in": "query",
+                        "name": "limit",
+                        "required": true,
+                        "type": "integer",
+                        "x-example": 2
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A transaction containing the PDUs that preceded the given event(s), including the given\nevent(s), up to the given limit.\n\n.. Note::\n   Though the PDU definitions require that ``prev_events`` and ``auth_events`` be limited\n   in number, the response of backfill MUST NOT be validated on these specific restrictions.\n\n   Due to historical reasons, it is possible that events which were previously accepted\n   would now be rejected by these limitations. The events should be rejected per usual by\n   the ``/send``, ``/get_missing_events``, and remaining endpoints.",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "description": "Transaction",
+                                    "example": {
+                                        "origin": "matrix.org",
+                                        "origin_server_ts": 1234567890,
+                                        "pdus": [
+                                            {
+                                                "content": {
+                                                    "see_room_version_spec": "The event format changes depending on the room version."
+                                                },
+                                                "room_id": "!somewhere:example.org",
+                                                "type": "m.room.minimal_pdu"
+                                            }
+                                        ]
+                                    },
+                                    "properties": {
+                                        "origin": {
+                                            "description": "The ``server_name`` of the homeserver sending this transaction.",
+                                            "example": "example.org",
+                                            "type": "string"
+                                        },
+                                        "origin_server_ts": {
+                                            "description": "POSIX timestamp in milliseconds on originating homeserver when this\ntransaction started.",
+                                            "example": 1532991320875,
+                                            "format": "int64",
+                                            "type": "integer"
+                                        },
+                                        "pdus": {
+                                            "description": "List of persistent updates to rooms. Must not include more than 50 PDUs. Note that\nevents have a different format depending on the room version - check the\n`room version specification`_ for precise event formats.",
+                                            "items": {
+                                                "description": "The `PDUs <#pdus>`_ contained in the transaction. The event format varies depending\non the room version - check the `room version specification`_ for precise event formats.",
+                                                "example": {
+                                                    "content": {
+                                                        "see_room_version_spec": "The event format changes depending on the room version."
+                                                    },
+                                                    "room_id": "!somewhere:example.org",
+                                                    "type": "m.room.minimal_pdu"
+                                                },
+                                                "properties": [],
+                                                "title": "PDU",
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        }
+                                    },
+                                    "required": [
+                                        "origin",
+                                        "origin_server_ts",
+                                        "pdus"
+                                    ],
+                                    "title": "Transaction",
+                                    "type": "object"
+                                }
+                            ],
+                            "properties": {
+                                "pdus": {
+                                    "description": "List of persistent updates to rooms. Note that events have a different format\ndepending on the room version - check the `room version specification`_ for\nprecise event formats.",
+                                    "items": {
+                                        "description": "The `PDUs <#pdus>`_ contained in the transaction. The event format varies depending\non the room version - check the `room version specification`_ for precise event formats.",
+                                        "example": {
+                                            "content": {
+                                                "see_room_version_spec": "The event format changes depending on the room version."
+                                            },
+                                            "room_id": "!somewhere:example.org",
+                                            "type": "m.room.minimal_pdu"
+                                        },
+                                        "properties": [],
+                                        "title": "PDU",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "origin",
+                                "origin_server_ts",
+                                "pdus"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Retrieves the events which precede the given event"
+            }
+        },
+        "/get_missing_events/{roomId}": {
+            "post": {
+                "description": "Retrieves previous events that the sender is missing. This is done by doing a breadth-first\nwalk of the ``prev_events`` for the ``latest_events``, ignoring any events in ``earliest_events``\nand stopping at the ``limit``.",
+                "operationId": "getMissingPreviousEvents",
+                "parameters": [
+                    {
+                        "description": "The room ID to search in.",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!SomeRoom:matrix.org"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "earliest_events": {
+                                    "description": "The latest event IDs that the sender already has. These are skipped when retrieving\nthe previous events of ``latest_events``.",
+                                    "example": [
+                                        "$missing_event:example.org"
+                                    ],
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                "latest_events": {
+                                    "description": "The event IDs to retrieve the previous events for.",
+                                    "example": [
+                                        "$event_that_has_the_missing_event_as_a_previous_event:example.org"
+                                    ],
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                "limit": {
+                                    "description": "The maximum number of events to retrieve. Defaults to 10.",
+                                    "example": 10,
+                                    "type": "integer"
+                                },
+                                "min_depth": {
+                                    "description": "The minimum depth of events to retrieve. Defaults to 0.",
+                                    "example": 0,
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "earliest_events",
+                                "latest_events"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The previous events for ``latest_events``, excluding any ``earliest_events``, up to the\nprovided ``limit``.",
+                        "examples": {
+                            "application/json": {
+                                "events": [
+                                    {
+                                        "content": {
+                                            "see_room_version_spec": "The event format changes depending on the room version."
+                                        },
+                                        "room_id": "!somewhere:example.org",
+                                        "type": "m.room.minimal_pdu"
+                                    }
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "events": {
+                                    "description": "The missing events. The event format varies depending on the room version - check\nthe `room version specification`_ for precise event formats.",
+                                    "items": {
+                                        "title": "PDU",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "events"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Retrieves events that the sender is missing"
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "signedRequest": {
+            "description": "The ``Authorization`` header defined in the `Authentication`_ section.",
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

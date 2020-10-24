@@ -1,0 +1,162 @@
+{
+    "__meta": {
+        "base": "/_matrix/app/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "This API is called by the homeserver when it wants to push an event\n(or batch of events) to the application service.\n\nNote that the application service should distinguish state events\nfrom message events via the presence of a ``state_key``, rather than\nvia the event type.",
+                "example": {
+                    "req": "PUT /_matrix/app/v1/transactions/35 HTTP/1.1\nContent-Type: application/json\n\n{\n  \"events\": [\n    {\n      \"content\": {\n        \"membership\": \"join\",\n        \"avatar_url\": \"mxc://example.org/SEsfnsuifSDFSSEF\",\n        \"displayname\": \"Alice Margatroid\"\n      },\n      \"type\": \"m.room.member\",\n      \"event_id\": \"$143273582443PhrSn:example.org\",\n      \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n      \"sender\": \"@example:example.org\",\n      \"origin_server_ts\": 1432735824653,\n      \"unsigned\": {\n        \"age\": 1234\n      },\n      \"state_key\": \"@alice:example.org\"\n    },\n    {\n      \"content\": {\n        \"body\": \"This is an example text message\",\n        \"msgtype\": \"m.text\",\n        \"format\": \"org.matrix.custom.html\",\n        \"formatted_body\": \"<b>This is an example text message</b>\"\n      },\n      \"type\": \"m.room.message\",\n      \"event_id\": \"$143273582443PhrSn:example.org\",\n      \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n      \"sender\": \"@example:example.org\",\n      \"origin_server_ts\": 1432735824653,\n      \"unsigned\": {\n        \"age\": 1234\n      }\n    }\n  ]\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/app/v1/transactions/{txnId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** A list of events, formatted as per the Client-Server API.",
+                            "key": "events",
+                            "required": true,
+                            "title": "[Event]"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The transaction ID for this set of events. Homeservers generate\nthese IDs and they are used to ensure idempotency of requests.",
+                            "key": "txnId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The transaction was processed successfully.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Send some events to the application service."
+            }
+        ],
+        "group": "transactions_as"
+    },
+    "basePath": "/_matrix/app/v1",
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Application Service API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/transactions/{txnId}": {
+            "put": {
+                "description": "This API is called by the homeserver when it wants to push an event\n(or batch of events) to the application service.\n\nNote that the application service should distinguish state events\nfrom message events via the presence of a ``state_key``, rather than\nvia the event type.",
+                "operationId": "sendTransaction",
+                "parameters": [
+                    {
+                        "description": "The transaction ID for this set of events. Homeservers generate\nthese IDs and they are used to ensure idempotency of requests.",
+                        "in": "path",
+                        "name": "txnId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "35"
+                    },
+                    {
+                        "description": "Transaction information",
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "example": {
+                                "events": [
+                                    {
+                                        "content": {
+                                            "avatar_url": "mxc://example.org/SEsfnsuifSDFSSEF",
+                                            "displayname": "Alice Margatroid",
+                                            "membership": "join"
+                                        },
+                                        "event_id": "$143273582443PhrSn:example.org",
+                                        "origin_server_ts": 1432735824653,
+                                        "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+                                        "sender": "@example:example.org",
+                                        "state_key": "@alice:example.org",
+                                        "type": "m.room.member",
+                                        "unsigned": {
+                                            "age": 1234
+                                        }
+                                    },
+                                    {
+                                        "content": {
+                                            "body": "This is an example text message",
+                                            "format": "org.matrix.custom.html",
+                                            "formatted_body": "<b>This is an example text message</b>",
+                                            "msgtype": "m.text"
+                                        },
+                                        "event_id": "$143273582443PhrSn:example.org",
+                                        "origin_server_ts": 1432735824653,
+                                        "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+                                        "sender": "@example:example.org",
+                                        "type": "m.room.message",
+                                        "unsigned": {
+                                            "age": 1234
+                                        }
+                                    }
+                                ]
+                            },
+                            "properties": {
+                                "events": {
+                                    "description": "A list of events, formatted as per the Client-Server API.",
+                                    "items": {
+                                        "title": "Event",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "events"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The transaction was processed successfully.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "homeserverAccessToken": []
+                    }
+                ],
+                "summary": "Send some events to the application service."
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "homeserverAccessToken": {
+            "description": "The ``hs_token`` provided by the application service's registration.",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

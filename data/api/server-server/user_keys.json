@@ -1,0 +1,474 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Claims one-time keys for use in pre-key messages.",
+                "example": {
+                    "req": "POST /_matrix/federation/v1/user/keys/claim HTTP/1.1\nContent-Type: application/json\n\n{\n  \"one_time_keys\": {\n    \"@alice:example.com\": {\n      \"JLAFKJWSCS\": \"signed_curve25519\"\n    }\n  }\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/federation/v1/user/keys/claim",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The keys to be claimed. A map from user ID, to a map from\ndevice ID to algorithm name.",
+                            "key": "one_time_keys",
+                            "required": true,
+                            "title": "{string: {string: string}}"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** One-time keys for the queried devices. A map from user ID, to a\nmap from devices to a map from ``<algorithm>:<key_id>`` to the key object.\n\nSee the `Client-Server Key Algorithms`_ section for more information on\nthe Key Object format.",
+                                "key": "one_time_keys",
+                                "required": true,
+                                "title": "{string: {string: string or KeyObject}}"
+                            }
+                        ]
+                    ],
+                    [
+                        "KeyObject",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The key, encoded using unpadded base64.",
+                                "key": "key",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Signature of the key object.\n\nThe signature is calculated using the process described at `Signing\nJSON`_.",
+                                "key": "signatures",
+                                "required": true,
+                                "title": "Signatures"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The claimed keys.",
+                        "example": "{\n  \"one_time_keys\": {\n    \"@alice:example.com\": {\n      \"JLAFKJWSCS\": {\n        \"signed_curve25519:AAAAHg\": {\n          \"key\": \"zKbLg+NrIjpnagy+pIY6uPL4ZwEG2v+8F9lmgsnlZzs\",\n          \"signatures\": {\n            \"@alice:example.com\": {\n              \"ed25519:JLAFKJWSCS\": \"FLWxXqGbwrb8SM3Y795eB6OA8bwBcoMZFXBqnTn58AYWZSqiD45tlBVcDa2L7RwdKXebW/VzDlnfVJ+9jok1Bw\"\n            }\n          }\n        }\n      }\n    }\n  }\n}"
+                    }
+                ],
+                "title": "Claims one-time encryption keys for a user."
+            },
+            {
+                "deprecated": false,
+                "desc": "Returns the current devices and identity keys for the given users.",
+                "example": {
+                    "req": "POST /_matrix/federation/v1/user/keys/query HTTP/1.1\nContent-Type: application/json\n\n{\n  \"device_keys\": {\n    \"@alice:example.com\": []\n  }\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/federation/v1/user/keys/query",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The keys to be downloaded. A map from user ID, to a list of\ndevice IDs, or to an empty list to indicate all devices for the\ncorresponding user.",
+                            "key": "device_keys",
+                            "required": true,
+                            "title": "{string: [string]}"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** Information on the queried devices. A map from user ID, to a\nmap from device ID to device information.  For each device,\nthe information returned will be the same as uploaded via\n``/keys/upload``, with the addition of an ``unsigned``\nproperty.",
+                                "key": "device_keys",
+                                "required": true,
+                                "title": "{string: {string: DeviceKeys}}"
+                            }
+                        ]
+                    ],
+                    [
+                        "DeviceKeys",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The ID of the user the device belongs to. Must match the user ID used\nwhen logging in.",
+                                "key": "user_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The ID of the device these keys belong to. Must match the device ID used\nwhen logging in.",
+                                "key": "device_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The encryption algorithms supported by this device.",
+                                "key": "algorithms",
+                                "required": true,
+                                "title": "[string]"
+                            },
+                            {
+                                "desc": "**Required.** Public identity keys. The names of the properties should be in the\nformat ``<algorithm>:<device_id>``. The keys themselves should be\nencoded as specified by the key algorithm.",
+                                "key": "keys",
+                                "required": true,
+                                "title": "{string: string}"
+                            },
+                            {
+                                "desc": "**Required.** Signatures for the device key object. A map from user ID, to a map from\n``<algorithm>:<device_id>`` to the signature.\n\nThe signature is calculated using the process described at `Signing\nJSON`_.",
+                                "key": "signatures",
+                                "required": true,
+                                "title": "Signatures"
+                            },
+                            {
+                                "desc": "Additional data added to the device key information\nby intermediate servers, and not covered by the\nsignatures.",
+                                "key": "unsigned",
+                                "required": false,
+                                "title": "UnsignedDeviceInfo"
+                            }
+                        ]
+                    ],
+                    [
+                        "UnsignedDeviceInfo",
+                        null,
+                        [
+                            {
+                                "desc": "The display name which the user set on the device.",
+                                "key": "device_display_name",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The device information.",
+                        "example": "{\n  \"device_keys\": {\n    \"@alice:example.com\": {\n      \"JLAFKJWSCS\": {\n        \"user_id\": \"@alice:example.com\",\n        \"device_id\": \"JLAFKJWSCS\",\n        \"algorithms\": [\n          \"m.olm.v1.curve25519-aes-sha2\",\n          \"m.megolm.v1.aes-sha2\"\n        ],\n        \"keys\": {\n          \"curve25519:JLAFKJWSCS\": \"3C5BFWi2Y8MaVvjM8M22DBmh24PmgR0nPvJOIArzgyI\",\n          \"ed25519:JLAFKJWSCS\": \"lEuiRJBit0IG6nUf5pUzWTUEsRVVe/HJkoKuEww9ULI\"\n        },\n        \"signatures\": {\n          \"@alice:example.com\": {\n            \"ed25519:JLAFKJWSCS\": \"dSO80A01XiigH3uBiDVx/EjzaoycHcjq9lfQX0uWsqxl2giMIiSPR8a4d291W1ihKJL/a+myXS367WT6NAIcBA\"\n          }\n        },\n        \"unsigned\": {\n          \"device_display_name\": \"Alice's mobile phone\"\n        }\n      }\n    }\n  }\n}"
+                    }
+                ],
+                "title": "Download device identity keys."
+            }
+        ],
+        "group": "user_keys_ss"
+    },
+    "basePath": "/_matrix/federation/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation User Key Management API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/user/keys/claim": {
+            "post": {
+                "description": "Claims one-time keys for use in pre-key messages.",
+                "operationId": "claimUserEncryptionKeys",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "one_time_keys": {
+                                    "additionalProperties": {
+                                        "additionalProperties": {
+                                            "description": "algorithm",
+                                            "example": "signed_curve25519",
+                                            "type": "string"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "description": "The keys to be claimed. A map from user ID, to a map from\ndevice ID to algorithm name.",
+                                    "example": {
+                                        "@alice:example.com": {
+                                            "JLAFKJWSCS": "signed_curve25519"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "one_time_keys"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The claimed keys.",
+                        "schema": {
+                            "properties": {
+                                "one_time_keys": {
+                                    "additionalProperties": {
+                                        "additionalProperties": {
+                                            "type": [
+                                                "string",
+                                                {
+                                                    "properties": {
+                                                        "key": {
+                                                            "description": "The key, encoded using unpadded base64.",
+                                                            "type": "string"
+                                                        },
+                                                        "signatures": {
+                                                            "additionalProperties": {
+                                                                "additionalProperties": {
+                                                                    "type": "string"
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "description": "Signature of the key object.\n\nThe signature is calculated using the process described at `Signing\nJSON`_.",
+                                                            "title": "Signatures",
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "key",
+                                                        "signatures"
+                                                    ],
+                                                    "title": "KeyObject",
+                                                    "type": "object"
+                                                }
+                                            ]
+                                        },
+                                        "type": "object"
+                                    },
+                                    "description": "One-time keys for the queried devices. A map from user ID, to a\nmap from devices to a map from ``<algorithm>:<key_id>`` to the key object.\n\nSee the `Client-Server Key Algorithms`_ section for more information on\nthe Key Object format.",
+                                    "example": {
+                                        "@alice:example.com": {
+                                            "JLAFKJWSCS": {
+                                                "signed_curve25519:AAAAHg": {
+                                                    "key": "zKbLg+NrIjpnagy+pIY6uPL4ZwEG2v+8F9lmgsnlZzs",
+                                                    "signatures": {
+                                                        "@alice:example.com": {
+                                                            "ed25519:JLAFKJWSCS": "FLWxXqGbwrb8SM3Y795eB6OA8bwBcoMZFXBqnTn58AYWZSqiD45tlBVcDa2L7RwdKXebW/VzDlnfVJ+9jok1Bw"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "one_time_keys"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Claims one-time encryption keys for a user."
+            }
+        },
+        "/user/keys/query": {
+            "post": {
+                "description": "Returns the current devices and identity keys for the given users.",
+                "operationId": "queryUserEncryptionKeys",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "device_keys": {
+                                    "additionalProperties": {
+                                        "items": {
+                                            "description": "Device ID",
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "description": "The keys to be downloaded. A map from user ID, to a list of\ndevice IDs, or to an empty list to indicate all devices for the\ncorresponding user.",
+                                    "example": {
+                                        "@alice:example.com": []
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "device_keys"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The device information.",
+                        "examples": {
+                            "application/json": {
+                                "device_keys": {
+                                    "@alice:example.com": {
+                                        "JLAFKJWSCS": {
+                                            "algorithms": [
+                                                "m.olm.v1.curve25519-aes-sha2",
+                                                "m.megolm.v1.aes-sha2"
+                                            ],
+                                            "device_id": "JLAFKJWSCS",
+                                            "keys": {
+                                                "curve25519:JLAFKJWSCS": "3C5BFWi2Y8MaVvjM8M22DBmh24PmgR0nPvJOIArzgyI",
+                                                "ed25519:JLAFKJWSCS": "lEuiRJBit0IG6nUf5pUzWTUEsRVVe/HJkoKuEww9ULI"
+                                            },
+                                            "signatures": {
+                                                "@alice:example.com": {
+                                                    "ed25519:JLAFKJWSCS": "dSO80A01XiigH3uBiDVx/EjzaoycHcjq9lfQX0uWsqxl2giMIiSPR8a4d291W1ihKJL/a+myXS367WT6NAIcBA"
+                                                }
+                                            },
+                                            "unsigned": {
+                                                "device_display_name": "Alice's mobile phone"
+                                            },
+                                            "user_id": "@alice:example.com"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "device_keys": {
+                                    "additionalProperties": {
+                                        "additionalProperties": {
+                                            "allOf": [
+                                                {
+                                                    "description": "Device identity keys",
+                                                    "properties": {
+                                                        "algorithms": {
+                                                            "description": "The encryption algorithms supported by this device.",
+                                                            "example": [
+                                                                "m.olm.v1.curve25519-aes-sha2",
+                                                                "m.megolm.v1.aes-sha2"
+                                                            ],
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "device_id": {
+                                                            "description": "The ID of the device these keys belong to. Must match the device ID used\nwhen logging in.",
+                                                            "example": "JLAFKJWSCS",
+                                                            "type": "string"
+                                                        },
+                                                        "keys": {
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            },
+                                                            "description": "Public identity keys. The names of the properties should be in the\nformat ``<algorithm>:<device_id>``. The keys themselves should be\nencoded as specified by the key algorithm.",
+                                                            "example": {
+                                                                "curve25519:JLAFKJWSCS": "3C5BFWi2Y8MaVvjM8M22DBmh24PmgR0nPvJOIArzgyI",
+                                                                "ed25519:JLAFKJWSCS": "lEuiRJBit0IG6nUf5pUzWTUEsRVVe/HJkoKuEww9ULI"
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "signatures": {
+                                                            "additionalProperties": {
+                                                                "additionalProperties": {
+                                                                    "type": "string"
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "description": "Signatures for the device key object. A map from user ID, to a map from\n``<algorithm>:<device_id>`` to the signature.\n\nThe signature is calculated using the process described at `Signing\nJSON`_.",
+                                                            "example": {
+                                                                "@alice:example.com": {
+                                                                    "ed25519:JLAFKJWSCS": "dSO80A01XiigH3uBiDVx/EjzaoycHcjq9lfQX0uWsqxl2giMIiSPR8a4d291W1ihKJL/a+myXS367WT6NAIcBA"
+                                                                }
+                                                            },
+                                                            "title": "Signatures",
+                                                            "type": "object"
+                                                        },
+                                                        "user_id": {
+                                                            "description": "The ID of the user the device belongs to. Must match the user ID used\nwhen logging in.",
+                                                            "example": "@alice:example.com",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "user_id",
+                                                        "device_id",
+                                                        "algorithms",
+                                                        "keys",
+                                                        "signatures"
+                                                    ],
+                                                    "title": "DeviceKeys",
+                                                    "type": "object"
+                                                }
+                                            ],
+                                            "properties": {
+                                                "unsigned": {
+                                                    "description": "Additional data added to the device key information\nby intermediate servers, and not covered by the\nsignatures.",
+                                                    "properties": {
+                                                        "device_display_name": {
+                                                            "description": "The display name which the user set on the device.",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "title": "UnsignedDeviceInfo",
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "description": "Information on the queried devices. A map from user ID, to a\nmap from device ID to device information.  For each device,\nthe information returned will be the same as uploaded via\n``/keys/upload``, with the addition of an ``unsigned``\nproperty.",
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "device_keys"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Download device identity keys."
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "signedRequest": {
+            "description": "The ``Authorization`` header defined in the `Authentication`_ section.",
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

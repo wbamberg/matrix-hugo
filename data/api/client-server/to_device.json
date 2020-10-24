@@ -1,0 +1,152 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "This endpoint is used to send send-to-device events to a set of\nclient devices.",
+                "example": {
+                    "req": "PUT /_matrix/client/%CLIENT_MAJOR_VERSION%/sendToDevice/m.new_device/35 HTTP/1.1\nContent-Type: application/json\n\n{\n  \"messages\": {\n    \"@alice:example.com\": {\n      \"TLLBEANAAG\": {\n        \"example_content_key\": \"value\"\n      }\n    }\n  }\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/sendToDevice/{eventType}/{txnId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "The messages to send. A map from user ID, to a map from\ndevice ID to message body. The device ID may also be `*`,\nmeaning all known devices for the user.",
+                            "key": "messages",
+                            "required": false,
+                            "title": "{string: {string: EventContent}}"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The type of event to send.",
+                            "key": "eventType",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The transaction ID for this event. Clients should generate an\nID unique across requests with the same access token; it will be\nused by the server to ensure idempotency of requests.",
+                            "key": "txnId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The message was successfully sent.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Send an event to a given set of devices."
+            }
+        ],
+        "group": "to_device_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Send-to-device API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/sendToDevice/{eventType}/{txnId}": {
+            "put": {
+                "description": "This endpoint is used to send send-to-device events to a set of\nclient devices.",
+                "operationId": "sendToDevice",
+                "parameters": [
+                    {
+                        "description": "The type of event to send.",
+                        "in": "path",
+                        "name": "eventType",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "m.new_device"
+                    },
+                    {
+                        "description": "The transaction ID for this event. Clients should generate an\nID unique across requests with the same access token; it will be\nused by the server to ensure idempotency of requests.",
+                        "in": "path",
+                        "name": "txnId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "35"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "messages": {
+                                    "additionalProperties": {
+                                        "additionalProperties": {
+                                            "description": "Message content",
+                                            "title": "EventContent",
+                                            "type": "object"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "description": "The messages to send. A map from user ID, to a map from\ndevice ID to message body. The device ID may also be `*`,\nmeaning all known devices for the user.",
+                                    "example": {
+                                        "@alice:example.com": {
+                                            "TLLBEANAAG": {
+                                                "example_content_key": "value"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "title": "body",
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The message was successfully sent.",
+                        "examples": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Send an event to a given set of devices.",
+                "tags": [
+                    "Send-to-Device messaging"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

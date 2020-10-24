@@ -1,0 +1,1494 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Gets a list of the third party identifiers that the homeserver has\nassociated with the user's account.\n\nThis is *not* the same as the list of third party identifiers bound to\nthe user's Matrix ID in identity servers.\n\nIdentifiers in this list may be used by the homeserver as, for example,\nidentifiers that it will accept to reset the user's account password.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {},
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "",
+                                "key": "threepids",
+                                "required": false,
+                                "title": "[Third party identifier]"
+                            }
+                        ]
+                    ],
+                    [
+                        "Third party identifier",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The medium of the third party identifier. One of: [\"email\", \"msisdn\"]",
+                                "key": "medium",
+                                "required": true,
+                                "title": "enum"
+                            },
+                            {
+                                "desc": "**Required.** The third party identifier address.",
+                                "key": "address",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The timestamp, in milliseconds, when the identifier was\nvalidated by the identity server.",
+                                "key": "validated_at",
+                                "required": true,
+                                "title": "integer"
+                            },
+                            {
+                                "desc": "**Required.** The timestamp, in milliseconds, when the homeserver associated the third party identifier with the user.",
+                                "key": "added_at",
+                                "required": true,
+                                "title": "integer"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The lookup was successful.",
+                        "example": "{\n  \"threepids\": [\n    {\n      \"medium\": \"email\",\n      \"address\": \"monkey@banana.island\",\n      \"validated_at\": 1535176800000,\n      \"added_at\": 1535336848756\n    }\n  ]\n}"
+                    }
+                ],
+                "title": "Gets a list of a user's third party identifiers."
+            },
+            {
+                "deprecated": true,
+                "desc": "Adds contact information to the user's account.\n\nThis endpoint is deprecated in favour of the more specific ``/3pid/add``\nand ``/3pid/bind`` endpoints.\n\n.. Note::\n   Previously this endpoint supported a ``bind`` parameter. This parameter\n   has been removed, making this endpoint behave as though it was ``false``.\n   This results in this endpoint being an equivalent to ``/3pid/bind`` rather\n   than dual-purpose.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid HTTP/1.1\nContent-Type: application/json\n\n{\n  \"three_pid_creds\": {\n    \"id_server\": \"matrix.org\",\n    \"id_access_token\": \"abc123_OpaqueString\",\n    \"sid\": \"abc123987\",\n    \"client_secret\": \"d0n'tT3ll\"\n  }\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid",
+                "rate_limited": false,
+                "req_body_tables": [
+                    [
+                        "ThreePidCredentials",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The client secret used in the session with the identity server.",
+                                "key": "client_secret",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The identity server to use.",
+                                "key": "id_server",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** An access token previously registered with the identity server. Servers\ncan treat this as optional to distinguish between r0.5-compatible clients\nand this specification version.",
+                                "key": "id_access_token",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The session identifier given by the identity server.",
+                                "key": "sid",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The third party credentials to associate with the account.",
+                            "key": "three_pid_creds",
+                            "required": true,
+                            "title": "ThreePidCredentials"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The addition was successful.",
+                        "example": "{\n  \"submit_url\": \"https://example.org/path/to/submitToken\"\n}"
+                    },
+                    {
+                        "code": 403,
+                        "description": "The credentials could not be verified with the identity server.",
+                        "example": "{\n  \"errcode\": \"M_THREEPID_AUTH_FAILED\",\n  \"error\": \"The third party credentials could not be verified by the identity server.\"\n}"
+                    }
+                ],
+                "title": "Adds contact information to the user's account."
+            },
+            {
+                "deprecated": false,
+                "desc": "This API endpoint uses the `User-Interactive Authentication API`_.\n\nAdds contact information to the user's account. Homeservers should use 3PIDs added\nthrough this endpoint for password resets instead of relying on the identity server.\n\nHomeservers should prevent the caller from adding a 3PID to their account if it has\nalready been added to another user's account on the homeserver.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/add HTTP/1.1\nContent-Type: application/json\n\n{\n  \"sid\": \"abc123987\",\n  \"client_secret\": \"d0n'tT3ll\"\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/add",
+                "rate_limited": true,
+                "req_body_tables": [
+                    [
+                        "Authentication Data",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The login type that the client is attempting to complete.",
+                                "key": "type",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "The value of the session key given by the homeserver.",
+                                "key": "session",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "Additional authentication information for the\nuser-interactive authentication API.",
+                            "key": "auth",
+                            "required": false,
+                            "title": "Authentication Data"
+                        },
+                        {
+                            "desc": "**Required.** The client secret used in the session with the homeserver.",
+                            "key": "client_secret",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The session identifier given by the homeserver.",
+                            "key": "sid",
+                            "required": true,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The addition was successful.",
+                        "example": "{}"
+                    },
+                    {
+                        "code": 401,
+                        "description": "The homeserver requires additional authentication information.",
+                        "example": "{\n  \"flows\": [\n    {\n      \"stages\": [\n        \"example.type.foo\"\n      ]\n    }\n  ],\n  \"params\": {\n    \"example.type.baz\": {\n      \"example_key\": \"foobar\"\n    }\n  },\n  \"session\": \"xxxxxxyz\",\n  \"completed\": [\n    \"example.type.foo\"\n  ]\n}"
+                    },
+                    {
+                        "code": 429,
+                        "description": "This request was rate-limited.",
+                        "example": "{\n  \"errcode\": \"M_LIMIT_EXCEEDED\",\n  \"error\": \"Too many requests\",\n  \"retry_after_ms\": 2000\n}"
+                    }
+                ],
+                "title": "Adds contact information to the user's account."
+            },
+            {
+                "deprecated": false,
+                "desc": "Binds a 3PID to the user's account through the specified identity server.\n\nHomeservers should not prevent this request from succeeding if another user\nhas bound the 3PID. Homeservers should simply proxy any errors received by\nthe identity server to the caller.\n\nHomeservers should track successful binds so they can be unbound later.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/bind HTTP/1.1\nContent-Type: application/json\n\n{\n  \"id_server\": \"example.org\",\n  \"id_access_token\": \"abc123_OpaqueString\",\n  \"sid\": \"abc123987\",\n  \"client_secret\": \"d0n'tT3ll\"\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/bind",
+                "rate_limited": true,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The client secret used in the session with the identity server.",
+                            "key": "client_secret",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The identity server to use.",
+                            "key": "id_server",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** An access token previously registered with the identity server.",
+                            "key": "id_access_token",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The session identifier given by the identity server.",
+                            "key": "sid",
+                            "required": true,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The addition was successful.",
+                        "example": "{}"
+                    },
+                    {
+                        "code": 429,
+                        "description": "This request was rate-limited.",
+                        "example": "{\n  \"errcode\": \"M_LIMIT_EXCEEDED\",\n  \"error\": \"Too many requests\",\n  \"retry_after_ms\": 2000\n}"
+                    }
+                ],
+                "title": "Binds a 3PID to the user's account through an Identity Service."
+            },
+            {
+                "deprecated": false,
+                "desc": "Removes a third party identifier from the user's account. This might not\ncause an unbind of the identifier from the identity server.\n\nUnlike other endpoints, this endpoint does not take an ``id_access_token``\nparameter because the homeserver is expected to sign the request to the\nidentity server instead.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/delete HTTP/1.1\nContent-Type: application/json\n\n{\n  \"id_server\": \"example.org\",\n  \"medium\": \"email\",\n  \"address\": \"example@example.org\"\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/delete",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "The identity server to unbind from. If not provided, the homeserver\nMUST use the ``id_server`` the identifier was added through. If the\nhomeserver does not know the original ``id_server``, it MUST return\na ``id_server_unbind_result`` of ``no-support``.",
+                            "key": "id_server",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The medium of the third party identifier being removed. One of: [\"email\", \"msisdn\"]",
+                            "key": "medium",
+                            "required": true,
+                            "title": "enum"
+                        },
+                        {
+                            "desc": "**Required.** The third party address being removed.",
+                            "key": "address",
+                            "required": true,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** An indicator as to whether or not the homeserver was able to unbind\nthe 3PID from the identity server. ``success`` indicates that the\nindentity server has unbound the identifier whereas ``no-support``\nindicates that the identity server refuses to support the request\nor the homeserver was not able to determine an identity server to\nunbind from. One of: [\"no-support\", \"success\"]",
+                                "key": "id_server_unbind_result",
+                                "required": true,
+                                "title": "enum"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The homeserver has disassociated the third party identifier from the\nuser.",
+                        "example": "{\n  \"id_server_unbind_result\": \"success\"\n}"
+                    }
+                ],
+                "title": "Deletes a third party identifier from the user's account"
+            },
+            {
+                "deprecated": false,
+                "desc": "Removes a user's third party identifier from the provided identity server\nwithout removing it from the homeserver.\n\nUnlike other endpoints, this endpoint does not take an ``id_access_token``\nparameter because the homeserver is expected to sign the request to the\nidentity server instead.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/unbind HTTP/1.1\nContent-Type: application/json\n\n{\n  \"id_server\": \"example.org\",\n  \"medium\": \"email\",\n  \"address\": \"example@example.org\"\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/unbind",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "The identity server to unbind from. If not provided, the homeserver\nMUST use the ``id_server`` the identifier was added through. If the\nhomeserver does not know the original ``id_server``, it MUST return\na ``id_server_unbind_result`` of ``no-support``.",
+                            "key": "id_server",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The medium of the third party identifier being removed. One of: [\"email\", \"msisdn\"]",
+                            "key": "medium",
+                            "required": true,
+                            "title": "enum"
+                        },
+                        {
+                            "desc": "**Required.** The third party address being removed.",
+                            "key": "address",
+                            "required": true,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** An indicator as to whether or not the identity server was able to unbind\nthe 3PID. ``success`` indicates that the identity server has unbound the\nidentifier whereas ``no-support`` indicates that the identity server\nrefuses to support the request or the homeserver was not able to determine\nan identity server to unbind from. One of: [\"no-support\", \"success\"]",
+                                "key": "id_server_unbind_result",
+                                "required": true,
+                                "title": "enum"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The identity server has disassociated the third party identifier from the\nuser.",
+                        "example": "{\n  \"id_server_unbind_result\": \"success\"\n}"
+                    }
+                ],
+                "title": "Removes a user's third party identifier from an identity server."
+            },
+            {
+                "deprecated": false,
+                "desc": "The homeserver must check that the given email address is **not**\nalready associated with an account on this homeserver. This API should\nbe used to request validation tokens when adding an email address to an\naccount. This API's parameters and response are identical to that of\nthe |/register/email/requestToken|_ endpoint. The homeserver should validate\nthe email itself, either by sending a validation email itself or by using\na service it has control over.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/email/requestToken HTTP/1.1\nContent-Type: application/json\n\n{\n  \"client_secret\": \"monkeys_are_GREAT\",\n  \"email\": \"alice@example.org\",\n  \"send_attempt\": 1,\n  \"next_link\": \"https://example.org/congratulations.html\",\n  \"id_server\": \"id.example.com\",\n  \"id_access_token\": \"string\"\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/email/requestToken",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** A unique string generated by the client, and used to identify the\nvalidation attempt. It must be a string consisting of the characters\n``[0-9a-zA-Z.=_-]``. Its length must not exceed 255 characters and it\nmust not be empty.\n",
+                            "key": "client_secret",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The email address to validate.",
+                            "key": "email",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The server will only send an email if the ``send_attempt``\nis a number greater than the most recent one which it has seen,\nscoped to that ``email`` + ``client_secret`` pair. This is to\navoid repeatedly sending the same email in the case of request\nretries between the POSTing user and the identity server.\nThe client should increment this value if they desire a new\nemail (e.g. a reminder) to be sent. If they do not, the server\nshould respond with success but not resend the email.",
+                            "key": "send_attempt",
+                            "required": true,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "Optional. When the validation is completed, the identity server will\nredirect the user to this URL. This option is ignored when submitting\n3PID validation information through a POST request.",
+                            "key": "next_link",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "The hostname of the identity server to communicate with. May optionally\ninclude a port. This parameter is ignored when the homeserver handles\n3PID verification.\n\nThis parameter is deprecated with a plan to be removed in a future specification\nversion for ``/account/password`` and ``/register`` requests.",
+                            "key": "id_server",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "An access token previously registered with the identity server. Servers\ncan treat this as optional to distinguish between r0.5-compatible clients\nand this specification version.\n\nRequired if an ``id_server`` is supplied.",
+                            "key": "id_access_token",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The session ID. Session IDs are opaque strings that must consist entirely\nof the characters ``[0-9a-zA-Z.=_-]``. Their length must not exceed 255\ncharacters and they must not be empty.",
+                                "key": "sid",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "An optional field containing a URL where the client must submit the\nvalidation token to, with identical parameters to the Identity Service\nAPI's ``POST /validate/email/submitToken`` endpoint (without the requirement\nfor an access token). The homeserver must send this token to the user (if\napplicable), who should then be prompted to provide it to the client.\n\nIf this field is not present, the client can assume that verification\nwill happen without the client's involvement provided the homeserver\nadvertises this specification version in the ``/versions`` response\n(ie: r0.5.0).",
+                                "key": "submit_url",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "An email was sent to the given address. Note that this may be an\nemail containing the validation token or it may be informing the\nuser of an error.",
+                        "example": "{\n  \"sid\": \"123abc\",\n  \"submit_url\": \"https://example.org/path/to/submitToken\"\n}"
+                    },
+                    {
+                        "code": 400,
+                        "description": "The third party identifier is already in use on the homeserver, or\nthe request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
+                        "example": "{\n  \"errcode\": \"M_THREEPID_IN_USE\",\n  \"error\": \"Third party identifier already in use\"\n}"
+                    },
+                    {
+                        "code": 403,
+                        "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
+                        "example": "{\n  \"errcode\": \"M_THREEPID_DENIED\",\n  \"error\": \"Third party identifier is not allowed\"\n}"
+                    }
+                ],
+                "title": "Begins the validation process for an email address for association with the user's account."
+            },
+            {
+                "deprecated": false,
+                "desc": "The homeserver must check that the given phone number is **not**\nalready associated with an account on this homeserver. This API should\nbe used to request validation tokens when adding a phone number to an\naccount. This API's parameters and response are identical to that of\nthe |/register/msisdn/requestToken|_ endpoint. The homeserver should validate\nthe phone number itself, either by sending a validation message itself or by using\na service it has control over.",
+                "example": {
+                    "req": "POST /_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/msisdn/requestToken HTTP/1.1\nContent-Type: application/json\n\n{\n  \"client_secret\": \"monkeys_are_GREAT\",\n  \"country\": \"GB\",\n  \"phone_number\": \"07700900001\",\n  \"send_attempt\": 1,\n  \"next_link\": \"https://example.org/congratulations.html\",\n  \"id_server\": \"id.example.com\",\n  \"id_access_token\": \"string\"\n}"
+                },
+                "method": "POST",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/3pid/msisdn/requestToken",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** A unique string generated by the client, and used to identify the\nvalidation attempt. It must be a string consisting of the characters\n``[0-9a-zA-Z.=_-]``. Its length must not exceed 255 characters and it\nmust not be empty.\n",
+                            "key": "client_secret",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The two-letter uppercase ISO-3166-1 alpha-2 country code that the\nnumber in ``phone_number`` should be parsed as if it were dialled from.",
+                            "key": "country",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The phone number to validate.",
+                            "key": "phone_number",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The server will only send an SMS if the ``send_attempt`` is a\nnumber greater than the most recent one which it has seen,\nscoped to that ``country`` + ``phone_number`` + ``client_secret``\ntriple. This is to avoid repeatedly sending the same SMS in\nthe case of request retries between the POSTing user and the\nidentity server. The client should increment this value if\nthey desire a new SMS (e.g. a reminder) to be sent.",
+                            "key": "send_attempt",
+                            "required": true,
+                            "title": "integer"
+                        },
+                        {
+                            "desc": "Optional. When the validation is completed, the identity server will\nredirect the user to this URL. This option is ignored when submitting\n3PID validation information through a POST request.",
+                            "key": "next_link",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "The hostname of the identity server to communicate with. May optionally\ninclude a port. This parameter is ignored when the homeserver handles\n3PID verification.\n\nThis parameter is deprecated with a plan to be removed in a future specification\nversion for ``/account/password`` and ``/register`` requests.",
+                            "key": "id_server",
+                            "required": false,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "An access token previously registered with the identity server. Servers\ncan treat this as optional to distinguish between r0.5-compatible clients\nand this specification version.\n\nRequired if an ``id_server`` is supplied.",
+                            "key": "id_access_token",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The session ID. Session IDs are opaque strings that must consist entirely\nof the characters ``[0-9a-zA-Z.=_-]``. Their length must not exceed 255\ncharacters and they must not be empty.",
+                                "key": "sid",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "An optional field containing a URL where the client must submit the\nvalidation token to, with identical parameters to the Identity Service\nAPI's ``POST /validate/email/submitToken`` endpoint (without the requirement\nfor an access token). The homeserver must send this token to the user (if\napplicable), who should then be prompted to provide it to the client.\n\nIf this field is not present, the client can assume that verification\nwill happen without the client's involvement provided the homeserver\nadvertises this specification version in the ``/versions`` response\n(ie: r0.5.0).",
+                                "key": "submit_url",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "An SMS message was sent to the given phone number.",
+                        "example": "{\n  \"sid\": \"123abc\",\n  \"submit_url\": \"https://example.org/path/to/submitToken\"\n}"
+                    },
+                    {
+                        "code": 400,
+                        "description": "The third party identifier is already in use on the homeserver, or\nthe request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
+                        "example": "{\n  \"errcode\": \"M_THREEPID_IN_USE\",\n  \"error\": \"Third party identifier already in use\"\n}"
+                    },
+                    {
+                        "code": 403,
+                        "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
+                        "example": "{\n  \"errcode\": \"M_THREEPID_DENIED\",\n  \"error\": \"Third party identifier is not allowed\"\n}"
+                    }
+                ],
+                "title": "Begins the validation process for a phone number for association with the user's account."
+            }
+        ],
+        "group": "administrative_contact_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Account Administrative Contact API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/account/3pid": {
+            "get": {
+                "description": "Gets a list of the third party identifiers that the homeserver has\nassociated with the user's account.\n\nThis is *not* the same as the list of third party identifiers bound to\nthe user's Matrix ID in identity servers.\n\nIdentifiers in this list may be used by the homeserver as, for example,\nidentifiers that it will accept to reset the user's account password.",
+                "operationId": "getAccount3PIDs",
+                "responses": {
+                    "200": {
+                        "description": "The lookup was successful.",
+                        "examples": {
+                            "application/json": {
+                                "threepids": [
+                                    {
+                                        "added_at": 1535336848756,
+                                        "address": "monkey@banana.island",
+                                        "medium": "email",
+                                        "validated_at": 1535176800000
+                                    }
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "threepids": {
+                                    "items": {
+                                        "properties": {
+                                            "added_at": {
+                                                "description": "The timestamp, in milliseconds, when the homeserver associated the third party identifier with the user.",
+                                                "format": "int64",
+                                                "type": "integer"
+                                            },
+                                            "address": {
+                                                "description": "The third party identifier address.",
+                                                "type": "string"
+                                            },
+                                            "medium": {
+                                                "description": "The medium of the third party identifier.",
+                                                "enum": [
+                                                    "email",
+                                                    "msisdn"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "validated_at": {
+                                                "description": "The timestamp, in milliseconds, when the identifier was\nvalidated by the identity server.",
+                                                "format": "int64",
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "required": [
+                                            "medium",
+                                            "address",
+                                            "validated_at",
+                                            "added_at"
+                                        ],
+                                        "title": "Third party identifier",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Gets a list of a user's third party identifiers.",
+                "tags": [
+                    "User data"
+                ]
+            },
+            "post": {
+                "deprecated": true,
+                "description": "Adds contact information to the user's account.\n\nThis endpoint is deprecated in favour of the more specific ``/3pid/add``\nand ``/3pid/bind`` endpoints.\n\n.. Note::\n   Previously this endpoint supported a ``bind`` parameter. This parameter\n   has been removed, making this endpoint behave as though it was ``false``.\n   This results in this endpoint being an equivalent to ``/3pid/bind`` rather\n   than dual-purpose.",
+                "operationId": "post3PIDs",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "example": {
+                                "three_pid_creds": {
+                                    "client_secret": "d0n'tT3ll",
+                                    "id_access_token": "abc123_OpaqueString",
+                                    "id_server": "matrix.org",
+                                    "sid": "abc123987"
+                                }
+                            },
+                            "properties": {
+                                "three_pid_creds": {
+                                    "description": "The third party credentials to associate with the account.",
+                                    "properties": {
+                                        "client_secret": {
+                                            "description": "The client secret used in the session with the identity server.",
+                                            "type": "string"
+                                        },
+                                        "id_access_token": {
+                                            "description": "An access token previously registered with the identity server. Servers\ncan treat this as optional to distinguish between r0.5-compatible clients\nand this specification version.",
+                                            "type": "string"
+                                        },
+                                        "id_server": {
+                                            "description": "The identity server to use.",
+                                            "type": "string"
+                                        },
+                                        "sid": {
+                                            "description": "The session identifier given by the identity server.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "client_secret",
+                                        "id_server",
+                                        "id_access_token",
+                                        "sid"
+                                    ],
+                                    "title": "ThreePidCredentials",
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "three_pid_creds"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The addition was successful.",
+                        "examples": {
+                            "application/json": {
+                                "submit_url": "https://example.org/path/to/submitToken"
+                            },
+                            "schema": {
+                                "properties": {
+                                    "submit_url": {
+                                        "description": "An optional field containing a URL where the client must\nsubmit the validation token to, with identical parameters\nto the Identity Service API's ``POST\n/validate/email/submitToken`` endpoint (without the requirement\nfor an access token). The homeserver must send this token to the\nuser (if applicable), who should then be prompted to provide it\nto the client.\n\nIf this field is not present, the client can assume that\nverification will happen without the client's involvement\nprovided the homeserver advertises this specification version\nin the ``/versions`` response (ie: r0.5.0).",
+                                        "example": "https://example.org/path/to/submitToken",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "The credentials could not be verified with the identity server.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_THREEPID_AUTH_FAILED",
+                                "error": "The third party credentials could not be verified by the identity server."
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Adds contact information to the user's account.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        },
+        "/account/3pid/add": {
+            "post": {
+                "description": "This API endpoint uses the `User-Interactive Authentication API`_.\n\nAdds contact information to the user's account. Homeservers should use 3PIDs added\nthrough this endpoint for password resets instead of relying on the identity server.\n\nHomeservers should prevent the caller from adding a 3PID to their account if it has\nalready been added to another user's account on the homeserver.",
+                "operationId": "add3PID",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "example": {
+                                "client_secret": "d0n'tT3ll",
+                                "sid": "abc123987"
+                            },
+                            "properties": {
+                                "auth": {
+                                    "allOf": [
+                                        {
+                                            "additionalProperties": {
+                                                "description": "Keys dependent on the login type",
+                                                "type": "object"
+                                            },
+                                            "description": "Used by clients to submit authentication information to the interactive-authentication API",
+                                            "example": {
+                                                "example_credential": "verypoorsharedsecret",
+                                                "session": "xxxxx",
+                                                "type": "example.type.foo"
+                                            },
+                                            "properties": {
+                                                "session": {
+                                                    "description": "The value of the session key given by the homeserver.",
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "description": "The login type that the client is attempting to complete.",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "type"
+                                            ],
+                                            "title": "Authentication Data",
+                                            "type": "object"
+                                        }
+                                    ],
+                                    "description": "Additional authentication information for the\nuser-interactive authentication API."
+                                },
+                                "client_secret": {
+                                    "description": "The client secret used in the session with the homeserver.",
+                                    "type": "string"
+                                },
+                                "sid": {
+                                    "description": "The session identifier given by the homeserver.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "client_secret",
+                                "sid"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The addition was successful.",
+                        "examples": {
+                            "application/json": {},
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The homeserver requires additional authentication information.",
+                        "schema": {
+                            "description": "Used by servers to indicate that additional authentication information is required,",
+                            "properties": {
+                                "completed": {
+                                    "description": "A list of the stages the client has completed successfully",
+                                    "items": {
+                                        "example": "example.type.foo",
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                "flows": {
+                                    "description": "A list of the login flows supported by the server for this API.",
+                                    "items": {
+                                        "properties": {
+                                            "stages": {
+                                                "description": "The login type of each of the stages required to complete this\nauthentication flow",
+                                                "items": {
+                                                    "example": "example.type.foo",
+                                                    "type": "string"
+                                                },
+                                                "type": "array"
+                                            }
+                                        },
+                                        "required": [
+                                            "stages"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "title": "Flow information",
+                                    "type": "array"
+                                },
+                                "params": {
+                                    "additionalProperties": {
+                                        "type": "object"
+                                    },
+                                    "description": "Contains any information that the client will need to know in order to\nuse a given type of authentication. For each login type presented,\nthat type may be present as a key in this dictionary. For example, the\npublic part of an OAuth client ID could be given here.",
+                                    "example": {
+                                        "example.type.baz": {
+                                            "example_key": "foobar"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "session": {
+                                    "description": "This is a session identifier that the client must pass back to the home\nserver, if one is provided, in subsequent attempts to authenticate in the\nsame API call.",
+                                    "example": "xxxxxxyz",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "flows"
+                            ],
+                            "title": "Authentication response",
+                            "type": "object"
+                        }
+                    },
+                    "429": {
+                        "description": "This request was rate-limited.",
+                        "schema": {
+                            "description": "The rate limit was reached for this request",
+                            "properties": {
+                                "errcode": {
+                                    "description": "The M_LIMIT_EXCEEDED error code",
+                                    "example": "M_LIMIT_EXCEEDED",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "Too many requests",
+                                    "type": "string"
+                                },
+                                "retry_after_ms": {
+                                    "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                                    "example": 2000,
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Adds contact information to the user's account."
+            }
+        },
+        "/account/3pid/bind": {
+            "post": {
+                "description": "Binds a 3PID to the user's account through the specified identity server.\n\nHomeservers should not prevent this request from succeeding if another user\nhas bound the 3PID. Homeservers should simply proxy any errors received by\nthe identity server to the caller.\n\nHomeservers should track successful binds so they can be unbound later.",
+                "operationId": "bind3PID",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "example": {
+                                "client_secret": "d0n'tT3ll",
+                                "id_access_token": "abc123_OpaqueString",
+                                "id_server": "example.org",
+                                "sid": "abc123987"
+                            },
+                            "properties": {
+                                "client_secret": {
+                                    "description": "The client secret used in the session with the identity server.",
+                                    "type": "string"
+                                },
+                                "id_access_token": {
+                                    "description": "An access token previously registered with the identity server.",
+                                    "type": "string"
+                                },
+                                "id_server": {
+                                    "description": "The identity server to use.",
+                                    "type": "string"
+                                },
+                                "sid": {
+                                    "description": "The session identifier given by the identity server.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "client_secret",
+                                "id_server",
+                                "id_access_token",
+                                "sid"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The addition was successful.",
+                        "examples": {
+                            "application/json": {},
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "This request was rate-limited.",
+                        "schema": {
+                            "description": "The rate limit was reached for this request",
+                            "properties": {
+                                "errcode": {
+                                    "description": "The M_LIMIT_EXCEEDED error code",
+                                    "example": "M_LIMIT_EXCEEDED",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "Too many requests",
+                                    "type": "string"
+                                },
+                                "retry_after_ms": {
+                                    "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                                    "example": 2000,
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Binds a 3PID to the user's account through an Identity Service.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        },
+        "/account/3pid/delete": {
+            "post": {
+                "description": "Removes a third party identifier from the user's account. This might not\ncause an unbind of the identifier from the identity server.\n\nUnlike other endpoints, this endpoint does not take an ``id_access_token``\nparameter because the homeserver is expected to sign the request to the\nidentity server instead.",
+                "operationId": "delete3pidFromAccount",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "address": {
+                                    "description": "The third party address being removed.",
+                                    "example": "example@example.org",
+                                    "type": "string"
+                                },
+                                "id_server": {
+                                    "description": "The identity server to unbind from. If not provided, the homeserver\nMUST use the ``id_server`` the identifier was added through. If the\nhomeserver does not know the original ``id_server``, it MUST return\na ``id_server_unbind_result`` of ``no-support``.",
+                                    "example": "example.org",
+                                    "type": "string"
+                                },
+                                "medium": {
+                                    "description": "The medium of the third party identifier being removed.",
+                                    "enum": [
+                                        "email",
+                                        "msisdn"
+                                    ],
+                                    "example": "email",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "medium",
+                                "address"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The homeserver has disassociated the third party identifier from the\nuser.",
+                        "schema": {
+                            "properties": {
+                                "id_server_unbind_result": {
+                                    "description": "An indicator as to whether or not the homeserver was able to unbind\nthe 3PID from the identity server. ``success`` indicates that the\nindentity server has unbound the identifier whereas ``no-support``\nindicates that the identity server refuses to support the request\nor the homeserver was not able to determine an identity server to\nunbind from.",
+                                    "enum": [
+                                        "no-support",
+                                        "success"
+                                    ],
+                                    "example": "success",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id_server_unbind_result"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Deletes a third party identifier from the user's account",
+                "tags": [
+                    "User data"
+                ]
+            }
+        },
+        "/account/3pid/email/requestToken": {
+            "post": {
+                "description": "The homeserver must check that the given email address is **not**\nalready associated with an account on this homeserver. This API should\nbe used to request validation tokens when adding an email address to an\naccount. This API's parameters and response are identical to that of\nthe |/register/email/requestToken|_ endpoint. The homeserver should validate\nthe email itself, either by sending a validation email itself or by using\na service it has control over.",
+                "operationId": "requestTokenTo3PIDEmail",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "example": {
+                                        "client_secret": "monkeys_are_GREAT",
+                                        "email": "foo@example.com",
+                                        "send_attempt": 1
+                                    },
+                                    "properties": {
+                                        "client_secret": {
+                                            "description": "A unique string generated by the client, and used to identify the\nvalidation attempt. It must be a string consisting of the characters\n``[0-9a-zA-Z.=_-]``. Its length must not exceed 255 characters and it\nmust not be empty.\n",
+                                            "example": "monkeys_are_GREAT",
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "description": "The email address to validate.",
+                                            "example": "alice@example.org",
+                                            "type": "string"
+                                        },
+                                        "next_link": {
+                                            "description": "Optional. When the validation is completed, the identity server will\nredirect the user to this URL. This option is ignored when submitting\n3PID validation information through a POST request.",
+                                            "example": "https://example.org/congratulations.html",
+                                            "type": "string"
+                                        },
+                                        "send_attempt": {
+                                            "description": "The server will only send an email if the ``send_attempt``\nis a number greater than the most recent one which it has seen,\nscoped to that ``email`` + ``client_secret`` pair. This is to\navoid repeatedly sending the same email in the case of request\nretries between the POSTing user and the identity server.\nThe client should increment this value if they desire a new\nemail (e.g. a reminder) to be sent. If they do not, the server\nshould respond with success but not resend the email.",
+                                            "example": 1,
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "client_secret",
+                                        "email",
+                                        "send_attempt"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "properties": {
+                                        "id_access_token": {
+                                            "description": "An access token previously registered with the identity server. Servers\ncan treat this as optional to distinguish between r0.5-compatible clients\nand this specification version.\n\nRequired if an ``id_server`` is supplied.",
+                                            "type": "string"
+                                        },
+                                        "id_server": {
+                                            "description": "The hostname of the identity server to communicate with. May optionally\ninclude a port. This parameter is ignored when the homeserver handles\n3PID verification.\n\nThis parameter is deprecated with a plan to be removed in a future specification\nversion for ``/account/password`` and ``/register`` requests.",
+                                            "example": "id.example.com",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An email was sent to the given address. Note that this may be an\nemail containing the validation token or it may be informing the\nuser of an error.",
+                        "schema": {
+                            "properties": {
+                                "sid": {
+                                    "description": "The session ID. Session IDs are opaque strings that must consist entirely\nof the characters ``[0-9a-zA-Z.=_-]``. Their length must not exceed 255\ncharacters and they must not be empty.",
+                                    "example": "123abc",
+                                    "type": "string"
+                                },
+                                "submit_url": {
+                                    "description": "An optional field containing a URL where the client must submit the\nvalidation token to, with identical parameters to the Identity Service\nAPI's ``POST /validate/email/submitToken`` endpoint (without the requirement\nfor an access token). The homeserver must send this token to the user (if\napplicable), who should then be prompted to provide it to the client.\n\nIf this field is not present, the client can assume that verification\nwill happen without the client's involvement provided the homeserver\nadvertises this specification version in the ``/versions`` response\n(ie: r0.5.0).",
+                                    "example": "https://example.org/path/to/submitToken",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "sid"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "The third party identifier is already in use on the homeserver, or\nthe request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_THREEPID_IN_USE",
+                                "error": "Third party identifier already in use"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "403": {
+                        "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_THREEPID_DENIED",
+                                "error": "Third party identifier is not allowed"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Begins the validation process for an email address for association with the user's account."
+            }
+        },
+        "/account/3pid/msisdn/requestToken": {
+            "post": {
+                "description": "The homeserver must check that the given phone number is **not**\nalready associated with an account on this homeserver. This API should\nbe used to request validation tokens when adding a phone number to an\naccount. This API's parameters and response are identical to that of\nthe |/register/msisdn/requestToken|_ endpoint. The homeserver should validate\nthe phone number itself, either by sending a validation message itself or by using\na service it has control over.",
+                "operationId": "requestTokenTo3PIDMSISDN",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "example": {
+                                        "client_secret": "monkeys_are_GREAT",
+                                        "country": "GB",
+                                        "phone_number": "07700900001",
+                                        "send_attempt": 1
+                                    },
+                                    "properties": {
+                                        "client_secret": {
+                                            "description": "A unique string generated by the client, and used to identify the\nvalidation attempt. It must be a string consisting of the characters\n``[0-9a-zA-Z.=_-]``. Its length must not exceed 255 characters and it\nmust not be empty.\n",
+                                            "example": "monkeys_are_GREAT",
+                                            "type": "string"
+                                        },
+                                        "country": {
+                                            "description": "The two-letter uppercase ISO-3166-1 alpha-2 country code that the\nnumber in ``phone_number`` should be parsed as if it were dialled from.",
+                                            "example": "GB",
+                                            "type": "string"
+                                        },
+                                        "next_link": {
+                                            "description": "Optional. When the validation is completed, the identity server will\nredirect the user to this URL. This option is ignored when submitting\n3PID validation information through a POST request.",
+                                            "example": "https://example.org/congratulations.html",
+                                            "type": "string"
+                                        },
+                                        "phone_number": {
+                                            "description": "The phone number to validate.",
+                                            "example": "07700900001",
+                                            "type": "string"
+                                        },
+                                        "send_attempt": {
+                                            "description": "The server will only send an SMS if the ``send_attempt`` is a\nnumber greater than the most recent one which it has seen,\nscoped to that ``country`` + ``phone_number`` + ``client_secret``\ntriple. This is to avoid repeatedly sending the same SMS in\nthe case of request retries between the POSTing user and the\nidentity server. The client should increment this value if\nthey desire a new SMS (e.g. a reminder) to be sent.",
+                                            "example": 1,
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "client_secret",
+                                        "country",
+                                        "phone_number",
+                                        "send_attempt"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "properties": {
+                                        "id_access_token": {
+                                            "description": "An access token previously registered with the identity server. Servers\ncan treat this as optional to distinguish between r0.5-compatible clients\nand this specification version.\n\nRequired if an ``id_server`` is supplied.",
+                                            "type": "string"
+                                        },
+                                        "id_server": {
+                                            "description": "The hostname of the identity server to communicate with. May optionally\ninclude a port. This parameter is ignored when the homeserver handles\n3PID verification.\n\nThis parameter is deprecated with a plan to be removed in a future specification\nversion for ``/account/password`` and ``/register`` requests.",
+                                            "example": "id.example.com",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An SMS message was sent to the given phone number.",
+                        "schema": {
+                            "properties": {
+                                "sid": {
+                                    "description": "The session ID. Session IDs are opaque strings that must consist entirely\nof the characters ``[0-9a-zA-Z.=_-]``. Their length must not exceed 255\ncharacters and they must not be empty.",
+                                    "example": "123abc",
+                                    "type": "string"
+                                },
+                                "submit_url": {
+                                    "description": "An optional field containing a URL where the client must submit the\nvalidation token to, with identical parameters to the Identity Service\nAPI's ``POST /validate/email/submitToken`` endpoint (without the requirement\nfor an access token). The homeserver must send this token to the user (if\napplicable), who should then be prompted to provide it to the client.\n\nIf this field is not present, the client can assume that verification\nwill happen without the client's involvement provided the homeserver\nadvertises this specification version in the ``/versions`` response\n(ie: r0.5.0).",
+                                    "example": "https://example.org/path/to/submitToken",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "sid"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "The third party identifier is already in use on the homeserver, or\nthe request was invalid. The error code ``M_SERVER_NOT_TRUSTED``\ncan be returned if the server does not trust/support the identity server\nprovided in the request.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_THREEPID_IN_USE",
+                                "error": "Third party identifier already in use"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "403": {
+                        "description": "The homeserver does not allow the third party identifier as a\ncontact option.",
+                        "examples": {
+                            "application/json": {
+                                "errcode": "M_THREEPID_DENIED",
+                                "error": "Third party identifier is not allowed"
+                            }
+                        },
+                        "schema": {
+                            "description": "A Matrix-level Error",
+                            "properties": {
+                                "errcode": {
+                                    "description": "An error code.",
+                                    "example": "M_UNKNOWN",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "An unknown error occurred",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Begins the validation process for a phone number for association with the user's account."
+            }
+        },
+        "/account/3pid/unbind": {
+            "post": {
+                "description": "Removes a user's third party identifier from the provided identity server\nwithout removing it from the homeserver.\n\nUnlike other endpoints, this endpoint does not take an ``id_access_token``\nparameter because the homeserver is expected to sign the request to the\nidentity server instead.",
+                "operationId": "unbind3pidFromAccount",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "address": {
+                                    "description": "The third party address being removed.",
+                                    "example": "example@example.org",
+                                    "type": "string"
+                                },
+                                "id_server": {
+                                    "description": "The identity server to unbind from. If not provided, the homeserver\nMUST use the ``id_server`` the identifier was added through. If the\nhomeserver does not know the original ``id_server``, it MUST return\na ``id_server_unbind_result`` of ``no-support``.",
+                                    "example": "example.org",
+                                    "type": "string"
+                                },
+                                "medium": {
+                                    "description": "The medium of the third party identifier being removed.",
+                                    "enum": [
+                                        "email",
+                                        "msisdn"
+                                    ],
+                                    "example": "email",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "medium",
+                                "address"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The identity server has disassociated the third party identifier from the\nuser.",
+                        "schema": {
+                            "properties": {
+                                "id_server_unbind_result": {
+                                    "description": "An indicator as to whether or not the identity server was able to unbind\nthe 3PID. ``success`` indicates that the identity server has unbound the\nidentifier whereas ``no-support`` indicates that the identity server\nrefuses to support the request or the homeserver was not able to determine\nan identity server to unbind from.",
+                                    "enum": [
+                                        "no-support",
+                                        "success"
+                                    ],
+                                    "example": "success",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id_server_unbind_result"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Removes a user's third party identifier from an identity server.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

@@ -1,0 +1,570 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "This API sets the given user's display name. You must have permission to\nset this user's display name, e.g. you need to have their ``access_token``.",
+                "example": {
+                    "req": "PUT /_matrix/client/%CLIENT_MAJOR_VERSION%/profile/%40alice%3Aexample.com/displayname HTTP/1.1\nContent-Type: application/json\n\n{\n  \"displayname\": \"Alice Margatroid\"\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/profile/{userId}/displayname",
+                "rate_limited": true,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "The new display name for this user.",
+                            "key": "displayname",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The user whose display name to set.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The display name was set.",
+                        "example": "{}"
+                    },
+                    {
+                        "code": 429,
+                        "description": "This request was rate-limited.",
+                        "example": "{\n  \"errcode\": \"M_LIMIT_EXCEEDED\",\n  \"error\": \"Too many requests\",\n  \"retry_after_ms\": 2000\n}"
+                    }
+                ],
+                "title": "Set the user's display name."
+            },
+            {
+                "deprecated": false,
+                "desc": "Get the user's display name. This API may be used to fetch the user's\nown displayname or to query the name of other users; either locally or\non remote homeservers.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/profile/%40alice%3Aexample.com/displayname HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/profile/{userId}/displayname",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The user whose display name to get.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "The user's display name if they have set one, otherwise not present.",
+                                "key": "displayname",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The display name for this user.",
+                        "example": "{\n  \"displayname\": \"Alice Margatroid\"\n}"
+                    },
+                    {
+                        "code": 404,
+                        "description": "There is no display name for this user or this user does not exist.",
+                        "example": null
+                    }
+                ],
+                "title": "Get the user's display name."
+            },
+            {
+                "deprecated": false,
+                "desc": "This API sets the given user's avatar URL. You must have permission to\nset this user's avatar URL, e.g. you need to have their ``access_token``.",
+                "example": {
+                    "req": "PUT /_matrix/client/%CLIENT_MAJOR_VERSION%/profile/%40alice%3Aexample.com/avatar_url HTTP/1.1\nContent-Type: application/json\n\n{\n  \"avatar_url\": \"mxc://matrix.org/wefh34uihSDRGhw34\"\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/profile/{userId}/avatar_url",
+                "rate_limited": true,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "The new avatar URL for this user.",
+                            "key": "avatar_url",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The user whose avatar URL to set.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The avatar URL was set.",
+                        "example": "{}"
+                    },
+                    {
+                        "code": 429,
+                        "description": "This request was rate-limited.",
+                        "example": "{\n  \"errcode\": \"M_LIMIT_EXCEEDED\",\n  \"error\": \"Too many requests\",\n  \"retry_after_ms\": 2000\n}"
+                    }
+                ],
+                "title": "Set the user's avatar URL."
+            },
+            {
+                "deprecated": false,
+                "desc": "Get the user's avatar URL. This API may be used to fetch the user's\nown avatar URL or to query the URL of other users; either locally or\non remote homeservers.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/profile/%40alice%3Aexample.com/avatar_url HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/profile/{userId}/avatar_url",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The user whose avatar URL to get.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "The user's avatar URL if they have set one, otherwise not present.",
+                                "key": "avatar_url",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The avatar URL for this user.",
+                        "example": "{\n  \"avatar_url\": \"mxc://matrix.org/SDGdghriugerRg\"\n}"
+                    },
+                    {
+                        "code": 404,
+                        "description": "There is no avatar URL for this user or this user does not exist.",
+                        "example": null
+                    }
+                ],
+                "title": "Get the user's avatar URL."
+            },
+            {
+                "deprecated": false,
+                "desc": "Get the combined profile information for this user. This API may be used\nto fetch the user's own profile information or other users; either\nlocally or on remote homeservers. This API may return keys which are not\nlimited to ``displayname`` or ``avatar_url``.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/profile/%40alice%3Aexample.com HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/profile/{userId}",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {
+                    "path": [
+                        {
+                            "desc": "**Required.** The user whose profile information to get.",
+                            "key": "userId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "The user's avatar URL if they have set one, otherwise not present.",
+                                "key": "avatar_url",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "The user's display name if they have set one, otherwise not present.",
+                                "key": "displayname",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The avatar URL for this user.",
+                        "example": "{\n  \"avatar_url\": \"mxc://matrix.org/SDGdghriugerRg\",\n  \"displayname\": \"Alice Margatroid\"\n}"
+                    },
+                    {
+                        "code": 404,
+                        "description": "There is no profile information for this user or this user does not exist.",
+                        "example": null
+                    }
+                ],
+                "title": "Get this user's profile information."
+            }
+        ],
+        "group": "profile_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Profile API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/profile/{userId}": {
+            "get": {
+                "description": "Get the combined profile information for this user. This API may be used\nto fetch the user's own profile information or other users; either\nlocally or on remote homeservers. This API may return keys which are not\nlimited to ``displayname`` or ``avatar_url``.",
+                "operationId": "getUserProfile",
+                "parameters": [
+                    {
+                        "description": "The user whose profile information to get.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The avatar URL for this user.",
+                        "examples": {
+                            "application/json": {
+                                "avatar_url": "mxc://matrix.org/SDGdghriugerRg",
+                                "displayname": "Alice Margatroid"
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "avatar_url": {
+                                    "description": "The user's avatar URL if they have set one, otherwise not present.",
+                                    "type": "string"
+                                },
+                                "displayname": {
+                                    "description": "The user's display name if they have set one, otherwise not present.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "There is no profile information for this user or this user does not exist."
+                    }
+                },
+                "summary": "Get this user's profile information.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        },
+        "/profile/{userId}/avatar_url": {
+            "get": {
+                "description": "Get the user's avatar URL. This API may be used to fetch the user's\nown avatar URL or to query the URL of other users; either locally or\non remote homeservers.",
+                "operationId": "getAvatarUrl",
+                "parameters": [
+                    {
+                        "description": "The user whose avatar URL to get.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The avatar URL for this user.",
+                        "examples": {
+                            "application/json": {
+                                "avatar_url": "mxc://matrix.org/SDGdghriugerRg"
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "avatar_url": {
+                                    "description": "The user's avatar URL if they have set one, otherwise not present.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "There is no avatar URL for this user or this user does not exist."
+                    }
+                },
+                "summary": "Get the user's avatar URL.",
+                "tags": [
+                    "User data"
+                ]
+            },
+            "put": {
+                "description": "This API sets the given user's avatar URL. You must have permission to\nset this user's avatar URL, e.g. you need to have their ``access_token``.",
+                "operationId": "setAvatarUrl",
+                "parameters": [
+                    {
+                        "description": "The user whose avatar URL to set.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    },
+                    {
+                        "description": "The new avatar information.",
+                        "in": "body",
+                        "name": "avatar_url",
+                        "required": true,
+                        "schema": {
+                            "example": {
+                                "avatar_url": "mxc://matrix.org/wefh34uihSDRGhw34"
+                            },
+                            "properties": {
+                                "avatar_url": {
+                                    "description": "The new avatar URL for this user.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The avatar URL was set.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "429": {
+                        "description": "This request was rate-limited.",
+                        "schema": {
+                            "description": "The rate limit was reached for this request",
+                            "properties": {
+                                "errcode": {
+                                    "description": "The M_LIMIT_EXCEEDED error code",
+                                    "example": "M_LIMIT_EXCEEDED",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "Too many requests",
+                                    "type": "string"
+                                },
+                                "retry_after_ms": {
+                                    "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                                    "example": 2000,
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Set the user's avatar URL.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        },
+        "/profile/{userId}/displayname": {
+            "get": {
+                "description": "Get the user's display name. This API may be used to fetch the user's\nown displayname or to query the name of other users; either locally or\non remote homeservers.",
+                "operationId": "getDisplayName",
+                "parameters": [
+                    {
+                        "description": "The user whose display name to get.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The display name for this user.",
+                        "examples": {
+                            "application/json": {
+                                "displayname": "Alice Margatroid"
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "displayname": {
+                                    "description": "The user's display name if they have set one, otherwise not present.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "There is no display name for this user or this user does not exist."
+                    }
+                },
+                "summary": "Get the user's display name.",
+                "tags": [
+                    "User data"
+                ]
+            },
+            "put": {
+                "description": "This API sets the given user's display name. You must have permission to\nset this user's display name, e.g. you need to have their ``access_token``.",
+                "operationId": "setDisplayName",
+                "parameters": [
+                    {
+                        "description": "The user whose display name to set.",
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "@alice:example.com"
+                    },
+                    {
+                        "description": "The new display name information.",
+                        "in": "body",
+                        "name": "displayName",
+                        "required": true,
+                        "schema": {
+                            "example": {
+                                "displayname": "Alice Margatroid"
+                            },
+                            "properties": {
+                                "displayname": {
+                                    "description": "The new display name for this user.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The display name was set.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "429": {
+                        "description": "This request was rate-limited.",
+                        "schema": {
+                            "description": "The rate limit was reached for this request",
+                            "properties": {
+                                "errcode": {
+                                    "description": "The M_LIMIT_EXCEEDED error code",
+                                    "example": "M_LIMIT_EXCEEDED",
+                                    "type": "string"
+                                },
+                                "error": {
+                                    "description": "A human-readable error message.",
+                                    "example": "Too many requests",
+                                    "type": "string"
+                                },
+                                "retry_after_ms": {
+                                    "description": "The amount of time in milliseconds the client should wait\nbefore trying the request again.",
+                                    "example": 2000,
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "errcode"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Set the user's display name.",
+                "tags": [
+                    "User data"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

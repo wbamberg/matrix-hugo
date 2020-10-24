@@ -1,0 +1,633 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "The receiving server will verify the partial ``m.room.member`` event\ngiven in the request body. If valid, the receiving server will issue\nan invite as per the `Inviting to a room`_ section before returning a\nresponse to this request.",
+                "example": {
+                    "req": "PUT /_matrix/federation/v1/exchange_third_party_invite/%21abc123%3Amatrix.org HTTP/1.1\nContent-Type: application/json\n\n{\n  \"type\": \"m.room.member\",\n  \"room_id\": \"!abc123:matrix.org\",\n  \"sender\": \"@joe:matrix.org\",\n  \"state_key\": \"@someone:example.org\",\n  \"content\": {\n    \"membership\": \"invite\",\n    \"third_party_invite\": {\n      \"display_name\": \"alice\",\n      \"signed\": {\n        \"mxid\": \"@alice:localhost\",\n        \"token\": \"abc123\",\n        \"signatures\": {\n          \"magic.forest\": {\n            \"ed25519:3\": \"fQpGIW1Snz+pwLZu6sTy2aHy/DYWWTspTJRPyNp0PKkymfIsNffysMl6ObMMFdIJhk6g6pwlIqZ54rxo8SLmAg\"\n          }\n        }\n      }\n    }\n  }\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/federation/v1/exchange_third_party_invite/{roomId}",
+                "rate_limited": false,
+                "req_body_tables": [
+                    [
+                        "Event Content",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The membership state. Must be ``invite``",
+                                "key": "membership",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The third party invite",
+                                "key": "third_party_invite",
+                                "required": true,
+                                "title": "Third Party Invite"
+                            }
+                        ]
+                    ],
+                    [
+                        "Third Party Invite",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** A name which can be displayed to represent the user instead of their\nthird party identifier.",
+                                "key": "display_name",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** A block of content which has been signed, which servers can use to\nverify the event.",
+                                "key": "signed",
+                                "required": true,
+                                "title": "Invite Signatures"
+                            }
+                        ]
+                    ],
+                    [
+                        "Invite Signatures",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The server signatures for this event.\n\nThe signature is calculated using the process\ndescribed at `Signing JSON`_.",
+                                "key": "signatures",
+                                "required": true,
+                                "title": "Signatures"
+                            },
+                            {
+                                "desc": "**Required.** The invited matrix user ID",
+                                "key": "mxid",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The token used to verify the event",
+                                "key": "token",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The event type. Must be ``m.room.member``",
+                            "key": "type",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The room ID the event is for. Must match the ID given in\nthe path.",
+                            "key": "room_id",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The user ID of the user who sent the original ``m.room.third_party_invite``\nevent.",
+                            "key": "sender",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The user ID of the invited user",
+                            "key": "state_key",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The event content",
+                            "key": "content",
+                            "required": true,
+                            "title": "Event Content"
+                        }
+                    ],
+                    "path": [
+                        {
+                            "desc": "**Required.** The room ID to exchange a third party invite in",
+                            "key": "roomId",
+                            "required": false,
+                            "title": "string"
+                        }
+                    ]
+                },
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The invite has been issued successfully.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Request a server to auth a third party invite event"
+            },
+            {
+                "deprecated": false,
+                "desc": "Used by identity servers to notify the homeserver that one of its users\nhas bound a third party identifier successfully, including any pending\nroom invites the identity server has been made aware of.",
+                "example": {
+                    "req": "PUT /_matrix/federation/v1/3pid/onbind HTTP/1.1\nContent-Type: application/json\n\n{\n  \"medium\": \"email\",\n  \"address\": \"alice@example.com\",\n  \"mxid\": \"@alice:matrix.org\",\n  \"invites\": [\n    {\n      \"medium\": \"email\",\n      \"address\": \"alice@example.com\",\n      \"mxid\": \"@alice:matrix.org\",\n      \"room_id\": \"!somewhere:example.org\",\n      \"sender\": \"@bob:matrix.org\",\n      \"signed\": {\n        \"mxid\": \"@alice:matrix.org\",\n        \"token\": \"Hello World\",\n        \"signatures\": {\n          \"vector.im\": {\n            \"ed25519:0\": \"SomeSignatureGoesHere\"\n          }\n        }\n      }\n    }\n  ]\n}"
+                },
+                "method": "PUT",
+                "path": "/_matrix/federation/v1/3pid/onbind",
+                "rate_limited": false,
+                "req_body_tables": [
+                    [
+                        "Third Party Invite",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The type of third party invite issues. Currently only\n\"email\" is used.",
+                                "key": "medium",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The third party identifier that received the invite.",
+                                "key": "address",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The now-bound user ID that received the invite.",
+                                "key": "mxid",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The room ID the invite is valid for.",
+                                "key": "room_id",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The user ID that sent the invite.",
+                                "key": "sender",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** Signature from the identity server using a long-term private\nkey.",
+                                "key": "signed",
+                                "required": true,
+                                "title": "Identity Server Signatures"
+                            }
+                        ]
+                    ],
+                    [
+                        "Identity Server Signatures",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The user ID that has been bound to the third party\nidentifier.",
+                                "key": "mxid",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** A token.",
+                                "key": "token",
+                                "required": true,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "**Required.** The signature from the identity server. The ``string`` key\nis the identity server's domain name, such as vector.im",
+                                "key": "signatures",
+                                "required": true,
+                                "title": "Identity Server Signature"
+                            }
+                        ]
+                    ],
+                    [
+                        "Identity Server Domain Signature",
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The signature.",
+                                "key": "ed25519:0",
+                                "required": true,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "req_param_by_loc": {
+                    "JSON body": [
+                        {
+                            "desc": "**Required.** The type of third party identifier. Currently only \"email\" is\na possible value.",
+                            "key": "medium",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The third party identifier itself. For example, an email address.",
+                            "key": "address",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** The user that is now bound to the third party identifier.",
+                            "key": "mxid",
+                            "required": true,
+                            "title": "string"
+                        },
+                        {
+                            "desc": "**Required.** A list of pending invites that the third party identifier has received.",
+                            "key": "invites",
+                            "required": true,
+                            "title": "[Third Party Invite]"
+                        }
+                    ]
+                },
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The homeserver has processed the notification.",
+                        "example": "{}"
+                    }
+                ],
+                "title": "Notifies the server that a third party identifier has been bound to one\nof its users."
+            }
+        ],
+        "group": "third_party_invite_ss"
+    },
+    "basePath": "/_matrix/federation/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation Third Party Invites API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/3pid/onbind": {
+            "put": {
+                "description": "Used by identity servers to notify the homeserver that one of its users\nhas bound a third party identifier successfully, including any pending\nroom invites the identity server has been made aware of.",
+                "operationId": "onBindThirdPartyIdentifier",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "address": {
+                                    "description": "The third party identifier itself. For example, an email address.",
+                                    "example": "alice@example.com",
+                                    "type": "string"
+                                },
+                                "invites": {
+                                    "description": "A list of pending invites that the third party identifier has received.",
+                                    "items": {
+                                        "properties": {
+                                            "address": {
+                                                "description": "The third party identifier that received the invite.",
+                                                "example": "alice@example.com",
+                                                "type": "string"
+                                            },
+                                            "medium": {
+                                                "description": "The type of third party invite issues. Currently only\n\"email\" is used.",
+                                                "example": "email",
+                                                "type": "string"
+                                            },
+                                            "mxid": {
+                                                "description": "The now-bound user ID that received the invite.",
+                                                "example": "@alice:matrix.org",
+                                                "type": "string"
+                                            },
+                                            "room_id": {
+                                                "description": "The room ID the invite is valid for.",
+                                                "example": "!somewhere:example.org",
+                                                "type": "string"
+                                            },
+                                            "sender": {
+                                                "description": "The user ID that sent the invite.",
+                                                "example": "@bob:matrix.org",
+                                                "type": "string"
+                                            },
+                                            "signed": {
+                                                "description": "Signature from the identity server using a long-term private\nkey.",
+                                                "properties": {
+                                                    "mxid": {
+                                                        "description": "The user ID that has been bound to the third party\nidentifier.",
+                                                        "example": "@alice:matrix.org",
+                                                        "type": "string"
+                                                    },
+                                                    "signatures": {
+                                                        "additionalProperties": {
+                                                            "description": "The signature for the identity server.",
+                                                            "properties": {
+                                                                "ed25519:0": {
+                                                                    "description": "The signature.",
+                                                                    "example": "SomeSignatureGoesHere",
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "ed25519:0"
+                                                            ],
+                                                            "title": "Identity Server Domain Signature",
+                                                            "type": "object"
+                                                        },
+                                                        "description": "The signature from the identity server. The ``string`` key\nis the identity server's domain name, such as vector.im",
+                                                        "example": {
+                                                            "vector.im": {
+                                                                "ed25519:0": "SomeSignatureGoesHere"
+                                                            }
+                                                        },
+                                                        "title": "Identity Server Signature",
+                                                        "type": "object"
+                                                    },
+                                                    "token": {
+                                                        "description": "A token.",
+                                                        "example": "Hello World",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "mxid",
+                                                    "token",
+                                                    "signatures"
+                                                ],
+                                                "title": "Identity Server Signatures",
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "medium",
+                                            "address",
+                                            "mxid",
+                                            "room_id",
+                                            "sender",
+                                            "signed"
+                                        ],
+                                        "title": "Third Party Invite",
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "medium": {
+                                    "description": "The type of third party identifier. Currently only \"email\" is\na possible value.",
+                                    "example": "email",
+                                    "type": "string"
+                                },
+                                "mxid": {
+                                    "description": "The user that is now bound to the third party identifier.",
+                                    "example": "@alice:matrix.org",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "medium",
+                                "address",
+                                "mxid",
+                                "invites"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The homeserver has processed the notification.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "description": "An empty object",
+                            "example": {},
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Notifies the server that a third party identifier has been bound to one\nof its users."
+            }
+        },
+        "/exchange_third_party_invite/{roomId}": {
+            "put": {
+                "description": "The receiving server will verify the partial ``m.room.member`` event\ngiven in the request body. If valid, the receiving server will issue\nan invite as per the `Inviting to a room`_ section before returning a\nresponse to this request.",
+                "operationId": "exchangeThirdPartyInvite",
+                "parameters": [
+                    {
+                        "description": "The room ID to exchange a third party invite in",
+                        "in": "path",
+                        "name": "roomId",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "!abc123:matrix.org"
+                    },
+                    {
+                        "description": "A partial ``m.room.member`` event",
+                        "example": {
+                            "content": {
+                                "membership": "invite",
+                                "third_party_invite": {
+                                    "display_name": "alice",
+                                    "signed": {
+                                        "mxid": "@alice:localhost",
+                                        "signatures": {
+                                            "magic.forest": {
+                                                "ed25519:3": "fQpGIW1Snz+pwLZu6sTy2aHy/DYWWTspTJRPyNp0PKkymfIsNffysMl6ObMMFdIJhk6g6pwlIqZ54rxo8SLmAg"
+                                            }
+                                        },
+                                        "token": "abc123"
+                                    }
+                                }
+                            },
+                            "room_id": "!abc123:matrix.org",
+                            "sender": "@joe:matrix.org",
+                            "state_key": "@someone:example.org",
+                            "type": "m.room.member"
+                        },
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "content": {
+                                    "description": "The event content",
+                                    "example": {
+                                        "membership": "invite",
+                                        "third_party_invite": {
+                                            "display_name": "alice",
+                                            "signed": {
+                                                "mxid": "@alice:localhost",
+                                                "signatures": {
+                                                    "magic.forest": {
+                                                        "ed25519:3": "fQpGIW1Snz+pwLZu6sTy2aHy/DYWWTspTJRPyNp0PKkymfIsNffysMl6ObMMFdIJhk6g6pwlIqZ54rxo8SLmAg"
+                                                    }
+                                                },
+                                                "token": "abc123"
+                                            }
+                                        }
+                                    },
+                                    "properties": {
+                                        "membership": {
+                                            "description": "The membership state. Must be ``invite``",
+                                            "example": "invite",
+                                            "type": "string"
+                                        },
+                                        "third_party_invite": {
+                                            "description": "The third party invite",
+                                            "example": {
+                                                "display_name": "alice",
+                                                "signed": {
+                                                    "mxid": "@alice:localhost",
+                                                    "signatures": {
+                                                        "magic.forest": {
+                                                            "ed25519:3": "fQpGIW1Snz+pwLZu6sTy2aHy/DYWWTspTJRPyNp0PKkymfIsNffysMl6ObMMFdIJhk6g6pwlIqZ54rxo8SLmAg"
+                                                        }
+                                                    },
+                                                    "token": "abc123"
+                                                }
+                                            },
+                                            "properties": {
+                                                "display_name": {
+                                                    "description": "A name which can be displayed to represent the user instead of their\nthird party identifier.",
+                                                    "example": "alice",
+                                                    "type": "string"
+                                                },
+                                                "signed": {
+                                                    "description": "A block of content which has been signed, which servers can use to\nverify the event.",
+                                                    "example": {
+                                                        "mxid": "@alice:localhost",
+                                                        "signatures": {
+                                                            "magic.forest": {
+                                                                "ed25519:3": "fQpGIW1Snz+pwLZu6sTy2aHy/DYWWTspTJRPyNp0PKkymfIsNffysMl6ObMMFdIJhk6g6pwlIqZ54rxo8SLmAg"
+                                                            }
+                                                        },
+                                                        "token": "abc123"
+                                                    },
+                                                    "properties": {
+                                                        "mxid": {
+                                                            "description": "The invited matrix user ID",
+                                                            "example": "@alice:localhost",
+                                                            "type": "string"
+                                                        },
+                                                        "signatures": {
+                                                            "additionalProperties": {
+                                                                "additionalProperties": {
+                                                                    "type": "string"
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "description": "The server signatures for this event.\n\nThe signature is calculated using the process\ndescribed at `Signing JSON`_.",
+                                                            "example": {
+                                                                "magic.forest": {
+                                                                    "ed25519:3": "fQpGIW1Snz+pwLZu6sTy2aHy/DYWWTspTJRPyNp0PKkymfIsNffysMl6ObMMFdIJhk6g6pwlIqZ54rxo8SLmAg"
+                                                                }
+                                                            },
+                                                            "title": "Signatures",
+                                                            "type": "object"
+                                                        },
+                                                        "token": {
+                                                            "description": "The token used to verify the event",
+                                                            "example": "abc123",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "signatures",
+                                                        "mxid",
+                                                        "token"
+                                                    ],
+                                                    "title": "Invite Signatures",
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "required": [
+                                                "display_name",
+                                                "signed"
+                                            ],
+                                            "title": "Third Party Invite",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "required": [
+                                        "membership",
+                                        "third_party_invite"
+                                    ],
+                                    "title": "Event Content",
+                                    "type": "object"
+                                },
+                                "room_id": {
+                                    "description": "The room ID the event is for. Must match the ID given in\nthe path.",
+                                    "example": "!abc123:matrix.org",
+                                    "type": "string"
+                                },
+                                "sender": {
+                                    "description": "The user ID of the user who sent the original ``m.room.third_party_invite``\nevent.",
+                                    "example": "@joe:matrix.org",
+                                    "type": "string"
+                                },
+                                "state_key": {
+                                    "description": "The user ID of the invited user",
+                                    "example": "@someone:example.org",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "The event type. Must be ``m.room.member``",
+                                    "example": "m.room.member",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "room_id",
+                                "sender",
+                                "state_key",
+                                "content"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The invite has been issued successfully.",
+                        "examples": {
+                            "application/json": {}
+                        },
+                        "schema": {
+                            "description": "An empty object",
+                            "example": {},
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "signedRequest": []
+                    }
+                ],
+                "summary": "Request a server to auth a third party invite event"
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "signedRequest": {
+            "description": "The ``Authorization`` header defined in the `Authentication`_ section.",
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

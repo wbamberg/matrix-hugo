@@ -1,0 +1,113 @@
+{
+    "__meta": {
+        "base": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "This API returns a list of the user's current rooms.",
+                "example": {
+                    "req": "GET /_matrix/client/%CLIENT_MAJOR_VERSION%/joined_rooms HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/client/%CLIENT_MAJOR_VERSION%/joined_rooms",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {},
+                "requires_auth": true,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "**Required.** The ID of each room in which the user has ``joined`` membership.",
+                                "key": "joined_rooms",
+                                "required": true,
+                                "title": "[string]"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "A list of the rooms the user is in.",
+                        "example": "{\n  \"joined_rooms\": [\n    \"!foo:example.com\"\n  ]\n}"
+                    }
+                ],
+                "title": "Lists the user's current rooms."
+            }
+        ],
+        "group": "list_joined_rooms_cs"
+    },
+    "basePath": "/_matrix/client/%CLIENT_MAJOR_VERSION%",
+    "consumes": [
+        "application/json"
+    ],
+    "host": "localhost:8008",
+    "info": {
+        "title": "Matrix Client-Server Room Listing API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/joined_rooms": {
+            "get": {
+                "description": "This API returns a list of the user's current rooms.",
+                "operationId": "getJoinedRooms",
+                "responses": {
+                    "200": {
+                        "description": "A list of the rooms the user is in.",
+                        "examples": {
+                            "application/json": {
+                                "joined_rooms": [
+                                    "!foo:example.com"
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "joined_rooms": {
+                                    "description": "The ID of each room in which the user has ``joined`` membership.",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "required": [
+                                "joined_rooms"
+                            ],
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ],
+                "summary": "Lists the user's current rooms.",
+                "tags": [
+                    "Room membership"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "securityDefinitions": {
+        "accessToken": {
+            "description": "The access_token returned by a call to ``/login`` or ``/register``",
+            "in": "query",
+            "name": "access_token",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0"
+}

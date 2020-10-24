@@ -1,0 +1,116 @@
+{
+    "__meta": {
+        "base": "/_matrix/federation/v1",
+        "endpoints": [
+            {
+                "deprecated": false,
+                "desc": "Get the implementation name and version of this homeserver.",
+                "example": {
+                    "req": "GET /_matrix/federation/v1/version HTTP/1.1\n\n"
+                },
+                "method": "GET",
+                "path": "/_matrix/federation/v1/version",
+                "rate_limited": false,
+                "req_body_tables": [],
+                "req_param_by_loc": {},
+                "requires_auth": false,
+                "res_headers": null,
+                "res_tables": [
+                    [
+                        null,
+                        null,
+                        [
+                            {
+                                "desc": "",
+                                "key": "server",
+                                "required": false,
+                                "title": "Server"
+                            }
+                        ]
+                    ],
+                    [
+                        "Server",
+                        null,
+                        [
+                            {
+                                "desc": "Arbitrary name that identify this implementation.",
+                                "key": "name",
+                                "required": false,
+                                "title": "string"
+                            },
+                            {
+                                "desc": "Version of this implementation. The version format depends on the implementation.",
+                                "key": "version",
+                                "required": false,
+                                "title": "string"
+                            }
+                        ]
+                    ]
+                ],
+                "responses": [
+                    {
+                        "code": 200,
+                        "description": "The implementation name and version of this homeserver.",
+                        "example": "{\n  \"server\": {\n    \"name\": \"My_Homeserver_Implementation\",\n    \"version\": \"ArbitraryVersionNumber\"\n  }\n}"
+                    }
+                ],
+                "title": "Get the implementation name and version of this homeserver."
+            }
+        ],
+        "group": "version_ss"
+    },
+    "basePath": "/_matrix/federation/v1",
+    "host": "localhost:8448",
+    "info": {
+        "title": "Matrix Federation Version API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/version": {
+            "get": {
+                "description": "Get the implementation name and version of this homeserver.",
+                "operationId": "getVersion",
+                "responses": {
+                    "200": {
+                        "description": "The implementation name and version of this homeserver.",
+                        "examples": {
+                            "application/json": {
+                                "server": {
+                                    "name": "My_Homeserver_Implementation",
+                                    "version": "ArbitraryVersionNumber"
+                                }
+                            }
+                        },
+                        "schema": {
+                            "properties": {
+                                "server": {
+                                    "properties": {
+                                        "name": {
+                                            "description": "Arbitrary name that identify this implementation.",
+                                            "type": "string"
+                                        },
+                                        "version": {
+                                            "description": "Version of this implementation. The version format depends on the implementation.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "title": "Server",
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Get the implementation name and version of this homeserver."
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "schemes": [
+        "https"
+    ],
+    "swagger": "2.0"
+}
