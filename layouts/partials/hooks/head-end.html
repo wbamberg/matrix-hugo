@@ -46,60 +46,23 @@
   Styles for HTTP API sections
   */
   .http-api {
-    margin: 1rem 0;
+    margin: 1rem 0 3rem 0;
     padding: 1rem;
-  }
-
-  .GET {
-    background-color: #ebf3fb;
-  }
-
-  .GET .http-api-method {
-    background-color: #61affe;
-  }
-
-  .POST {
-    background-color: #e8f6f0;
-  }
-
-  .POST .http-api-method{
-    background-color: #49cc90;
-  }
-
-  .PUT {
-    background-color: #fbf1e6;
-  }
-
-  .PUT .http-api-method{
-    background-color: #fca130;
-  }
-
-  .DELETE {
-    background-color: #fbe7e7;
-  }
-
-  .DELETE .http-api-method {
-    background-color: #f93e3e;
-  }
-
-  .http-api > summary > span {
-    padding: 0 .5rem;
+    background-color: rgba(0, 152, 212, .1)
   }
 
   .http-api .http-api-method {
-    color: white;
     padding: .2rem;
     display: inline-block;
-    width: 4rem;
     text-align: center;
     border-radius: 3px;
     font-weight: 700;
   }
 
   .http-api h1 {
-    font-size: 1rem;
+    font-size: 1.3rem;
     line-height: 1.5;
-    display: inline;
+    margin-bottom: 1rem;
   }
 
   .http-api h2 {
@@ -118,8 +81,17 @@
     margin-top: 0;
   }
 
+  .http-api hr {
+    border: 1px solid rgb(0, 152, 212);
+    margin-bottom: 1.5rem;
+  }
+
   .http-api p {
     margin: .5rem auto;
+  }
+
+  .http-api p code, .http-api table code {
+    background-color: inherit;
   }
 
   .http-api table {
@@ -128,14 +100,21 @@
     margin: 1rem 0 .5rem 0;
   }
 
-  .http-api caption {
-    caption-side: top;
-    color: #333;
-    font-size: 1.1rem;
+  .http-api table.basic-info, .http-api table.basic-info td {
+    table-layout: fixed;
+    border: initial;
+    width: 50%;
+    margin: 1rem 0 .5rem 0;
   }
 
   .http-api table, .http-api td {
     border: 2px solid white;
+  }
+
+  .http-api caption {
+    caption-side: top;
+    color: #333;
+    font-size: 1.1rem;
   }
 
   .http-api td {

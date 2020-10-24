@@ -7,18 +7,18 @@
 
 {{ $path := replace $operation_data.path "%CLIENT_MAJOR_VERSION%"  "r0" }}
 
-<details class="http-api {{ $operation_data.method }}">
+<section class="http-api {{ $operation_data.method }}">
 
- <summary>
-  <h1>
-  <span class="http-api-method {{ $operation_data.method }}">{{ $operation_data.method }}</span>
-  <span class="endpoint"><code>{{ $path }}</code></span>
-  </h1>
- </summary>
+<h1>
+ <span class="http-api-method {{ $operation_data.method }}">{{ $operation_data.method }}</span>
+ <span class="endpoint"><code>{{ $path }}</code></span>
+</h1>
+
+<hr/>
 
 <p>{{ $operation_data.desc }}</p>
 
-<table class>
+<table class="basic-info">
   <tr>
    <td><strong>Rate-limited:</strong></td>
    <td>{{ if $operation_data.rate_limited }}Yes{{ else }}No{{ end }}</td>
@@ -29,9 +29,11 @@
  </tr>
 </table>
 
+{{ with $operation_data.req_param_by_loc }}
+
 <h2>Request parameters</h2>
 
-{{ range $type, $param_data := $operation_data.req_param_by_loc }}
+{{ range $type, $param_data := . }}
 
 <table class>
  <caption>{{ $type }} parameters</caption>
@@ -52,6 +54,8 @@
 {{ end }}
 
 </table>
+
+{{ end }}
 
 {{ end }}
 
@@ -136,6 +140,6 @@
 
 
 
-</details>
+</section>
 
 {{ end }}
