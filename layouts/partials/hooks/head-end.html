@@ -1,20 +1,6 @@
 <style>
 
   /*
-  Give top-level Toc items bold style
-  */
-  #TableOfContents > ul > li > a {
-    font-weight: bold;
-  }
-
-  /*
-  Use standard #333 for ToC text
-  */
-  .td-toc #TableOfContents a {
-    color: #333;
-  }
-
-  /*
   This is needed to stop the bottom of the Matrix icon from getting snipped off.
   */
   .td-navbar .navbar-brand svg {
@@ -22,10 +8,11 @@
   }
 
   /*
-  This overrides calc(100vh - 10rem);, which gives us a blank space at the bottom of the ToC
+  This overrides calc(100vh - 10rem);, which gives us a blank space at the bottom of the sidebar
   */
-  .td-toc {
-    height: calc(100vh - 5rem);
+  .td-sidebar-nav {
+    max-height: calc(100vh - 5rem);
+    overflow-y: scroll;
   }
 
   /*
@@ -140,5 +127,49 @@
   /* Styles for the homepage */
   .td-box h1 {
     font-size: 1.2rem;
+  }
+
+  /* styles for the ToC */
+
+  #toc ol {
+    padding-left: 1rem;
+    counter-reset: section;
+    list-style-type: none;
+  }
+
+  /*
+  Give top-level Toc items bold style
+  */
+  #TableOfContents > ul > li > a {
+    font-weight: bold;
+  }
+
+  /*
+  Use standard #333 for ToC text
+  */
+  .td-toc #TableOfContents a {
+    color: #333;
+  }
+
+  #TableOfContents>ol {
+    padding-left: .5rem;
+  }
+
+  #toc li::before {
+    counter-increment: section;
+    content: counters(section, ".") " ";
+  }
+
+  #toc {
+    padding-top: .5rem;
+    padding-left: 1.5rem;
+  }
+
+  #toc #toc-title {
+    font-weight: 700;
+  }
+
+  #toc li {
+      padding-top: 0.375rem;
   }
 </style>
