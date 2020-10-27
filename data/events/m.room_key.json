@@ -1,0 +1,41 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The encryption algorithm the key in this event is to be used with. Must be 'm.megolm.v1.aes-sha2'.",
+                    "key": "algorithm",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "**Required.** The room where the key is used.",
+                    "key": "room_id",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** The ID of the session that the key is for.",
+                    "key": "session_id",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** The key to be exchanged.",
+                    "key": "session_key",
+                    "required": true,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "This event type is used to exchange keys for end-to-end encryption. Typically\nit is encrypted as an ``m.room.encrypted`` event, then sent as a `to-device`_ event.",
+    "msgtype": null,
+    "title": null,
+    "type": "m.room_key",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

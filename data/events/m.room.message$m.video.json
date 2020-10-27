@@ -1,0 +1,131 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** A description of the video e.g. 'Gangnam style', or some kind of content description for accessibility e.g. 'video attachment'.",
+                    "key": "body",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "Metadata about the video clip referred to in ``url``.",
+                    "key": "info",
+                    "required": false,
+                    "title": "VideoInfo"
+                },
+                {
+                    "desc": "**Required.** Must be 'm.video'.",
+                    "key": "msgtype",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "Required if the file is unencrypted. The URL (typically `MXC URI`_)\nto the video clip.",
+                    "key": "url",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Required if the file is encrypted. Information on the encrypted\nfile, as specified in |encrypted_files|_.",
+                    "key": "file",
+                    "required": false,
+                    "title": "EncryptedFile"
+                }
+            ]
+        ],
+        [
+            "VideoInfo",
+            null,
+            [
+                {
+                    "desc": "The duration of the video in milliseconds.",
+                    "key": "duration",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The height of the video in pixels.",
+                    "key": "h",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The width of the video in pixels.",
+                    "key": "w",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The mimetype of the video e.g. ``video/mp4``.",
+                    "key": "mimetype",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The size of the video in bytes.",
+                    "key": "size",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The URL (typically `MXC URI`_) to an image thumbnail of\nthe video clip. Only present if the thumbnail is unencrypted.",
+                    "key": "thumbnail_url",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Information on the encrypted thumbnail file, as specified in\n|encrypted_files|_. Only present if the thumbnail is encrypted.",
+                    "key": "thumbnail_file",
+                    "required": false,
+                    "title": "EncryptedFile"
+                },
+                {
+                    "desc": "Metadata about the image referred to in ``thumbnail_url``.",
+                    "key": "thumbnail_info",
+                    "required": false,
+                    "title": "ThumbnailInfo"
+                }
+            ]
+        ],
+        [
+            "ThumbnailInfo",
+            null,
+            [
+                {
+                    "desc": "The intended display height of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "h",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The intended display width of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "w",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The mimetype of the image, e.g. ``image/jpeg``.",
+                    "key": "mimetype",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Size of the image in bytes.",
+                    "key": "size",
+                    "required": false,
+                    "title": "integer"
+                }
+            ]
+        ]
+    ],
+    "desc": "This message represents a single video clip.",
+    "msgtype": "m.video",
+    "title": "VideoMessage",
+    "type": "m.room.message",
+    "type_with_msgtype": "m.room.message (m.video)",
+    "typeof": "Message Event",
+    "typeof_info": ""
+}

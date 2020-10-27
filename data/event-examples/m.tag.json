@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"tags\": {\n            \"u.work\": {\n                \"order\": 0.9\n            }\n        }\n    },\n    \"type\": \"m.tag\"\n}"
+    }
+]

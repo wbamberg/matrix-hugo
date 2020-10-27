@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"ban\": 50,\n        \"events\": {\n            \"m.room.name\": 100,\n            \"m.room.power_levels\": 100\n        },\n        \"events_default\": 0,\n        \"invite\": 50,\n        \"kick\": 50,\n        \"notifications\": {\n            \"room\": 20\n        },\n        \"redact\": 50,\n        \"state_default\": 50,\n        \"users\": {\n            \"@example:localhost\": 100\n        },\n        \"users_default\": 0\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"state_key\": \"\",\n    \"type\": \"m.room.power_levels\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
+    }
+]

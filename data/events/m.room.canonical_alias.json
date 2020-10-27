@@ -1,0 +1,29 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "The canonical alias for the room. If not present, null, or empty the\nroom should be considered to have no canonical alias.\n",
+                    "key": "alias",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Alternative aliases the room advertises. This list can have aliases\ndespite the ``alias`` field being null, empty, or otherwise not present.\n",
+                    "key": "alt_aliases",
+                    "required": false,
+                    "title": "[string]"
+                }
+            ]
+        ]
+    ],
+    "desc": "This event is used to inform the room about which alias should be\nconsidered the canonical one, and which other aliases point to the room.\nThis could be for display purposes or as suggestion to users which alias\nto use to advertise and access the room.",
+    "msgtype": null,
+    "title": "Informs the room as to which alias is the canonical one.",
+    "type": "m.room.canonical_alias",
+    "type_with_msgtype": null,
+    "typeof": "State Event",
+    "typeof_info": "``state_key``: A zero-length string."
+}

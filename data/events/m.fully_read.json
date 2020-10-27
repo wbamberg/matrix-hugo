@@ -1,0 +1,23 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The event the user's read marker is located at in the room.",
+                    "key": "event_id",
+                    "required": true,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "The current location of the user's read marker in a room. This event appears in the user's room account data for the room the marker is applicable for.",
+    "msgtype": null,
+    "title": "Read Marker Location Event",
+    "type": "m.fully_read",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

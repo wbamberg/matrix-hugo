@@ -1,0 +1,53 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "The current avatar URL for this user, if any.",
+                    "key": "avatar_url",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The current display name for this user, if any.",
+                    "key": "displayname",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The last time since this used performed some action, in milliseconds.",
+                    "key": "last_active_ago",
+                    "required": false,
+                    "title": "number"
+                },
+                {
+                    "desc": "**Required.** The presence state for this user. One of: [\"online\", \"offline\", \"unavailable\"]",
+                    "key": "presence",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "Whether the user is currently active",
+                    "key": "currently_active",
+                    "required": false,
+                    "title": "boolean"
+                },
+                {
+                    "desc": "An optional description to accompany the presence.",
+                    "key": "status_msg",
+                    "required": false,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "Informs the client of a user's presence state change.",
+    "msgtype": null,
+    "title": "Presence Event",
+    "type": "m.presence",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

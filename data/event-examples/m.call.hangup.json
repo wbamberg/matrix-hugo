@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"call_id\": \"12345\",\n        \"version\": 0\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"type\": \"m.call.hangup\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
+    }
+]

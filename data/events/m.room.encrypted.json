@@ -1,0 +1,65 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The encryption algorithm used to encrypt this event. The\nvalue of this field determines which other properties will be\npresent. One of: [\"m.olm.v1.curve25519-aes-sha2\", \"m.megolm.v1.aes-sha2\"]",
+                    "key": "algorithm",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "**Required.** The encrypted content of the event. Either the encrypted payload\nitself, in the case of a Megolm event, or a map from the recipient\nCurve25519 identity key to ciphertext information, in the case of an\nOlm event. For more details, see `Messaging Algorithms`_.",
+                    "key": "ciphertext",
+                    "required": true,
+                    "title": "string or {string: CiphertextInfo}"
+                },
+                {
+                    "desc": "**Required.** The Curve25519 key of the sender.",
+                    "key": "sender_key",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "The ID of the sending device. Required with Megolm.",
+                    "key": "device_id",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The ID of the session used to encrypt the message. Required with\nMegolm.",
+                    "key": "session_id",
+                    "required": false,
+                    "title": "string"
+                }
+            ]
+        ],
+        [
+            "CiphertextInfo",
+            null,
+            [
+                {
+                    "desc": "The encrypted payload.",
+                    "key": "body",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The Olm message type.",
+                    "key": "type",
+                    "required": false,
+                    "title": "integer"
+                }
+            ]
+        ]
+    ],
+    "desc": "This event type is used when sending encrypted events. It can be used either\nwithin a room (in which case it will have all of the `Room Event fields`_), or\nas a `to-device`_ event.",
+    "msgtype": null,
+    "title": null,
+    "type": "m.room.encrypted",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

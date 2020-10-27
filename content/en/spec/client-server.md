@@ -1520,17 +1520,17 @@ This section is a work in progress.
 This specification outlines several standard event types, all of which
 are prefixed with `m.`
 
-{{m\_room\_canonical\_alias\_event}}
+{{% event event="m.room.canonical_alias" %}}
 
-{{m\_room\_create\_event}}
+{{% event event="m.room.create" %}}
 
-{{m\_room\_join\_rules\_event}}
+{{% event event="m.room.join_rules" %}}
 
-{{m\_room\_member\_event}}
+{{% event event="m.room.member" %}}
 
-{{m\_room\_power\_levels\_event}}
+{{% event event="m.room.power_levels" %}}
 
-{{m\_room\_redaction\_event}}
+{{% event event="m.room.redaction" %}}
 
 ##### Historical events
 

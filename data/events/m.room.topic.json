@@ -1,0 +1,23 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The topic text.",
+                    "key": "topic",
+                    "required": true,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "A topic is a short message detailing what is currently being discussed in the room.  It can also be used as a way to display extra information about the room, which may not be suitable for the room name. The room topic can also be set when creating a room using ``/createRoom`` with the ``topic`` key.",
+    "msgtype": null,
+    "title": "Topic",
+    "type": "m.room.topic",
+    "type_with_msgtype": null,
+    "typeof": "State Event",
+    "typeof_info": "``state_key``: A zero-length string."
+}

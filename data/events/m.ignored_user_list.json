@@ -1,0 +1,35 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The map of users to ignore",
+                    "key": "ignored_users",
+                    "required": true,
+                    "title": "Ignored users"
+                }
+            ]
+        ],
+        [
+            "Ignored users",
+            null,
+            [
+                {
+                    "desc": "An empty object for future enhancement",
+                    "key": "$USER_ID",
+                    "required": false,
+                    "title": "Ignored User"
+                }
+            ]
+        ]
+    ],
+    "desc": "A map of users which are considered ignored is kept in ``account_data``\nin an event type of ``m.ignored_user_list``.",
+    "msgtype": null,
+    "title": "Ignored User List",
+    "type": "m.ignored_user_list",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

@@ -5,7 +5,7 @@
 
 {{ $path := replace $operation_data.path "%CLIENT_MAJOR_VERSION%"  "r0" }}
 
-<section class="http-api {{ $operation_data.method }}">
+<section class="rendered-data http-api {{ $operation_data.method }}">
 
 <h1>
  <span class="http-api-method {{ $operation_data.method }}">{{ $operation_data.method }}</span>
@@ -26,6 +26,7 @@
   <td>{{ if $operation_data.requires_auth }}Yes{{ else }}No{{ end }}</td>
  </tr>
 </table>
+
 {{ with $operation_data.req_param_by_loc }}
 
 <h2>Request parameters</h2>
@@ -34,7 +35,7 @@
 
 {{ $caption := printf "%s parameters" $type }}
 {{ $table_params := dict "caption" $caption "fields" $param_data }}
-{{ partial "http-api/object-table" $table_params }}
+{{ partial "data/object-table" $table_params }}
 
 {{ end }}
 
@@ -49,12 +50,11 @@
 {{ $caption := index $additional_type 0 }}
 {{ $fields := index $additional_type 2 }}
 {{ $table_params := dict "caption" $caption "fields" $fields }}
-{{ partial "http-api/object-table" $table_params }}
+{{ partial "data/object-table" $table_params }}
 
 {{ end }}
 
 {{ end }}
-
 
 <h2>Responses</h2>
 
@@ -84,7 +84,7 @@
 {{ $caption := index $additional_type 0 }}
 {{ $fields := index $additional_type 2 }}
 {{ $table_params := dict "caption" $caption "fields" $fields }}
-{{ partial "http-api/object-table" $table_params }}
+{{ partial "data/object-table" $table_params }}
 
 {{ end }}
 

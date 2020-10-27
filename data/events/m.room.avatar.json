@@ -1,0 +1,107 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "Metadata about the image referred to in ``url``.",
+                    "key": "info",
+                    "required": false,
+                    "title": "ImageInfo"
+                },
+                {
+                    "desc": "**Required.** The URL to the image.",
+                    "key": "url",
+                    "required": true,
+                    "title": "string"
+                }
+            ]
+        ],
+        [
+            "ImageInfo",
+            null,
+            [
+                {
+                    "desc": "The intended display height of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "h",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The intended display width of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "w",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The mimetype of the image, e.g. ``image/jpeg``.",
+                    "key": "mimetype",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Size of the image in bytes.",
+                    "key": "size",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The URL (typically `MXC URI`_) to a thumbnail of the image.\nOnly present if the thumbnail is unencrypted.",
+                    "key": "thumbnail_url",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Information on the encrypted thumbnail file, as specified in\n|encrypted_files|_. Only present if the thumbnail is encrypted.",
+                    "key": "thumbnail_file",
+                    "required": false,
+                    "title": "EncryptedFile"
+                },
+                {
+                    "desc": "Metadata about the image referred to in ``thumbnail_url``.",
+                    "key": "thumbnail_info",
+                    "required": false,
+                    "title": "ThumbnailInfo"
+                }
+            ]
+        ],
+        [
+            "ThumbnailInfo",
+            null,
+            [
+                {
+                    "desc": "The intended display height of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "h",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The intended display width of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "w",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The mimetype of the image, e.g. ``image/jpeg``.",
+                    "key": "mimetype",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Size of the image in bytes.",
+                    "key": "size",
+                    "required": false,
+                    "title": "integer"
+                }
+            ]
+        ]
+    ],
+    "desc": "A picture that is associated with the room. This can be displayed alongside the room information.",
+    "msgtype": null,
+    "title": "RoomAvatar",
+    "type": "m.room.avatar",
+    "type_with_msgtype": null,
+    "typeof": "State Event",
+    "typeof_info": "``state_key``: A zero-length string."
+}

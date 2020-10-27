@@ -1,0 +1,41 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The body of the message.",
+                    "key": "body",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** Must be 'm.text'.",
+                    "key": "msgtype",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "The format used in the ``formatted_body``. Currently only\n``org.matrix.custom.html`` is supported.",
+                    "key": "format",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The formatted version of the ``body``. This is required if ``format``\nis specified.",
+                    "key": "formatted_body",
+                    "required": false,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "This message is the most basic message and is used to represent text.",
+    "msgtype": "m.text",
+    "title": "TextMessage",
+    "type": "m.room.message",
+    "type_with_msgtype": "m.room.message (m.text)",
+    "typeof": "Message Event",
+    "typeof_info": ""
+}

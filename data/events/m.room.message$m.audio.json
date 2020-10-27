@@ -1,0 +1,71 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** A description of the audio e.g. 'Bee Gees - Stayin' Alive', or some kind of content description for accessibility e.g. 'audio attachment'.",
+                    "key": "body",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "Metadata for the audio clip referred to in ``url``.",
+                    "key": "info",
+                    "required": false,
+                    "title": "AudioInfo"
+                },
+                {
+                    "desc": "**Required.** Must be 'm.audio'.",
+                    "key": "msgtype",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "Required if the file is unencrypted. The URL (typically `MXC URI`_)\nto the audio clip.",
+                    "key": "url",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Required if the file is encrypted. Information on the encrypted\nfile, as specified in |encrypted_files|_.",
+                    "key": "file",
+                    "required": false,
+                    "title": "EncryptedFile"
+                }
+            ]
+        ],
+        [
+            "AudioInfo",
+            null,
+            [
+                {
+                    "desc": "The duration of the audio in milliseconds.",
+                    "key": "duration",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The mimetype of the audio e.g. ``audio/aac``.",
+                    "key": "mimetype",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The size of the audio clip in bytes.",
+                    "key": "size",
+                    "required": false,
+                    "title": "integer"
+                }
+            ]
+        ]
+    ],
+    "desc": "This message represents a single audio clip.",
+    "msgtype": "m.audio",
+    "title": "AudioMessage",
+    "type": "m.room.message",
+    "type_with_msgtype": "m.room.message (m.audio)",
+    "typeof": "Message Event",
+    "typeof_info": ""
+}

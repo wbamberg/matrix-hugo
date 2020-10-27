@@ -1,0 +1,35 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The encryption algorithm to be used to encrypt messages sent in this\nroom. Must be 'm.megolm.v1.aes-sha2'.",
+                    "key": "algorithm",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "How long the session should be used before changing it. ``604800000``\n(a week) is the recommended default.",
+                    "key": "rotation_period_ms",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "How many messages should be sent before changing the session. ``100`` is the\nrecommended default.",
+                    "key": "rotation_period_msgs",
+                    "required": false,
+                    "title": "integer"
+                }
+            ]
+        ]
+    ],
+    "desc": "Defines how messages sent in this room should be encrypted.",
+    "msgtype": null,
+    "title": null,
+    "type": "m.room.encryption",
+    "type_with_msgtype": null,
+    "typeof": "State Event",
+    "typeof_info": "``state_key``: A zero-length string."
+}

@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"entity\": \"#*:example.org\",\n        \"reason\": \"undesirable content\",\n        \"recommendation\": \"m.ban\"\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"state_key\": \"rule:#*:example.org\",\n    \"type\": \"m.policy.rule.room\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
+    }
+]

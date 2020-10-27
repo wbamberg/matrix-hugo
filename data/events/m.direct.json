@@ -1,0 +1,10 @@
+{
+    "content_fields": [],
+    "desc": "A map of which rooms are considered 'direct' rooms for specific users\nis kept in  ``account_data`` in an event of type ``m.direct``. The\ncontent of this event is an object where the keys are the user IDs\nand values are lists of room ID strings of the 'direct' rooms for\nthat user ID.",
+    "msgtype": null,
+    "title": "Direct Chat Mapping",
+    "type": "m.direct",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

@@ -1,0 +1,71 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "Information about the requested key. Required when ``action`` is\n``request``.",
+                    "key": "body",
+                    "required": false,
+                    "title": "RequestedKeyInfo"
+                },
+                {
+                    "desc": "**Required.** One of: [\"request\", \"request_cancellation\"]",
+                    "key": "action",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "**Required.** ID of the device requesting the key.",
+                    "key": "requesting_device_id",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** A random string uniquely identifying the request for a key. If the key is\nrequested multiple times, it should be reused. It should also reused in order\nto cancel a request.",
+                    "key": "request_id",
+                    "required": true,
+                    "title": "string"
+                }
+            ]
+        ],
+        [
+            "RequestedKeyInfo",
+            null,
+            [
+                {
+                    "desc": "**Required.** The encryption algorithm the requested key in this event is to be used\nwith.",
+                    "key": "algorithm",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** The room where the key is used.",
+                    "key": "room_id",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** The Curve25519 key of the device which initiated the session originally.",
+                    "key": "sender_key",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** The ID of the session that the key is for.",
+                    "key": "session_id",
+                    "required": true,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "This event type is used to request keys for end-to-end encryption. It is sent as an\nunencrypted `to-device`_ event.",
+    "msgtype": null,
+    "title": null,
+    "type": "m.room_key_request",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

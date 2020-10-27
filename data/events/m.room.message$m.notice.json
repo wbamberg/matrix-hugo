@@ -1,0 +1,41 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The notice text to send.",
+                    "key": "body",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** Must be 'm.notice'.",
+                    "key": "msgtype",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "The format used in the ``formatted_body``. Currently only\n``org.matrix.custom.html`` is supported.",
+                    "key": "format",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The formatted version of the ``body``. This is required if ``format``\nis specified.",
+                    "key": "formatted_body",
+                    "required": false,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "The ``m.notice`` type is primarily intended for responses from automated clients. An ``m.notice`` message must be treated the same way as a regular ``m.text`` message with two exceptions. Firstly, clients should present ``m.notice`` messages to users in a distinct manner, and secondly, ``m.notice`` messages must never be automatically responded to. This helps to prevent infinite-loop situations where two automated clients continuously exchange messages.",
+    "msgtype": "m.notice",
+    "title": "NoticeMessage",
+    "type": "m.room.message",
+    "type_with_msgtype": "m.room.message (m.notice)",
+    "typeof": "Message Event",
+    "typeof_info": ""
+}

@@ -1,0 +1,8 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"algorithm\": \"m.olm.v1.curve25519-aes-sha2\",\n        \"ciphertext\": {\n            \"7qZcfnBmbEGzxxaWfBjElJuvn7BZx+lSz/SvFrDF/z8\": {\n                \"body\": \"AwogGJJzMhf/S3GQFXAOrCZ3iKyGU5ZScVtjI0KypTYrW...\",\n                \"type\": 0\n            }\n        },\n        \"sender_key\": \"Szl29ksW/L8yZGWAX+8dY1XyFi+i5wm+DRhTGkbMiwU\"\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"type\": \"m.room.encrypted\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
+    },
+    {
+        "example": "{\n    \"content\": {\n        \"algorithm\": \"m.megolm.v1.aes-sha2\",\n        \"ciphertext\": \"AwgAEnACgAkLmt6qF84IK++J7UDH2Za1YVchHyprqTqsg...\",\n        \"device_id\": \"RJYKSTBOIE\",\n        \"sender_key\": \"IlRMeOPX2e0MurIyfWEucYBRVOEEUMrOHqn/8mLqMjA\",\n        \"session_id\": \"X3lUlvLELLYxeTx4yOVu6UDpasGEVO0Jbu+QFnm0cKQ\"\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"type\": \"m.room.encrypted\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
+    }
+]

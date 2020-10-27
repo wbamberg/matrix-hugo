@@ -1,0 +1,29 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** The event that this feedback is related to.",
+                    "key": "target_event_id",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** The type of feedback. One of: [\"delivered\", \"read\"]",
+                    "key": "type",
+                    "required": true,
+                    "title": "enum"
+                }
+            ]
+        ]
+    ],
+    "desc": "**NB: Usage of this event is discouraged in favour of the** `receipts module`_. **Most clients will not recognise this event.** Feedback events are events sent to acknowledge a message in some way. There are two supported acknowledgements: ``delivered`` (sent when the event has been received) and ``read`` (sent when the event has been observed by the end-user). The ``target_event_id`` should reference the ``m.room.message`` event being acknowledged.",
+    "msgtype": null,
+    "title": "MessageFeedback",
+    "type": "m.room.message.feedback",
+    "type_with_msgtype": null,
+    "typeof": "Message Event",
+    "typeof_info": ""
+}

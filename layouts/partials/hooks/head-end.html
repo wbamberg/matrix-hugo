@@ -30,12 +30,11 @@
 }
 
   /*
-  Styles for HTTP API sections
+  Styles for HTTP API and event sections
   */
-  .http-api {
+  .rendered-data {
     margin: 1rem 0 3rem 0;
     padding: 1rem;
-    background-color: rgba(0, 152, 212, .1)
   }
 
   .http-api .http-api-method {
@@ -46,82 +45,99 @@
     font-weight: 700;
   }
 
-  .http-api h1 {
+  .rendered-data h1 {
     font-size: 1.3rem;
     line-height: 1.5;
     margin-bottom: 1rem;
   }
 
-  .http-api h2 {
+  .rendered-data h2 {
     font-size: 1.3rem;
   }
 
-  .http-api h3 {
+  .rendered-data h3 {
     font-size: 1.2rem;
   }
 
-  .http-api h2, .http-api h3 {
+  .rendered-data h2, .rendered-data h3 {
     margin: 3rem 0 .5rem 0;
   }
 
-  .http-api h2 + table, .http-api h3 + table {
+  .rendered-data h2 + table, .rendered-data h3 + table {
     margin-top: 0;
   }
 
-  .http-api hr {
-    border: 1px solid rgb(0, 152, 212);
+  .rendered-data hr {
+    border: 1px solid;
     margin-bottom: 1.5rem;
   }
 
-  .http-api p {
+  .rendered-data p {
     margin: .5rem auto;
   }
 
-  .http-api p code, .http-api table code {
+  .rendered-data p code, .rendered-data table code {
     background-color: inherit;
   }
 
-  .http-api table {
+  .rendered-data table {
     table-layout: fixed;
     width: 100%;
     margin: 1rem 0 .5rem 0;
   }
 
-  .http-api table.basic-info, .http-api table.basic-info td {
+  .rendered-data table.basic-info, .rendered-data table.basic-info td {
     table-layout: fixed;
     border: initial;
     width: 50%;
     margin: 1rem 0 .5rem 0;
   }
 
-  .http-api table, .http-api td {
+  .rendered-data table, .rendered-data td {
     border: 2px solid white;
   }
 
-  .http-api caption {
+  .rendered-data caption {
     caption-side: top;
     color: #333;
     font-size: 1.1rem;
   }
 
-  .http-api td {
+  .rendered-data td {
     padding: .3rem;
   }
 
-  .http-api thead {
+  .rendered-data thead {
     background-color: whitesmoke;
   }
 
-  .http-api .col-name, .http-api .col-type, .http-api .col-status {
+  .rendered-data .col-name, .rendered-data .col-type, .rendered-data .col-status {
     width: 25%;
   }
 
-  .http-api .col-description {
+  .rendered-data .col-description {
     width: 50%;
   }
 
-  .http-api .col-status-description {
+  .rendered-data .col-status-description {
     width: 75%;
+  }
+
+  /* distinct colors for HTTP API and Event sections */
+  .http-api {
+    background-color: rgba(0, 152, 212, .1)
+  }
+
+  .http-api hr {
+    border-color: rgb(0, 152, 212)
+  }
+
+  .event {
+    background-color: rgba(132, 184, 23, .1)
+  }
+
+  .event hr {
+    border-color: rgb(132, 184, 23)
   }
 
   /* Styles for the homepage */

@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"ignored_users\": {\n            \"@someone:example.org\": {}\n        }\n    },\n    \"type\": \"m.ignored_user_list\"\n}"
+    }
+]

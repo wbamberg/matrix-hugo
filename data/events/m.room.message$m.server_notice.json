@@ -1,0 +1,47 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** A human-readable description of the notice.",
+                    "key": "body",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "**Required.** Must be 'm.server_notice'.",
+                    "key": "msgtype",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "**Required.** The type of notice being represented.",
+                    "key": "server_notice_type",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "A URI giving a contact method for the server administrator. Required if the\nnotice type is ``m.server_notice.usage_limit_reached``.",
+                    "key": "admin_contact",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The kind of usage limit the server has exceeded. Required if the notice type is\n``m.server_notice.usage_limit_reached``.",
+                    "key": "limit_type",
+                    "required": false,
+                    "title": "string"
+                }
+            ]
+        ]
+    ],
+    "desc": "Represents a server notice for a user.",
+    "msgtype": "m.server_notice",
+    "title": "ServerNoticeMessage",
+    "type": "m.room.message",
+    "type_with_msgtype": "m.room.message (m.server_notice)",
+    "typeof": "Message Event",
+    "typeof_info": ""
+}

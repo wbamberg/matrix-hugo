@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"action\": \"request_cancellation\",\n        \"request_id\": \"1495474790150.19\",\n        \"requesting_device_id\": \"RJYKSTBOIE\"\n    },\n    \"type\": \"m.room_key_request\"\n}"
+    }
+]

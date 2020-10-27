@@ -1,0 +1,35 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "True to allow server names that are IP address literals. False to\ndeny. Defaults to true if missing or otherwise not a boolean.\n\nThis is strongly recommended to be set to ``false`` as servers running\nwith IP literal names are strongly discouraged in order to require \nlegitimate homeservers to be backed by a valid registered domain name.",
+                    "key": "allow_ip_literals",
+                    "required": false,
+                    "title": "boolean"
+                },
+                {
+                    "desc": "The server names to allow in the room, excluding any port information.\nWildcards may be used to cover a wider range of hosts, where ``*``\nmatches zero or more characters and ``?`` matches exactly one character.\n\n**This defaults to an empty list when not provided, effectively disallowing\nevery server.**",
+                    "key": "allow",
+                    "required": false,
+                    "title": "[string]"
+                },
+                {
+                    "desc": "The server names to disallow in the room, excluding any port information.\nWildcards may be used to cover a wider range of hosts, where ``*``\nmatches zero or more characters and ``?`` matches exactly one character.\n\nThis defaults to an empty list when not provided.",
+                    "key": "deny",
+                    "required": false,
+                    "title": "[string]"
+                }
+            ]
+        ]
+    ],
+    "desc": "An event to indicate which servers are permitted to participate in the\nroom. Server ACLs may allow or deny groups of hosts. All servers participating\nin the room, including those that are denied, are expected to uphold the\nserver ACL. Servers that do not uphold the ACLs MUST be added to the denied hosts\nlist in order for the ACLs to remain effective.\n\nThe ``allow`` and ``deny`` lists are lists of globs supporting ``?`` and ``*``\nas wildcards. When comparing against the server ACLs, the suspect server's port\nnumber must not be considered. Therefore ``evil.com``, ``evil.com:8448``, and\n``evil.com:1234`` would all match rules that apply to ``evil.com``, for example.\n\nThe ACLs are applied to servers when they make requests, and are applied in\nthe following order:\n\n1. If there is no ``m.room.server_acl`` event in the room state, allow.\n#. If the server name is an IP address (v4 or v6) literal, and ``allow_ip_literals``\n   is present and ``false``, deny.\n#. If the server name matches an entry in the ``deny`` list, deny.\n#. If the server name matches an entry in the ``allow`` list, allow.\n#. Otherwise, deny.\n\n.. Note::\n   Server ACLs do not restrict the events relative to the room DAG via authorisation\n   rules, but instead act purely at the network layer to determine which servers are\n   allowed to connect and interact with a given room.\n\n.. WARNING::\n   Failing to provide an ``allow`` rule of some kind will prevent **all**\n   servers from participating in the room, including the sender. This renders\n   the room unusable. A common allow rule is ``[ \"*\" ]`` which would still\n   permit the use of the ``deny`` list without losing the room.\n\n.. WARNING::\n   All compliant servers must implement server ACLs.  However, legacy or noncompliant\n   servers exist which do not uphold ACLs, and these MUST be manually appended to\n   the denied hosts list when setting an ACL to prevent them from leaking events from\n   banned servers into a room. Currently, the only way to determine noncompliant hosts is\n   to check the ``prev_events`` of leaked events, therefore detecting servers which\n   are not upholding the ACLs. Server versions can also be used to try to detect hosts that\n   will not uphold the ACLs, although this is not comprehensive. Server ACLs were added\n   in Synapse v0.32.0, although other server implementations and versions exist in the world.",
+    "msgtype": null,
+    "title": "Server ACL",
+    "type": "m.room.server_acl",
+    "type_with_msgtype": null,
+    "typeof": "State Event",
+    "typeof_info": "``state_key``: A zero-length string."
+}

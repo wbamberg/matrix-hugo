@@ -1,0 +1,23 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** Whether guests can join the room. One of: [\"can_join\", \"forbidden\"]",
+                    "key": "guest_access",
+                    "required": true,
+                    "title": "enum"
+                }
+            ]
+        ]
+    ],
+    "desc": "This event controls whether guest users are allowed to join rooms. If this event is absent, servers should act as if it is present and has the guest_access value \"forbidden\".",
+    "msgtype": null,
+    "title": "Controls whether guest users are allowed to join rooms.",
+    "type": "m.room.guest_access",
+    "type_with_msgtype": null,
+    "typeof": "State Event",
+    "typeof_info": "``state_key``: A zero-length string."
+}

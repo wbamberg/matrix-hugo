@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"body\": \"filename.jpg\",\n        \"info\": {\n            \"h\": 398,\n            \"mimetype\": \"image/jpeg\",\n            \"size\": 31037,\n            \"w\": 394\n        },\n        \"msgtype\": \"m.image\",\n        \"url\": \"mxc://example.org/JWEIFJgwEIhweiWJE\"\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"type\": \"m.room.message\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
+    }
+]

@@ -1,0 +1,59 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "The mapping of event ID to a collection of receipts for this event ID. The event ID is the ID of the event being acknowledged and *not* an ID for the receipt itself.",
+                    "key": "$EVENT_ID",
+                    "required": false,
+                    "title": "Receipts"
+                }
+            ]
+        ],
+        [
+            "Receipts",
+            null,
+            [
+                {
+                    "desc": "A collection of users who have sent ``m.read`` receipts for this event.",
+                    "key": "m.read",
+                    "required": false,
+                    "title": "Users"
+                }
+            ]
+        ],
+        [
+            "Users",
+            null,
+            [
+                {
+                    "desc": "The mapping of user ID to receipt. The user ID is the entity who sent this receipt.",
+                    "key": "$USER_ID",
+                    "required": false,
+                    "title": "Receipt"
+                }
+            ]
+        ],
+        [
+            "Receipt",
+            null,
+            [
+                {
+                    "desc": "The timestamp the receipt was sent at.",
+                    "key": "ts",
+                    "required": false,
+                    "title": "number"
+                }
+            ]
+        ]
+    ],
+    "desc": "Informs the client of new receipts.",
+    "msgtype": null,
+    "title": "Receipt Event",
+    "type": "m.receipt",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

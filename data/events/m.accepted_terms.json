@@ -1,0 +1,23 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "The list of URLs the user has previously accepted. Should be appended to\nwhen the user agrees to new terms.",
+                    "key": "accepted",
+                    "required": false,
+                    "title": "[string]"
+                }
+            ]
+        ]
+    ],
+    "desc": "A list of terms URLs the user has previously accepted. Clients SHOULD use this\nto avoid presenting the user with terms they have already agreed to.",
+    "msgtype": null,
+    "title": "Accepted Terms of Service URLs",
+    "type": "m.accepted_terms",
+    "type_with_msgtype": null,
+    "typeof": "",
+    "typeof_info": ""
+}

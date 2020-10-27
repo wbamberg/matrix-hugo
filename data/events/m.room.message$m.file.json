@@ -1,0 +1,119 @@
+{
+    "content_fields": [
+        [
+            null,
+            null,
+            [
+                {
+                    "desc": "**Required.** A human-readable description of the file. This is recommended to be the filename of the original upload.",
+                    "key": "body",
+                    "required": true,
+                    "title": "string"
+                },
+                {
+                    "desc": "The original filename of the uploaded file.",
+                    "key": "filename",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Information about the file referred to in ``url``.",
+                    "key": "info",
+                    "required": false,
+                    "title": "FileInfo"
+                },
+                {
+                    "desc": "**Required.** Must be 'm.file'.",
+                    "key": "msgtype",
+                    "required": true,
+                    "title": "enum"
+                },
+                {
+                    "desc": "Required if the file is unencrypted. The URL (typically `MXC URI`_)\nto the file.",
+                    "key": "url",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Required if the file is encrypted. Information on the encrypted\nfile, as specified in |encrypted_files|_.",
+                    "key": "file",
+                    "required": false,
+                    "title": "EncryptedFile"
+                }
+            ]
+        ],
+        [
+            "FileInfo",
+            null,
+            [
+                {
+                    "desc": "The mimetype of the file e.g. ``application/msword``.",
+                    "key": "mimetype",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "The size of the file in bytes.",
+                    "key": "size",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The URL to the thumbnail of the file. Only present if the\nthumbnail is unencrypted.",
+                    "key": "thumbnail_url",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Information on the encrypted thumbnail file, as specified in\n|encrypted_files|_. Only present if the thumbnail is encrypted.",
+                    "key": "thumbnail_file",
+                    "required": false,
+                    "title": "EncryptedFile"
+                },
+                {
+                    "desc": "Metadata about the image referred to in ``thumbnail_url``.",
+                    "key": "thumbnail_info",
+                    "required": false,
+                    "title": "ThumbnailInfo"
+                }
+            ]
+        ],
+        [
+            "ThumbnailInfo",
+            null,
+            [
+                {
+                    "desc": "The intended display height of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "h",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The intended display width of the image in pixels. This may\ndiffer from the intrinsic dimensions of the image file.",
+                    "key": "w",
+                    "required": false,
+                    "title": "integer"
+                },
+                {
+                    "desc": "The mimetype of the image, e.g. ``image/jpeg``.",
+                    "key": "mimetype",
+                    "required": false,
+                    "title": "string"
+                },
+                {
+                    "desc": "Size of the image in bytes.",
+                    "key": "size",
+                    "required": false,
+                    "title": "integer"
+                }
+            ]
+        ]
+    ],
+    "desc": "This message represents a generic file.",
+    "msgtype": "m.file",
+    "title": "FileMessage",
+    "type": "m.room.message",
+    "type_with_msgtype": "m.room.message (m.file)",
+    "typeof": "Message Event",
+    "typeof_info": ""
+}

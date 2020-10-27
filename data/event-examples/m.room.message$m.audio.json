@@ -1,0 +1,5 @@
+[
+    {
+        "example": "{\n    \"content\": {\n        \"body\": \"Bee Gees - Stayin' Alive\",\n        \"info\": {\n            \"duration\": 2140786,\n            \"mimetype\": \"audio/mpeg\",\n            \"size\": 1563685\n        },\n        \"msgtype\": \"m.audio\",\n        \"url\": \"mxc://example.org/ffed755USFFxlgbQYZGtryd\"\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"type\": \"m.room.message\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
+    }
+]
