@@ -1,8 +1,6 @@
 {{ $data := index .Site.Data.api .Params.spec .Params.api }}
 {{ $data = $data.__meta }}
 
-{{ $basePath := $data.base }}
-
 {{ range $operation_data := $data.endpoints }}
 
 {{ $path := replace $operation_data.path "%CLIENT_MAJOR_VERSION%"  "r0" }}
@@ -33,6 +31,7 @@
 <h2>Request parameters</h2>
 
 {{ range $type, $param_data := . }}
+
 {{ $caption := printf "%s parameters" $type }}
 {{ $table_params := dict "caption" $caption "fields" $param_data }}
 {{ partial "http-api/object-table" $table_params }}
