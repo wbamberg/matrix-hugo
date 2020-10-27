@@ -28,32 +28,14 @@
   <td>{{ if $operation_data.requires_auth }}Yes{{ else }}No{{ end }}</td>
  </tr>
 </table>
-
 {{ with $operation_data.req_param_by_loc }}
 
 <h2>Request parameters</h2>
 
 {{ range $type, $param_data := . }}
-
-<table class>
- <caption>{{ $type }} parameters</caption>
- <thead>
-  <td class="col-name">Name</td>
-  <td class="col-type">Type</td>
-  <td class="col-description">Description</td>
- </thead>
-
-{{ range $param_data }}
-
- <tr>
-  <td><code>{{ .key }}</code></td>
-  <td><code>{{ .title }}</code></td>
-  <td>{{ .desc | markdownify }}</td>
- </tr>
-
-{{ end }}
-
-</table>
+{{ $caption := printf "%s parameters" $type }}
+{{ $table_params := dict "caption" $caption "fields" $param_data }}
+{{ partial "http-api/object-table" $table_params }}
 
 {{ end }}
 
@@ -65,29 +47,15 @@
 
 {{ range $additional_type := . }}
 
-<table class>
- <caption>{{ index $additional_type 0 }}</caption>
- <thead>
-  <td class="col-name">Name</td>
-  <td class="col-type">Type</td>
-  <td class="col-description">Description</td>
- </thead>
-
+{{ $caption := index $additional_type 0 }}
 {{ $fields := index $additional_type 2 }}
-
-{{ range $fields }}
- <tr>
-  <td><code>{{ .key }}</code></td>
-  <td><code>{{ .title }}</code></td>
-  <td>{{ .desc | markdownify }}</td>
- </tr>
-{{ end }}
-
-</table>
+{{ $table_params := dict "caption" $caption "fields" $fields }}
+{{ partial "http-api/object-table" $table_params }}
 
 {{ end }}
 
 {{ end }}
+
 
 <h2>Responses</h2>
 
@@ -114,31 +82,14 @@
 
 {{ range $additional_type := . }}
 
-<table class>
- <caption>{{ index $additional_type 0 }}</caption>
- <thead>
-  <td class="col-name">Name</td>
-  <td class="col-type">Type</td>
-  <td class="col-description">Description</td>
- </thead>
-
+{{ $caption := index $additional_type 0 }}
 {{ $fields := index $additional_type 2 }}
-
-{{ range $fields }}
- <tr>
-  <td><code>{{ .key }}</code></td>
-  <td><code>{{ .title }}</code></td>
-  <td>{{ .desc | markdownify }}</td>
- </tr>
-{{ end }}
-
-</table>
+{{ $table_params := dict "caption" $caption "fields" $fields }}
+{{ partial "http-api/object-table" $table_params }}
 
 {{ end }}
 
 {{ end }}
-
-
 
 </section>
 

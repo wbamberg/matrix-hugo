@@ -1,0 +1,20 @@
+{{ $caption := .caption }}
+{{ $fields := .fields}}
+
+<table class>
+ <caption>{{ $caption }}</caption>
+ <thead>
+  <td class="col-name">Name</td>
+  <td class="col-type">Type</td>
+  <td class="col-description">Description</td>
+ </thead>
+
+{{ range $fields }}
+ <tr>
+  <td><code>{{ .key }}</code></td>
+  <td><code>{{ .title }}</code></td>
+  <td>{{ .desc | markdownify }}</td>
+ </tr>
+{{ end }}
+
+</table>
