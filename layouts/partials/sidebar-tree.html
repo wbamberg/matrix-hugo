@@ -24,8 +24,6 @@
     </div>
     {{ end }}
     {{ template "section-tree-nav-section" (dict "page" . "section" .FirstSection "delayActive" $shouldDelayActive)  }}
-    <hr/>
-    {{ partial "toc.html" . }}
   </nav>
 </div>
 {{ define "section-tree-nav-section" }}
@@ -38,6 +36,9 @@
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
     <a  href="{{ $s.RelPermalink }}" class="align-left pl-0 pr-2{{ if not $show }} collapsed{{ end }}{{ if $active}} active{{ end }} td-sidebar-link td-sidebar-link__section">{{ $s.LinkTitle }}</a>
+    {{ if eq $p.RelPermalink $s.RelPermalink }}
+    {{ $p.TableOfContents }}
+    {{ end }}
   </li>
   <ul>
     <li class="collapse {{ if $show }}show{{ end }}" id="{{ $sid }}">
@@ -48,6 +49,9 @@
       {{ $mid := printf "m-%s" (.RelPermalink | anchorize) }}
       {{ $active := eq . $p }}
       <a class="td-sidebar-link td-sidebar-link__page {{ if and (not $shouldDelayActive) $active }} active{{ end }}" id="{{ $mid }}" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{ if eq .RelPermalink $p.RelPermalink }}
+      {{ $p.TableOfContents }}
+      {{ end }}
       {{ else }}
       {{ template "section-tree-nav-section" (dict "page" $p "section" .) }}
       {{ end }}
