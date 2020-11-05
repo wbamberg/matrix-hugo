@@ -1062,12 +1062,6 @@ client supports it, the client should redirect the user to the
 After authentication is complete, the client will need to submit a
 `/login` request matching `m.login.token`.
 
-{{% http-api spec="client-server" api= "login" %}}
-
-
-{{% http-api spec="client-server" api= "logout" %}}
-
-
 #### Login Fallback
 
 If a client does not recognize any or all login flows it can use the
@@ -1394,7 +1388,7 @@ The current endpoints which support lazy-loading room members are:
 
 ### API endpoints
 
-{{filter\_cs\_http\_api}}
+{{% http-api spec="client-server" api="filter" %}}
 
 Events
 ------
