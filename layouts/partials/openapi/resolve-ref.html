@@ -1,0 +1,27 @@
+{{ $ret := .object }}
+{{ $base_data := .base_data }}
+{{ $base_path := .base_path}}
+
+{{ range $key, $value := .object }}
+
+    {{ if eq $key "$ref" }}
+
+        {{/* convert from the $ref relative path to a full array of strings, that we can use to index into .Site.Data */}}
+        {{ $to_convert := path.Join $base_path $value }}
+        {{ $path_and_ext := split $to_convert "."  }}
+        {{ $without_ext := index $path_and_ext 0 }}
+        {{ $pieces := split $without_ext "/" }}
+
+        {{ $ret = $base_data }}
+        {{ range $pieces}}
+            {{ $ret = index $ret . }}
+        {{ end }}
+
+        {{/* Update the path we found the ref in */}}
+        {{ $base_path = (path.Split $to_convert).Dir}}
+
+    {{ end }}
+
+{{ end }}
+
+{{ return dict "object" $ret "path" $base_path }}

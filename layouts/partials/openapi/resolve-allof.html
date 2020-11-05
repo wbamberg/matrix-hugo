@@ -1,0 +1,41 @@
+{{ $ret := .object }}
+{{ $original := .object }}
+{{ $path := .base_path}}
+{{ $base_data := .base_data}}
+
+{{ with .object.allOf }}
+
+    {{ $all_of_values := dict }}
+
+    {{/* allOf is always an array */}}
+    {{ range . }}
+
+        {{ $resolved := partial "openapi/resolve-ref" (dict "object" . "base_path" $path "base_data" $base_data) }}
+        {{ $path = $resolved.path }}
+
+        {{/* with merge, values from the second argument override those from the first argument */}}
+        {{/* so this order will accumulate values from allOf items, allowing later ones to override earlier */}}
+        {{ $all_of_values = merge $all_of_values $resolved.object }}
+
+    {{ end }}
+
+    {{/* then apply allOf values to the original, but allow the original to override allOf */}}
+    {{ $ret = merge $all_of_values $ret }}
+
+    {{/* except that if allOf _itself_ contains allOf, we do want to override the original for that field only */}}
+    {{ with $all_of_values.allOf }}
+        {{ $ret = merge $ret (dict "allOf" . ) }}
+    {{ end }}
+
+{{ end }}
+
+{{/* recurse while we are finding new allOf entries to resolve */}}
+{{ if ne $ret.allOf $original.allOf }}
+
+    {{ $resolved := partial "openapi/resolve-allof" (dict "object" $ret "base_path" $path "base_data" $base_data) }}
+    {{ $ret = merge $ret $resolved.object }}
+    {{ $path = $resolved.path }}
+
+{{ end }}
+
+{{ return dict "object" $ret "path" $path }}

@@ -1,60 +1,99 @@
+{{ $spec := .Params.spec}}
+{{ $api := .Params.api}}
+
 {{ $data := index .Site.Data.api .Params.spec .Params.api }}
-{{ $data = $data.__meta }}
+{{ $base_data := index .Site.Data }}
+{{ $base_url := $data.basePath }}
+{{ $base_url := replace $base_url "%CLIENT_MAJOR_VERSION%"  "r0" }}
 
-{{ range $operation_data := $data.endpoints }}
+{{ $path := "api/client-server" }}
 
-{{ $path := replace $operation_data.path "%CLIENT_MAJOR_VERSION%"  "r0" }}
+{{ range $path_name, $path_data := $data.paths }}
 
-<section class="rendered-data http-api {{ $operation_data.method }}">
+{{/* note that a `paths` entry can be a $ref */}}
+
+{{ with $path_data.post }}
+
+<section class="rendered-data http-api POST">
 
 <h1>
- <span class="http-api-method {{ $operation_data.method }}">{{ $operation_data.method }}</span>
- <span class="endpoint"><code>{{ $path }}</code></span>
+ <span class="http-api-method POST">POST</span>
+ <span class="endpoint"><code>{{ $base_url }}{{ $path_name }}</code></span>
 </h1>
 
 <hr/>
 
-<p>{{ $operation_data.desc }}</p>
+<p>{{ .description }}</p>
 
 <table class="basic-info">
   <tr>
    <td><strong>Rate-limited:</strong></td>
-   <td>{{ if $operation_data.rate_limited }}Yes{{ else }}No{{ end }}</td>
+   {{ $forbidden := index .responses "429" }}
+   <td>{{ if $forbidden }}Yes{{ else }}No{{ end }}</td>
   </tr>
  <tr>
   <td><strong>Requires authentication:</strong></td>
-  <td>{{ if $operation_data.requires_auth }}Yes{{ else }}No{{ end }}</td>
+  <td>{{ if $data.securityDefinitions }}Yes{{ else }}No{{ end }}</td>
  </tr>
 </table>
 
-{{ with $operation_data.req_param_by_loc }}
+{{ with .parameters }}
 
-<h2>Request parameters</h2>
+<h3>Request parameters</h3>
 
-{{ range $type, $param_data := . }}
+    {{ $additional_types := slice }}
 
-{{ $caption := printf "%s parameters" $type }}
-{{ $table_params := dict "caption" $caption "fields" $param_data }}
-{{ partial "data/object-table" $table_params }}
+    {{/* render body parameter */}}
+    {{ $body_params := where . "in" "body"}}
 
-{{ end }}
+    {{ range $parameter := $body_params }}
 
-{{ end }}
+        {{ $schema := partial "openapi/resolve-ref" (dict "object" $parameter.schema "base_path" $path "base_data" $base_data) }}
 
-{{ with $operation_data.req_body_tables }}
+        {{/* render the table for this parameter */}}
+        {{ partial "openapi/render-object-table" (dict "caption" "JSON body parameters" "properties" $schema.object.properties  "base_path" $schema.path "base_data" $base_data) }}
+
+        {{/* get nested objects for this parameter */}}
+        {{ range $property_name, $property := $schema.object.properties }}
+            {{ $additional_types_for_parameter := partial "openapi/resolve-additional-types" (dict "this_ao" $property "base_path" $schema.path "base_data" $base_data) }}
+            {{ range $additional_types_for_parameter }}
+                {{ $additional_types = $additional_types | append . }}
+            {{ end }}
+        {{end}}
+
+    {{ end }}
+
+    {{/* render path parameters */}}
+    {{ $path_parameters := where . "in" "path"}}
+
+    {{ with $path_parameters }}
+
+        {{/* convert path parameters into the format that render-object-table expects to see */}}
+        {{ $path_param_dict := dict }}
+        {{ range $parameter := . }}
+            {{ $path_param_dict = merge $path_param_dict (dict $parameter.name (dict "type" $parameter.type "description" $parameter.description "required" $parameter.required )  )}}
+        {{ end }}
+
+        {{/* and render the path parameters */}}
+        {{ partial "openapi/render-object-table" (dict "caption" "path parameters" "properties" $path_param_dict  "base_path" $path "base_data" $base_data) }}
+
+    {{ end }}
+
+    {{/* render additional types */}}
+    {{ $additional_types = uniq $additional_types }}
+    {{ with $additional_types }}
 
 <h3>Additional types</h3>
 
-{{ range $additional_type := . }}
+        {{ range . }}
+            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties  "base_path" "api/client-server/definitions" "base_data" $base_data) }}
+        {{ end }}
 
-{{ $caption := index $additional_type 0 }}
-{{ $fields := index $additional_type 2 }}
-{{ $table_params := dict "caption" $caption "fields" $fields }}
-{{ partial "data/object-table" $table_params }}
-
-{{ end }}
+    {{ end }}
 
 {{ end }}
+
+{{/* render responses */}}
 
 <h2>Responses</h2>
 
@@ -64,32 +103,33 @@
   <td class="col-status-description">Description</td>
  </thead>
 
-{{ range $operation_data.responses }}
+{{ range $code, $response := .responses }}
 
  <tr>
-  <td><code>{{ .code }}</code></td>
-  <td>{{ .description | markdownify }}</td>
+  <td><code>{{ $code }}</code></td>
+  <td>{{ $response.description | markdownify }}</td>
  </tr>
 
 {{ end }}
 
 </table>
 
-{{ with $operation_data.res_tables }}
+{{ $ok := index .responses "200" }}
 
-<h2>Response data</h2>
+{{ with $ok.schema }}
 
-{{ range $additional_type := . }}
+    {{ $additional_types := partial "openapi/resolve-additional-types" (dict "this_ao" . "base_path" "api/client-server/definitions" "base_data" $base_data) }}
 
-{{ $caption := index $additional_type 0 }}
-{{ $fields := index $additional_type 2 }}
-{{ $table_params := dict "caption" $caption "fields" $fields }}
-{{ partial "data/object-table" $table_params }}
-
-{{ end }}
-
-{{ end }}
+    {{ with $additional_types }}
+<h3>Response details</h3>
+        {{ range . }}
+            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties  "required" .required "base_path" "api/client-server/definitions" "base_data" $base_data) }}
+        {{ end }}
+    {{ end }}
+{{end}}
 
 </section>
+
+{{ end }}
 
 {{ end }}

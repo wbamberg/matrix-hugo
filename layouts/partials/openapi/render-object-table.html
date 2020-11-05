@@ -1,0 +1,38 @@
+{{ $caption := .caption }}
+{{ $properties := .properties}}
+{{ $required := .required}}
+{{ $base_data := .base_data }}
+{{ $base_path := .base_path }}
+
+<table class>
+ <caption>{{ $caption }}</caption>
+ <thead>
+  <td class="col-name">Name</td>
+  <td class="col-type">Type</td>
+  <td class="col-description">Description</td>
+ </thead>
+
+    {{ range $property_name, $property := $properties }}
+
+        {{ $resolved := partial "openapi/resolve-allof" (dict "object" $property "base_path" $base_path "base_data" $base_data) }}
+        {{ $resolved := partial "openapi/resolve-ref" (dict "object" $resolved.object "base_path" $base_path "base_data" $base_data) }}
+        {{ $property = $resolved.object }}
+
+        {{ $type := $property.type}}
+        {{ if eq $type "object"}}
+            {{ $type = $property.title }}
+        {{end}}
+
+        {{ if eq $type "array"}}
+            {{$type = delimit (slice "[" $property.items.type "]") ""}}
+        {{end}}
+
+ <tr>
+  <td><code>{{ $property_name }}</code></td>
+  <td><code>{{ $type }}</code></td>
+  <td>{{if in $required $property_name}}<strong>Required: </strong>{{end}}{{ $property.description | markdownify }}</td>
+ </tr>
+
+    {{ end }}
+
+</table>
