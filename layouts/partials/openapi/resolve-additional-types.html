@@ -1,30 +1,27 @@
-{{ $this_ao := .this_ao }}
-{{ $base_data := .base_data }}
-{{ $base_path := .base_path }}
+{{ $this_ao := . }}
 
 {{ $additional_objects := slice }}
 
-{{ $resolved := partial "openapi/resolve-allof" (dict "object" $this_ao "base_path" $base_path "base_data" $base_data) }}
-{{ $this_ao = $resolved.object }}
+{{ $resolved := partial "openapi/resolve-allof" (dict "object" $this_ao) }}
+{{ $this_ao = $resolved }}
 
 {{ if reflect.IsMap $this_ao }}
 
  {{ range $key, $property := $this_ao.properties}}
 
-   {{ $resolved := partial "openapi/resolve-allof" (dict "object" $property "base_path" $base_path "base_data" $base_data) }}
-   {{ $resolved := partial "openapi/resolve-ref" (dict "object" $resolved.object "base_path" $resolved.path "base_data" $base_data) }}
-   {{ $property = $resolved.object }}
+   {{ $resolved := partial "openapi/resolve-allof" $property }}
+   {{ $property = $resolved }}
 
-   {{ $more_objects := partial "openapi/resolve-additional-types" (dict "this_ao" $property "base_path" $resolved.path "base_data" $base_data) }}
+   {{ $more_objects := partial "openapi/resolve-additional-types" $property }}
 
    {{ range $more_objects}}
-     {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required "base_path" .base_path) }}
+     {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required) }}
    {{end}}
 
  {{ end }}
 
  {{ if eq $this_ao.type "object" }}
-   {{ $additional_objects = $additional_objects | append (dict "title" $this_ao.title "properties" $this_ao.properties "required" $this_ao.required "base_path" .base_path) }}
+   {{ $additional_objects = $additional_objects | append (dict "title" $this_ao.title "properties" $this_ao.properties "required" $this_ao.required) }}
  {{ end }}
 
 

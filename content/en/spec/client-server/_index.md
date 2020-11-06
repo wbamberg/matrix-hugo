@@ -1062,6 +1062,10 @@ client supports it, the client should redirect the user to the
 After authentication is complete, the client will need to submit a
 `/login` request matching `m.login.token`.
 
+{{% http-api spec="client-server" api="login" %}}
+
+{{% http-api spec="client-server" api="logout" %}}
+
 #### Login Fallback
 
 If a client does not recognize any or all login flows it can use the
@@ -1080,8 +1084,6 @@ the login endpoint during the login process. For example:
     GET /_matrix/static/client/login/?device_id=GHTYAJCE
 
 ### Account registration and management
-
-{{% http-api spec="client-server" api= "registration" %}}
 
 ##### Notes on password management
 
@@ -1745,7 +1747,7 @@ permissions in this room. This includes:
 See [Room Events](#room-events) for more information on these events. To
 create a room, a client has to use the following API.
 
-{{create\_room\_cs\_http\_api}}
+{{% http-api spec="client-server" api="create_room" %}}
 
 ### Room aliases
 
@@ -1859,7 +1861,7 @@ The allowable state transitions of membership are:
 
 {{inviting\_cs\_http\_api}}
 
-{{joining\_cs\_http\_api}}
+{{% http-api spec="client-server" api="joining" %}}
 
 ##### Leaving rooms
 

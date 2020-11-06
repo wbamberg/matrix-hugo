@@ -48,14 +48,14 @@
 
     {{ range $parameter := $body_params }}
 
-        {{ $schema := partial "openapi/resolve-ref" (dict "object" $parameter.schema "base_path" $path "base_data" $base_data) }}
+        {{ $schema := partial "openapi/resolve-refs" (dict "schema" $parameter.schema "path" $path "base_data" $base_data) }}
 
         {{/* render the table for this parameter */}}
-        {{ partial "openapi/render-object-table" (dict "caption" "JSON body parameters" "properties" $schema.object.properties  "base_path" $schema.path "base_data" $base_data) }}
+        {{ partial "openapi/render-object-table" (dict "caption" "JSON body parameters" "properties" $schema.properties) }}
 
         {{/* get nested objects for this parameter */}}
-        {{ range $property_name, $property := $schema.object.properties }}
-            {{ $additional_types_for_parameter := partial "openapi/resolve-additional-types" (dict "this_ao" $property "base_path" $schema.path "base_data" $base_data) }}
+        {{ range $property_name, $property := $schema.properties }}
+            {{ $additional_types_for_parameter := partial "openapi/resolve-additional-types" $property }}
             {{ range $additional_types_for_parameter }}
                 {{ $additional_types = $additional_types | append . }}
             {{ end }}
@@ -75,7 +75,7 @@
         {{ end }}
 
         {{/* and render the path parameters */}}
-        {{ partial "openapi/render-object-table" (dict "caption" "path parameters" "properties" $path_param_dict  "base_path" $path "base_data" $base_data) }}
+        {{ partial "openapi/render-object-table" (dict "caption" "path parameters" "properties" $path_param_dict  "base_path" $path) }}
 
     {{ end }}
 
@@ -86,7 +86,7 @@
 <h3>Additional types</h3>
 
         {{ range . }}
-            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties  "base_path" "api/client-server/definitions" "base_data" $base_data) }}
+            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties) }}
         {{ end }}
 
     {{ end }}
@@ -118,12 +118,12 @@
 
 {{ with $ok.schema }}
 
-    {{ $additional_types := partial "openapi/resolve-additional-types" (dict "this_ao" . "base_path" "api/client-server/definitions" "base_data" $base_data) }}
+    {{ $additional_types := partial "openapi/resolve-additional-types" . }}
 
     {{ with $additional_types }}
 <h3>Response details</h3>
         {{ range . }}
-            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties  "required" .required "base_path" "api/client-server/definitions" "base_data" $base_data) }}
+            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties  "required" .required) }}
         {{ end }}
     {{ end }}
 {{end}}

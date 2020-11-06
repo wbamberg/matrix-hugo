@@ -1,0 +1,49 @@
+{{ $schema := .schema }}
+{{ $base_data := .base_data }}
+{{ $path := .path}}
+
+{{ $ret := $schema }}
+
+{{ if reflect.IsMap $schema }}
+
+    {{ $result_map := dict }}
+
+    {{ $ref_value := index $schema "$ref"}}
+    {{ if $ref_value}}
+        {{ $to_convert := path.Join $path $ref_value }}
+        {{ $path_and_ext := split $to_convert "."  }}
+        {{ $without_ext := index $path_and_ext 0 }}
+        {{ $pieces := split $without_ext "/" }}
+
+        {{ $ref := $base_data }}
+        {{ range $pieces}}
+            {{ $ref = index $ref . }}
+        {{ end }}
+
+        {{ $new_path := (path.Split $to_convert).Dir}}
+        {{ $result_map = partial "openapi/resolve-refs" (dict "schema" $ref "base_data" $base_data "path" $new_path)}}
+    {{ end }}
+
+    {{ range $key, $value := $schema }}
+        {{ $resolved := partial "openapi/resolve-refs" (dict "schema" $value "base_data" $base_data "path" $path) }}
+        {{ $result_map = merge $result_map (dict $key $resolved) }}
+    {{ end }}
+
+    {{ $ret = $result_map }}
+
+{{ end }}
+
+{{ if reflect.IsSlice $schema }}
+
+    {{ $result_slice := slice }}
+
+    {{ range $schema }}
+        {{ $resolved := partial "openapi/resolve-refs" (dict "schema" . "base_data" $base_data "path" $path) }}
+        {{ $result_slice = $result_slice | append $resolved }}
+    {{ end }}
+
+    {{ $ret = $result_slice }}
+
+{{ end }}
+
+{{ return $ret }}

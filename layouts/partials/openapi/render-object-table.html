@@ -1,8 +1,6 @@
 {{ $caption := .caption }}
 {{ $properties := .properties}}
 {{ $required := .required}}
-{{ $base_data := .base_data }}
-{{ $base_path := .base_path }}
 
 <table class>
  <caption>{{ $caption }}</caption>
@@ -14,9 +12,8 @@
 
     {{ range $property_name, $property := $properties }}
 
-        {{ $resolved := partial "openapi/resolve-allof" (dict "object" $property "base_path" $base_path "base_data" $base_data) }}
-        {{ $resolved := partial "openapi/resolve-ref" (dict "object" $resolved.object "base_path" $base_path "base_data" $base_data) }}
-        {{ $property = $resolved.object }}
+        {{ $resolved := partial "openapi/resolve-allof" $property }}
+        {{ $property = $resolved }}
 
         {{ $type := $property.type}}
         {{ if eq $type "object"}}
