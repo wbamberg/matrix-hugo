@@ -50,7 +50,9 @@ paths:
           required: true
           description: The filter to upload.
           schema:
-            $ref: "definitions/sync_filter.yaml"
+            type: object
+            allOf:
+              - $ref: "definitions/sync_filter.yaml"
             example: {
               "room": {
                 "state": {
@@ -145,7 +147,9 @@ paths:
                 "event_fields": ["type", "content", "sender"]
               }
           schema:
-            $ref: "definitions/sync_filter.yaml"
+            type: object
+            allOf:
+              - $ref: "definitions/sync_filter.yaml"
         404:
           description: "Unknown filter."
       tags:

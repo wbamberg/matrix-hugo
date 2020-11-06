@@ -1085,6 +1085,8 @@ the login endpoint during the login process. For example:
 
 ### Account registration and management
 
+{{% http-api spec="client-server" api="registration" %}}
+
 ##### Notes on password management
 
 Warning
