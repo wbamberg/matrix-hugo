@@ -30,9 +30,9 @@
 {{ range $data.content_fields }}
 
 {{ $caption := index . 0 }}
-{{ $fields := index . 2 }}
-{{ $table_params := dict "caption" $caption "fields" $fields }}
-{{ partial "data/object-table" $table_params }}
+{{ $properties := index . 2 }}
+{{ $table_params := dict "caption" $caption "properties" $properties }}
+{{ partial "openapi/render-object-table" $table_params }}
 
 {{ end }}
 
