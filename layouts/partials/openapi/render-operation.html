@@ -1,0 +1,123 @@
+{{ $api_data := .api_data }}
+{{ $method := .method }}
+{{ $endpoint := .endpoint }}
+{{ $operation_data := .operation_data }}
+{{ $path := .path }}
+{{ $base_data := .base_data }}
+
+
+<section class="rendered-data http-api {{ $method }}">
+
+<h1>
+ <span class="http-api-method {{ $method }}">{{ $method }}</span>
+ <span class="endpoint"><code>{{ $endpoint }}</code></span>
+</h1>
+
+<hr/>
+
+<p>{{ $operation_data.description }}</p>
+
+<table class="basic-info">
+  <tr>
+   <td><strong>Rate-limited:</strong></td>
+   {{ $forbidden := index $operation_data.responses "429" }}
+   <td>{{ if $forbidden }}Yes{{ else }}No{{ end }}</td>
+  </tr>
+ <tr>
+  <td><strong>Requires authentication:</strong></td>
+  <td>{{ if $api_data.securityDefinitions }}Yes{{ else }}No{{ end }}</td>
+ </tr>
+</table>
+
+{{ with $operation_data.parameters }}
+
+<h3>Request parameters</h3>
+
+    {{ $additional_types := slice }}
+
+    {{/* render body parameter */}}
+    {{ $body_params := where . "in" "body"}}
+
+    {{ range $parameter := $body_params }}
+
+        {{ $schema := partial "openapi/resolve-refs" (dict "schema" $parameter.schema "path" $path "base_data" $base_data) }}
+
+        {{/* render the table for this parameter */}}
+        {{ partial "openapi/render-object-table" (dict "caption" "JSON body parameters" "properties" $schema.properties) }}
+
+        {{/* get nested objects for this parameter */}}
+        {{ range $property_name, $property := $schema.properties }}
+            {{ $additional_types_for_parameter := partial "openapi/resolve-additional-types" $property }}
+            {{ range $additional_types_for_parameter }}
+                {{ $additional_types = $additional_types | append . }}
+            {{ end }}
+        {{end}}
+
+    {{ end }}
+
+    {{/* render path parameters */}}
+    {{ $path_parameters := where . "in" "path"}}
+
+    {{ with $path_parameters }}
+
+        {{/* convert path parameters into the format that render-object-table expects to see */}}
+        {{ $path_param_dict := dict }}
+        {{ range $parameter := . }}
+            {{ $path_param_dict = merge $path_param_dict (dict $parameter.name (dict "type" $parameter.type "description" $parameter.description "required" $parameter.required )  )}}
+        {{ end }}
+
+        {{/* and render the path parameters */}}
+        {{ partial "openapi/render-object-table" (dict "caption" "path parameters" "properties" $path_param_dict  "base_path" $path) }}
+
+    {{ end }}
+
+    {{/* render additional types */}}
+    {{ $additional_types = uniq $additional_types }}
+    {{ with $additional_types }}
+
+<h3>Additional types</h3>
+
+        {{ range . }}
+            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties) }}
+        {{ end }}
+
+    {{ end }}
+
+{{ end }}
+
+{{/* render responses */}}
+
+<h2>Responses</h2>
+
+<table class>
+ <thead>
+  <td class="col-status">Status</td>
+  <td class="col-status-description">Description</td>
+ </thead>
+
+{{ range $code, $response := $operation_data.responses }}
+
+ <tr>
+  <td><code>{{ $code }}</code></td>
+  <td>{{ $response.description | markdownify }}</td>
+ </tr>
+
+{{ end }}
+
+</table>
+
+{{ $ok := index $operation_data.responses "200" }}
+
+{{ with $ok.schema }}
+
+    {{ $additional_types := partial "openapi/resolve-additional-types" . }}
+
+    {{ with $additional_types }}
+<h3>Response details</h3>
+        {{ range . }}
+            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties  "required" .required) }}
+        {{ end }}
+    {{ end }}
+{{end}}
+
+</section>
