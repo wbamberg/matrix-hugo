@@ -1,7 +1,7 @@
 {{ $ret := . }}
 {{ $original := . }}
 
-{{ with .object.allOf }}
+{{ with $ret.allOf }}
 
     {{ $all_of_values := dict }}
 

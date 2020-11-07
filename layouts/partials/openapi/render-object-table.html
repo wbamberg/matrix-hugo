@@ -12,17 +12,20 @@
 
     {{ range $property_name, $property := $properties }}
 
-        {{ $resolved := partial "openapi/resolve-allof" $property }}
-        {{ $property = $resolved }}
+        {{ $property := partial "openapi/resolve-allof" $property }}
 
         {{ $type := $property.type}}
-        {{ if eq $type "object"}}
+        {{ if $property.title }}
             {{ $type = $property.title }}
-        {{end}}
+        {{ end }}
 
         {{ if eq $type "array"}}
-            {{$type = delimit (slice "[" $property.items.type "]") ""}}
-        {{end}}
+            {{ $inner_type := $property.items.type }}
+            {{ if $property.items.title }}
+                {{ $inner_type = $property.items.title }}
+            {{ end }}
+            {{ $type = delimit (slice "[" $inner_type "]") "" }}
+        {{ end }}
 
  <tr>
   <td><code>{{ $property_name }}</code></td>

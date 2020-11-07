@@ -39,12 +39,11 @@
     {{ $body_params := where . "in" "body"}}
 
     {{ range $parameter := $body_params }}
-
         {{ $schema := partial "openapi/resolve-refs" (dict "schema" $parameter.schema "path" $path "base_data" $base_data) }}
+        {{ $schema := partial "openapi/resolve-allof" $schema }}
 
         {{/* render the table for this parameter */}}
         {{ partial "openapi/render-object-table" (dict "caption" "JSON body parameters" "properties" $schema.properties) }}
-
         {{/* get nested objects for this parameter */}}
         {{ range $property_name, $property := $schema.properties }}
             {{ $additional_types_for_parameter := partial "openapi/resolve-additional-types" $property }}
