@@ -2,9 +2,16 @@
 
 {{ $base_data := index .Site.Data }}
 {{ $path := "api/client-server" }}
-{{ $all_api_data := index .Site.Data.api .Params.spec }}
+{{ $all_api_data_original := index .Site.Data.api .Params.spec }}
 
-{{ range $all_api_data }}
+{{/* all this, just to sort by title! */}}
+{{ $all_api_data := slice }}
+{{ range $all_api_data_original }}
+    {{ $all_api_data = $all_api_data | append (merge . (dict "title" .info.title) ) }}
+{{ end }}
+{{ $sorted_all_api_data := sort $all_api_data "title" }}
+
+{{ range $sorted_all_api_data }}
 
 <h2>{{ replace .info.title "Matrix Client-Server "  "" }}</h2>
 
