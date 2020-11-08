@@ -27,7 +27,7 @@
 {{/* recurse while we are finding new allOf entries to resolve */}}
 {{ if ne $ret.allOf $original.allOf }}
 
-    {{ $resolved := partial "openapi/resolve-allof" $ret }}
+    {{ $resolved := partial "openapi/resolvers/resolve-allof" $ret }}
     {{ $ret = merge $ret $resolved }}
 
 {{ end }}

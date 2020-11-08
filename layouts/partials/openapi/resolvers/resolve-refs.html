@@ -21,11 +21,11 @@
         {{ end }}
 
         {{ $new_path := (path.Split $to_convert).Dir}}
-        {{ $result_map = partial "openapi/resolve-refs" (dict "schema" $ref "base_data" $base_data "path" $new_path)}}
+        {{ $result_map = partial "openapi/resolvers/resolve-refs" (dict "schema" $ref "base_data" $base_data "path" $new_path)}}
     {{ end }}
 
     {{ range $key, $value := $schema }}
-        {{ $resolved := partial "openapi/resolve-refs" (dict "schema" $value "base_data" $base_data "path" $path) }}
+        {{ $resolved := partial "openapi/resolvers/resolve-refs" (dict "schema" $value "base_data" $base_data "path" $path) }}
         {{ $result_map = merge $result_map (dict $key $resolved) }}
     {{ end }}
 
@@ -38,7 +38,7 @@
     {{ $result_slice := slice }}
 
     {{ range $schema }}
-        {{ $resolved := partial "openapi/resolve-refs" (dict "schema" . "base_data" $base_data "path" $path) }}
+        {{ $resolved := partial "openapi/resolvers/resolve-refs" (dict "schema" . "base_data" $base_data "path" $path) }}
         {{ $result_slice = $result_slice | append $resolved }}
     {{ end }}
 

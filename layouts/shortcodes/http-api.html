@@ -3,29 +3,7 @@
 
 {{ $api_data := index .Site.Data.api .Params.spec .Params.api }}
 {{ $base_data := index .Site.Data }}
-{{ $base_url := $api_data.basePath }}
-{{ $base_url := replace $base_url "%CLIENT_MAJOR_VERSION%"  "r0" }}
-
+{{ $base_url := replace $api_data.basePath "%CLIENT_MAJOR_VERSION%"  "r0" }}
 {{ $path := "api/client-server" }}
 
-{{ range $path_name, $path_data := $api_data.paths }}
-
-    {{ $endpoint := delimit (slice $base_url $path_name ) "" }}
-
-    {{/* note that a `paths` entry can be a $ref */}}
-
-    {{ with $path_data.post }}
-
-        {{ $operation_params := dict "api_data" $api_data "method" "POST" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data }}
-        {{ partial "openapi/render-operation" $operation_params }}
-
-    {{ end }}
-
-    {{ with $path_data.get }}
-
-        {{ $operation_params := dict "api_data" $api_data "method" "GET" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data }}
-        {{ partial "openapi/render-operation" $operation_params }}
-
-    {{ end }}
-
-{{ end }}
+{{ partial "openapi/renderers/render-api" (dict "api_data" $api_data "base_data" $base_data "base_url" $base_url "path" $path) }}

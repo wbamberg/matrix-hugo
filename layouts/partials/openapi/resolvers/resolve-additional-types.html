@@ -1,10 +1,10 @@
 {{ $additional_objects := slice }}
 
-{{ $this_ao := partial "openapi/resolve-allof" . }}
+{{ $this_ao := partial "openapi/resolvers/resolve-allof" . }}
 {{ if eq $this_ao.type "object" }}
     {{ range $key, $property := $this_ao.properties}}
-        {{ $property := partial "openapi/resolve-allof" $property }}
-        {{ $more_objects := partial "openapi/resolve-additional-types" $property }}
+        {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
+        {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $property }}
         {{ range $more_objects}}
             {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required) }}
         {{end}}
@@ -13,7 +13,7 @@
 {{ end }}
 
 {{ if eq $this_ao.type "array" }}
-    {{ $more_objects := partial "openapi/resolve-additional-types" $this_ao.items }}
+    {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $this_ao.items }}
     {{ range $more_objects}}
         {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required) }}
     {{end}}

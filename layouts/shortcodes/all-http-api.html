@@ -1,0 +1,14 @@
+{{ $spec := .Params.spec}}
+
+{{ $base_data := index .Site.Data }}
+{{ $path := "api/client-server" }}
+{{ $all_api_data := index .Site.Data.api .Params.spec }}
+
+{{ range $all_api_data }}
+
+<h2>{{ replace .info.title "Matrix Client-Server "  "" }}</h2>
+
+    {{ $base_url := replace .basePath "%CLIENT_MAJOR_VERSION%"  "r0" }}
+    {{ partial "openapi/renderers/render-api" (dict "api_data" . "base_data" $base_data "base_url" $base_url "path" $path "compact" true) }}
+
+{{ end }}

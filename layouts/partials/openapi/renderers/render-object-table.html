@@ -12,7 +12,7 @@
 
     {{ range $property_name, $property := $properties }}
 
-        {{ $property := partial "openapi/resolve-allof" $property }}
+        {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
 
         {{ $type := $property.type}}
         {{ if $property.title }}

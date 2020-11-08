@@ -2,8 +2,8 @@
 {{ $path := "events/schema" }}
 {{ $base_data := index .Site.Data }}
 
-{{ $event = partial "openapi/resolve-refs" (dict "schema" $event "path" $path "base_data" $base_data) }}
-{{ $event := partial "openapi/resolve-allof" $event }}
+{{ $event = partial "openapi/resolvers/resolve-refs" (dict "schema" $event "path" $path "base_data" $base_data) }}
+{{ $event := partial "openapi/resolvers/resolve-allof" $event }}
 
 <section class="rendered-data event">
 
@@ -16,15 +16,15 @@
 {{ $event.description | markdownify }}
 
 {{ $properties := $event.properties.content.properties }}
-{{ partial "openapi/render-object-table" (dict "caption" "" "properties" $properties) }}
+{{ partial "openapi/renderers/render-object-table" (dict "caption" "" "properties" $properties) }}
 
 {{ $additional_types := slice }}
 
 {{/* get nested objects for this event */}}
 {{ range $property_name, $property := $properties }}
-    {{ $additional_types_for_property := partial "openapi/resolve-additional-types" $property }}
+    {{ $additional_types_for_property := partial "openapi/resolvers/resolve-additional-types" $property }}
     {{ range $additional_types_for_property}}
-        {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties) }}
+        {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
     {{end}}
 {{end}}
 

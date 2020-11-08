@@ -1,0 +1,27 @@
+{{ $api_data := index .api_data }}
+{{ $base_data := index .base_data }}
+{{ $base_url := .base_url }}
+{{ $path := .path }}
+{{ $compact := .compact }}
+
+{{ range $path_name, $path_data := $api_data.paths }}
+
+    {{ $endpoint := delimit (slice $base_url $path_name ) "" }}
+
+    {{/* note that a `paths` entry can be a $ref */}}
+
+    {{ with $path_data.post }}
+
+        {{ $operation_params := dict "api_data" $api_data "method" "POST" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ partial "openapi/renderers/render-operation" $operation_params }}
+
+    {{ end }}
+
+    {{ with $path_data.get }}
+
+        {{ $operation_params := dict "api_data" $api_data "method" "GET" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ partial "openapi/renderers/render-operation" $operation_params }}
+
+    {{ end }}
+
+{{ end }}
