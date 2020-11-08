@@ -24,4 +24,18 @@
 
     {{ end }}
 
+    {{ with $path_data.put }}
+
+        {{ $operation_params := dict "api_data" $api_data "method" "PUT" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ partial "openapi/renderers/render-operation" $operation_params }}
+
+    {{ end }}
+
+    {{ with $path_data.delete }}
+
+        {{ $operation_params := dict "api_data" $api_data "method" "PUT" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ partial "openapi/renderers/render-operation" $operation_params }}
+
+    {{ end }}
+
 {{ end }}
