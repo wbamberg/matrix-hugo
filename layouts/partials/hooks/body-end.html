@@ -1,0 +1,71 @@
+<script>
+
+  function makeToc() {
+
+    // make the title from the H1
+    const h1 = document.body.querySelector("h1");
+    const title = document.createElement("a");
+    title.id = "toc-title";
+    title.setAttribute("href", "#");
+    title.textContent = h1.textContent;
+
+    // make the content
+    const content = document.body.querySelector(".td-content");
+    let headings = [].slice.call(content.querySelectorAll("h2, h3, h4, h5, h6"));
+    headings = headings.filter(heading => heading.id);
+    const nav = document.createElement("nav");
+    nav.id = "TableOfContents";
+    const section = makeTocSection(headings, 0);
+    nav.appendChild(section.content);
+
+    // append title and content to the #toc placeholder
+    const toc = document.body.querySelector("#toc");
+    toc.appendChild(title);
+    toc.appendChild(nav);
+  }
+
+  function makeTocEntry(heading) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.setAttribute("href", `#${heading.id}`);
+    a.textContent = heading.textContent;
+    li.appendChild(a);
+    return li;
+  }
+
+  function makeTocSection(headings, index) {
+    const ol = document.createElement("ol");
+    let previousHeading = null;
+    let i = index;
+
+    for (i; i < headings.length; i++) {
+      const thisHeading = headings[i];
+      if (previousHeading && (thisHeading.tagName > previousHeading.tagName)) {
+        // we are going down a heading level, create a new nested section
+        const section = makeTocSection(headings, i);
+        ol.appendChild(section.content);
+        i = section.index -1;
+      }
+      else if (previousHeading && (previousHeading.tagName > thisHeading.tagName)) {
+        // we have come back up a level, so a section is finished
+        return {
+          content: ol,
+          index: i
+        }
+      }
+      else {
+        // we are still processing this section, so add this heading to the current section
+        const li = makeTocEntry(thisHeading);
+        ol.appendChild(li);
+        previousHeading = thisHeading;
+      }
+    }
+    return  {
+      content: ol,
+      index: i
+    }
+  }
+
+  makeToc();
+
+</script>
