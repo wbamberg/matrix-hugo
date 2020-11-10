@@ -1,3 +1,8 @@
+---
+type: module
+weight: 310
+---
+
 ### Room Upgrades
 
 From time to time, a room may need to be upgraded to a different room

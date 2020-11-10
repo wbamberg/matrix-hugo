@@ -1,3 +1,8 @@
+---
+type: module
+weight: 100
+---
+
 ### End-to-End Encryption
 
 Matrix optionally supports end-to-end encryption, allowing rooms to be

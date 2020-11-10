@@ -1,3 +1,8 @@
+---
+type: module
+weight: 230
+---
+
 ### Direct Messaging
 
 All communication over Matrix happens within a room. It is sometimes

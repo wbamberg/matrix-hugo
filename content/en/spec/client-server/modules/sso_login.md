@@ -1,3 +1,8 @@
+---
+type: module
+weight: 220
+---
+
 ### SSO client login/authentication
 
 Single Sign-On (SSO) is a generic term which refers to protocols which

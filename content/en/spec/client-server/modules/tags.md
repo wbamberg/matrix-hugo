@@ -1,3 +1,8 @@
+---
+type: module
+weight: 180
+---
+
 ### Room Tagging
 
 Users can add tags to rooms. Tags are namespaced strings used to label

@@ -1,3 +1,8 @@
+---
+type: module
+weight: 240
+---
+
 ### Ignoring Users
 
 With all the communication through Matrix it may be desirable to ignore

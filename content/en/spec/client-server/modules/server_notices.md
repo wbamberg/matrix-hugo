@@ -1,3 +1,8 @@
+---
+type: module
+weight: 320
+---
+
 ### Server Notices
 
 Homeserver hosts often want to send messages to users in an official

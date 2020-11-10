@@ -1,3 +1,8 @@
+---
+type: module
+weight: 150
+---
+
 ### Server Side Search
 
 The search API allows clients to perform full text search across events

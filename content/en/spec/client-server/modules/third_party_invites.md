@@ -1,3 +1,8 @@
+---
+type: module
+weight: 140
+---
+
 ### Third party invites
 
 This module adds in support for inviting new members to a room where

@@ -1,3 +1,8 @@
+---
+type: module
+weight: 110
+---
+
 ### Secrets
 
 Clients may have secret information that they wish to be made available

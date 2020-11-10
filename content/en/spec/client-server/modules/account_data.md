@@ -1,3 +1,8 @@
+---
+type: module
+weight: 190
+---
+
 ### Client Config
 
 Clients can store custom config data for their account on their

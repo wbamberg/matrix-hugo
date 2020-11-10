@@ -1,3 +1,8 @@
+---
+type: module
+weight: 160
+---
+
 ### Guest Access
 
 There are times when it is desirable for clients to be able to interact

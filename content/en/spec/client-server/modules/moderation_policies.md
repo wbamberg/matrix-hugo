@@ -1,3 +1,8 @@
+---
+type: module
+weight: 330
+---
+
 ### Moderation policy lists
 
 With Matrix being an open network where anyone can participate, a very

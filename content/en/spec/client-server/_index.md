@@ -1980,4 +1980,4 @@ return a standard error response of the form:
 The `retry_after_ms` key SHOULD be included to tell the client how long
 they have to wait in milliseconds before they can try again.
 
-{{% cs-modules file="/content/en/spec/client-server/modules/admin.md" %}}
+{{% cs-modules %}}

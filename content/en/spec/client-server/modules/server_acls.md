@@ -1,3 +1,8 @@
+---
+type: module
+weight: 290
+---
+
 ### Server Access Control Lists (ACLs) for rooms
 
 In some scenarios room operators may wish to prevent a malicious or

@@ -1,3 +1,8 @@
+---
+type: module
+weight: 130
+---
+
 ### Push Notifications
 
     +--------------------+  +-------------------+

@@ -1,3 +1,8 @@
+---
+type: module
+weight: 300
+---
+
 ### User, room, and group mentions
 
 This module allows users to mention other users, rooms, and groups

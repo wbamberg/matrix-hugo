@@ -1,3 +1,8 @@
+---
+type: module
+weight: 170
+---
+
 ### Room Previews
 
 It is sometimes desirable to offer a preview of a room, where a user can

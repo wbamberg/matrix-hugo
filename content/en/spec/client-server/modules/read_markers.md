@@ -1,3 +1,8 @@
+---
+type: module
+weight: 50
+---
+
 ### Fully read markers
 
 The history for a given room may be split into three sections: messages

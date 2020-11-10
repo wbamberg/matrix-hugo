@@ -1,3 +1,8 @@
+---
+type: module
+weight: 210
+---
+
 ### Event Context
 
 This API returns a number of events that happened just before and after

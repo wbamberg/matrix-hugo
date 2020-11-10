@@ -1,3 +1,8 @@
+---
+type: module
+weight: 120
+---
+
 ### Room History Visibility
 
 This module adds support for controlling the visibility of previous

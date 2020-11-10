@@ -1,3 +1,8 @@
+---
+type: module
+weight: 40
+---
+
 ### Receipts
 
 This module adds in support for receipts. These receipts are a form of

@@ -1,3 +1,8 @@
+---
+type: module
+weight: 70
+---
+
 ### Content repository
 
 The content repository (or "media repository") allows users to upload

@@ -1,3 +1,8 @@
+---
+type: module
+weight: 250
+---
+
 ### Sticker Messages
 
 This module allows users to send sticker messages in to rooms or direct

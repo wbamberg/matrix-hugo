@@ -1,3 +1,8 @@
+---
+type: module
+weight: 280
+---
+
 ### OpenID
 
 This module allows users to verify their identity with a third party

@@ -1,3 +1,8 @@
+---
+type: module
+weight: 60
+---
+
 ### Presence
 
 Each user has the concept of presence information. This encodes:

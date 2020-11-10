@@ -1,3 +1,8 @@
+---
+type: module
+weight: 30
+---
+
 ### Typing Notifications
 
 Users may wish to be informed when another user is typing in a room.

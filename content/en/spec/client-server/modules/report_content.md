@@ -1,3 +1,8 @@
+---
+type: module
+weight: 260
+---
+
 ### Reporting Content
 
 Users may encounter content which they find inappropriate and should be

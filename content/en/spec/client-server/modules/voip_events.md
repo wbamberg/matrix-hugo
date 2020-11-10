@@ -1,3 +1,8 @@
+---
+type: module
+weight: 20
+---
+
 ### Voice over IP
 
 This module outlines how two users in a room can set up a Voice over IP

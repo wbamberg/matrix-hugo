@@ -1,3 +1,8 @@
+---
+type: module
+weight: 270
+---
+
 ### Third Party Networks
 
 Application services can provide access to third party networks via

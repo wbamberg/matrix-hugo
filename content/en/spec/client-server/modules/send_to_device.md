@@ -1,3 +1,8 @@
+---
+type: module
+weight: 80
+---
+
 ### Send-to-Device messaging<span id="module:to_device"></span>
 
 This module provides a means by which clients can exchange signalling

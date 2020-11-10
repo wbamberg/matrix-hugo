@@ -1,3 +1,8 @@
+---
+type: module
+weight: 10
+---
+
 ### Instant Messaging
 
 This module adds support for sending human-readable messages to a room.
