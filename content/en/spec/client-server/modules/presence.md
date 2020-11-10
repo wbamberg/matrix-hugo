@@ -34,7 +34,7 @@ below.
 
 {{presence\_cs\_http\_api}}
 
-## Last active ago
+##### Last active ago
 
 The server maintains a timestamp of the last time it saw a pro-active
 event from the user. A pro-active event may be sending a message to a
@@ -57,7 +57,7 @@ as opposed to disabling last active tracking entirely. Thus clients can
 fetch up to date last active times by explicitly requesting the presence
 for a given user.
 
-## Idle timeout
+##### Idle timeout
 
 The server will automatically set a user's presence to `unavailable` if
 their last active time was over a threshold value (e.g. 5 minutes).

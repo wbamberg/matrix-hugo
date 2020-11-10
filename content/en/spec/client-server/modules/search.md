@@ -17,7 +17,7 @@ below.
 The search API allows clients to search in different categories of
 items. Currently the only specified category is `room_events`.
 
-## `room_events`
+##### `room_events`
 
 This category covers all events that the user is allowed to see,
 including events in rooms that they have left. The search is performed

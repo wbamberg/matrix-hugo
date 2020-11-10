@@ -37,7 +37,7 @@ Or a rejected call:
 
 Calls are negotiated according to the WebRTC specification.
 
-## Glare
+##### Glare
 
 "Glare" is a problem which occurs when two users call each other at
 roughly the same time. This results in the call failing to set up as

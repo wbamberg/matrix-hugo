@@ -31,7 +31,7 @@ Clients can upload and download content using the following HTTP APIs.
 
 {{content\_repo\_cs\_http\_api}}
 
-## Thumbnails
+##### Thumbnails
 
 The homeserver SHOULD be able to supply thumbnails for uploaded images
 and videos. The exact file types which can be thumbnailed are not

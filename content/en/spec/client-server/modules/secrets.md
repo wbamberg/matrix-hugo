@@ -21,7 +21,7 @@ described by data that is also stored in the user's account-data. Users
 can have multiple keys, allowing them to control what sets of secrets
 clients can access, depending on what keys are given to them.
 
-## Key storage
+##### Key storage
 
 Each key has an ID, and the description of the key is stored in the
 user's account\_data using the event type
@@ -72,7 +72,7 @@ will be used to encrypt all secrets that the user would expect to be
 available on all their clients. Unless the user specifies otherwise,
 clients will try to use the default key to decrypt secrets.
 
-## Secret storage
+##### Secret storage
 
 Encrypted data is stored in the user's account\_data using the event
 type defined by the feature that uses the data. The account\_data will
@@ -141,7 +141,7 @@ and the key descriptions for the keys would be:
       // ... other properties according to algorithm
     }
 
-# `m.secret_storage.v1.aes-hmac-sha2`
+###### `m.secret_storage.v1.aes-hmac-sha2`
 
 Secrets encrypted using the `m.secret_storage.v1.aes-hmac-sha2`
 algorithm are encrypted using AES-CTR-256, and authenticated using
@@ -261,7 +261,7 @@ and data encrypted using this algorithm could look like this:
       }
     }
 
-# Key representation
+###### Key representation
 
 When a user is given a raw key for `m.secret_storage.v1.aes-hmac-sha2`,
 it will be presented as a string constructed as follows:
@@ -281,7 +281,7 @@ it will be presented as a string constructed as follows:
 When decoding a raw key, the process should be reversed, with the
 exception that whitespace is insignificant in the user's input.
 
-# Deriving keys from passphrases
+###### Deriving keys from passphrases
 
 A user may wish to use a chosen passphrase rather than a randomly
 generated key. In this case, information on how to generate the key from
@@ -291,7 +291,7 @@ has an `algorithm` property that indicates how to generate the key from
 the passphrase. Other properties of the `passphrase` property are
 defined by the `algorithm` specified.
 
-##### `m.pbkdf2`
+####### `m.pbkdf2`
 
 For the `m.pbkdf2` algorithm, the `passphrase` property has the
 following properties:
@@ -361,9 +361,9 @@ are allowed to see them. For example, clients should only share secrets
 with the user’s own devices that are verified and may prompt the user to
 confirm sharing the secret.
 
-## Event definitions
+##### Event definitions
 
-# `m.secret.request`
+###### `m.secret.request`
 
 Sent by a client to request a secret from another device or to cancel a
 previous request. It is sent as an unencrypted to-device event.
@@ -409,7 +409,7 @@ Example:
       "request_id": "randomly_generated_id_9573"
     }
 
-# `m.secret.send`
+###### `m.secret.send`
 
 Sent by a client to share a secret with another device, in response to
 an `m.secret.request` event. It must be encrypted as an

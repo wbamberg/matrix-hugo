@@ -1,4 +1,4 @@
-# Module Heading
+### Module Heading
 
 A short summary of the module. What features does this module provide?
 An anchor should be specified at the top of the module using the format
@@ -9,7 +9,7 @@ flows (e.g. VoIP call flows) here. Custom subsections can be included
 but they should be used *sparingly* to reduce the risk of putting client
 or server behaviour information in these custom sections.
 
-## Events
+#### Events
 
 List the new event types introduced by this module, if any. If there are
 no new events, this section can be omitted. Event types should be done
@@ -17,7 +17,7 @@ as subsections. This section is intended to document the "common shared
 event structure" between client and server. Deviations from this shared
 structure should be documented in the relevant behaviour section.
 
-### `m.example.event.type`
+##### `m.example.event.type`
 
 There should be JSON Schema docs for this event. Once there is JSON
 schema, there will be a template variable with dots in the event type
@@ -26,7 +26,7 @@ template like so:
 
 {{m\_example\_event\_type\_event}}
 
-## Client behaviour
+#### Client behaviour
 
 List any new HTTP endpoints. These endpoints should be documented using
 Swagger. Once there is Swagger, there will be a template variable based
@@ -39,14 +39,14 @@ List the steps the client needs to take to correctly process this
 module. List what data structures the client should be storing in order
 to aid implementation.
 
-## Server behaviour
+#### Server behaviour
 
 Does the server need to handle any of the new events in a special way
 (e.g. typing timeouts, presence). Advice on how to persist events and/or
 requests are recommended to aid implementation. Federation-specific
 logic should be included here.
 
-## Security considerations
+#### Security considerations
 
 This includes privacy leaks: for example leaking presence info. How do
 misbehaving clients or servers impact this module? This section should

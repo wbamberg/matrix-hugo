@@ -27,7 +27,7 @@ Usage of this event is discouraged for several reasons:
 
 {{m\_room\_pinned\_events\_event}}
 
-## m.room.message msgtypes
+##### m.room.message msgtypes
 
 Each [m.room.message]() MUST have a `msgtype` key which identifies the
 type of message being sent. Each type has their own required and
@@ -133,7 +133,7 @@ the client generated thumbnail or ask its homeserver to generate a
 thumbnail from the original attachment using the [content repository
 module]().
 
-## Recommendations when sending messages
+##### Recommendations when sending messages
 
 In the event of send failure, clients SHOULD retry requests using an
 exponential-backoff algorithm for a certain amount of time T. It is
@@ -150,7 +150,7 @@ blocking, clients should use a queue per room rather than a global
 queue, as ordering is only relevant within a single room rather than
 between rooms.
 
-## Local echo
+##### Local echo
 
 Messages SHOULD appear immediately in the message view when a user
 presses the "send" button. This should occur even if the message is
@@ -180,7 +180,7 @@ responsiveness) before the original request to send the message
 completes. Once it completes, the client can take remedial actions to
 remove the duplicate event by looking for duplicate event IDs.
 
-## Calculating the display name for a user
+##### Calculating the display name for a user
 
 Clients may wish to show the human-readable display name of a room
 member as part of a membership list, or when they send a message.
@@ -229,7 +229,7 @@ algorithm:
     members using that name. Such a table can then be used for efficient
     calculation of whether disambiguation is needed.
 
-## Displaying membership information with messages
+##### Displaying membership information with messages
 
 Clients may wish to show the display name and avatar URL of the room
 member who sent a message. This can be achieved by inspecting the
@@ -247,7 +247,7 @@ state. When paginated events are processed sequentially, the old state
 represents the state of the room *at the time the event was sent*. This
 can then be used to set the historical display name and avatar URL.
 
-## Calculating the display name for a room
+##### Calculating the display name for a room
 
 Clients may wish to show a human-readable name for a room. There are a
 number of possibilities for choosing a useful name. To ensure that rooms
@@ -292,7 +292,7 @@ when using the `m.heroes` to calculate the name. Clients SHOULD use
 minimum 5 heroes to calculate room names where possible, but may use
 more or less to fit better with their user experience.
 
-## Forming relationships between events
+##### Forming relationships between events
 
 In some cases, events may wish to reference other events. This could be
 to form a thread of messages for the user to follow along with, or to
@@ -305,7 +305,7 @@ Relationships are defined under an `m.relates_to` key in the event's
 `m.relates_to` key MUST NOT be covered by the encryption and instead be
 put alongside the encryption information held in the `content`.
 
-# Rich replies
+###### Rich replies
 
 Users may wish to reference another message when forming their own
 message, and clients may wish to better embed the referenced message for
@@ -343,7 +343,7 @@ An `m.in_reply_to` relationship looks like the following:
       }
     }
 
-##### Fallbacks and event representation
+####### Fallbacks and event representation
 
 Some clients may not have support for rich replies and therefore need a
 fallback to use instead. Clients that do not support rich replies should
@@ -377,7 +377,7 @@ If the related event does not have a `formatted_body`, the event's
 Note that the `href` in both of the anchors use a [matrix.to
 URI](../appendices.html#matrix-to-navigation).
 
-###### Stripping the fallback
+######## Stripping the fallback
 
 Clients which support rich replies MUST strip the fallback from the
 event before rendering the event. This is because the text provided in
@@ -397,7 +397,7 @@ a line is encountered without the prefix. This prefix is known as the
 To strip the fallback on the `formatted_body`, the client should remove
 the entirety of the `mx-reply` tag.
 
-###### Fallback for `m.text`, `m.notice`, and unrecognised message types
+######## Fallback for `m.text`, `m.notice`, and unrecognised message types
 
 Using the prefix sequence, the first line of the related event's `body`
 should be prefixed with the user's ID, followed by each line being
@@ -410,7 +410,7 @@ prefixed with the fallback prefix sequence. For example:
 
 The `formatted_body` uses the template defined earlier in this section.
 
-###### Fallback for `m.emote`
+######## Fallback for `m.emote`
 
 Similar to the fallback for `m.text`, each line gets prefixed with the
 fallback prefix sequence. However an asterisk should be inserted before
@@ -433,7 +433,7 @@ asterisk is also inserted ahead of the user's ID:
     </mx-reply>
     This is where the reply goes.
 
-###### Fallback for `m.image`, `m.video`, `m.audio`, and `m.file`
+######## Fallback for `m.image`, `m.video`, `m.audio`, and `m.file`
 
 The related event's `body` would be a file name, which may not be very
 descriptive. The related event should additionally not have a `format`

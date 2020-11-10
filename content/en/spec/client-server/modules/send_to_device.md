@@ -49,7 +49,7 @@ should be sent on to the remote servers via
 
 {{to\_device\_cs\_http\_api}}
 
-## Extensions to /sync
+##### Extensions to /sync
 
 This module adds the following properties to the \_ response:
 
