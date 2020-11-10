@@ -1,8 +1,4 @@
----
-title: Presence
-type: docs
-weight: 10
----
+## Presence
 
 Each user has the concept of presence information. This encodes:
 
@@ -27,18 +23,18 @@ enum of one of the following:
 -   `offline` : The user is not connected to an event stream or is
     explicitly suppressing their profile information from being sent.
 
-## Events
+### Events
 
 {{presence\_events}}
 
-## Client behaviour
+### Client behaviour
 
 Clients can manually set/get their presence using the HTTP APIs listed
 below.
 
 {{presence\_cs\_http\_api}}
 
-### Last active ago
+#### Last active ago
 
 The server maintains a timestamp of the last time it saw a pro-active
 event from the user. A pro-active event may be sending a message to a
@@ -61,7 +57,7 @@ as opposed to disabling last active tracking entirely. Thus clients can
 fetch up to date last active times by explicitly requesting the presence
 for a given user.
 
-### Idle timeout
+#### Idle timeout
 
 The server will automatically set a user's presence to `unavailable` if
 their last active time was over a threshold value (e.g. 5 minutes).
@@ -69,7 +65,7 @@ Clients can manually set a user's presence to `unavailable`. Any
 activity that bumps the last active time on any of the user's clients
 will cause the server to automatically set their presence to `online`.
 
-## Security considerations
+### Security considerations
 
 Presence information is shared with all users who share a room with the
 target user. In large public rooms this could be undesirable.

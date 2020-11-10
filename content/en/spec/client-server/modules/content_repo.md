@@ -1,8 +1,4 @@
----
-title: Content repository
-type: docs
-weight: 10
----
+## Content repository
 
 The content repository (or "media repository") allows users to upload
 files to their homeserver for later use. For example, files which the
@@ -19,7 +15,7 @@ When serving content, the server SHOULD provide a
 `Content-Security-Policy` header. The recommended policy is
 `sandbox; default-src 'none'; script-src 'none'; plugin-types application/pdf; style-src 'unsafe-inline'; object-src 'self';`.
 
-## Matrix Content (MXC) URIs
+### Matrix Content (MXC) URIs
 
 Content locations are represented as Matrix Content (MXC) URIs. They
 look like:
@@ -29,13 +25,13 @@ look like:
     <server-name> : The name of the homeserver where this content originated, e.g. matrix.org
     <media-id> : An opaque ID which identifies the content.
 
-## Client behaviour
+### Client behaviour
 
 Clients can upload and download content using the following HTTP APIs.
 
 {{content\_repo\_cs\_http\_api}}
 
-### Thumbnails
+#### Thumbnails
 
 The homeserver SHOULD be able to supply thumbnails for uploaded images
 and videos. The exact file types which can be thumbnailed are not
@@ -78,7 +74,7 @@ Servers MUST NOT upscale thumbnails under any circumstance. Servers MUST
 NOT return a smaller thumbnail than requested, unless the original
 content makes that impossible.
 
-## Security considerations
+### Security considerations
 
 The HTTP GET endpoint does not require any authentication. Knowing the
 URL of the content is sufficient to retrieve the content, even if the

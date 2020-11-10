@@ -18,6 +18,8 @@ enableMissingTranslationPlaceholders = true
 
 disableKinds = ["taxonomy", "taxonomyTerm"]
 
+ignoreFiles = [ "client-server/modules/*" ]
+
 # Highlighting config
 pygmentsCodeFences = true
 pygmentsUseClasses = false

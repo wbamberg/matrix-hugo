@@ -1,8 +1,4 @@
----
-title: Server Access Control Lists (ACLs) for rooms
-type: docs
-weight: 10
----
+## Server Access Control Lists (ACLs) for rooms
 
 In some scenarios room operators may wish to prevent a malicious or
 untrusted server from participating in their room. Sending an
@@ -31,7 +27,7 @@ CIDR notation is not supported for IP addresses because Matrix does not
 encourage the use of IPs for identifying servers. Instead, a blanket
 `allow_ip_literals` is provided to cover banning them.
 
-## Client behaviour
+### Client behaviour
 
 Clients are not expected to perform any additional duties beyond sending
 the event. Clients should describe changes to the server ACLs to the
@@ -42,7 +38,7 @@ server access to the room to help prevent those servers from
 participating and to provide feedback to the users that they have been
 excluded from the room.
 
-## Server behaviour
+### Server behaviour
 
 Servers MUST prevent blacklisted servers from sending events or
 participating in the room when an [m.room.server\_acl]() event is
@@ -52,7 +48,7 @@ described in the Server-Server API specification.
 Servers should still send events to denied servers if they are still
 residents of the room.
 
-## Security considerations
+### Security considerations
 
 Server ACLs are only effective if every server in the room honours them.
 Servers that do not honour the ACLs may still permit events sent by

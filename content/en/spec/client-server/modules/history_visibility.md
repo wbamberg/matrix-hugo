@@ -1,8 +1,4 @@
----
-title: Room History Visibility
-type: docs
-weight: 10
----
+## Room History Visibility
 
 This module adds support for controlling the visibility of previous
 events in a room.
@@ -40,11 +36,11 @@ the event in question is added to the DAG. This means clients cannot
 retrospectively choose to show or hide history to new users if the
 setting at that time was more restrictive.
 
-## Events
+### Events
 
 {{m\_room\_history\_visibility\_event}}
 
-## Client behaviour
+### Client behaviour
 
 Clients that implement this module MUST present to the user the possible
 options for setting history visibility when creating a room.
@@ -52,7 +48,7 @@ options for setting history visibility when creating a room.
 Clients may want to display a notice that their events may be read by
 non-joined people if the value is set to `world_readable`.
 
-## Server behaviour
+### Server behaviour
 
 By default if no `history_visibility` is set, or if the value is not
 understood, the visibility is assumed to be `shared`. The rules
@@ -82,7 +78,7 @@ event would allow them to see it. (For example, a user can always see
 change their membership from `join` to any other value, even if
 `history_visibility` is `joined`.)
 
-## Security considerations
+### Security considerations
 
 The default value for `history_visibility` is `shared` for
 backwards-compatibility reasons. Clients need to be aware that by not

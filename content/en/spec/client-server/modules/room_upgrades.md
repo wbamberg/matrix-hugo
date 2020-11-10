@@ -1,18 +1,14 @@
----
-title: Room Upgrades
-type: docs
-weight: 10
----
+## Room Upgrades
 
 From time to time, a room may need to be upgraded to a different room
 version for a variety for reasons. This module defines a way for rooms
 to upgrade to a different room version when needed.
 
-## Events
+### Events
 
 {{m\_room\_tombstone\_event}}
 
-## Client behaviour
+### Client behaviour
 
 Clients which understand `m.room.tombstone` events and the `predecessor`
 field on `m.room.create` events should communicate to the user that the
@@ -25,7 +21,7 @@ without the user having to jump between the rooms.
 
 {{room\_upgrades\_cs\_http\_api}}
 
-## Server behaviour
+### Server behaviour
 
 When the client requests to upgrade a known room to a known version, the
 server:

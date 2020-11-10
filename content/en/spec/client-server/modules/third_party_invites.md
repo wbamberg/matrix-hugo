@@ -1,8 +1,4 @@
----
-title: Third party invites
-type: docs
-weight: 10
----
+## Third party invites
 
 This module adds in support for inviting new members to a room where
 their Matrix user ID is not known, instead addressing them by a third
@@ -28,17 +24,17 @@ user, with `content.membership` = `invite`, as well as a
 invitee does indeed own that third party identifier. See the
 [m.room.member](#m-room-member) schema for more information.
 
-## Events
+### Events
 
 {{m\_room\_third\_party\_invite\_event}}
 
-## Client behaviour
+### Client behaviour
 
 A client asks a server to invite a user by their third party identifier.
 
 {{third\_party\_membership\_cs\_http\_api}}
 
-## Server behaviour
+### Server behaviour
 
 Upon receipt of an `/invite`, the server is expected to look up the
 third party identifier with the provided identity server. If the lookup
@@ -206,7 +202,7 @@ servers trusting each other, but that trust is already implied by the
 server-server protocol. Also, the public key signature verification must
 still be performed, so the attack surface here is minimized.
 
-## Security considerations
+### Security considerations
 
 There are a number of privacy and trust implications to this module.
 

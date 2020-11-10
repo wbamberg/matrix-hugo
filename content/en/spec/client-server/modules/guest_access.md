@@ -1,8 +1,4 @@
----
-title: Guest Access
-type: docs
-weight: 10
----
+## Guest Access
 
 There are times when it is desirable for clients to be able to interact
 with rooms without having to fully register for an account on a
@@ -29,11 +25,11 @@ This module does not fully factor in federation; it relies on individual
 homeservers properly adhering to the rules set out in this module,
 rather than allowing all homeservers to enforce the rules on each other.
 
-## Events
+### Events
 
 {{m\_room\_guest\_access\_event}}
 
-## Client behaviour
+### Client behaviour
 
 The following API endpoints are allowed to be accessed by guest accounts
 for retrieving events:
@@ -48,6 +44,8 @@ for retrieving events:
     /rooms/:room\_id/state/:event\_type/:state\_key](#get-matrix-client-%CLIENT_MAJOR_VERSION%-rooms-roomid-state-eventtype-statekey)
 -   [GET
     /rooms/:room\_id/messages](#get-matrix-client-%CLIENT_MAJOR_VERSION%-rooms-roomid-messages)
+-   [GET
+    /rooms/:room\_id/members](#get-matrix-client-%CLIENT_MAJOR_VERSION%-rooms-roomid-members)
 -   [GET
     /rooms/:room\_id/initialSync](#get-matrix-client-%CLIENT_MAJOR_VERSION%-rooms-roomid-initialsync)
 -   [GET /sync](#get-matrix-client-%CLIENT_MAJOR_VERSION%-sync)
@@ -86,7 +84,7 @@ for end-to-end encryption:
 -   [POST
     /keys/claim](#post-matrix-client-%CLIENT_MAJOR_VERSION%-keys-claim)
 
-## Server behaviour
+### Server behaviour
 
 Servers MUST only allow guest users to join rooms if the
 `m.room.guest_access` state event is present on the room, and has the
@@ -94,7 +92,7 @@ Servers MUST only allow guest users to join rooms if the
 changed to stop this from being the case, the server MUST set those
 users' `m.room.member` state to `leave`.
 
-## Security considerations
+### Security considerations
 
 Each homeserver manages its own guest accounts itself, and whether an
 account is a guest account or not is not information passed from server

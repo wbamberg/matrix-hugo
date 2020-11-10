@@ -1,21 +1,17 @@
----
-title: End-to-End Encryption
-type: docs
-weight: 10
----
+## End-to-End Encryption
 
 Matrix optionally supports end-to-end encryption, allowing rooms to be
 created whose conversation contents are not decryptable or interceptable
 on any of the participating homeservers.
 
-## Key Distribution
+### Key Distribution
 
 Encryption and Authentication in Matrix is based around public-key
 cryptography. The Matrix protocol provides a basic mechanism for
 exchange of public keys, though an out-of-band channel is required to
 exchange fingerprints between users to build a web of trust.
 
-### Overview
+#### Overview
 
     1) Bob publishes the public keys and supported algorithms for his
        device. This may include long-term identity keys, and/or one-time
@@ -46,7 +42,7 @@ exchange fingerprints between users to build a web of trust.
              |=================>|==============>|
                /keys/claim         <federation>
 
-### Key algorithms
+#### Key algorithms
 
 The name `ed25519` corresponds to the
 [Ed25519](http://ed25519.cr.yp.to/) signature algorithm. The key is a
@@ -101,7 +97,7 @@ Example:
       }
     }
 
-### Device keys
+#### Device keys
 
 Each device should have one Ed25519 signing key. This key should be
 generated on the device from a cryptographically secure source, and the
@@ -119,7 +115,7 @@ establishment, and are then thrown away.
 For Olm version 1, each device requires a single Curve25519 identity
 key, and a number of signed Curve25519 one-time keys.
 
-### Uploading keys
+#### Uploading keys
 
 A device uploads the public parts of identity keys to their homeserver
 as a signed JSON object, using the `/keys/upload`\_ API. The JSON object
@@ -138,7 +134,7 @@ never know that it can discard the key. Therefore a device could end up
 trying to store too many private keys. A device that is trying to store
 too many private keys may discard keys starting with the oldest.
 
-### Tracking the device list for a user
+#### Tracking the device list for a user
 
 Before Alice can send an encrypted message to Bob, she needs a list of
 each of his devices and the associated identity keys, so that she can
@@ -223,7 +219,7 @@ processing. Note that Bob can also be notified when he stops sharing any
 room with Alice by inspecting the `left` property of the `device_lists`
 field, and as a result should remove her from its list of tracked users.
 
-### Sending encrypted attachments
+#### Sending encrypted attachments
 
 When encryption is enabled in a room, files should be uploaded encrypted
 on the homeserver.
@@ -256,11 +252,12 @@ file type. The key is sent using the [JSON Web
 Key](https://tools.ietf.org/html/rfc7517#appendix-A.3) format, with a
 [W3C extension](https://w3c.github.io/webcrypto/#iana-section-jwk).
 
-#### Extensions to `m.message` msgtypes
+Extensions to `m.room.message` msgtypes
+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
 
 This module adds `file` and `thumbnail_file` properties, of type
-`EncryptedFile`, to `m.message` msgtypes that reference files, such as
-[m.file]() and [m.image](), replacing the `url` and `thumbnail_url`
+`EncryptedFile`, to `m.room.message` msgtypes that reference files, such
+as [m.file]() and [m.image](), replacing the `url` and `thumbnail_url`
 properties.
 
 `EncryptedFile`
@@ -343,7 +340,7 @@ properties.
 
 Example:
 
-### Claiming one-time keys
+#### Claiming one-time keys
 
 A client wanting to set up a session with another device can claim a
 one-time key for that device. This is done by making a request to the
@@ -353,7 +350,7 @@ A homeserver should rate-limit the number of one-time keys that a given
 user or remote server can claim. A homeserver should discard the public
 part of a one time key once it has given that key to another user.
 
-## Device verification
+### Device verification
 
 Before Alice sends Bob encrypted data, or trusts data received from him,
 she may want to verify that she is actually communicating with him,
@@ -390,7 +387,7 @@ that Ed25519 private key, or to encrypt a message so that it may only be
 decrypted by such a device. For the Olm protocol, this is documented at
 <https://matrix.org/docs/olm_signing.html>.
 
-### Key verification framework
+#### Key verification framework
 
 Verifying keys manually by reading out the Ed25519 key is not very user
 friendly, and can lead to errors. In order to help mitigate errors, and
@@ -475,7 +472,7 @@ After the handshake, the verification process begins.
 
 {{m\_key\_verification\_cancel\_event}}
 
-### Short Authentication String (SAS) verification
+#### Short Authentication String (SAS) verification
 
 SAS verification is a user-friendly key verification process built off
 the common framework outlined above. SAS verification is intended to be
@@ -591,7 +588,7 @@ devices:
           |<--------------------------------|
           |                                 |
 
-#### Error and exception handling
+##### Error and exception handling
 
 At any point the interactive verfication can go wrong. The following
 describes what to do when an error happens:
@@ -622,7 +619,7 @@ describes what to do when an error happens:
     expecting, it should notify the other device with an appropriate
     `m.key.verification.cancel` message.
 
-#### Verification messages specific to SAS
+##### Verification messages specific to SAS
 
 Building off the common framework, the following events are involved in
 SAS verification.
@@ -643,7 +640,7 @@ following error codes are used in addition to those already specified:
 
 {{m\_key\_verification\_mac\_event}}
 
-#### HKDF calculation
+##### HKDF calculation
 
 In all of the SAS methods, HKDF is as defined in [RFC
 5869](https://tools.ietf.org/html/rfc5869) and uses the previously
@@ -705,7 +702,7 @@ parameter is the concatenation of:
 > -   The Key ID of the key being MAC-ed, or the string `KEY_IDS` if the
 >     item being MAC-ed is the list of key IDs.
 
-#### SAS method: `decimal`
+##### SAS method: `decimal`
 
 Generate 5 bytes using [HKDF](#sas-hkdf) then take sequences of 13 bits
 to convert to decimal numbers (resulting in 3 numbers between 0 and 8191
@@ -723,7 +720,7 @@ would be:
 The digits are displayed to the user either with an appropriate
 separator, such as dashes, or with the numbers on individual lines.
 
-#### SAS method: `emoji`
+##### SAS method: `emoji`
 
 Generate 6 bytes using [HKDF](#sas-hkdf) then split the first 42 bits
 into 7 groups of 6 bits, similar to how one would base64 encode
@@ -760,7 +757,7 @@ Known translations for the emoji are available from
 and can be translated online:
 <https://translate.riot.im/projects/matrix-doc/sas-emoji-v1>
 
-## Sharing keys between devices
+### Sharing keys between devices
 
 If Bob has an encrypted conversation with Alice on his computer, and
 then logs in through his phone for the first time, he may want to have
@@ -768,18 +765,25 @@ access to the previously exchanged messages. To address this issue,
 several methods are provided to allow users to transfer keys from one
 device to another.
 
-### Key requests
+#### Key requests
 
 When a device is missing keys to decrypt messages, it can request the
 keys by sending [m.room\_key\_request]() to-device messages to other
-devices with `action` set to `request`. If a device wishes to share the
-keys with that device, it can forward the keys to the first device by
-sending an encrypted [m.forwarded\_room\_key]() to-device message. The
-first device should then send an [m.room\_key\_request]() to-device
-message with `action` set to `request_cancellation` to the other devices
-that it had originally sent the key request to; a device that receives a
+devices with `action` set to `request`.
+
+If a device wishes to share the keys with that device, it can forward
+the keys to the first device by sending an encrypted
+[m.forwarded\_room\_key]() to-device message. The first device should
+then send an [m.room\_key\_request]() to-device message with `action`
+set to `request_cancellation` to the other devices that it had
+originally sent the key request to; a device that receives a
 `request_cancellation` should disregard any previously-received
 `request` message with the same `request_id` and `requesting_device_id`.
+
+If a device does not wish to share keys with that device, it can
+indicate this by sending an [m.room\_key.withheld]() to-device message,
+as described in [Reporting that decryption keys are
+withheld](#reporting-that-decryption-keys-are-withheld).
 
 Note
 
@@ -787,7 +791,7 @@ Key sharing can be a big attack vector, thus it must be done very
 carefully. A reasonable strategy is for a user's client to only send
 keys requested by the verified devices of the same user.
 
-### Server-side key backups
+#### Server-side key backups
 
 Devices may upload encrypted copies of keys to the server. When a device
 tries to read a message that it does not have keys for, it may request
@@ -829,7 +833,7 @@ replace it with the new key based on the key metadata as follows:
 -   and finally, is `is_verified` and `first_message_index` are equal,
     then it will keep the key with a lower `forwarded_count`.
 
-#### Recovery key
+##### Recovery key
 
 If the recovery key (the private half of the backup encryption key) is
 presented to the user to save, it is presented as a string constructed
@@ -850,7 +854,7 @@ as follows:
 When reading in a recovery key, clients must disregard whitespace, and
 perform the reverse of steps 1 through 3.
 
-#### Backup algorithm: `m.megolm_backup.v1.curve25519-aes-sha2`
+##### Backup algorithm: `m.megolm_backup.v1.curve25519-aes-sha2`
 
 When a backup is created with the `algorithm` set to
 `m.megolm_backup.v1.curve25519-aes-sha2`, the `auth_data` should have
@@ -944,7 +948,7 @@ The `session_data` field in the backups is constructed as follows:
 
 {{key\_backup\_cs\_http\_api}}
 
-### Key exports
+#### Key exports
 
 Keys can be manually exported from one device to an encrypted file,
 copied to another device, and imported. The file is encrypted using a
@@ -1012,7 +1016,7 @@ user-supplied passphrase, and is created as follows:
     append `-----END MEGOLM SESSION DATA-----`, with a leading and
     trailing newline.
 
-#### Key export format
+##### Key export format
 
 The exported sessions are formatted as a JSON array of `SessionData`
 objects described as follows:
@@ -1089,9 +1093,9 @@ Example:
         ...
     ]
 
-## Messaging Algorithms
+### Messaging Algorithms
 
-### Messaging Algorithm Names
+#### Messaging Algorithm Names
 
 Messaging algorithm names use the extensible naming scheme used
 throughout this specification. Algorithm names that start with `m.` are
@@ -1111,7 +1115,7 @@ is too long despite giving a more precise description of the algorithm:
 it adds to the data transfer overhead and sacrifices clarity for human
 readers without adding any useful extra information.
 
-### `m.olm.v1.curve25519-aes-sha2`
+#### `m.olm.v1.curve25519-aes-sha2`
 
 The name `m.olm.v1.curve25519-aes-sha2` corresponds to version 1 of the
 Olm ratchet, as defined by the [Olm
@@ -1206,7 +1210,7 @@ maximum number of olm sessions that it will maintain for each device,
 and expiring sessions on a Least Recently Used basis. The maximum number
 of olm sessions maintained per device should be at least 4.
 
-#### Recovering from undecryptable messages
+##### Recovering from undecryptable messages
 
 Occasionally messages may be undecryptable by clients due to a variety
 of reasons. When this happens to an Olm-encrypted message, the client
@@ -1235,7 +1239,7 @@ For example, Megolm sessions that were sent using the old session would
 have been lost. The client can attempt to retrieve the lost sessions
 through `m.room_key_request` messages.
 
-### `m.megolm.v1.aes-sha2`
+#### `m.megolm.v1.aes-sha2`
 
 The name `m.megolm.v1.aes-sha2` corresponds to version 1 of the Megolm
 ratchet, as defined by the [Megolm
@@ -1296,9 +1300,9 @@ that they can decrypt future messages encrypted using this session. A
 `m.room_key` events sent by other devices in order to decrypt their
 messages.
 
-## Protocol definitions
+### Protocol definitions
 
-### Events
+#### Events
 
 {{m\_room\_encryption\_event}}
 
@@ -1312,11 +1316,11 @@ messages.
 
 {{m\_dummy\_event}}
 
-### Key management API
+#### Key management API
 
 {{keys\_cs\_http\_api}}
 
-### Extensions to /sync
+#### Extensions to /sync
 
 This module adds an optional `device_lists` property to the \_ response,
 as specified below. The server need only populate this property for an
@@ -1402,3 +1406,29 @@ Example response:
         "signed_curve25519": 20
       }
     }
+
+### Reporting that decryption keys are withheld
+
+When sending an encrypted event to a room, a client can optionally
+signal to other devices in that room that it is not sending them the
+keys needed to decrypt the event. In this way, the receiving client can
+indicate to the user why it cannot decrypt the event, rather than just
+showing a generic error message.
+
+In the same way, when one device requests keys from another using [Key
+requests](#key-requests), the device from which the key is being
+requested may want to tell the requester that it is purposely not
+sharing the key.
+
+If Alice withholds a megolm session from Bob for some messages in a
+room, and then later on decides to allow Bob to decrypt later messages,
+she can send Bob the megolm session, ratcheted up to the point at which
+she allows Bob to decrypt the messages. If Bob logs into a new device
+and uses key sharing to obtain the decryption keys, the new device will
+be sent the megolm sessions that have been ratcheted up. Bob's old
+device can include the reason that the session was initially not shared
+by including a `withheld` property in the `m.forwarded_room_key` message
+that is an object with the `code` and `reason` properties from the
+`m.room_key.withheld` message.
+
+{{m\_room\_key\_withheld\_event}}

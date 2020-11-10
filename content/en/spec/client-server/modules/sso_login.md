@@ -1,8 +1,4 @@
----
-title: SSO client login/authentication
-type: docs
-weight: 10
----
+## SSO client login/authentication
 
 Single Sign-On (SSO) is a generic term which refers to protocols which
 allow users to log into applications via a single web-based
@@ -38,7 +34,7 @@ authentication the homeserver should provide a means for the
 administrator to configure where the CAS server is and the REST
 endpoints which consume the ticket.
 
-## Client login via SSO
+### Client login via SSO
 
 An overview of the process is as follows:
 
@@ -94,7 +90,7 @@ endpoint to use: for `m.login.cas`, use `/cas/redirect` and for
 `m.login.sso` use `/sso/redirect` (described below). The endpoints are
 otherwise the same.
 
-### Client behaviour
+#### Client behaviour
 
 The client starts the process by instructing the browser to navigate to
 `/login/sso/redirect`\_ with an appropriate `redirectUrl`. Once
@@ -103,7 +99,7 @@ authentication is successful, the browser will be redirected to that
 
 {{sso\_login\_redirect\_cs\_http\_api}}
 
-#### Security considerations
+# Security considerations
 
 1.  CSRF attacks via manipulation of parameters on the `redirectUrl`
 
@@ -136,9 +132,9 @@ authentication is successful, the browser will be redirected to that
     recognised identifier, to guard against unsolicited login attempts
     and replay attacks.
 
-### Server behaviour
+#### Server behaviour
 
-#### Redirecting to the Authentication server
+# Redirecting to the Authentication server
 
 The server should handle
 `/_matrix/client/%CLIENT_MAJOR_VERSION%/login/sso/redirect` as follows:
@@ -153,7 +149,7 @@ The server should handle
 
 See also the "Security considerations" below.
 
-#### Handling the callback from the Authentication server
+# Handling the callback from the Authentication server
 
 Note that there will normally be a single callback URI which is used for
 both login and user-interactive authentication: it is up to the
@@ -185,7 +181,7 @@ The homeserver then proceeds as follows:
     parameters, they should be removed before adding the new one.)
 5.  The homeserver redirects the user's browser to the URI thus built.
 
-### Security considerations
+#### Security considerations
 
 1.  Homeservers should ensure that login tokens are not sent to
     malicious clients.
@@ -218,7 +214,7 @@ The homeserver then proceeds as follows:
     is checked and cleared when handling the callback from the
     authentication server.
 
-## SSO during User-Interactive Authentication
+### SSO during User-Interactive Authentication
 
 [User-interactive authentication]() is used by client-server endpoints
 which require additional confirmation of the user's identity (beyond
@@ -230,7 +226,7 @@ user-interactive auth.
 The implemementation of this is based on the [Fallback]() mechanism for
 user-interactive auth.
 
-## Client behaviour
+### Client behaviour
 
 Clients do not need to take any particular additional steps beyond
 ensuring that the fallback mechanism has been implemented, and treating
@@ -240,9 +236,9 @@ the `m.login.sso` authentication type the same as any other unknown type
 Once the flow has completed, the client retries the request with the
 session only.)
 
-## Server behaviour
+### Server behaviour
 
-### Redirecting to the Authentication server
+#### Redirecting to the Authentication server
 
 The server should handle
 `/_matrix/client/%CLIENT_MAJOR_VERSION%/auth/m.login.sso/fallback/web`
@@ -260,7 +256,7 @@ say:
 
 See also the "Security considerations" below.
 
-#### Handling the callback from the Authentication server
+# Handling the callback from the Authentication server
 
 Note that there will normally be a single callback URI which is used for
 both login and user-interactive authentication: it is up to the
@@ -273,7 +269,7 @@ require checking a signature on the response.
 The homeserver then returns the [user-interactive authentication
 fallback completion]() page to the user's browser.
 
-#### Security considerations
+# Security considerations
 
 1.  Confirming the operation
 

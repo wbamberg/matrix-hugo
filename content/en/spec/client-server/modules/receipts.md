@@ -1,8 +1,4 @@
----
-title: Receipts
-type: docs
-weight: 10
----
+## Receipts
 
 This module adds in support for receipts. These receipts are a form of
 acknowledgement of an event. This module defines a single
@@ -18,14 +14,14 @@ that the user had read all events *up to* the referenced event. See the
 [Receiving notifications](#receiving-notifications) section for more
 information on how read receipts affect notification counts.
 
-## Events
+### Events
 
 Each `user_id`, `receipt_type` pair must be associated with only a
 single `event_id`.
 
 {{m\_receipt\_event}}
 
-## Client behaviour
+### Client behaviour
 
 In `/sync`, receipts are listed under the `ephemeral` array of events
 for a given room. New receipts that come down the event streams are
@@ -59,7 +55,7 @@ following HTTP APIs.
 
 {{receipts\_cs\_http\_api}}
 
-## Server behaviour
+### Server behaviour
 
 For efficiency, receipts SHOULD be batched into one event per room
 before delivering them to clients.
@@ -80,7 +76,7 @@ format of the EDUs are:
 These are always sent as deltas to previously sent receipts. Currently
 only a single `<receipt_type>` should be used: `m.read`.
 
-## Security considerations
+### Security considerations
 
 As receipts are sent outside the context of the event graph, there are
 no integrity checks performed on the contents of `m.receipt` events.

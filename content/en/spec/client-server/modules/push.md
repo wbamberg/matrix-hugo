@@ -1,8 +1,4 @@
----
-title: Push Notifications
-type: docs
-weight: 10
----
+## Push Notifications
 
     +--------------------+  +-------------------+
     Matrix HTTP      |                    |  |                   |
@@ -82,7 +78,7 @@ example, some rules may only be applied for messages from a particular
 sender, a particular room, or by default. The push ruleset contains the
 entire set of scopes and rules.
 
-## Client behaviour
+### Client behaviour
 
 Clients MUST configure a Pusher before they will receive push
 notifications. There is a single API endpoint for this, as described
@@ -90,7 +86,7 @@ below.
 
 {{pusher\_cs\_http\_api}}
 
-### Listing Notifications
+#### Listing Notifications
 
 A client can retrieve a list of events that it has been notified about.
 This may be useful so that users can see a summary of what important
@@ -98,7 +94,7 @@ messages they have received.
 
 {{notifications\_cs\_http\_api}}
 
-### Receiving notifications
+#### Receiving notifications
 
 Servers MUST include the number of unread notifications in a client's
 `/sync` stream, and MUST update it as it changes. Notifications are
@@ -108,7 +104,7 @@ When the user updates their read receipt (either by using the API or by
 sending an event), notifications prior to and including that event MUST
 be marked as read.
 
-### Push Rules
+#### Push Rules
 
 A push rule is a single rule that states under what *conditions* an
 event should be passed onto a push gateway and *how* the notification
@@ -156,7 +152,7 @@ rules match an event, the homeserver MUST NOT notify the Push Gateway
 for that event. Homeservers MUST NOT notify the Push Gateway for events
 that the user has sent themselves.
 
-#### Actions
+# Actions
 
 All rules have an associated list of `actions`. An action affects if and
 how a notification is delivered for a matching event. The following
@@ -212,7 +208,7 @@ applications and Push Gateways may agree on additional tweaks. For
 example, a tweak may be added to specify how to flash the notification
 light on a mobile device.
 
-#### Conditions
+# Conditions
 
 `override` and `underride` rules MAY have a list of 'conditions'. All
 conditions must hold true for an event in order for the rule to match. A
@@ -263,7 +259,7 @@ the push rule disabled.
 way, but instead have predefined conditions. In the cases of `room` and
 `sender` rules, the `rule_id` of the rule determines its behaviour.
 
-#### Predefined Rules
+# Predefined Rules
 
 Homeservers can specify "server-default rules" which operate at a lower
 priority than "user-defined rules". The `rule_id` for all server-default
@@ -625,14 +621,14 @@ Definition:
          ]
     }
 
-### Push Rules: API
+#### Push Rules: API
 
 Clients can retrieve, add, modify and remove push rules globally or
 per-device using the APIs below.
 
 {{pushrules\_cs\_http\_api}}
 
-### Push Rules: Events
+#### Push Rules: Events
 
 When a user changes their push rules a `m.push_rules` event is sent to
 all clients in the `account_data` section of their next `/sync` request.
@@ -640,7 +636,7 @@ The content of the event is the current push rules for the user.
 
 {{m\_push\_rules\_event}}
 
-#### Examples
+# Examples
 
 To create a rule that suppresses notifications for the room with ID
 `!dj234r78wl45Gh4D:matrix.org`:
@@ -691,11 +687,11 @@ than the room, sender and content rules):
        ]
      }'
 
-## Server behaviour
+### Server behaviour
 
-## Push Gateway behaviour
+### Push Gateway behaviour
 
-### Recommendations for APNS
+#### Recommendations for APNS
 
 The exact format for sending APNS notifications is flexible and up to
 the client app and its' push gateway to agree on. As APNS requires that
@@ -709,7 +705,7 @@ have its own push gateway. It is recommended that:
     gateway before returning and instead to store failures and return
     'rejected' responses next time that pushkey is used.
 
-## Security considerations
+### Security considerations
 
 Clients specify the Push Gateway URL to use to send event notifications
 to. This URL should be over HTTPS and *never* over HTTP.

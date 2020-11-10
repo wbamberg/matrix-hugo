@@ -1,8 +1,4 @@
----
-title: Sticker Messages
-type: docs
-weight: 10
----
+## Sticker Messages
 
 This module allows users to send sticker messages in to rooms or direct
 messaging sessions.
@@ -16,14 +12,14 @@ message timeline. The matrix client should provide some mechanism to
 display the sticker "body" e.g. as a tooltip on hover, or in a modal
 when the sticker image is clicked.
 
-## Events
+### Events
 
 Sticker events are received as a single `m.sticker` event in the
 `timeline` section of a room, in a `/sync`.
 
 {{m\_sticker\_event}}
 
-## Client behaviour
+### Client behaviour
 
 Clients supporting this message type should display the image content
 from the event URL directly in the timeline.

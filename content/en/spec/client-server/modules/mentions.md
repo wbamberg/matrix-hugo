@@ -1,8 +1,4 @@
----
-title: User, room, and group mentions
-type: docs
-weight: 10
----
+## User, room, and group mentions
 
 This module allows users to mention other users, rooms, and groups
 within a room message. This is achieved by including a [matrix.to
@@ -24,7 +20,7 @@ To make a mention, reference the entity being mentioned in the
         "formatted_body": "Hello <a href='https://matrix.to/#/@alice:example.org'>Alice</a>!"
     }
 
-## Client behaviour
+### Client behaviour
 
 In addition to using the appropriate `matrix.to URI` for the mention,
 clients should use the following guidelines when making mentions in

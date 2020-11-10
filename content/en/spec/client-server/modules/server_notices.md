@@ -1,8 +1,4 @@
----
-title: Server Notices
-type: docs
-weight: 10
----
+## Server Notices
 
 Homeserver hosts often want to send messages to users in an official
 capacity, or have resource limits which affect a user's ability to use
@@ -15,7 +11,7 @@ The aesthetics of the room (name, topic, avatar, etc) are left as an
 implementation detail. It is recommended that the homeserver decorate
 the room such that it looks like an official room to users.
 
-## Events
+### Events
 
 Notices are sent to the client as normal `m.room.message` events with a
 `msgtype` of `m.server_notice` in the server notices room. Events with a
@@ -37,7 +33,7 @@ encouraged to treat syncing users as "active".
 
 {{m\_room\_message\_m\_server\_notice\_event}}
 
-## Client behaviour
+### Client behaviour
 
 Clients can identify the server notices room by the `m.server_notice`
 tag on the room. Active notices are represented by the [pinned
@@ -56,7 +52,7 @@ the user leaving the room after joining the server notices room, however
 the same error code must be used if the server will prevent leaving the
 room.
 
-## Server behaviour
+### Server behaviour
 
 Servers should manage exactly 1 server notices room per user. Servers
 must identify this room to clients with the `m.server_notice` tag.
