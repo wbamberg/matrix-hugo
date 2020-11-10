@@ -1,4 +1,4 @@
-## Guest access
+### Guest access
 
 It may be desirable to allow users without a fully registered user
 account to ephemerally access Matrix rooms. This module specifies
@@ -10,11 +10,11 @@ in which they are already participating, and relies on individual
 homeservers to adhere to the conventions which this module sets, rather
 than allowing all participating homeservers to enforce them.
 
-### Events
+#### Events
 
 {{m\_room\_guest\_accessibility}}
 
-### Client behaviour
+#### Client behaviour
 
 A client can register for guest access using the FOO endpoint. From that
 point on, they can interact with a limited subset of the existing
@@ -29,14 +29,14 @@ The APIs they are allowed to hit are:
 /rooms/{roomId}/messages /rooms/{roomId}/state
 /rooms/{roomId}/state/{eventType}/{stateKey} /events
 
-### Server behaviour
+#### Server behaviour
 
 Does the server need to handle any of the new events in a special way
 (e.g. typing timeouts, presence). Advice on how to persist events and/or
 requests are recommended to aid implementation. Federation-specific
 logic should be included here.
 
-### Security considerations
+#### Security considerations
 
 This includes privacy leaks: for example leaking presence info. How do
 misbehaving clients or servers impact this module? This section should

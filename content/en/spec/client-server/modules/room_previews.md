@@ -1,4 +1,4 @@
-## Room Previews
+### Room Previews
 
 It is sometimes desirable to offer a preview of a room, where a user can
 "lurk" and read messages posted to the room, without joining the room.
@@ -8,7 +8,7 @@ Previews are implemented via the `world_readable` [Room History
 Visibility](). setting, along with a special version of the [GET
 /events](#get-matrix-client-%CLIENT_MAJOR_VERSION%-events) endpoint.
 
-### Client behaviour
+#### Client behaviour
 
 A client wishing to view a room without joining it should call [GET
 /rooms/:room\_id/initialSync](#get-matrix-client-%CLIENT_MAJOR_VERSION%-rooms-roomid-initialsync),
@@ -22,14 +22,14 @@ access events outside the `/events` stream.
 
 {{peeking\_events\_cs\_http\_api}}
 
-### Server behaviour
+#### Server behaviour
 
 For clients which have not joined a room, servers are required to only
 return events where the room state at the event had the
 `m.room.history_visibility` state event present with
 `history_visibility` value `world_readable`.
 
-### Security considerations
+#### Security considerations
 
 Clients may wish to display to their users that rooms which are
 `world_readable` *may* be showing messages to non-joined users. There is

@@ -1,10 +1,10 @@
-## Room Tagging
+### Room Tagging
 
 Users can add tags to rooms. Tags are namespaced strings used to label
 rooms. A room may have multiple tags. Tags are only visible to the user
 that set them but are shared across all their devices.
 
-### Events
+#### Events
 
 The tags on a room are received as single `m.tag` event in the
 `account_data` section of a room. The content of the `m.tag` event is a
@@ -56,6 +56,6 @@ tags are defined in the `m.*` namespace:
 
 {{m\_tag\_event}}
 
-### Client Behaviour
+#### Client Behaviour
 
 {{tags\_cs\_http\_api}}

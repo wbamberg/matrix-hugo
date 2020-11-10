@@ -1,4 +1,4 @@
-## Moderation policy lists
+### Moderation policy lists
 
 With Matrix being an open network where anyone can participate, a very
 wide range of content exists and it is important that users are
@@ -30,7 +30,7 @@ Rules contain recommendations and reasons for the rule existing. The
 `recommendation`. Currently only one recommendation, `m.ban`, is
 specified.
 
-### `m.ban` recommendation
+#### `m.ban` recommendation
 
 When this recommendation is used, the entities affected by the rule
 should be banned from participation where possible. The enforcement of
@@ -64,7 +64,7 @@ follows:
         server and not sending traffic unless strictly required (no
         outbound invites).
 
-### Subscribing to policy lists
+#### Subscribing to policy lists
 
 This is deliberatly left as an implementation detail. For
 implementations using the Client-Server API, this could be as easy as
@@ -72,7 +72,7 @@ joining or peeking the room. Joining or peeking is not required,
 however: an implementation could poll for updates or use a different
 technique for receiving updates to the policy's rules.
 
-### Sharing
+#### Sharing
 
 In addition to sharing a direct reference to the room which contains the
 policy's rules, plain http or https URLs can be used to share links to
@@ -84,7 +84,7 @@ a Matrix-schemed URI instead. When not approached with the intent of
 JSON, the service could return a user-friendly page describing what is
 included in the ban list.
 
-### Events
+#### Events
 
 The `entity` described by the state events can contain `*` and `?` to
 match zero or more and one or more characters respectively. Note that
@@ -98,15 +98,15 @@ desired.
 
 {{m\_policy\_rule\_server\_event}}
 
-### Client behaviour
+#### Client behaviour
 
 As described above, the client behaviour is deliberatly left undefined.
 
-### Server behaviour
+#### Server behaviour
 
 Servers have no additional requirements placed on them by this module.
 
-### Security considerations
+#### Security considerations
 
 This module could be used to build a system of shared blacklists, which
 may create a divide within established communities if not carefully

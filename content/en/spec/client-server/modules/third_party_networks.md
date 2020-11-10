@@ -1,4 +1,4 @@
-## Third Party Networks
+### Third Party Networks
 
 Application services can provide access to third party networks via
 bridging. This allows Matrix users to communicate with users on other
@@ -8,7 +8,7 @@ third party networks, and many individual locations within those
 networks. A single third party network location may be bridged to
 multiple Matrix rooms.
 
-### Third Party Lookups
+#### Third Party Lookups
 
 A client may wish to provide a rich interface for joining third party
 locations and connecting with third party users. Information necessary

@@ -1,4 +1,4 @@
-## OpenID
+### OpenID
 
 This module allows users to verify their identity with a third party
 service. The third party service does need to be matrix-aware in that it

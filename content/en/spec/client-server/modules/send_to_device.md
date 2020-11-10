@@ -1,4 +1,4 @@
-## Send-to-Device messaging<span id="module:to_device"></span>
+### Send-to-Device messaging<span id="module:to_device"></span>
 
 This module provides a means by which clients can exchange signalling
 messages without them being stored permanently as part of a shared
@@ -11,7 +11,7 @@ one-time authentication tokens or key data. It is not intended for
 conversational data, which should be sent using the normal \_ API for
 consistency throughout Matrix.
 
-### Client behaviour
+#### Client behaviour
 
 To send a message to other devices, a client should call
 `/sendToDevice`\_. Only one message can be sent to each device per
@@ -24,7 +24,7 @@ returned by \_, as detailed in Extensions to /sync\_. Clients should
 inspect the `type` of each returned event, and ignore any they do not
 understand.
 
-### Server behaviour
+#### Server behaviour
 
 Servers should store pending messages for local users until they are
 successfully delivered to the destination device. When a client calls \_
@@ -45,11 +45,11 @@ If the client sends messages to users on remote domains, those messages
 should be sent on to the remote servers via
 [federation](../server_server/%SERVER_RELEASE_LABEL%.html#send-to-device-messaging).
 
-### Protocol definitions
+#### Protocol definitions
 
 {{to\_device\_cs\_http\_api}}
 
-#### Extensions to /sync
+## Extensions to /sync
 
 This module adds the following properties to the \_ response:
 

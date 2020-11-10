@@ -1,23 +1,23 @@
-## Server Side Search
+### Server Side Search
 
 The search API allows clients to perform full text search across events
 in all rooms that the user has been in, including those that they have
 left. Only events that the user is allowed to see will be searched, e.g.
 it won't include events in rooms that happened after you left.
 
-### Client behaviour
+#### Client behaviour
 
 There is a single HTTP API for performing server-side search, documented
 below.
 
 {{search\_cs\_http\_api}}
 
-### Search Categories
+#### Search Categories
 
 The search API allows clients to search in different categories of
 items. Currently the only specified category is `room_events`.
 
-#### `room_events`
+## `room_events`
 
 This category covers all events that the user is allowed to see,
 including events in rooms that they have left. The search is performed
@@ -38,7 +38,7 @@ The value of `count` gives an approximation of the total number of
 results. Homeservers may give an estimate rather than an exact value for
 this field.
 
-### Ordering
+#### Ordering
 
 The client can specify the ordering that the server returns results in.
 The two allowed orderings are:
@@ -48,7 +48,7 @@ The two allowed orderings are:
 
 The default ordering is `rank`.
 
-### Groups
+#### Groups
 
 The client can request that the results are returned along with grouping
 information, e.g. grouped by `room_id`. In this case the response will
@@ -61,7 +61,7 @@ The current required supported groupings are:
 -   `room_id`
 -   `sender`
 
-### Pagination
+#### Pagination
 
 The server may return a `next_batch` key at various places in the
 response. These are used to paginate the results. To fetch more results,
@@ -81,6 +81,6 @@ A server need not support pagination, even if there are more matching
 results. In that case, they must not return a `next_batch` token in the
 response.
 
-### Security considerations
+#### Security considerations
 
 The server must only return results that the user has permission to see.

@@ -1,4 +1,4 @@
-## Fully read markers
+### Fully read markers
 
 The history for a given room may be split into three sections: messages
 the user has read (or indicated they aren't interested in them),
@@ -7,7 +7,7 @@ user hasn't seen yet. The "fully read marker" (also known as a "read
 marker") marks the last event of the first section, whereas the user's
 read receipt marks the last event of the second section.
 
-### Events
+#### Events
 
 The user's fully read marker is kept as an event in the room's [account
 data](#client-config). The event may be read to determine the user's
@@ -21,7 +21,7 @@ should be considered to be the user's read receipt location.
 
 {{m\_fully\_read\_event}}
 
-### Client behaviour
+#### Client behaviour
 
 The client cannot update fully read markers by directly modifying the
 `m.fully_read` account data event. Instead, the client must make use of
@@ -36,7 +36,7 @@ same task as a request to `/receipt/m.read/$event:example.org`.
 
 {{read\_markers\_cs\_http\_api}}
 
-### Server behaviour
+#### Server behaviour
 
 The server MUST prevent clients from setting `m.fully_read` directly in
 room account data. The server must additionally ensure that it treats

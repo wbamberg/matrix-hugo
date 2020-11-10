@@ -1,8 +1,8 @@
-## Device Management
+### Device Management
 
 This module provides a means for a user to manage their [devices]().
 
-### Client behaviour
+#### Client behaviour
 
 Clients that implement this module should offer the user a list of
 registered devices, as well as the means to update their display names.
@@ -10,7 +10,7 @@ Clients should also allow users to delete disused devices.
 
 {{device\_management\_cs\_http\_api}}
 
-### Security considerations
+#### Security considerations
 
 Deleting devices has security implications: it invalidates the
 access\_token assigned to the device, so an attacker could use it to log

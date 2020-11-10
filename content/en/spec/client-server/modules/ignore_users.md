@@ -1,14 +1,14 @@
-## Ignoring Users
+### Ignoring Users
 
 With all the communication through Matrix it may be desirable to ignore
 a particular user for whatever reason. This module defines how clients
 and servers can implement the ignoring of users.
 
-### Events
+#### Events
 
 {{m\_ignored\_user\_list\_event}}
 
-### Client behaviour
+#### Client behaviour
 
 To ignore a user, effectively blocking them, the client should add the
 target user to the `m.ignored_user_list` event in their account data
@@ -32,7 +32,7 @@ while the user was ignored the client should perform a fresh sync. The
 client may also un-hide any events it previously hid due to the user
 becoming ignored.
 
-### Server behaviour
+#### Server behaviour
 
 Following an update of the `m.ignored_user_list`, the sync API for all
 clients should immediately start ignoring (or un-ignoring) the user.

@@ -1,17 +1,17 @@
-## End-to-End Encryption
+### End-to-End Encryption
 
 Matrix optionally supports end-to-end encryption, allowing rooms to be
 created whose conversation contents are not decryptable or interceptable
 on any of the participating homeservers.
 
-### Key Distribution
+#### Key Distribution
 
 Encryption and Authentication in Matrix is based around public-key
 cryptography. The Matrix protocol provides a basic mechanism for
 exchange of public keys, though an out-of-band channel is required to
 exchange fingerprints between users to build a web of trust.
 
-#### Overview
+## Overview
 
     1) Bob publishes the public keys and supported algorithms for his
        device. This may include long-term identity keys, and/or one-time
@@ -42,7 +42,7 @@ exchange fingerprints between users to build a web of trust.
              |=================>|==============>|
                /keys/claim         <federation>
 
-#### Key algorithms
+## Key algorithms
 
 The name `ed25519` corresponds to the
 [Ed25519](http://ed25519.cr.yp.to/) signature algorithm. The key is a
@@ -97,7 +97,7 @@ Example:
       }
     }
 
-#### Device keys
+## Device keys
 
 Each device should have one Ed25519 signing key. This key should be
 generated on the device from a cryptographically secure source, and the
@@ -115,7 +115,7 @@ establishment, and are then thrown away.
 For Olm version 1, each device requires a single Curve25519 identity
 key, and a number of signed Curve25519 one-time keys.
 
-#### Uploading keys
+## Uploading keys
 
 A device uploads the public parts of identity keys to their homeserver
 as a signed JSON object, using the `/keys/upload`\_ API. The JSON object
@@ -134,7 +134,7 @@ never know that it can discard the key. Therefore a device could end up
 trying to store too many private keys. A device that is trying to store
 too many private keys may discard keys starting with the oldest.
 
-#### Tracking the device list for a user
+## Tracking the device list for a user
 
 Before Alice can send an encrypted message to Bob, she needs a list of
 each of his devices and the associated identity keys, so that she can
@@ -219,7 +219,7 @@ processing. Note that Bob can also be notified when he stops sharing any
 room with Alice by inspecting the `left` property of the `device_lists`
 field, and as a result should remove her from its list of tracked users.
 
-#### Sending encrypted attachments
+## Sending encrypted attachments
 
 When encryption is enabled in a room, files should be uploaded encrypted
 on the homeserver.
@@ -340,7 +340,7 @@ properties.
 
 Example:
 
-#### Claiming one-time keys
+## Claiming one-time keys
 
 A client wanting to set up a session with another device can claim a
 one-time key for that device. This is done by making a request to the
@@ -350,7 +350,7 @@ A homeserver should rate-limit the number of one-time keys that a given
 user or remote server can claim. A homeserver should discard the public
 part of a one time key once it has given that key to another user.
 
-### Device verification
+#### Device verification
 
 Before Alice sends Bob encrypted data, or trusts data received from him,
 she may want to verify that she is actually communicating with him,
@@ -387,7 +387,7 @@ that Ed25519 private key, or to encrypt a message so that it may only be
 decrypted by such a device. For the Olm protocol, this is documented at
 <https://matrix.org/docs/olm_signing.html>.
 
-#### Key verification framework
+## Key verification framework
 
 Verifying keys manually by reading out the Ed25519 key is not very user
 friendly, and can lead to errors. In order to help mitigate errors, and
@@ -472,7 +472,7 @@ After the handshake, the verification process begins.
 
 {{m\_key\_verification\_cancel\_event}}
 
-#### Short Authentication String (SAS) verification
+## Short Authentication String (SAS) verification
 
 SAS verification is a user-friendly key verification process built off
 the common framework outlined above. SAS verification is intended to be
@@ -757,7 +757,7 @@ Known translations for the emoji are available from
 and can be translated online:
 <https://translate.riot.im/projects/matrix-doc/sas-emoji-v1>
 
-### Sharing keys between devices
+#### Sharing keys between devices
 
 If Bob has an encrypted conversation with Alice on his computer, and
 then logs in through his phone for the first time, he may want to have
@@ -765,7 +765,7 @@ access to the previously exchanged messages. To address this issue,
 several methods are provided to allow users to transfer keys from one
 device to another.
 
-#### Key requests
+## Key requests
 
 When a device is missing keys to decrypt messages, it can request the
 keys by sending [m.room\_key\_request]() to-device messages to other
@@ -791,7 +791,7 @@ Key sharing can be a big attack vector, thus it must be done very
 carefully. A reasonable strategy is for a user's client to only send
 keys requested by the verified devices of the same user.
 
-#### Server-side key backups
+## Server-side key backups
 
 Devices may upload encrypted copies of keys to the server. When a device
 tries to read a message that it does not have keys for, it may request
@@ -948,7 +948,7 @@ The `session_data` field in the backups is constructed as follows:
 
 {{key\_backup\_cs\_http\_api}}
 
-#### Key exports
+## Key exports
 
 Keys can be manually exported from one device to an encrypted file,
 copied to another device, and imported. The file is encrypted using a
@@ -1093,9 +1093,9 @@ Example:
         ...
     ]
 
-### Messaging Algorithms
+#### Messaging Algorithms
 
-#### Messaging Algorithm Names
+## Messaging Algorithm Names
 
 Messaging algorithm names use the extensible naming scheme used
 throughout this specification. Algorithm names that start with `m.` are
@@ -1115,7 +1115,7 @@ is too long despite giving a more precise description of the algorithm:
 it adds to the data transfer overhead and sacrifices clarity for human
 readers without adding any useful extra information.
 
-#### `m.olm.v1.curve25519-aes-sha2`
+## `m.olm.v1.curve25519-aes-sha2`
 
 The name `m.olm.v1.curve25519-aes-sha2` corresponds to version 1 of the
 Olm ratchet, as defined by the [Olm
@@ -1239,7 +1239,7 @@ For example, Megolm sessions that were sent using the old session would
 have been lost. The client can attempt to retrieve the lost sessions
 through `m.room_key_request` messages.
 
-#### `m.megolm.v1.aes-sha2`
+## `m.megolm.v1.aes-sha2`
 
 The name `m.megolm.v1.aes-sha2` corresponds to version 1 of the Megolm
 ratchet, as defined by the [Megolm
@@ -1300,9 +1300,9 @@ that they can decrypt future messages encrypted using this session. A
 `m.room_key` events sent by other devices in order to decrypt their
 messages.
 
-### Protocol definitions
+#### Protocol definitions
 
-#### Events
+## Events
 
 {{m\_room\_encryption\_event}}
 
@@ -1316,11 +1316,11 @@ messages.
 
 {{m\_dummy\_event}}
 
-#### Key management API
+## Key management API
 
 {{keys\_cs\_http\_api}}
 
-#### Extensions to /sync
+## Extensions to /sync
 
 This module adds an optional `device_lists` property to the \_ response,
 as specified below. The server need only populate this property for an
@@ -1407,7 +1407,7 @@ Example response:
       }
     }
 
-### Reporting that decryption keys are withheld
+#### Reporting that decryption keys are withheld
 
 When sending an encrypted event to a room, a client can optionally
 signal to other devices in that room that it is not sending them the

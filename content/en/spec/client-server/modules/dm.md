@@ -1,4 +1,4 @@
-## Direct Messaging
+### Direct Messaging
 
 All communication over Matrix happens within a room. It is sometimes
 desirable to offer users the concept of speaking directly to one
@@ -12,11 +12,11 @@ A room may not necessarily be considered 'direct' by all members of the
 room, but a signalling mechanism exists to propagate the information of
 whether a chat is 'direct' to an invitee.
 
-### Events
+#### Events
 
 {{m\_direct\_event}}
 
-### Client behaviour
+#### Client behaviour
 
 To start a direct chat with another user, the inviting user's client
 should set the `is_direct` flag to \_. The client should do this
@@ -35,7 +35,7 @@ Both the inviting client and the invitee's client should record the fact
 that the room is a direct chat by storing an `m.direct` event in the
 account data using \_.
 
-### Server behaviour
+#### Server behaviour
 
 When the `is_direct` flag is given to \_, the home server must set the
 `is_direct` flag in the invite member event for any users invited in the

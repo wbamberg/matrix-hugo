@@ -1,4 +1,4 @@
-## Push Notifications
+### Push Notifications
 
     +--------------------+  +-------------------+
     Matrix HTTP      |                    |  |                   |
@@ -78,7 +78,7 @@ example, some rules may only be applied for messages from a particular
 sender, a particular room, or by default. The push ruleset contains the
 entire set of scopes and rules.
 
-### Client behaviour
+#### Client behaviour
 
 Clients MUST configure a Pusher before they will receive push
 notifications. There is a single API endpoint for this, as described
@@ -86,7 +86,7 @@ below.
 
 {{pusher\_cs\_http\_api}}
 
-#### Listing Notifications
+## Listing Notifications
 
 A client can retrieve a list of events that it has been notified about.
 This may be useful so that users can see a summary of what important
@@ -94,7 +94,7 @@ messages they have received.
 
 {{notifications\_cs\_http\_api}}
 
-#### Receiving notifications
+## Receiving notifications
 
 Servers MUST include the number of unread notifications in a client's
 `/sync` stream, and MUST update it as it changes. Notifications are
@@ -104,7 +104,7 @@ When the user updates their read receipt (either by using the API or by
 sending an event), notifications prior to and including that event MUST
 be marked as read.
 
-#### Push Rules
+## Push Rules
 
 A push rule is a single rule that states under what *conditions* an
 event should be passed onto a push gateway and *how* the notification
@@ -621,14 +621,14 @@ Definition:
          ]
     }
 
-#### Push Rules: API
+## Push Rules: API
 
 Clients can retrieve, add, modify and remove push rules globally or
 per-device using the APIs below.
 
 {{pushrules\_cs\_http\_api}}
 
-#### Push Rules: Events
+## Push Rules: Events
 
 When a user changes their push rules a `m.push_rules` event is sent to
 all clients in the `account_data` section of their next `/sync` request.
@@ -687,11 +687,11 @@ than the room, sender and content rules):
        ]
      }'
 
-### Server behaviour
+#### Server behaviour
 
-### Push Gateway behaviour
+#### Push Gateway behaviour
 
-#### Recommendations for APNS
+## Recommendations for APNS
 
 The exact format for sending APNS notifications is flexible and up to
 the client app and its' push gateway to agree on. As APNS requires that
@@ -705,7 +705,7 @@ have its own push gateway. It is recommended that:
     gateway before returning and instead to store failures and return
     'rejected' responses next time that pushkey is used.
 
-### Security considerations
+#### Security considerations
 
 Clients specify the Push Gateway URL to use to send event notifications
 to. This URL should be over HTTPS and *never* over HTTP.

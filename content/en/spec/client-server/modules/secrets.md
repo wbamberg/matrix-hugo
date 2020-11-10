@@ -1,4 +1,4 @@
-## Secrets
+### Secrets
 
 Clients may have secret information that they wish to be made available
 to other authorised clients, but that the server should not be able to
@@ -12,7 +12,7 @@ secret when storing, fetching, requesting, or sharing the secret.
 Secrets are plain strings; structured data can be stored by encoding it
 as a string.
 
-### Storage
+#### Storage
 
 When secrets are stored on the server, they are stored in the user's
 [account-data](#module-account-data), using an event type equal to the
@@ -21,7 +21,7 @@ described by data that is also stored in the user's account-data. Users
 can have multiple keys, allowing them to control what sets of secrets
 clients can access, depending on what keys are given to them.
 
-#### Key storage
+## Key storage
 
 Each key has an ID, and the description of the key is stored in the
 user's account\_data using the event type
@@ -72,7 +72,7 @@ will be used to encrypt all secrets that the user would expect to be
 available on all their clients. Unless the user specifies otherwise,
 clients will try to use the default key to decrypt secrets.
 
-#### Secret storage
+## Secret storage
 
 Encrypted data is stored in the user's account\_data using the event
 type defined by the feature that uses the data. The account\_data will
@@ -344,7 +344,7 @@ Example:
         ...
     }
 
-### Sharing
+#### Sharing
 
 To request a secret from other devices, a client sends an
 `m.secret.requests` device event with `action` set to `request` and
@@ -361,7 +361,7 @@ are allowed to see them. For example, clients should only share secrets
 with the user’s own devices that are verified and may prompt the user to
 confirm sharing the secret.
 
-#### Event definitions
+## Event definitions
 
 # `m.secret.request`
 

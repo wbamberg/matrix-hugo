@@ -1,15 +1,15 @@
-## Typing Notifications
+### Typing Notifications
 
 Users may wish to be informed when another user is typing in a room.
 This can be achieved using typing notifications. These are ephemeral
 events scoped to a `room_id`. This means they do not form part of the
 [Event Graph](index.html#event-graphs) but still have a `room_id` key.
 
-### Events
+#### Events
 
 {{m\_typing\_event}}
 
-### Client behaviour
+#### Client behaviour
 
 When a client receives an `m.typing` event, it MUST use the user ID list
 to **REPLACE** its knowledge of every user who is currently typing. The
@@ -30,7 +30,7 @@ server that the user has stopped typing.
 
 {{typing\_cs\_http\_api}}
 
-### Security considerations
+#### Security considerations
 
 Clients may not wish to inform everyone in a room that they are typing
 and instead only specific users in the room.

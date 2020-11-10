@@ -1,4 +1,4 @@
-## Voice over IP
+### Voice over IP
 
 This module outlines how two users in a room can set up a Voice over IP
 (VoIP) call to each other. Voice and video calls are built upon the
@@ -8,11 +8,11 @@ communication is supported (e.g. between two peers, or between a peer
 and a multi-point conferencing unit). This means that clients MUST only
 send call events to rooms with exactly two participants.
 
-### Events
+#### Events
 
 {{voip\_events}}
 
-### Client behaviour
+#### Client behaviour
 
 A call is set up with message events exchanged as follows:
 
@@ -37,7 +37,7 @@ Or a rejected call:
 
 Calls are negotiated according to the WebRTC specification.
 
-#### Glare
+## Glare
 
 "Glare" is a problem which occurs when two users call each other at
 roughly the same time. This results in the call failing to set up as
@@ -67,7 +67,7 @@ placed a call and the other party had accepted. This means any media
 stream that had been setup for use on a call should be transferred and
 used for the call that replaces it.
 
-### Server behaviour
+#### Server behaviour
 
 The homeserver MAY provide a TURN server which clients can use to
 contact the remote party. The following HTTP API endpoints will be used
@@ -75,7 +75,7 @@ by clients in order to get information about the TURN server.
 
 {{voip\_cs\_http\_api}}
 
-### Security considerations
+#### Security considerations
 
 Calls should only be placed to rooms with one other user in them. If
 they are placed to group chat rooms it is possible that another user

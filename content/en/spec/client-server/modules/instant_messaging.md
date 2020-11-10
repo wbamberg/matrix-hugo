@@ -1,10 +1,10 @@
-## Instant Messaging
+### Instant Messaging
 
 This module adds support for sending human-readable messages to a room.
 It also adds support for associating human-readable information with the
 room itself such as a room name and topic.
 
-### Events
+#### Events
 
 {{m\_room\_message\_event}}
 
@@ -27,7 +27,7 @@ Usage of this event is discouraged for several reasons:
 
 {{m\_room\_pinned\_events\_event}}
 
-#### m.room.message msgtypes
+## m.room.message msgtypes
 
 Each [m.room.message]() MUST have a `msgtype` key which identifies the
 type of message being sent. Each type has their own required and
@@ -113,7 +113,7 @@ extensible message formatting options, such as the proposal
 
 {{msgtype\_events}}
 
-### Client behaviour
+#### Client behaviour
 
 Clients SHOULD verify the structure of incoming events to ensure that
 the expected keys exist and that they are of the right type. Clients can
@@ -133,7 +133,7 @@ the client generated thumbnail or ask its homeserver to generate a
 thumbnail from the original attachment using the [content repository
 module]().
 
-#### Recommendations when sending messages
+## Recommendations when sending messages
 
 In the event of send failure, clients SHOULD retry requests using an
 exponential-backoff algorithm for a certain amount of time T. It is
@@ -150,7 +150,7 @@ blocking, clients should use a queue per room rather than a global
 queue, as ordering is only relevant within a single room rather than
 between rooms.
 
-#### Local echo
+## Local echo
 
 Messages SHOULD appear immediately in the message view when a user
 presses the "send" button. This should occur even if the message is
@@ -180,7 +180,7 @@ responsiveness) before the original request to send the message
 completes. Once it completes, the client can take remedial actions to
 remove the duplicate event by looking for duplicate event IDs.
 
-#### Calculating the display name for a user
+## Calculating the display name for a user
 
 Clients may wish to show the human-readable display name of a room
 member as part of a membership list, or when they send a message.
@@ -229,7 +229,7 @@ algorithm:
     members using that name. Such a table can then be used for efficient
     calculation of whether disambiguation is needed.
 
-#### Displaying membership information with messages
+## Displaying membership information with messages
 
 Clients may wish to show the display name and avatar URL of the room
 member who sent a message. This can be achieved by inspecting the
@@ -247,7 +247,7 @@ state. When paginated events are processed sequentially, the old state
 represents the state of the room *at the time the event was sent*. This
 can then be used to set the historical display name and avatar URL.
 
-#### Calculating the display name for a room
+## Calculating the display name for a room
 
 Clients may wish to show a human-readable name for a room. There are a
 number of possibilities for choosing a useful name. To ensure that rooms
@@ -292,7 +292,7 @@ when using the `m.heroes` to calculate the name. Clients SHOULD use
 minimum 5 heroes to calculate room names where possible, but may use
 more or less to fit better with their user experience.
 
-#### Forming relationships between events
+## Forming relationships between events
 
 In some cases, events may wish to reference other events. This could be
 to form a thread of messages for the user to follow along with, or to
@@ -461,13 +461,13 @@ For `m.image`, the text should be `"sent an image."`. For `m.video`, the
 text should be `"sent a video."`. For `m.audio`, the text should be
 `"sent an audio file"`.
 
-### Server behaviour
+#### Server behaviour
 
 Homeservers SHOULD reject `m.room.message` events which don't have a
 `msgtype` key, or which don't have a textual `body` key, with an HTTP
 status code of 400.
 
-### Security considerations
+#### Security considerations
 
 Messages sent using this module are not encrypted, although end to end
 encryption is in development (see [E2E module]()).
