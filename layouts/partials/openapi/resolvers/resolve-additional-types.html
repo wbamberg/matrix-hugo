@@ -9,7 +9,9 @@
             {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required) }}
         {{end}}
     {{ end }}
-    {{ $additional_objects = $additional_objects | append (dict "title" $this_ao.title "properties" $this_ao.properties "required" $this_ao.required) }}
+    {{ if $this_ao.properties }}
+        {{ $additional_objects = $additional_objects | append (dict "title" $this_ao.title "properties" $this_ao.properties "required" $this_ao.required) }}
+    {{ end }}
 {{ end }}
 
 {{ if eq $this_ao.type "array" }}
