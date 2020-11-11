@@ -1110,11 +1110,13 @@ to an identity server. As a result, "bind" (or "unbind") references an
 identifier that is found in an identity server. Note that an identifer
 can be added and bound at the same time, depending on context.
 
-{{administrative\_contact\_cs\_http\_api}}
+{{% http-api spec="client-server" api="administrative_contact" %}}
+
 
 ### Current account information
 
-{{whoami\_cs\_http\_api}}
+{{% http-api spec="client-server" api="whoami" %}}
+
 
 ##### Notes on identity servers
 
@@ -1190,7 +1192,7 @@ Matrix specification while other values may be used by servers using the
 Java package naming convention. The capabilities supported by the Matrix
 specification are defined later in this section.
 
-{{capabilities\_cs\_http\_api}}
+{{% http-api spec="client-server" api="capabilities" %}}
 
 ### `m.change_password` capability
 
@@ -1636,23 +1638,23 @@ represents the room state at the end of the timeline, the client must
 take a copy of the state dictionary, and *rewind* S1, in order to
 correctly calculate the display name for M0.
 
-{{sync\_cs\_http\_api}}
+{{% http-api spec="client-server" api="sync" %}}
 
-{{old\_sync\_cs\_http\_api}}
+{{% http-api spec="client-server" api="old_sync" %}}
 
 ### Getting events for a room
 
 There are several APIs provided to `GET` events for a room:
 
-{{rooms\_cs\_http\_api}}
+{{% http-api spec="client-server" api="rooms" %}}
 
-{{message\_pagination\_cs\_http\_api}}
+{{% http-api spec="client-server" api="message_pagination" %}}
 
-{{room\_initial\_sync\_cs\_http\_api}}
+{{% http-api spec="client-server" api="room_initial_sync" %}}
 
 ### Sending events to a room
 
-{{room\_state\_cs\_http\_api}}
+{{% http-api spec="client-server" api="room_state" %}}
 
 **Examples**
 
@@ -1689,7 +1691,7 @@ omitted:
     PUT /rooms/!roomid:domain/state/m.room.bgd.color
     { "color": "red", "hex": "#ff0000" }
 
-{{room\_send\_cs\_http\_api}}
+{{% http-api spec="client-server" api="room_send" %}}
 
 ### Redactions
 
@@ -1728,7 +1730,7 @@ the topic to be removed from the room.
 
 ##### Client behaviour
 
-{{redaction\_cs\_http\_api}}
+{{% http-api spec="client-server" api="redaction" %}}
 
 Rooms
 -----
@@ -1774,7 +1776,7 @@ have a room alias of `#alias:example.com`, this SHOULD be checked to
 make sure that the room's ID matches the `room_id` returned from the
 request.
 
-{{directory\_cs\_http\_api}}
+{{% http-api spec="client-server" api="directory" %}}
 
 ### Permissions
 
@@ -1857,11 +1859,11 @@ The allowable state transitions of membership are:
     ----------------------------------------------+ +----------------------+
     /ban
 
-{{list\_joined\_rooms\_cs\_http\_api}}
+{{% http-api spec="client-server" api="list_joined_rooms" %}}
 
 ##### Joining rooms
 
-{{inviting\_cs\_http\_api}}
+{{% http-api spec="client-server" api="inviting" %}}
 
 {{% http-api spec="client-server" api="joining" %}}
 
@@ -1889,9 +1891,9 @@ behaviour is the same as if they had left of their own accord. In
 particular, the user is free to re-join if the room is not
 "invite-only".
 
-{{leaving\_cs\_http\_api}}
+{{% http-api spec="client-server" api="leaving" %}}
 
-{{kicking\_cs\_http\_api}}
+{{% http-api spec="client-server" api="kicking" %}}
 
 ##### Banning users in a room
 
@@ -1925,18 +1927,18 @@ re-invited.
 
 ### Listing rooms
 
-{{list\_public\_rooms\_cs\_http\_api}}
+{{% http-api spec="client-server" api="list_public_rooms" %}}
 
 User Data
 ---------
 
 ### User Directory
 
-{{users\_cs\_http\_api}}
+{{% http-api spec="client-server" api="users" %}}
 
 ### Profiles
 
-{{profile\_cs\_http\_api}}
+{{% http-api spec="client-server" api="profile" %}}
 
 ##### Events on Change of Profile Information
 
