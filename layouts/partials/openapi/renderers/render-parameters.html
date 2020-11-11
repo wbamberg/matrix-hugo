@@ -1,0 +1,58 @@
+{{ $parameters := .parameters }}
+{{ $path := .path }}
+{{ $base_data := .base_data }}
+
+{{ with $parameters }}
+
+<h3>Request parameters</h3>
+
+    {{ $additional_types := slice }}
+
+    {{/* render body parameter */}}
+    {{ $body_params := where . "in" "body"}}
+
+    {{ range $parameter := $body_params }}
+        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $parameter.schema "path" $path "base_data" $base_data) }}
+        {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
+
+        {{/* render the table for this parameter */}}
+        {{ partial "openapi/renderers/render-object-table" (dict "caption" "JSON body parameters" "properties" $schema.properties) }}
+        {{/* get nested objects for this parameter */}}
+        {{ range $property_name, $property := $schema.properties }}
+            {{ $additional_types_for_parameter := partial "openapi/resolvers/resolve-additional-types" $property }}
+            {{ range $additional_types_for_parameter }}
+                {{ $additional_types = $additional_types | append . }}
+            {{ end }}
+        {{end}}
+
+    {{ end }}
+
+    {{/* render path parameters */}}
+    {{ $path_parameters := where . "in" "path"}}
+
+    {{ with $path_parameters }}
+
+        {{/* convert path parameters into the format that render-object-table expects to see */}}
+        {{ $path_param_dict := dict }}
+        {{ range $parameter := . }}
+            {{ $path_param_dict = merge $path_param_dict (dict $parameter.name (dict "type" $parameter.type "description" $parameter.description "required" $parameter.required )  )}}
+        {{ end }}
+
+        {{/* and render the path parameters */}}
+        {{ partial "openapi/renderers/render-object-table" (dict "caption" "path parameters" "properties" $path_param_dict  "base_path" $path) }}
+
+    {{ end }}
+
+    {{/* render additional types */}}
+    {{ $additional_types = uniq $additional_types }}
+    {{ with $additional_types }}
+
+<h3>Additional types</h3>
+
+        {{ range . }}
+            {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
+        {{ end }}
+
+    {{ end }}
+
+{{ end }}

@@ -10,30 +10,32 @@
 
     {{/* note that a `paths` entry can be a $ref */}}
 
+    {{ $params := dict "endpoint" $endpoint "path" $path "base_data" $base_data "compact" $compact }}
+
     {{ with $path_data.get }}
 
-        {{ $operation_params := dict "api_data" $api_data "method" "GET" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ $operation_params := merge $params (dict "method" "GET" "operation_data" . ) }}
         {{ partial "openapi/renderers/render-operation" $operation_params }}
 
     {{ end }}
 
     {{ with $path_data.post }}
 
-        {{ $operation_params := dict "api_data" $api_data "method" "POST" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ $operation_params := merge $params (dict "method" "POST" "operation_data" . ) }}
         {{ partial "openapi/renderers/render-operation" $operation_params }}
 
     {{ end }}
 
     {{ with $path_data.put }}
 
-        {{ $operation_params := dict "api_data" $api_data "method" "PUT" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ $operation_params := merge $params (dict "method" "PUT" "operation_data" . ) }}
         {{ partial "openapi/renderers/render-operation" $operation_params }}
 
     {{ end }}
 
     {{ with $path_data.delete }}
 
-        {{ $operation_params := dict "api_data" $api_data "method" "PUT" "endpoint" $endpoint "operation_data" . "path" $path "base_data" $base_data "compact" $compact }}
+        {{ $operation_params := merge $params (dict "method" "DELETE" "operation_data" . ) }}
         {{ partial "openapi/renderers/render-operation" $operation_params }}
 
     {{ end }}

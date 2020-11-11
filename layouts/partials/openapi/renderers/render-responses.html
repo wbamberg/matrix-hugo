@@ -1,0 +1,38 @@
+{{ $responses := .responses }}
+{{ $path := .path }}
+{{ $base_data := .base_data }}
+
+<h2>Responses</h2>
+
+<table class>
+ <thead>
+  <td class="col-status">Status</td>
+  <td class="col-status-description">Description</td>
+ </thead>
+
+{{ range $code, $response := $responses }}
+
+ <tr>
+  <td><code>{{ $code }}</code></td>
+  <td>{{ $response.description | markdownify }}</td>
+ </tr>
+
+{{ end }}
+
+</table>
+
+{{ $ok := index $responses "200" }}
+
+{{ with $ok.schema }}
+
+    {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" . }}
+
+<h3>Response details</h3>
+    {{ if $additional_types }}
+        {{ range $additional_types }}
+            {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties  "required" .required) }}
+        {{ end }}
+    {{ else }}
+<p>None.</p>
+    {{ end }}
+{{end}}
