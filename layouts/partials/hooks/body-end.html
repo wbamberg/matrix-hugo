@@ -1,5 +1,24 @@
 <script>
 
+  function fixHeadingIds(headings) {
+    const uniqueIDs = [];
+    for (let heading of headings) {
+      const uniqueID = uniquify(heading.id, uniqueIDs);
+      uniqueIDs.push(uniqueID);
+      heading.id = uniqueID;
+    }
+  }
+
+  function uniquify(id, uniqueIDs) {
+    const baseId = id;
+    let counter = 0;
+    while (uniqueIDs.includes(id)) {
+      counter = counter + 1;
+      id = baseId + "-" + counter.toString();
+    }
+    return id;
+  }
+
   function makeToc() {
 
     // make the title from the H1
@@ -13,6 +32,9 @@
     const content = document.body.querySelector(".td-content");
     let headings = [].slice.call(content.querySelectorAll("h2, h3, h4, h5, h6"));
     headings = headings.filter(heading => heading.id);
+
+    fixHeadingIds(headings);
+
     const nav = document.createElement("nav");
     nav.id = "TableOfContents";
     const section = makeTocSection(headings, 0);
