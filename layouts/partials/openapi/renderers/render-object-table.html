@@ -3,7 +3,9 @@
 {{ $required := .required}}
 
 <table class>
- <caption>{{ $caption }}</caption>
+ {{ with $caption }}
+ <caption>{{ . }}</caption>
+ {{ end }}
  <thead>
   <td class="col-name">Name</td>
   <td class="col-type">Type</td>

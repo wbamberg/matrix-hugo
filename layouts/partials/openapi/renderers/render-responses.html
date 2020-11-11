@@ -27,7 +27,7 @@
 
     {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" . }}
 
-<h3>Response details</h3>
+<h3>200 response body</h3>
     {{ if $additional_types }}
         {{ range $additional_types }}
             {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties  "required" .required) }}

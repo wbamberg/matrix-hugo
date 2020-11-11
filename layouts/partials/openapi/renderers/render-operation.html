@@ -32,8 +32,8 @@
  </tr>
 </table>
 
-{{ partial "openapi/renderers/render-parameters" (dict "parameters" $operation_data.parameters "path" $path "base_data" $base_data) }}
-{{ partial "openapi/renderers/render-responses" (dict "responses" $operation_data.responses "path" $path "base_data" $base_data) }}
+{{ partial "openapi/renderers/render-request"   (dict "parameters" $operation_data.parameters "path" $path "base_data" $base_data) }}
+{{ partial "openapi/renderers/render-responses" (dict "responses"  $operation_data.responses  "path" $path "base_data" $base_data) }}
 
 </details>
 
