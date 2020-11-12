@@ -17,6 +17,9 @@
 
         {{ $ref := $base_data }}
         {{ range $pieces}}
+            {{ if not $ref }}
+                {{ errorf "Failed to handle page %q" $to_convert }}
+            {{ end }}
             {{ $ref = index $ref . }}
         {{ end }}
 

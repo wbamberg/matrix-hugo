@@ -21,18 +21,32 @@
 
 </table>
 
-{{ $ok := index $responses "200" }}
-
-{{ with $ok.schema }}
-
-    {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" . }}
-
 <h3>200 response body</h3>
-    {{ if $additional_types }}
-        {{ range $additional_types }}
-            {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties  "required" .required) }}
+
+{{ $ok := index $responses "200" }}
+{{ if (and $ok $ok.schema) }}
+
+    {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $ok.schema "path" $path "base_data" $base_data) }}
+    {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
+
+    {{/* render the table for this parameter */}}
+    {{ partial "openapi/renderers/render-object-table" (dict "caption" "" "properties" $schema.properties) }}
+
+    {{/* get nested objects for this parameter */}}
+    {{ $additional_types := slice }}
+    {{ range $property_name, $property := $schema.properties }}
+        {{ $additional_types_for_parameter := partial "openapi/resolvers/resolve-additional-types" $property }}
+        {{ range $additional_types_for_parameter }}
+            {{ $additional_types = $additional_types | append . }}
         {{ end }}
-    {{ else }}
-<p>None.</p>
+    {{end}}
+
+    {{/* render additional types */}}
+    {{ $additional_types = uniq $additional_types }}
+    {{ range $additional_types }}
+      {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
     {{ end }}
-{{end}}
+
+{{ else }}
+<p>None.</p>
+{{ end }}
