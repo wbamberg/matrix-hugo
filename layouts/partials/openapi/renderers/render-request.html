@@ -4,12 +4,18 @@
 
 <h2>Request</h2>
 
+{{ if not $parameters }}
+
+<h3>Request parameters</h3>
+<p>None.</p>
+<h3>Request body</h3>
+<p>None.</p>
+
+{{ else }}
+
 <h3>Request parameters</h3>
 
-{{ if $parameters }}
-
-{{ $simple_parameters := where $parameters "in" "!=" "body"}}
-
+    {{ $simple_parameters := where $parameters "in" "!=" "body"}}
     {{ if $simple_parameters }}
 
         {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "header" "caption" "header parameters") }}
@@ -20,26 +26,21 @@
 <p>None.</p>
     {{ end }}
 
-{{ else }}
-<p>None.</p>
-{{ end }}
-
 <h3>Request body</h3>
 
-{{ with $parameters }}
+    {{ $body_parameters := where $parameters "in" "body"}}
+    {{ if $body_parameters }}
 
-    {{ $additional_types := slice }}
-
-    {{/* render body parameter */}}
-    {{ $body_params := where . "in" "body"}}
-
-    {{ range $parameter := $body_params }}
-        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $parameter.schema "path" $path "base_data" $base_data) }}
+        {{/* at most one body param is allowed by the spec */}}
+        {{ $body_parameter := index $body_parameters 0 }}
+        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $body_parameter.schema "path" $path "base_data" $base_data) }}
         {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
 
         {{/* render the table for this parameter */}}
         {{ partial "openapi/renderers/render-object-table" (dict "caption" "" "properties" $schema.properties) }}
+
         {{/* get nested objects for this parameter */}}
+        {{ $additional_types := slice }}
         {{ range $property_name, $property := $schema.properties }}
             {{ $additional_types_for_parameter := partial "openapi/resolvers/resolve-additional-types" $property }}
             {{ range $additional_types_for_parameter }}
@@ -47,16 +48,14 @@
             {{ end }}
         {{end}}
 
-    {{ end }}
-
-    {{/* render additional types */}}
-    {{ $additional_types = uniq $additional_types }}
-    {{ with $additional_types }}
-
-        {{ range . }}
+        {{/* render additional types */}}
+        {{ $additional_types = uniq $additional_types }}
+        {{ range $additional_types }}
             {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
         {{ end }}
 
+    {{ else }}
+<p>None.</p>
     {{ end }}
 
 {{ end }}
