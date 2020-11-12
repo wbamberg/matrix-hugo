@@ -29,10 +29,13 @@
             {{ $type = delimit (slice "[" $inner_type "]") "" }}
         {{ end }}
 
+        {{/* handle two ways of indicating "required", one for simple parameters, the other for request and response body objects */}}
+        {{ $required := cond (or (in $required $property_name) ( eq $property.required true )) true false }}
+
  <tr>
   <td><code>{{ $property_name }}</code></td>
   <td><code>{{ $type }}</code></td>
-  <td>{{if in $required $property_name}}<strong>Required: </strong>{{end}}{{ $property.description | markdownify }}</td>
+  <td>{{ if $required }}<strong>Required: </strong>{{end}}{{ $property.description | markdownify }}</td>
  </tr>
 
     {{ end }}
