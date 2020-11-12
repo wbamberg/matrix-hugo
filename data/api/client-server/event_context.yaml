@@ -65,8 +65,8 @@ paths:
           description: |-
             A JSON ``RoomEventFilter`` to filter the returned events with. The
             filter is only applied to ``events_before``, ``events_after``, and
-            ``state``. It is not applied to the ``event`` itself. The filter may 
-            be applied before or/and after the ``limit`` parameter - whichever the 
+            ``state``. It is not applied to the ``event`` itself. The filter may
+            be applied before or/and after the ``limit`` parameter - whichever the
             homeserver prefers.
 
             See `Filtering <#filtering>`_ for more information.
@@ -93,12 +93,12 @@ paths:
                   requested event, in reverse-chronological order.
                 items:
                   allOf:
-                    - "$ref": "definitions/event-schemas/schema/core-event-schema/room_event.yaml"
+                    - "$ref": "../../events/schema/core-event-schema/room_event.yaml"
               event:
                 description: |-
                   Details of the requested event.
                 allOf:
-                  - "$ref": "definitions/event-schemas/schema/core-event-schema/room_event.yaml"
+                  - "$ref": "../../events/schema/core-event-schema/room_event.yaml"
               events_after:
                 type: array
                 description: |-
@@ -106,43 +106,43 @@ paths:
                   requested event, in chronological order.
                 items:
                   allOf:
-                    - "$ref": "definitions/event-schemas/schema/core-event-schema/room_event.yaml"
+                    - "$ref": "../../events/schema/core-event-schema/room_event.yaml"
               state:
                 type: array
                 description: |-
                   The state of the room at the last event returned.
                 items:
                   allOf:
-                    - "$ref": "definitions/event-schemas/schema/core-event-schema/state_event.yaml"
+                    - "$ref": "../../events/schema/core-event-schema/state_event.yaml"
           examples:
             application/json: {
               "end": "t29-57_2_0_2",
               "events_after": [
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "definitions/event-schemas/examples/m.room.message$m.text"
+                  "$ref": "../../events/examples/m.room.message$m.text"
                 }
               ],
               "event": {
                 "event_id": "$f3h4d129462ha:example.com",
                 "room_id": "!636q39766251:example.com",
-                "$ref": "definitions/event-schemas/examples/m.room.message$m.image"
+                "$ref": "../../events/examples/m.room.message$m.image"
               },
               "events_before": [
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "definitions/event-schemas/examples/m.room.message$m.file"
+                  "$ref": "../../events/examples/m.room.message$m.file"
                 }
               ],
               "start": "t27-54_2_0_2",
               "state": [
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "definitions/event-schemas/examples/m.room.create"
+                  "$ref": "../../events/examples/m.room.create"
                 },
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "definitions/event-schemas/examples/m.room.member"
+                  "$ref": "../../events/examples/m.room.member"
                 }
               ]
             }
