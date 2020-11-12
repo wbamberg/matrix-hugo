@@ -1,0 +1,18 @@
+{{ $parameters := .parameters }}
+{{ $type := .type }}
+{{ $caption := .caption }}
+
+{{ $parameters_of_type := where $parameters "in" $type }}
+
+{{ with $parameters_of_type }}
+
+    {{/* convert parameters into the format that render-object-table expects to see */}}
+    {{ $param_dict := dict }}
+    {{ range $parameter := . }}
+        {{ $param_dict = merge $param_dict (dict $parameter.name (dict "type" $parameter.type "description" $parameter.description "required" $parameter.required )  )}}
+    {{ end }}
+
+    {{/* and render the parameters */}}
+    {{ partial "openapi/renderers/render-object-table" (dict "caption" $caption "properties" $param_dict) }}
+
+{{ end }}
