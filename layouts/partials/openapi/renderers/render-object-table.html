@@ -2,6 +2,8 @@
 {{ $properties := .properties}}
 {{ $required := .required}}
 
+{{ if $properties }}
+
 <table class>
  {{ with $caption }}
  <caption>{{ . }}</caption>
@@ -45,3 +47,5 @@
     {{ end }}
 
 </table>
+
+{{ end }}
