@@ -4,16 +4,7 @@
 
 <h2>Request</h2>
 
-{{ if not $parameters }}
-
-<h3>Request parameters</h3>
-<p>None.</p>
-<h3>Request body</h3>
-<p>None.</p>
-
-{{ else }}
-
-<h3>Request parameters</h3>
+{{ if $parameters }}
 
     {{ $simple_parameters := where $parameters "in" "!=" "body"}}
     {{ if $simple_parameters }}
@@ -22,11 +13,7 @@
         {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "path" "caption" "path parameters") }}
         {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "query" "caption" "query parameters") }}
 
-    {{ else }}
-<p>None.</p>
     {{ end }}
-
-<h3>Request body</h3>
 
     {{ $body_parameters := where $parameters "in" "body"}}
     {{ if $body_parameters }}
@@ -37,7 +24,7 @@
         {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
 
         {{/* render the table for this parameter */}}
-        {{ partial "openapi/renderers/render-object-table" (dict "caption" "" "properties" $schema.properties "required" $schema.required) }}
+        {{ partial "openapi/renderers/render-object-table" (dict "caption" "Request body" "properties" $schema.properties "required" $schema.required) }}
 
         {{/* get nested objects for this parameter */}}
         {{ $additional_types := slice }}
@@ -54,8 +41,6 @@
             {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
         {{ end }}
 
-    {{ else }}
-<p>None.</p>
     {{ end }}
 
 {{ end }}
