@@ -29,13 +29,17 @@
             {{ $type = delimit (slice "[" $inner_type "]") "" }}
         {{ end }}
 
+        {{ if (and (eq $type "string") ($property.enum)) }}
+            {{ $type = "enum" }}
+        {{ end }}
+
         {{/* handle two ways of indicating "required", one for simple parameters, the other for request and response body objects */}}
         {{ $required := cond (or (in $required $property_name) ( eq $property.required true )) true false }}
 
  <tr>
   <td><code>{{ $property_name }}</code></td>
   <td><code>{{ $type }}</code></td>
-  <td>{{ if $required }}<strong>Required: </strong>{{end}}{{ $property.description | markdownify }}</td>
+  <td>{{ if $required }}<strong>Required: </strong>{{end}}{{ $property.description | markdownify }}{{ if eq $type "enum"}}<p>One of: <code>{{ $property.enum }}</code>.</p>{{ end }}</td>
  </tr>
 
     {{ end }}

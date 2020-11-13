@@ -15,7 +15,7 @@
                 {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
                 {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $property }}
                 {{ range $more_objects}}
-                    {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required) }}
+                    {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required "enum" .enum) }}
                 {{end}}
             {{ end }}
 
@@ -26,7 +26,7 @@
         {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
         {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $property }}
         {{ range $more_objects}}
-            {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required) }}
+            {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required "enum" .enum) }}
         {{end}}
     {{ end }}
 
