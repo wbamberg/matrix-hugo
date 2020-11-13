@@ -25,31 +25,31 @@
 
 {{ $ok := index $responses "200" }}
 {{ if $ok.schema }}
-    {{ if $ok.schema.properties }}
 
         {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $ok.schema "path" $path "base_data" $base_data) }}
         {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
 
-        {{/* render the table for this parameter */}}
-        {{ partial "openapi/renderers/render-object-table" (dict "caption" "" "properties" $schema.properties "required" $schema.required) }}
+        {{ if $schema.properties }}
+            {{ partial "openapi/renderers/render-object-table" (dict "caption" "" "properties" $schema.properties "required" $schema.required) }}
 
-        {{/* get nested objects for this parameter */}}
-        {{ $additional_types := slice }}
-        {{ range $property_name, $property := $schema.properties }}
-            {{ $additional_types_for_parameter := partial "openapi/resolvers/resolve-additional-types" $property }}
-            {{ range $additional_types_for_parameter }}
-                {{ $additional_types = $additional_types | append . }}
+            {{/* get nested objects for this parameter */}}
+            {{ $additional_types := slice }}
+            {{ range $property_name, $property := $schema.properties }}
+                {{ $additional_types_for_parameter := partial "openapi/resolvers/resolve-additional-types" $property }}
+                {{ range $additional_types_for_parameter }}
+                    {{ $additional_types = $additional_types | append . }}
+                {{ end }}
+            {{end}}
+
+            {{/* render additional types */}}
+            {{ $additional_types = uniq $additional_types }}
+            {{ range $additional_types }}
+              {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
             {{ end }}
-        {{end}}
+        {{ else }}
 
-        {{/* render additional types */}}
-        {{ $additional_types = uniq $additional_types }}
-        {{ range $additional_types }}
-          {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
-        {{ end }}
-    {{ else }}
 <p>None.</p>
-    {{ end }}
+        {{ end }}
 {{ else }}
 <p>None.</p>
 {{ end }}
