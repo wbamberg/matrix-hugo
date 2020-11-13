@@ -21,7 +21,7 @@
 
         {{ end }}
     {{ end }}
-{{printf "ugh "}}
+
     {{ range $key, $property := $this_ao.properties}}
         {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
         {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $property }}
