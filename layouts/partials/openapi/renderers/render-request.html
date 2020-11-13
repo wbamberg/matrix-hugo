@@ -51,7 +51,7 @@
         {{/* render additional types */}}
         {{ $additional_types = uniq $additional_types }}
         {{ range $additional_types }}
-            {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
+            {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
         {{ end }}
 
     {{ else }}
