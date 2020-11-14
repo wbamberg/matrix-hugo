@@ -1,42 +1,46 @@
+{{ $this_object := partial "openapi/resolvers/resolve-allof" . }}
 {{ $additional_objects := slice }}
 
-{{ $this_ao := partial "openapi/resolvers/resolve-allof" . }}
-{{ if eq $this_ao.type "object" }}
+{{ if eq $this_object.type "object" }}
 
-    {{ if $this_ao.properties }}
-        {{ $additional_objects = $additional_objects | append (dict "title" $this_ao.title "properties" $this_ao.properties "required" $this_ao.required) }}
-    {{ end }}
+    {{ $additional_objects = $additional_objects | append (partial "clean-object" $this_object) }}
 
-    {{ if $this_ao.additionalProperties }}
-        {{ if reflect.IsMap $this_ao.additionalProperties }}
-            {{ $additional_objects = $additional_objects | append (dict "title" $this_ao.additionalProperties.title "properties" $this_ao.additionalProperties.properties "required" $this_ao.additionalProperties.required) }}
+    {{ if $this_object.additionalProperties }}
+        {{ if reflect.IsMap $this_object.additionalProperties }}
+            {{ $additional_objects = $additional_objects | append (partial "clean-object" $this_object.additionalProperties) }}
 
-            {{ range $key, $property := $this_ao.additionalProperties.properties}}
-                {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
-                {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $property }}
-                {{ range $more_objects}}
-                    {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required "enum" .enum) }}
-                {{end}}
+            {{ range $key, $property := $this_object.additionalProperties.properties}}
+                {{ $additional_objects = partial "get-additional-objects" (dict "this_object" $property "additional_objects" $additional_objects) }}
             {{ end }}
 
         {{ end }}
     {{ end }}
 
-    {{ range $key, $property := $this_ao.properties}}
-        {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
-        {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $property }}
-        {{ range $more_objects}}
-            {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required "enum" .enum) }}
-        {{end}}
+    {{ range $key, $property := $this_object.properties}}
+        {{ $additional_objects = partial "get-additional-objects" (dict "this_object" $property "additional_objects" $additional_objects) }}
     {{ end }}
 
 {{ end }}
 
-{{ if eq $this_ao.type "array" }}
-    {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $this_ao.items }}
-    {{ range $more_objects}}
-        {{ $additional_objects = $additional_objects | append (dict "title" .title "properties" .properties "required" .required) }}
-    {{end}}
+{{ if eq $this_object.type "array" }}
+    {{ $additional_objects = partial "get-additional-objects" (dict "this_object" $this_object.items "additional_objects" $additional_objects) }}
 {{ end }}
 
 {{ return $additional_objects }}
+
+{{/* this actually makes the recursive call and adds the returned objects to the list */}}
+{{ define "partials/get-additional-objects" }}
+    {{ $additional_objects := .additional_objects }}
+
+    {{ $this_object := partial "openapi/resolvers/resolve-allof" .this_object }}
+    {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $this_object }}
+    {{ range $more_objects}}
+        {{ $additional_objects = $additional_objects | append (partial "clean-object" .) }}
+    {{ end }}
+    {{ return $additional_objects }}
+{{ end }}
+
+{{/* only copy the bits of the object that we actually care about. this is only needed for uniqify to work */}}
+{{ define "partials/clean-object" }}
+    {{ return (dict "title" .title "properties" .properties "required" .required "enum" .enum) }}
+{{ end }}

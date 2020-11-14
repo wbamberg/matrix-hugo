@@ -44,5 +44,19 @@
         {{ range $additional_types }}
           {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
         {{ end }}
+
+        {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
+<h3>200 response body example</h3>
+
+        {{ if $ok.examples }}
+            {{ $example = partial "openapi/resolvers/resolve-refs" (dict "schema" $ok.examples "path" $path "base_data" $base_data) }}
+        {{ else }}
+            {{ $example = (dict "application/json" $example) }}
+        {{ end }}
+
+```json
+{{ jsonify (dict "indent" "  ") $example }}
+```
+
     {{ end }}
 {{ end }}

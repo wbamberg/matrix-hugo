@@ -1,0 +1,18 @@
+{{ $this_object := partial "openapi/resolvers/resolve-allof" . }}
+
+{{ if eq $this_object.type "object" }}
+
+    {{ if not $this_object.example }}
+        {{ $this_object := merge (dict "example" dict ) $this_object }}
+    {{ end }}
+
+    {{ range $key, $property := $this_object.properties}}
+        {{ $this_property_example := partial "openapi/resolvers/resolve-example" $property }}
+        {{ if $this_property_example }}
+            {{ $this_object = merge (dict "example" (dict $key $this_property_example)) $this_object }}
+        {{ end }}
+    {{ end }}
+
+{{ end }}
+
+{{ return $this_object.example }}

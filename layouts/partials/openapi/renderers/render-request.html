@@ -41,6 +41,12 @@
             {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
         {{ end }}
 
+        {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
+<h3>Request body example</h3>
+
+```json
+{{ jsonify (dict "indent" "  ") $example }}
+```
     {{ end }}
 
 {{ else }}
