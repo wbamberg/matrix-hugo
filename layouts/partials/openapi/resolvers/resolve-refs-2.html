@@ -10,19 +10,20 @@
 
     {{ $ref_value := index $schema "$ref"}}
     {{ if $ref_value}}
-        {{ $full_path := path.Join $path $ref_value }}
-        {{ $without_ext := replaceRE "\\.[^\\.]*$" "" $full_path }}
+        {{ $to_convert := path.Join $path $ref_value }}
+        {{ $path_and_ext := split $to_convert "."  }}
+        {{ $without_ext := index $path_and_ext 0 }}
         {{ $pieces := split $without_ext "/" }}
 
         {{ $ref := $base_data }}
         {{ range $pieces}}
             {{ if not $ref }}
-                {{ errorf "Failed to handle page %q" $full_path }}
+                {{ errorf "Failed to handle page %q" $to_convert }}
             {{ end }}
             {{ $ref = index $ref . }}
         {{ end }}
 
-        {{ $new_path := (path.Split $full_path).Dir}}
+        {{ $new_path := (path.Split $to_convert).Dir}}
         {{ $result_map = partial "openapi/resolvers/resolve-refs" (dict "schema" $ref "base_data" $base_data "path" $new_path)}}
     {{ end }}
 
