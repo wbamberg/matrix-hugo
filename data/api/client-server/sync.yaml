@@ -355,7 +355,7 @@ paths:
                 "next_batch": "s72595_4483_1934",
                 "presence": {
                   "events": [
-                    {"$ref": "../../events/examples/m.presence"}
+                    {"$ref": "../../events/examples/m.presence.json"}
                   ]
                 },
                 "account_data": {
@@ -382,17 +382,17 @@ paths:
                       "state": {
                         "events": [
                           {
-                            "$ref": "../../events/examples/m.room.member"
+                            "$ref": "../../events/examples/m.room.member.json"
                           }
                         ]
                       },
                       "timeline": {
                         "events": [
                           {
-                            "$ref": "../../events/examples/m.room.member"
+                            "$ref": "../../events/examples/m.room.member.json"
                           },
                           {
-                            "$ref": "../../events/examples/m.room.message$m.text"
+                            "$ref": "../../events/examples/m.room.message$m.text.json"
                           }
                         ],
                         "limited": true,
@@ -400,12 +400,12 @@ paths:
                       },
                       "ephemeral": {
                         "events": [
-                          {"$ref": "../../events/examples/m.typing"}
+                          {"$ref": "../../events/examples/m.typing.json"}
                         ]
                       },
                       "account_data": {
                         "events": [
-                          {"$ref": "../../events/examples/m.tag"},
+                          {"$ref": "../../events/examples/m.tag.json"},
                           {
                             "type": "org.example.custom.room.config",
                             "content": {

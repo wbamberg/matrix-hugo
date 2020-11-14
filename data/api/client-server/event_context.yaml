@@ -120,29 +120,29 @@ paths:
               "events_after": [
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "../../events/examples/m.room.message$m.text"
+                  "$ref": "../../events/examples/m.room.message$m.text.json"
                 }
               ],
               "event": {
                 "event_id": "$f3h4d129462ha:example.com",
                 "room_id": "!636q39766251:example.com",
-                "$ref": "../../events/examples/m.room.message$m.image"
+                "$ref": "../../events/examples/m.room.message$m.image.json"
               },
               "events_before": [
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "../../events/examples/m.room.message$m.file"
+                  "$ref": "../../events/examples/m.room.message$m.file.json"
                 }
               ],
               "start": "t27-54_2_0_2",
               "state": [
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "../../events/examples/m.room.create"
+                  "$ref": "../../events/examples/m.room.create.json"
                 },
                 {
                   "room_id": "!636q39766251:example.com",
-                  "$ref": "../../events/examples/m.room.member"
+                  "$ref": "../../events/examples/m.room.member.json"
                 }
               ]
             }

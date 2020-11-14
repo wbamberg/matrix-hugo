@@ -55,7 +55,7 @@ paths:
           examples:
             application/json: {
               "room_id": "!636q39766251:matrix.org",
-              "$ref": "../../events/examples/m.room.message$m.text"
+              "$ref": "../../events/examples/m.room.message$m.text.json"
             }
           schema:
             allOf:
@@ -144,19 +144,19 @@ paths:
             application/json: [
               {
                 "room_id": "!636q39766251:example.com",
-                "$ref": "../../events/examples/m.room.join_rules"
+                "$ref": "../../events/examples/m.room.join_rules.json"
               },
               {
                 "room_id": "!636q39766251:example.com",
-                "$ref": "../../events/examples/m.room.member"
+                "$ref": "../../events/examples/m.room.member.json"
               },
               {
                 "room_id": "!636q39766251:example.com",
-                "$ref": "../../events/examples/m.room.create"
+                "$ref": "../../events/examples/m.room.create.json"
               },
               {
                 "room_id": "!636q39766251:example.com",
-                "$ref": "../../events/examples/m.room.power_levels"
+                "$ref": "../../events/examples/m.room.power_levels.json"
               }
             ]
           schema:
@@ -242,7 +242,7 @@ paths:
                 "chunk": [
                   {
                     "room_id": "!636q39766251:example.com",
-                    "$ref": "../../events/examples/m.room.member"
+                    "$ref": "../../events/examples/m.room.member.yaml"
                   }
                 ]
               }
@@ -255,7 +255,7 @@ paths:
                   title: MemberEvent
                   type: object
                   allOf:
-                    - "$ref": "../../events/schema/m.room.member"
+                    - "$ref": "../../events/schema/m.room.member.yaml"
         403:
           description: >
             You aren't a member of the room and weren't previously a

@@ -44,11 +44,11 @@ paths:
                   "chunk": [
                     {
                       "room_id": "!636q39766251:example.com",
-                      "$ref": "../../events/examples/m.room.message$m.text"
+                      "$ref": "../../events/examples/m.room.message$m.text.json"
                     },
                     {
                       "room_id": "!636q39766251:example.com",
-                      "$ref": "../../events/examples/m.room.message$m.file"
+                      "$ref": "../../events/examples/m.room.message$m.file.json"
                     }
                   ],
                   "end": "s3456_9_0",
@@ -58,19 +58,19 @@ paths:
                 "state": [
                   {
                     "room_id": "!636q39766251:example.com",
-                    "$ref": "../../events/examples/m.room.join_rules"
+                    "$ref": "../../events/examples/m.room.join_rules.json"
                   },
                   {
                     "room_id": "!636q39766251:example.com",
-                    "$ref": "../../events/examples/m.room.member"
+                    "$ref": "../../events/examples/m.room.member.json"
                   },
                   {
                     "room_id": "!636q39766251:example.com",
-                    "$ref": "../../events/examples/m.room.create"
+                    "$ref": "../../events/examples/m.room.create.json"
                   },
                   {
                     "room_id": "!636q39766251:example.com",
-                    "$ref": "../../events/examples/m.room.power_levels"
+                    "$ref": "../../events/examples/m.room.power_levels.json"
                   }
                 ],
                 "visibility": "private",

@@ -132,7 +132,7 @@ paths:
                 "chunk": [
                   {
                     "room_id": "!636q39766251:example.com",
-                    "$ref": "../../events/examples/m.room.message$m.text"
+                    "$ref": "../../events/examples/m.room.message$m.text.json"
                   },
                   {
                     "room_id": "!636q39766251:example.com",
@@ -140,7 +140,7 @@ paths:
                   },
                   {
                     "room_id": "!636q39766251:example.com",
-                    "$ref": "../../events/examples/m.room.message$m.video"
+                    "$ref": "../../events/examples/m.room.message$m.video.json"
                   }
                 ]
               }

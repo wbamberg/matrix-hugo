@@ -76,7 +76,7 @@ paths:
                 "chunk": [
                   {
                     "room_id": "!somewhere:over.the.rainbow",
-                    "$ref": "../../events/examples/m.room.message$m.text"
+                    "$ref": "../../events/examples/m.room.message$m.text.json"
                   }
                 ]
               }
