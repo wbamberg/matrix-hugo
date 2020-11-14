@@ -27,8 +27,10 @@
     {{ end }}
 
     {{ range $key, $value := $schema }}
-        {{ $resolved := partial "openapi/resolvers/resolve-refs" (dict "schema" $value "base_data" $base_data "path" $path) }}
-        {{ $result_map = merge $result_map (dict $key $resolved) }}
+        {{ if ne $key "$ref" }}
+            {{ $resolved := partial "openapi/resolvers/resolve-refs" (dict "schema" $value "base_data" $base_data "path" $path) }}
+            {{ $result_map = merge $result_map (dict $key $resolved) }}
+        {{ end }}
     {{ end }}
 
     {{ $ret = $result_map }}
