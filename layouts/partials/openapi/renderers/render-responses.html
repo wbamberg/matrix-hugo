@@ -50,8 +50,7 @@
 
         {{ if $ok.examples }}
             {{ $example = partial "openapi/resolvers/resolve-refs" (dict "schema" $ok.examples "path" $path "base_data" $base_data) }}
-        {{ else }}
-            {{ $example = (dict "application/json" $example) }}
+            {{ $example = index $example "application/json" }}
         {{ end }}
 
 ```json
