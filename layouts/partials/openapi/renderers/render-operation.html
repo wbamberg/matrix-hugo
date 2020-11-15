@@ -22,12 +22,12 @@
 
 <table class="basic-info">
   <tr>
-   <td><strong>Rate-limited:</strong></td>
+   <th>Rate-limited:</th>
    {{ $forbidden := index $operation_data.responses "429" }}
    <td>{{ if $forbidden }}Yes{{ else }}No{{ end }}</td>
   </tr>
  <tr>
-  <td><strong>Requires authentication:</strong></td>
+  <th>Requires authentication:</th>
   <td>{{ if $operation_data.security }}Yes{{ else }}No{{ end }}</td>
  </tr>
 </table>
