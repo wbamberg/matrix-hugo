@@ -242,7 +242,7 @@ Some API endpoints may allow or require the use of `POST` requests
 without a transaction ID. Where this is optional, the use of a `PUT`
 request is strongly recommended.
 
-{{versions\_cs\_http\_api}}
+{{% http-api spec="client-server" api="versions" %}}
 
 Web Browser Clients
 -------------------
@@ -340,7 +340,7 @@ specify parameter values. The flow for this method is as follows:
         `m.identity_server` property is present, but does not have a
         `base_url` value, then `FAIL_ERROR`.
 
-{{wellknown\_cs\_http\_api}}
+{{% http-api spec="client-server" api="wellknown" %}}
 
 Client Authentication
 ---------------------

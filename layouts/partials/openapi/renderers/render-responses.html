@@ -33,6 +33,7 @@
         {{ if eq $schema.type "array" }}
 <p>Array of <code>{{ $schema.items.title }}</code>.</p>
         {{ end }}
+
         {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}
         {{ $additional_types = uniq $additional_types }}
         {{ range $additional_types }}

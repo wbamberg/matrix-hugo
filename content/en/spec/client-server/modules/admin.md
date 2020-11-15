@@ -11,8 +11,3 @@ server state and data.
 #### Client Behaviour
 
 {{% http-api spec="client-server" api="admin" %}}
-
-{{< http-api spec="client-server" api="admin" >}}
-
-
-{{- http-api spec="client-server" api="admin" -}}
