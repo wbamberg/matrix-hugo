@@ -8,6 +8,7 @@
 
     {{ $simple_parameters := where $parameters "in" "!=" "body"}}
     {{ if $simple_parameters }}
+<h3>Request parameters</h3>
 
         {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "header" "caption" "header parameters") }}
         {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "path" "caption" "path parameters") }}
@@ -23,27 +24,16 @@
         {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $body_parameter.schema "path" $path "base_data" $base_data) }}
         {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
 
-        {{/* render the table for this parameter */}}
-        {{ partial "openapi/renderers/render-object-table" (dict "caption" "Request body" "properties" $schema.properties "required" $schema.required) }}
+<h3>Request body</h3>
 
-        {{/* get nested objects for this parameter */}}
-        {{ $additional_types := slice }}
-        {{ range $property_name, $property := $schema.properties }}
-            {{ $additional_types_for_parameter := partial "openapi/resolvers/resolve-additional-types" $property }}
-            {{ range $additional_types_for_parameter }}
-                {{ $additional_types = $additional_types | append . }}
-            {{ end }}
-        {{end}}
-
-        {{/* render additional types */}}
+        {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}
         {{ $additional_types = uniq $additional_types }}
         {{ range $additional_types }}
             {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
         {{ end }}
 
-        {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
 <h3>Request body example</h3>
-
+        {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
 ```json
 {{ jsonify (dict "indent" "  ") $example }}
 ```
