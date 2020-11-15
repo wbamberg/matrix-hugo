@@ -9,7 +9,7 @@
     {{/* convert parameters into the format that render-object-table expects to see */}}
     {{ $param_dict := dict }}
     {{ range $parameter := . }}
-        {{ $param_dict = merge $param_dict (dict $parameter.name (dict "type" $parameter.type "description" $parameter.description "required" $parameter.required )  )}}
+        {{ $param_dict = merge $param_dict (dict $parameter.name (dict "type" $parameter.type "description" $parameter.description "required" $parameter.required "enum" $parameter.enum)  )}}
     {{ end }}
 
     {{/* and render the parameters */}}
