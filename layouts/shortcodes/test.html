@@ -1,0 +1,13 @@
+
+
+{{ $data := index .Site.Data.api "client-server" "rooms" "paths" "/rooms/{roomId}/state" "get" "responses" "200" "examples" }}
+
+
+{{ $example :=jsonify (dict "indent" "  ") $data }}
+
+<pre>{{ $example }}</pre>
+
+
+{{ $without_ref := replaceRE "\n.*\\$ref.*\n" "\n" $example }}
+
+<pre>{{ $without_ref }}</pre>
