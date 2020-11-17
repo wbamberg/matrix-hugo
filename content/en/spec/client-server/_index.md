@@ -1455,11 +1455,15 @@ assuming the client has access to the `com.example` namespace.
 Note that the structure of these events may be different than those in
 the server-server API.
 
-{{common\_event\_fields}}
+#### Event fields
 
-{{common\_room\_event\_fields}}
+{{% event-fields event_type="event" %}}
 
-##### State Event Fields
+#### Room event fields
+
+{{% event-fields event_type="room_event" %}}
+
+#### State event fields
 
 In addition to the fields of a Room Event, State Events have the
 following fields.
