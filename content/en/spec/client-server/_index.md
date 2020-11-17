@@ -1154,7 +1154,7 @@ which has no `m.identity_server` account data event should not end up
 with the client's default identity server in their account data, unless
 the user first visits their account settings to set the identity server.
 
-{{m\_identity\_server\_event}}
+{{% event event="m.identity_server" %}}
 
 Capabilities negotiation
 ------------------------

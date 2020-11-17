@@ -1,31 +1,63 @@
 {{ $event := index .Site.Data.events.schema .Params.event }}
 {{ $path := "events/schema" }}
 {{ $base_data := index .Site.Data }}
+{{ $compact := .Params.compact }}
 
 {{ $event = partial "openapi/resolvers/resolve-refs" (dict "schema" $event "path" $path "base_data" $base_data) }}
 {{ $event := partial "openapi/resolvers/resolve-allof" $event }}
 
+{{ $event_name := index $event.properties.type.enum 0 }}
+
 <section class="rendered-data event">
 
+<details {{ if not $compact }}open{{ end }}>
+<summary>
+
 <h1>
- <code>{{ index $event.properties.type.enum 0 }}</code>
+ <code>{{ $event_name }}</code>
 </h1>
 
 <hr/>
 
 {{ $event.description | markdownify }}
 
-{{ $properties := $event.properties.content.properties }}
-{{ partial "openapi/renderers/render-object-table" (dict "caption" "" "properties" $properties) }}
+</summary>
 
-{{ $additional_types := slice }}
+{{ $state_key := index $event.properties "state_key" }}
 
-{{/* get nested objects for this event */}}
-{{ range $property_name, $property := $properties }}
-    {{ $additional_types_for_property := partial "openapi/resolvers/resolve-additional-types" $property }}
-    {{ range $additional_types_for_property}}
-        {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
-    {{end}}
+<table class="basic-info">
+  <tr>
+   <th>Event type:</th>
+   <td>{{ if $state_key }}State event{{ else }}Message event{{ end }}</td>
+  </tr>
+{{ if $state_key }}
+  <tr>
+   <th>State key</th>
+   <td>{{ $state_key.description | markdownify }}</td>
+ </tr>
+{{ end }}
+</table>
+
+<h2>Content</h2>
+
+{{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $event.properties.content }}
+
+{{ range $additional_types }}
+    {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
 {{end}}
+
+<h2>Examples</h2>
+
+{{ $all_examples := .Site.Data.events.examples }}
+
+{{ range $example_name, $example := $all_examples }}
+    {{ $pieces := split $example_name "$" }}
+    {{ if eq (index $pieces 0) $event_name }}
+        {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "events/examples" "base_data" $base_data) }}
+```json
+{{ jsonify (dict "indent" "  ") $example_content }}
+```
+    {{ end }}
+{{ end }}
 
 </section>
