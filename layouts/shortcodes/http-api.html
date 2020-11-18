@@ -4,6 +4,6 @@
 {{ $api_data := index .Site.Data.api .Params.spec .Params.api }}
 {{ $base_data := index .Site.Data }}
 {{ $base_url := replace $api_data.basePath "%CLIENT_MAJOR_VERSION%"  "r0" }}
-{{ $path := "api/client-server" }}
+{{ $path := delimit (slice "api" $spec) "/" }}
 
 {{ partial "openapi/renderers/render-api" (dict "api_data" $api_data "base_data" $base_data "base_url" $base_url "path" $path) }}
