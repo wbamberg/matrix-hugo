@@ -31,7 +31,21 @@
 <h3>200 response body</h3>
 
         {{ if eq $schema.type "array" }}
-<p>Array of <code>{{ $schema.items.title }}</code>.</p>
+            {{ $type_of := "" }}
+            {{ if reflect.IsSlice $schema.items }}
+                {{ $types := slice }}
+                {{ range $schema.items }}
+                    {{ if .title }}
+                        {{ $types = $types | append .title}}
+                    {{ else }}
+                        {{ $types = $types | append .type }}
+                    {{ end }}
+                {{ end }}
+                {{ $type_of = delimit $types ", "}}
+            {{ else }}
+                {{ $type_of = $schema.items.title }}
+            {{ end }}
+<p>Array of <code>{{ $type_of }}</code>.</p>
         {{ end }}
 
         {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}

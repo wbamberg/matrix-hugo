@@ -23,11 +23,16 @@
 {{ end }}
 
 {{ if eq $this_object.type "array" }}
-    {{ $additional_objects = partial "get-additional-objects" (dict "this_object" $this_object.items "additional_objects" $additional_objects) }}
+    {{ if reflect.IsSlice $this_object.items}}
+        {{ range $this_object.items }}
+            {{ $additional_objects = partial "get-additional-objects" (dict "this_object" . "additional_objects" $additional_objects) }}
+        {{ end }}
+    {{ else }}
+        {{ $additional_objects = partial "get-additional-objects" (dict "this_object" $this_object.items "additional_objects" $additional_objects) }}
+    {{ end }}
 {{ end }}
 
 {{ return $additional_objects }}
-
 
 
 {{/* this actually makes the recursive call and adds the returned objects to the list */}}
