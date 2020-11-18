@@ -1730,7 +1730,7 @@ the topic to be removed from the room.
 
 ##### Events
 
-{{m\_room\_redaction\_event}}
+{{% event event="m.room.redaction" %}}
 
 ##### Client behaviour
 

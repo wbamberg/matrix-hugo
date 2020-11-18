@@ -78,4 +78,4 @@ Note that most of the values and behaviour of this endpoint is described
 by the Client-Server API's [Push
 Module](../client_server/%CLIENT_RELEASE_LABEL%.html#module-push).
 
-{{push\_notifier\_push\_http\_api}}
+{{% http-api spec="push-gateway" api="push_notifier" %}}
