@@ -1112,11 +1112,9 @@ can be added and bound at the same time, depending on context.
 
 {{% http-api spec="client-server" api="administrative_contact" %}}
 
-
 ### Current account information
 
 {{% http-api spec="client-server" api="whoami" %}}
-
 
 ##### Notes on identity servers
 
