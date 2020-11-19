@@ -1,0 +1,50 @@
+{{ $path := .Params.path }}
+{{ $base_data := index .Site.Data }}
+{{ $compact := .Params.compact }}
+
+{{ $pieces := split $path "/" }}
+
+{{ $definition := $base_data }}
+{{ range $pieces}}
+    {{ if not $definition }}
+        {{ errorf "Failed to handle page %q" $path }}
+    {{ end }}
+    {{ $definition = index $definition . }}
+{{ end }}
+
+{{ $pieces = first (sub (len $pieces) 1) $pieces}}
+{{ $path = delimit $pieces "/" }}
+
+{{ $definition = partial "openapi/resolvers/resolve-refs" (dict "schema" $definition "path" $path "base_data" $base_data) }}
+{{ $definition = partial "openapi/resolvers/resolve-allof" $definition }}
+
+<section class="rendered-data definition">
+
+<details {{ if not $compact }}open{{ end }}>
+<summary>
+
+<h1>
+ <code>{{ $definition.title }}</code>
+</h1>
+
+<hr/>
+
+{{ $definition.description | markdownify }}
+
+</summary>
+
+{{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $definition }}
+
+{{ range $additional_types }}
+    {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
+{{end}}
+
+<h2>Examples</h2>
+
+{{ $example := partial "openapi/resolvers/resolve-example" $definition }}
+
+```json
+{{ jsonify (dict "indent" "  ") $example }}
+```
+
+</section>
