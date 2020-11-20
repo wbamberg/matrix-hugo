@@ -1,15 +1,13 @@
 
-  {{ $version := index (split .Page.RelPermalink "/") 1 }}
   {{ $color := "primary" }}
   {{ $latest_version := .Site.Params.latest_version }}
-
-  {{ if eq $version "unstable"}}
+  {{ if eq .Params.matrix_version "unstable"}}
   <div class="pageinfo pageinfo-{{ $color }}">
     <p>You're looking at an unstable version of this specification.
     Unstable specifications may change at any time without notice.
     To view the current version, please <a href="/{{ $latest_version | safeURL }}" target="_blank">click here</a>.</p>
   </div>
-  {{ else if ne $version $latest_version }}
+  {{ else if ne .Params.matrix_version $latest_version }}
   <div class="pageinfo pageinfo-{{ $color }}">
     <p>You're looking at an old version of this specification.
     To view the current version, please <a href="/{{ $latest_version | safeURL }}">click here</a>.</p>
