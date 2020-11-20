@@ -1,5 +1,7 @@
+{{ $matrix_version := $.Page.Params.matrix_version }}
+
 {{ $path := .Params.path }}
-{{ $base_data := index .Site.Data }}
+{{ $base_data := index .Site.Data $matrix_version }}
 {{ $compact := .Params.compact }}
 
 {{ $pieces := split $path "/" }}
