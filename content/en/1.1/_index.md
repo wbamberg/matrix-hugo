@@ -2,6 +2,8 @@
 title: Matrix Specification
 type: docs
 weight: 10
+cascade:
+  matrix_version: "1.1"
 ---
 
 Matrix defines a set of open APIs for decentralised communication,
