@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"body\": \"This is an example notice\",\n        \"format\": \"org.matrix.custom.html\",\n        \"formatted_body\": \"This is an <strong>example</strong> notice\",\n        \"msgtype\": \"m.notice\"\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"type\": \"m.room.message\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
-    }
-]

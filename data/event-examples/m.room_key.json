@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"algorithm\": \"m.megolm.v1.aes-sha2\",\n        \"room_id\": \"!Cuyf34gef24t:localhost\",\n        \"session_id\": \"X3lUlvLELLYxeTx4yOVu6UDpasGEVO0Jbu+QFnm0cKQ\",\n        \"session_key\": \"AgAAAADxKHa9uFxcXzwYoNueL5Xqi69IkD4sni8LlfJL7qNBEY...\"\n    },\n    \"type\": \"m.room_key\"\n}"
-    }
-]

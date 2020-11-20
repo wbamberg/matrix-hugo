@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"$1435641916114394fHBLK:matrix.org\": {\n            \"m.read\": {\n                \"@rikj:jki.re\": {\n                    \"ts\": 1436451550453\n                }\n            }\n        }\n    },\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"type\": \"m.receipt\"\n}"
-    }
-]

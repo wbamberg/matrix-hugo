@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"avatar_url\": \"mxc://localhost:wefuiwegh8742w\",\n        \"currently_active\": false,\n        \"last_active_ago\": 2478593,\n        \"presence\": \"online\",\n        \"status_msg\": \"Making cupcakes\"\n    },\n    \"sender\": \"@example:localhost\",\n    \"type\": \"m.presence\"\n}"
-    }
-]

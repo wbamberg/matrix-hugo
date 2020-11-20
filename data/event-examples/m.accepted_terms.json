@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"accepted\": [\n            \"https://example.org/somewhere/terms-1.2-en.html\",\n            \"https://example.org/somewhere/privacy-1.2-en.html\"\n        ]\n    },\n    \"type\": \"m.accepted_terms\"\n}"
-    }
-]

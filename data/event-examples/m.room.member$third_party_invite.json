@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"avatar_url\": \"mxc://example.org/SEsfnsuifSDFSSEF\",\n        \"displayname\": \"Alice Margatroid\",\n        \"membership\": \"invite\",\n        \"third_party_invite\": {\n            \"display_name\": \"alice\",\n            \"signed\": {\n                \"mxid\": \"@alice:example.org\",\n                \"signatures\": {\n                    \"magic.forest\": {\n                        \"ed25519:3\": \"fQpGIW1Snz+pwLZu6sTy2aHy/DYWWTspTJRPyNp0PKkymfIsNffysMl6ObMMFdIJhk6g6pwlIqZ54rxo8SLmAg\"\n                    }\n                },\n                \"token\": \"abc123\"\n            }\n        }\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"state_key\": \"@alice:example.org\",\n    \"type\": \"m.room.member\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
-    }
-]

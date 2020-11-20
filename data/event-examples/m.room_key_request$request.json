@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"action\": \"request\",\n        \"body\": {\n            \"algorithm\": \"m.megolm.v1.aes-sha2\",\n            \"room_id\": \"!Cuyf34gef24t:localhost\",\n            \"sender_key\": \"RF3s+E7RkTQTGF2d8Deol0FkQvgII2aJDf3/Jp5mxVU\",\n            \"session_id\": \"X3lUlvLELLYxeTx4yOVu6UDpasGEVO0Jbu+QFnm0cKQ\"\n        },\n        \"request_id\": \"1495474790150.19\",\n        \"requesting_device_id\": \"RJYKSTBOIE\"\n    },\n    \"type\": \"m.room_key_request\"\n}"
-    }
-]

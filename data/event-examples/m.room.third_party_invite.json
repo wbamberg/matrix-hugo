@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"display_name\": \"Alice Margatroid\",\n        \"key_validity_url\": \"https://magic.forest/verifykey\",\n        \"public_key\": \"abc123\",\n        \"public_keys\": [\n            {\n                \"key_validity_url\": \"https://magic.forest/verifykey\",\n                \"public_key\": \"def456\"\n            }\n        ]\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"state_key\": \"pc98\",\n    \"type\": \"m.room.third_party_invite\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
-    }
-]

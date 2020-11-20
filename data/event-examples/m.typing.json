@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"user_ids\": [\n            \"@alice:matrix.org\",\n            \"@bob:example.com\"\n        ]\n    },\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"type\": \"m.typing\"\n}"
-    }
-]

@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"event_id\": \"$someplace:example.org\"\n    },\n    \"room_id\": \"!somewhere:example.org\",\n    \"type\": \"m.fully_read\"\n}"
-    }
-]

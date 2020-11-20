@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"body\": \"Gangnam Style\",\n        \"info\": {\n            \"duration\": 2140786,\n            \"h\": 320,\n            \"mimetype\": \"video/mp4\",\n            \"size\": 1563685,\n            \"thumbnail_info\": {\n                \"h\": 300,\n                \"mimetype\": \"image/jpeg\",\n                \"size\": 46144,\n                \"w\": 300\n            },\n            \"thumbnail_url\": \"mxc://example.org/FHyPlCeYUSFFxlgbQYZmoEoe\",\n            \"w\": 480\n        },\n        \"msgtype\": \"m.video\",\n        \"url\": \"mxc://example.org/a526eYUSFFxlgbQYZmo442\"\n    },\n    \"event_id\": \"$143273582443PhrSn:example.org\",\n    \"origin_server_ts\": 1432735824653,\n    \"room_id\": \"!jEsUZKDJdhlrceRyVU:example.org\",\n    \"sender\": \"@example:example.org\",\n    \"type\": \"m.room.message\",\n    \"unsigned\": {\n        \"age\": 1234\n    }\n}"
-    }
-]

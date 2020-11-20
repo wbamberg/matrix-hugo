@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"base_url\": \"https://example.org\"\n    },\n    \"type\": \"m.identity_server\"\n}"
-    }
-]

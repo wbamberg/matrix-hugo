@@ -1,5 +1,0 @@
-[
-    {
-        "example": "{\n    \"content\": {\n        \"@bob:example.com\": [\n            \"!abcdefgh:example.com\",\n            \"!hgfedcba:example.com\"\n        ]\n    },\n    \"type\": \"m.direct\"\n}"
-    }
-]
