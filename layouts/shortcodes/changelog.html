@@ -1,0 +1,42 @@
+{{ $matrix_version := $.Page.Params.matrix_version }}
+{{ $path := path.Join "changelog" }}
+
+{{ $config_file := path.Join $path "pyproject.toml" }}
+{{ $config := readFile $config_file | transform.Unmarshal }}
+{{ $types := dict }}
+{{ range $config.tool.towncrier.type }}
+    {{ $types = merge $types (dict .directory (slice)) }}
+{{ end }}
+
+{{ $news_path := path.Join $path $matrix_version "newsfragments" }}
+
+{{ range (readDir $news_path) }}
+
+    {{ $pieces := split .Name "." }}
+
+    {{ $ticket := index $pieces 0 }}
+    {{ $description := readFile (path.Join $news_path .Name ) }}
+    {{ $change_info := (dict "ticket" $ticket "description" $description )}}
+
+    {{ $type := index $pieces 1 }}
+    {{ $instances := index $types $type }}
+    {{ $instances = $instances | append $change_info }}
+    {{ $types = merge $types (dict $type $instances) }}
+
+{{ end }}
+
+<p>This is version <strong>{{ $matrix_version }}</strong> of the specification. This page lists notable changes since the previous version.</p>
+
+{{ range $config.tool.towncrier.type }}
+<h2 id="{{.directory}}">{{.name}}</h2>
+    {{ $changes_of_type := (index $types .directory) }}
+    {{ if $changes_of_type }}
+<ul>
+        {{ range $changes_of_type }}
+<li><a href="https://github.com/matrix-org/matrix-doc/issues/{{.ticket}}"><strong>{{ .ticket }}: </strong></a>{{ .description | markdownify }}</li>
+        {{ end }}
+</ul>
+    {{ else }}
+<p>None.
+    {{ end }}
+{{ end }}
