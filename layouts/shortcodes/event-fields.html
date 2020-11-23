@@ -1,8 +1,6 @@
-{{ $matrix_version := $.Page.Params.matrix_version }}
-
-{{ $event := index .Site.Data $matrix_version "events" "schema" "core-event-schema" .Params.event_type }}
+{{ $event := index .Site.Data.events.schema "core-event-schema" .Params.event_type }}
 {{ $path := "events/schema/core-event-schema" }}
-{{ $base_data := index .Site.Data $matrix_version }}
+{{ $base_data := index .Site.Data }}
 {{ $compact := .Params.compact }}
 
 {{ $event = partial "openapi/resolvers/resolve-refs" (dict "schema" $event "path" $path "base_data" $base_data) }}

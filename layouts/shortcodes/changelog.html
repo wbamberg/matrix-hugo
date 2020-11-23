@@ -1,4 +1,3 @@
-{{ $matrix_version := $.Page.Params.matrix_version }}
 {{ $path := path.Join "changelog" }}
 
 {{ $config_file := path.Join $path "pyproject.toml" }}
@@ -8,7 +7,7 @@
     {{ $types = merge $types (dict .directory (slice)) }}
 {{ end }}
 
-{{ $news_path := path.Join $path $matrix_version "newsfragments" }}
+{{ $news_path := path.Join $path "newsfragments" }}
 
 {{ range (readDir $news_path) }}
 
@@ -25,7 +24,7 @@
 
 {{ end }}
 
-<p>This is version <strong>{{ $matrix_version }}</strong> of the specification. This page lists notable changes since the previous version.</p>
+<p>This is version <strong>...</strong> of the specification. This page lists notable changes since the previous version.</p>
 
 {{ range $config.tool.towncrier.type }}
 <h2 id="{{.directory}}">{{.name}}</h2>

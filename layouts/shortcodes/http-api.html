@@ -1,10 +1,8 @@
-{{ $matrix_version := $.Page.Params.matrix_version }}
-
 {{ $spec := .Params.spec}}
 {{ $api := .Params.api}}
 
-{{ $api_data := index .Site.Data $matrix_version "api" .Params.spec .Params.api }}
-{{ $base_data := index .Site.Data $matrix_version }}
+{{ $api_data := index .Site.Data.api .Params.spec .Params.api }}
+{{ $base_data := index .Site.Data }}
 {{ $base_url := replace $api_data.basePath "%CLIENT_MAJOR_VERSION%"  "r0" }}
 {{ $path := delimit (slice "api" $spec) "/" }}
 
