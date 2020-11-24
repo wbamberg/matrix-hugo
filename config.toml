@@ -78,31 +78,12 @@ weight = 1
 [params]
 copyright = "The Matrix.org Foundation CIC"
 privacy_policy = "https://matrix.org/legal/privacy-notice"
-latest_matrix_release = "1.1"
 
-# First one is picked as the Twitter card image if not set on page.
-# images = ["images/project-illustration.png"]
-
-# Menu title if your navbar has a versions selector to access old versions of your site.
-# This menu appears only if you have at least one [params.versions] set.
-version_menu = "Releases"
-
-# The latest version of the docs. Used in the "version-banner" partial to
-# point people to the main doc site.
-latest_version = "1.1"
-
-# Add your release versions here
-[[params.versions]]
-  version = "unstable"
-  url = "/unstable"
-
-[[params.versions]]
-  version = "1.1"
-  url = "/1.1"
-
-[[params.versions]]
-  version = "1.0"
-  url = "/1.0"
+[params.version]
+# must be one of "unstable", "current", "historical"
+# this is used to decide whether to show a banner pointing to the current release
+status = "unstable"
+current_version_url = "https://spec.matrix.org/latest"
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
 #github_repo = "https://github.com/google/docsy-example"
