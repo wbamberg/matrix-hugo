@@ -1,0 +1,29 @@
+{{ $path := "event-schemas/schema" }}
+{{ $base_data := index .Site.Data }}
+{{ $compact := false }}
+
+{{ $msgtypes := (slice "m.room.message$m.text" "m.room.message$m.emote" "m.room.message$m.notice" "m.room.message$m.image" "m.room.message$m.file") }}
+
+{{ $excluded := slice "m.room.message$m.server_notice" }}
+
+{{ $events := index .Site.Data "event-schemas" "schema" }}
+{{ $expected_prefix := "m.room.message$"}}
+{{ range $object_name, $event_data := $events }}
+
+    {{ $prefix := substr $object_name 0 (len $expected_prefix) }}
+    {{ if and (eq $prefix $expected_prefix) (not (in $excluded $object_name)) (not (in $msgtypes $object_name))  }}
+        {{ $msgtypes = $msgtypes | append $object_name }}
+    {{ end }}
+
+{{ end }}
+
+{{ range $msgtypes }}
+
+    {{ $event_data := index $base_data "event-schemas" "schema" . }}
+    {{ $event_data = partial "openapi/resolvers/resolve-refs" (dict "schema" $event_data "path" $path "base_data" $base_data) }}
+    {{ $event_data := partial "openapi/resolvers/resolve-allof" $event_data }}
+
+    {{ $event_name := index (split . "$") 1 }}
+    {{ partial "events/render-event" (dict "event_name" $event_name "event_data" $event_data "compact" $compact "base_data" $base_data)}}
+
+{{ end }}
