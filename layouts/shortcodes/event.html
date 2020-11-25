@@ -1,63 +1,11 @@
-{{ $event := index .Site.Data "event-schemas" "schema" .Params.event }}
+{{ $event_data := index .Site.Data "event-schemas" "schema" .Params.event }}
 {{ $path := "event-schemas/schema" }}
 {{ $base_data := index .Site.Data }}
 {{ $compact := .Params.compact }}
 
-{{ $event = partial "openapi/resolvers/resolve-refs" (dict "schema" $event "path" $path "base_data" $base_data) }}
-{{ $event := partial "openapi/resolvers/resolve-allof" $event }}
+{{ $event_data = partial "openapi/resolvers/resolve-refs" (dict "schema" $event_data "path" $path "base_data" $base_data) }}
+{{ $event_data := partial "openapi/resolvers/resolve-allof" $event_data }}
 
-{{ $event_name := index $event.properties.type.enum 0 }}
+{{ $event_name := index $event_data.properties.type.enum 0 }}
 
-<section class="rendered-data event">
-
-<details {{ if not $compact }}open{{ end }}>
-<summary>
-
-<h1>
- <code>{{ $event_name }}</code>
-</h1>
-
-<hr/>
-
-{{ $event.description | markdownify }}
-
-</summary>
-
-{{ $state_key := index $event.properties "state_key" }}
-
-<table class="basic-info">
-  <tr>
-   <th>Event type:</th>
-   <td>{{ if $state_key }}State event{{ else }}Message event{{ end }}</td>
-  </tr>
-{{ if $state_key }}
-  <tr>
-   <th>State key</th>
-   <td>{{ $state_key.description | markdownify }}</td>
- </tr>
-{{ end }}
-</table>
-
-<h2>Content</h2>
-
-{{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $event.properties.content }}
-
-{{ range $additional_types }}
-    {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties) }}
-{{end}}
-
-<h2>Examples</h2>
-
-{{ $all_examples := .Site.Data.events.examples }}
-
-{{ range $example_name, $example := $all_examples }}
-    {{ $pieces := split $example_name "$" }}
-    {{ if eq (index $pieces 0) $event_name }}
-        {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "events/examples" "base_data" $base_data) }}
-```json
-{{ jsonify (dict "indent" "  ") $example_content }}
-```
-    {{ end }}
-{{ end }}
-
-</section>
+{{ partial "events/render-event" (dict "event_name" $event_name "event_data" $event_data "compact" $compact "base_data" $base_data)}}
