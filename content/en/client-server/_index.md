@@ -12,8 +12,9 @@ designed to support both lightweight clients which store no state and
 lazy-load data from the server as required - as well as heavyweight
 clients which maintain a full local persistent copy of server state.
 
-Changelog
----------
+Table of Contents
+
+## Changelog
 
 **Version: %CLIENT\_RELEASE\_LABEL%**
 
@@ -46,8 +47,7 @@ chronological order:
     The last draft before the spec was formally released in version
     r0.0.0.
 
-API Standards
--------------
+## API Standards
 
 The mandatory baseline for client-server communication in Matrix is
 exchanging JSON objects over HTTP APIs. HTTPS is recommended for
@@ -75,12 +75,10 @@ inconsistency.
 Any errors which occur at the Matrix API level MUST return a "standard
 error response". This is a JSON object which looks like:
 
-```json
-{
-  "errcode": "<error code>",
-  "error": "<error message>"
-}
-```
+    {
+      "errcode": "<error code>",
+      "error": "<error message>"
+    }
 
 The `error` string will be a human-readable error message, usually a
 sentence explaining what went wrong. The `errcode` string will be a
@@ -244,8 +242,7 @@ request is strongly recommended.
 
 {{% http-api spec="client-server" api="versions" %}}
 
-Web Browser Clients
--------------------
+## Web Browser Clients
 
 It is realistic to expect that some clients will be written to be run
 within a web browser or similar environment. In these cases, the
@@ -266,8 +263,7 @@ headers to be returned by servers on all requests are:
     Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
     Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
 
-Server Discovery
-----------------
+## Server Discovery
 
 In order to allow users to connect to a Matrix server without needing to
 explicitly specify the homeserver's URL or other parameters, clients
@@ -342,8 +338,7 @@ specify parameter values. The flow for this method is as follows:
 
 {{% http-api spec="client-server" api="wellknown" %}}
 
-Client Authentication
----------------------
+## Client Authentication
 
 Most API endpoints require the user to identify themselves by presenting
 previously obtained credentials in the form of an `access_token` query
@@ -448,24 +443,22 @@ homeserver returns an HTTP 401 response, with a JSON body, as follows:
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
-```json
-{
-  "flows": [
     {
-      "stages": [ "example.type.foo", "example.type.bar" ]
-    },
-    {
-      "stages": [ "example.type.foo", "example.type.baz" ]
+      "flows": [
+        {
+          "stages": [ "example.type.foo", "example.type.bar" ]
+        },
+        {
+          "stages": [ "example.type.foo", "example.type.baz" ]
+        }
+      ],
+      "params": {
+          "example.type.baz": {
+              "example_key": "foobar"
+          }
+      },
+      "session": "xxxxxx"
     }
-  ],
-  "params": {
-      "example.type.baz": {
-          "example_key": "foobar"
-      }
-  },
-  "session": "xxxxxx"
-}
-```
 
 In addition to the `flows`, this object contains some extra information:
 
@@ -493,17 +486,15 @@ type `example.type.foo`, it might submit something like this:
     POST /_matrix/client/r0/endpoint HTTP/1.1
     Content-Type: application/json
 
-```json
-{
-  "a_request_parameter": "something",
-  "another_request_parameter": "something else",
-  "auth": {
-      "type": "example.type.foo",
-      "session": "xxxxxx",
-      "example_credential": "verypoorsharedsecret"
-  }
-}
-```
+    {
+      "a_request_parameter": "something",
+      "another_request_parameter": "something else",
+      "auth": {
+          "type": "example.type.foo",
+          "session": "xxxxxx",
+          "example_credential": "verypoorsharedsecret"
+      }
+    }
 
 If the homeserver deems the authentication attempt to be successful but
 still requires more stages to be completed, it returns HTTP status 401
@@ -514,25 +505,23 @@ client has completed successfully:
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
-```json
-{
-  "completed": [ "example.type.foo" ],
-  "flows": [
     {
-      "stages": [ "example.type.foo", "example.type.bar" ]
-    },
-    {
-      "stages": [ "example.type.foo", "example.type.baz" ]
+      "completed": [ "example.type.foo" ],
+      "flows": [
+        {
+          "stages": [ "example.type.foo", "example.type.bar" ]
+        },
+        {
+          "stages": [ "example.type.foo", "example.type.baz" ]
+        }
+      ],
+      "params": {
+          "example.type.baz": {
+              "example_key": "foobar"
+          }
+      },
+      "session": "xxxxxx"
     }
-  ],
-  "params": {
-      "example.type.baz": {
-          "example_key": "foobar"
-      }
-  },
-  "session": "xxxxxx"
-}
-```
 
 Individual stages may require more than one request to complete, in
 which case the response will be as if the request was unauthenticated
@@ -546,27 +535,25 @@ status 401 response as above, with the addition of the standard
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
-```json
-{
-  "errcode": "M_FORBIDDEN",
-  "error": "Invalid password",
-  "completed": [ "example.type.foo" ],
-  "flows": [
     {
-      "stages": [ "example.type.foo", "example.type.bar" ]
-    },
-    {
-      "stages": [ "example.type.foo", "example.type.baz" ]
+      "errcode": "M_FORBIDDEN",
+      "error": "Invalid password",
+      "completed": [ "example.type.foo" ],
+      "flows": [
+        {
+          "stages": [ "example.type.foo", "example.type.bar" ]
+        },
+        {
+          "stages": [ "example.type.foo", "example.type.baz" ]
+        }
+      ],
+      "params": {
+          "example.type.baz": {
+              "example_key": "foobar"
+          }
+      },
+      "session": "xxxxxx"
     }
-  ],
-  "params": {
-      "example.type.baz": {
-          "example_key": "foobar"
-      }
-  },
-  "session": "xxxxxx"
-}
-```
 
 If the request fails for a reason other than authentication, the server
 returns an error message in the standard format. For example:
@@ -574,12 +561,10 @@ returns an error message in the standard format. For example:
     HTTP/1.1 400 Bad request
     Content-Type: application/json
 
-```json
-{
-  "errcode": "M_EXAMPLE_ERROR",
-  "error": "Something was wrong"
-}
-```
+    {
+      "errcode": "M_EXAMPLE_ERROR",
+      "error": "Something was wrong"
+    }
 
 If the client has completed all stages of a flow, the homeserver
 performs the API call and returns the result as normal. Completed stages
@@ -673,34 +658,30 @@ described in [Identifier types](#identifier-types).
 For example, to authenticate using the user's Matrix ID, clients would
 submit:
 
-```json
-{
-  "type": "m.login.password",
-  "identifier": {
-    "type": "m.id.user",
-    "user": "<user_id or user localpart>"
-  },
-  "password": "<password>",
-  "session": "<session ID>"
-}
-```
+    {
+      "type": "m.login.password",
+      "identifier": {
+        "type": "m.id.user",
+        "user": "<user_id or user localpart>"
+      },
+      "password": "<password>",
+      "session": "<session ID>"
+    }
 
 Alternatively reply using a 3PID bound to the user's account on the
 homeserver using the `/account/3pid`\_ API rather then giving the `user`
 explicitly as follows:
 
-```json
-{
-  "type": "m.login.password",
-  "identifier": {
-    "type": "m.id.thirdparty",
-    "medium": "<The medium of the third party identifier.>",
-    "address": "<The third party address of the user>"
-  },
-  "password": "<password>",
-  "session": "<session ID>"
-}
-```
+    {
+      "type": "m.login.password",
+      "identifier": {
+        "type": "m.id.thirdparty",
+        "medium": "<The medium of the third party identifier.>",
+        "address": "<The third party address of the user>"
+      },
+      "password": "<password>",
+      "session": "<session ID>"
+    }
 
 In the case that the homeserver does not know about the supplied 3PID,
 the homeserver must respond with 403 Forbidden.
@@ -716,13 +697,11 @@ The user completes a Google ReCaptcha 2.0 challenge
 To use this authentication type, clients should submit an auth dict as
 follows:
 
-```json
-{
-  "type": "m.login.recaptcha",
-  "response": "<captcha response>",
-  "session": "<session ID>"
-}
-```
+    {
+      "type": "m.login.recaptcha",
+      "response": "<captcha response>",
+      "session": "<session ID>"
+    }
 
 #### Single Sign-On
 
@@ -735,8 +714,7 @@ sign-on provider.
 
 A client wanting to complete authentication using SSO should use the
 [Fallback](#fallback) mechanism. See [SSO during User-Interactive
-Authentication](#sso-during-user-interactive-authentication) for more
-information.
+Authentication]() for more information.
 
 #### Email-based (identity / homeserver)
 
@@ -754,20 +732,18 @@ information should be submitted to the homeserver.
 To use this authentication type, clients should submit an auth dict as
 follows:
 
-```json
-{
-  "type": "m.login.email.identity",
-  "threepidCreds": [
     {
-      "sid": "<identity server session id>",
-      "client_secret": "<identity server client secret>",
-      "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
-      "id_access_token": "<access token previously registered with the identity server>"
+      "type": "m.login.email.identity",
+      "threepidCreds": [
+        {
+          "sid": "<identity server session id>",
+          "client_secret": "<identity server client secret>",
+          "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
+          "id_access_token": "<access token previously registered with the identity server>"
+        }
+      ],
+      "session": "<session ID>"
     }
-  ],
-  "session": "<session ID>"
-}
-```
 
 Note that `id_server` (and therefore `id_access_token`) is optional if
 the `/requestToken` request did not include them.
@@ -788,20 +764,18 @@ information should be submitted to the homeserver.
 To use this authentication type, clients should submit an auth dict as
 follows:
 
-```json
-{
-  "type": "m.login.msisdn",
-  "threepidCreds": [
     {
-      "sid": "<identity server session id>",
-      "client_secret": "<identity server client secret>",
-      "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
-      "id_access_token": "<access token previously registered with the identity server>"
+      "type": "m.login.msisdn",
+      "threepidCreds": [
+        {
+          "sid": "<identity server session id>",
+          "client_secret": "<identity server client secret>",
+          "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
+          "id_access_token": "<access token previously registered with the identity server>"
+        }
+      ],
+      "session": "<session ID>"
     }
-  ],
-  "session": "<session ID>"
-}
-```
 
 Note that `id_server` (and therefore `id_access_token`) is optional if
 the `/requestToken` request did not include them.
@@ -826,12 +800,10 @@ server can instead send flows `m.login.recaptcha, m.login.dummy` and
 To use this authentication type, clients should submit an auth dict with
 just the type and session, if provided:
 
-```json
-{
-  "type": "m.login.dummy",
-  "session": "<session ID>"
-}
-```
+    {
+      "type": "m.login.dummy",
+      "session": "<session ID>"
+    }
 
 ##### Fallback
 
@@ -850,13 +822,11 @@ This MUST return an HTML page which can perform this authentication
 stage. This page must use the following JavaScript when the
 authentication has been completed:
 
-```js
-if (window.onAuthDone) {
-    window.onAuthDone();
-} else if (window.opener && window.opener.postMessage) {
-    window.opener.postMessage("authDone", "*");
-}
-```
+    if (window.onAuthDone) {
+        window.onAuthDone();
+    } else if (window.opener && window.opener.postMessage) {
+        window.opener.postMessage("authDone", "*");
+    }
 
 This allows the client to either arrange for the global function
 `onAuthDone` to be defined in an embedded browser, or to use the HTML5
@@ -868,68 +838,64 @@ Once a client receives the notificaton that the authentication stage has
 been completed, it should resubmit the request with an auth dict with
 just the session ID:
 
-```json
-{
-  "session": "<session ID>"
-}
-```
+    {
+      "session": "<session ID>"
+    }
 
 #### Example
 
 A client webapp might use the following javascript to open a popup
 window which will handle unknown login types:
 
-```js
-/**
- * Arguments:
- *     homeserverUrl: the base url of the homeserver (eg "https://matrix.org")
- *
- *     apiEndpoint: the API endpoint being used (eg
- *        "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/password")
- *
- *     loginType: the loginType being attempted (eg "m.login.recaptcha")
- *
- *     sessionID: the session ID given by the homeserver in earlier requests
- *
- *     onComplete: a callback which will be called with the results of the request
- */
-function unknownLoginType(homeserverUrl, apiEndpoint, loginType, sessionID, onComplete) {
-    var popupWindow;
+    /**
+     * Arguments:
+     *     homeserverUrl: the base url of the homeserver (eg "https://matrix.org")
+     *
+     *     apiEndpoint: the API endpoint being used (eg
+     *        "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/password")
+     *
+     *     loginType: the loginType being attempted (eg "m.login.recaptcha")
+     *
+     *     sessionID: the session ID given by the homeserver in earlier requests
+     *
+     *     onComplete: a callback which will be called with the results of the request
+     */
+    function unknownLoginType(homeserverUrl, apiEndpoint, loginType, sessionID, onComplete) {
+        var popupWindow;
 
-    var eventListener = function(ev) {
-        // check it's the right message from the right place.
-        if (ev.data !== "authDone" || ev.origin !== homeserverUrl) {
-            return;
-        }
+        var eventListener = function(ev) {
+            // check it's the right message from the right place.
+            if (ev.data !== "authDone" || ev.origin !== homeserverUrl) {
+                return;
+            }
 
-        // close the popup
-        popupWindow.close();
-        window.removeEventListener("message", eventListener);
+            // close the popup
+            popupWindow.close();
+            window.removeEventListener("message", eventListener);
 
-        // repeat the request
-        var requestBody = {
-            auth: {
-                session: sessionID,
-            },
+            // repeat the request
+            var requestBody = {
+                auth: {
+                    session: sessionID,
+                },
+            };
+
+            request({
+                method:'POST', url:apiEndpint, json:requestBody,
+            }, onComplete);
         };
 
-        request({
-            method:'POST', url:apiEndpint, json:requestBody,
-        }, onComplete);
-    };
+        window.addEventListener("message", eventListener);
 
-    window.addEventListener("message", eventListener);
-
-    var url = homeserverUrl +
-        "/_matrix/client/%CLIENT_MAJOR_VERSION%/auth/" +
-        encodeURIComponent(loginType) +
-        "/fallback/web?session=" +
-        encodeURIComponent(sessionID);
+        var url = homeserverUrl +
+            "/_matrix/client/%CLIENT_MAJOR_VERSION%/auth/" +
+            encodeURIComponent(loginType) +
+            "/fallback/web?session=" +
+            encodeURIComponent(sessionID);
 
 
-   popupWindow = window.open(url);
-}
-```
+       popupWindow = window.open(url);
+    }
 
 ##### Identifier types
 
@@ -1058,12 +1024,11 @@ respond with `403 Forbidden` and an error code of `M_FORBIDDEN`.
 
 If the homeserver advertises `m.login.sso` as a viable flow, and the
 client supports it, the client should redirect the user to the
-`/redirect` endpoint for [client login via SSO](#client-login-via-sso).
-After authentication is complete, the client will need to submit a
-`/login` request matching `m.login.token`.
+`/redirect` endpoint for [client login via SSO](). After authentication
+is complete, the client will need to submit a `/login` request matching
+`m.login.token`.
 
 {{% http-api spec="client-server" api="login" %}}
-
 {{% http-api spec="client-server" api="logout" %}}
 
 #### Login Fallback
@@ -1154,8 +1119,7 @@ the user first visits their account settings to set the identity server.
 
 {{% event event="m.identity_server" %}}
 
-Capabilities negotiation
-------------------------
+## Capabilities negotiation
 
 A homeserver may not support certain operations and clients must be able
 to query for what the homeserver can and can't offer. For example, a
@@ -1249,8 +1213,7 @@ using an `unstable` version.
 When this capability is not listed, clients should use `"1"` as the
 default and only stable `available` room version.
 
-Pagination
-----------
+## Pagination
 
 Note
 
@@ -1328,8 +1291,7 @@ active room. In this case, it is not possible for the client to reach
 the true "end" of the data set and therefore should always be presented
 with a token to keep moving forwards.
 
-Filtering
----------
+## Filtering
 
 Filters can be created on the server and can be passed as a parameter to
 APIs which return events. These filters alter the data returned from
@@ -1394,8 +1356,7 @@ The current endpoints which support lazy-loading room members are:
 
 {{% http-api spec="client-server" api="filter" %}}
 
-Events
-------
+## Events
 
 The model of conversation history exposed by the client-server API can
 be considered as a list of events. The server 'linearises' the
@@ -1461,7 +1422,7 @@ the server-server API.
 
 {{% event-fields event_type="room_event" %}}
 
-#### State event fields
+##### State Event Fields
 
 In addition to the fields of a Room Event, State Events have the
 following fields.
@@ -1523,16 +1484,10 @@ This specification outlines several standard event types, all of which
 are prefixed with `m.`
 
 {{% event event="m.room.canonical_alias" %}}
-
 {{% event event="m.room.create" %}}
-
 {{% event event="m.room.join_rules" %}}
-
 {{% event event="m.room.member" %}}
-
 {{% event event="m.room.power_levels" %}}
-
-{{% event event="m.room.redaction" %}}
 
 ##### Historical events
 
@@ -1641,7 +1596,6 @@ take a copy of the state dictionary, and *rewind* S1, in order to
 correctly calculate the display name for M0.
 
 {{% http-api spec="client-server" api="sync" %}}
-
 {{% http-api spec="client-server" api="old_sync" %}}
 
 ### Getting events for a room
@@ -1649,9 +1603,7 @@ correctly calculate the display name for M0.
 There are several APIs provided to `GET` events for a room:
 
 {{% http-api spec="client-server" api="rooms" %}}
-
 {{% http-api spec="client-server" api="message_pagination" %}}
-
 {{% http-api spec="client-server" api="room_initial_sync" %}}
 
 ### Sending events to a room
@@ -1734,8 +1686,7 @@ the topic to be removed from the room.
 
 {{% http-api spec="client-server" api="redaction" %}}
 
-Rooms
------
+## Rooms
 
 ### Creation
 
@@ -1866,7 +1817,6 @@ The allowable state transitions of membership are:
 ##### Joining rooms
 
 {{% http-api spec="client-server" api="inviting" %}}
-
 {{% http-api spec="client-server" api="joining" %}}
 
 ##### Leaving rooms
@@ -1894,8 +1844,8 @@ particular, the user is free to re-join if the room is not
 "invite-only".
 
 {{% http-api spec="client-server" api="leaving" %}}
-
 {{% http-api spec="client-server" api="kicking" %}}
+
 
 ##### Banning users in a room
 
@@ -1931,8 +1881,7 @@ re-invited.
 
 {{% http-api spec="client-server" api="list_public_rooms" %}}
 
-User Data
----------
+## User Data
 
 ### User Directory
 
@@ -1966,8 +1915,7 @@ users, they should include the display name and avatar URL fields in
 these events so that clients already have these details to hand, and do
 not have to perform extra round trips to query it.
 
-Security
---------
+## Security
 
 ### Rate limiting
 
@@ -1983,5 +1931,11 @@ return a standard error response of the form:
 
 The `retry_after_ms` key SHOULD be included to tell the client how long
 they have to wait in milliseconds before they can try again.
+
+[1] A request to an endpoint that uses User-Interactive Authentication
+never succeeds without auth. Homeservers may allow requests that don't
+require auth by offering a stage with only the `m.login.dummy` auth
+type, but they must still give a 401 response to requests with no auth
+data.
 
 {{% cs-modules %}}

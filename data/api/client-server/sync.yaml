@@ -279,7 +279,7 @@ paths:
                             events:
                               description: The StrippedState events that form the invite state.
                               items:
-                                $ref: "../../events/schema/stripped_state.yaml"
+                                $ref: "../../event-schemas/schema/stripped_state.yaml"
                               type: array
                   leave:
                     title: Left rooms
@@ -355,7 +355,7 @@ paths:
                 "next_batch": "s72595_4483_1934",
                 "presence": {
                   "events": [
-                    {"$ref": "../../events/examples/m.presence.json"}
+                    {"$ref": "../../event-schemas/examples/m.presence.yaml"}
                   ]
                 },
                 "account_data": {
@@ -382,17 +382,17 @@ paths:
                       "state": {
                         "events": [
                           {
-                            "$ref": "../../events/examples/m.room.member.json"
+                            "$ref": "../../event-schemas/examples/m.room.member.yaml"
                           }
                         ]
                       },
                       "timeline": {
                         "events": [
                           {
-                            "$ref": "../../events/examples/m.room.member.json"
+                            "$ref": "../../event-schemas/examples/m.room.member.yaml"
                           },
                           {
-                            "$ref": "../../events/examples/m.room.message$m.text.json"
+                            "$ref": "../../event-schemas/examples/m.room.message$m.text.yaml"
                           }
                         ],
                         "limited": true,
@@ -400,12 +400,12 @@ paths:
                       },
                       "ephemeral": {
                         "events": [
-                          {"$ref": "../../events/examples/m.typing.json"}
+                          {"$ref": "../../event-schemas/examples/m.typing.yaml"}
                         ]
                       },
                       "account_data": {
                         "events": [
-                          {"$ref": "../../events/examples/m.tag.json"},
+                          {"$ref": "../../event-schemas/examples/m.tag.yaml"},
                           {
                             "type": "org.example.custom.room.config",
                             "content": {

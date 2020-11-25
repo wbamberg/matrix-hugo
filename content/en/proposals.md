@@ -26,8 +26,7 @@ long-winded, and generally try to act towards the benefit of everyone.
 As a majority, team members have the ability to change the state of a
 proposal, and individually have the final say in proposal discussion.
 
-Guiding Principles
-------------------
+# Guiding Principles
 
 Proposals **must** act to the greater benefit of the entire Matrix
 ecosystem, rather than benefiting or privileging any single player or
@@ -80,8 +79,7 @@ Please [see
 MSC1779](https://github.com/matrix-org/matrix-doc/blob/master/proposals/1779-open-governance.md)
 for full details of the project's Guiding Principles.
 
-Technical notes
----------------
+# Technical notes
 
 Proposals **must** develop Matrix as a layered protocol: with new
 features building on layers of shared abstractions rather than
@@ -167,8 +165,7 @@ which would clearly benefit the whole Matrix ecosystem, and cannot be
 implemented in an interoperable way using the current spec; so they
 necessitate a spec change.
 
-Process
--------
+# Process
 
 The process for submitting a Matrix Spec Change (MSC) Proposal in detail
 is as follows:
@@ -324,8 +321,7 @@ request trackers.
     |                          |
     +                          +
 
-Lifetime States
----------------
+# Lifetime States
 
 **Note:** All labels are to be placed on the proposal PR.
 
@@ -396,8 +392,7 @@ Lifetime States
 </tbody>
 </table>
 
-Categories
-----------
+# Categories
 
 We use category labels on MSCs to place them into a track of work. The
 Spec Core Team decides which of the tracks they are focusing on for the
@@ -448,8 +443,7 @@ priorities evolve. We still encourage that MSCs be opened, even if not
 the focus for the time being, as they can still make progress and even
 be merged without the Spec Core Team focusing on them specifically.
 
-Implementing a proposal
------------------------
+# Implementing a proposal
 
 As part of the proposal process the spec core team will require evidence
 of the MSC working in order for it to move into FCP. This can usually be
@@ -459,7 +453,7 @@ small enough to be considered proven. Where it's unclear if a MSC will
 require an implementation proof, ask in
 [\#matrix-spec:matrix.org](https://matrix.to/#/#matrix-spec:matrix.org).
 
-### Early release of a MSC/idea
+## Early release of a MSC/idea
 
 To help facilitate early releases of software dependent on a spec
 release, implementations are required to use the following process to
@@ -560,7 +554,7 @@ In summary:
     a small table at the bottom mapping the various values from stable
     to unstable.
 
-## Proposal Tracking
+# Proposal Tracking
 
 This is a living document generated from the list of proposals on the
 issue and pull request trackers of the

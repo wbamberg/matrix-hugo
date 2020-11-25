@@ -325,7 +325,6 @@ about information about the entity such as room ID to room alias
 mappings.
 
 {{% http-api spec="application-service" api="query_user" %}}
-
 {{% http-api spec="application-service" api="query_room" %}}
 
 #### Third party networks

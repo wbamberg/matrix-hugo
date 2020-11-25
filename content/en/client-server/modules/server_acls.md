@@ -16,7 +16,7 @@ set of servers, or retroactively make the room no longer federate with
 any other server, similar to setting the `m.federate` value on the
 [m.room.create]() event.
 
-{{m\_room\_server\_acl\_event}}
+{{% event event="m.room.server_acl" %}}
 
 Note
 

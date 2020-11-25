@@ -55,8 +55,8 @@ paths:
             type: object
             example: {
               "events": [
-                {"$ref": "../../events/examples/m.room.member.yaml"},
-                {"$ref": "../../events/examples/m.room.message$m.text.yaml"}
+                {"$ref": "../../event-schemas/examples/m.room.member.yaml"},
+                {"$ref": "../../event-schemas/examples/m.room.message$m.text.yaml"}
               ]
             }
             properties:

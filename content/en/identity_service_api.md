@@ -224,13 +224,11 @@ another `M_TERMS_NOT_SIGNED` on their next request. The terms the user
 has just accepted are appended to `m.accepted_terms`.
 
 {{% event event="m.accepted_terms" %}}
-
 {{% http-api spec="identity" api="v2_terms" %}}
 
 ## Status check
 
 {{% http-api spec="identity" api="ping" %}}
-
 {{% http-api spec="identity" api="v2_ping" %}}
 
 ## Key management
@@ -245,13 +243,11 @@ public-private keypairs, which may have different usage and lifetime
 characteristics than the service's long-term keys.
 
 {{% http-api spec="identity" api="pubkey" %}}
-
 {{% http-api spec="identity" api="v2_pubkey" %}}
 
 ## Association lookup
 
 {{% http-api spec="identity" api="lookup" %}}
-
 {{% http-api spec="identity" api="v2_lookup" %}}
 
 ### Client behaviour
@@ -426,20 +422,16 @@ through without modification.
 ### Email associations
 
 {{% http-api spec="identity" api="email_associations" %}}
-
 {{% http-api spec="identity" api="v2_email_associations" %}}
-
 
 ### Phone number associations
 
 {{% http-api spec="identity" api="phone_associations" %}}
-
 {{% http-api spec="identity" api="v2_phone_associations" %}}
 
 ### General
 
 {{% http-api spec="identity" api="associations" %}}
-
 {{% http-api spec="identity" api="v2_associations" %}}
 
 ## Invitation storage
@@ -456,7 +448,6 @@ endpoint. The request MUST be signed with a long-term private key for
 the identity server.
 
 {{% http-api spec="identity" api="store_invite" %}}
-
 {{% http-api spec="identity" api="v2_store_invite" %}}
 
 ## Ephemeral invitation signing
@@ -467,5 +458,4 @@ invitations. This is less secure than the client doing it itself, but
 may be useful where this isn't possible.
 
 {{% http-api spec="identity" api="invitation_signing" %}}
-
 {{% http-api spec="identity" api="v2_invitation_signing" %}}

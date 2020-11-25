@@ -75,7 +75,7 @@ paths:
                     "room_id": "!abcdefg:example.com",
                     "ts": 1475508881945,
                     "event": {
-                      "$ref": "../../events/examples/m.room.message$m.text.json"
+                      "$ref": "../../event-schemas/examples/m.room.message$m.text.yaml"
                     }
                   }
                 ]

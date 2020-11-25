@@ -4,8 +4,7 @@ type: docs
 weight: 90
 ---
 
-Unpadded Base64
----------------
+## Unpadded Base64
 
 *Unpadded* Base64 refers to 'standard' Base64 encoding as defined in
 [RFC 4648](https://tools.ietf.org/html/rfc4648), without "=" padding.
@@ -48,8 +47,8 @@ When decoding Base64, implementations SHOULD accept input with or
 without padding characters wherever possible, to ensure maximum
 interoperability.
 
-Signing JSON
-------------
+
+## Signing JSON
 
 Various points in the Matrix specification require JSON objects to be
 cryptographically signed. This requires us to encode the JSON as a
@@ -248,11 +247,11 @@ The following canonical JSON should be produced:
 JSON is signed by encoding the JSON object without `signatures` or keys
 grouped as `unsigned`, using the canonical encoding described above. The
 JSON bytes are then signed using the signature algorithm and the
-signature is encoded using [unpadded Base64](#unpadded-base64). The
-resulting base64 signature is added to an object under the *signing key
-identifier* which is added to the `signatures` object under the name of
-the entity signing it which is added back to the original JSON object
-along with the `unsigned` object.
+signature is encoded using [unpadded Base64](). The resulting base64
+signature is added to an object under the *signing key identifier* which
+is added to the `signatures` object under the name of the entity signing
+it which is added back to the original JSON object along with the
+`unsigned` object.
 
 The *signing key identifier* is the concatenation of the *signing
 algorithm* and a *key identifier*. The *signing algorithm* identifies
@@ -320,8 +319,8 @@ the following:
     *verification key*. If this fails then the check fails. Otherwise
     the check succeeds.
 
-Identifier Grammar
-------------------
+
+## Identifier Grammar
 
 Some identifiers are specific to given room versions, please refer to
 the [room versions specification](index.html#room-versions) for more
@@ -705,8 +704,7 @@ unique servers based on the following criteria:
     specify the servers it can. For example, a room with only 2 users in
     it would result in maximum 2 `via` parameters.
 
-3PID Types
-----------
+## 3PID Types
 
 Third Party Identifiers (3PIDs) represent identifiers on other
 namespaces that might be associated with a particular person. They
@@ -743,8 +741,7 @@ The `address` is the telephone number represented as a MSISDN (Mobile
 Station International Subscriber Directory Number) as defined by the
 E.164 numbering plan. Note that MSISDNs do not include a leading '+'.
 
-Security Threat Model
----------------------
+## Security Threat Model
 
 ### Denial of Service
 
@@ -851,8 +848,7 @@ the chatroom.
 An attacker could take control of a server within a chatroom to expose
 message contents or metadata for messages in that room.
 
-Cryptographic Test Vectors
---------------------------
+## Cryptographic Test Vectors
 
 To assist in the development of compatible implementations, the
 following test values may be useful for verifying the cryptographic

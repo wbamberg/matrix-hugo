@@ -11,9 +11,8 @@ room itself such as a room name and topic.
 
 #### Events
 
-{{m\_room\_message\_event}}
-
-{{m\_room\_message\_feedback\_event}}
+{{% event event="m.room.message" %}}
+{{% event event="m.room.message.feedback" %}}
 
 Usage of this event is discouraged for several reasons:  
 -   The number of feedback events will grow very quickly with the number
@@ -24,13 +23,10 @@ Usage of this event is discouraged for several reasons:
 -   There are no guarantees that the client has seen the event ID being
     acknowledged.
 
-{{m\_room\_name\_event}}
-
-{{m\_room\_topic\_event}}
-
-{{m\_room\_avatar\_event}}
-
-{{m\_room\_pinned\_events\_event}}
+{{% event event="m.room.name" %}}
+{{% event event="m.room.topic" %}}
+{{% event event="m.room.avatar" %}}
+{{% event event="m.room.pinned_events" %}}
 
 ##### m.room.message msgtypes
 

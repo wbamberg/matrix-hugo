@@ -1,5 +1,5 @@
-{{ $event := index .Site.Data.events.schema .Params.event }}
-{{ $path := "events/schema" }}
+{{ $event := index .Site.Data "event-schemas" "schema" .Params.event }}
+{{ $path := "event-schemas/schema" }}
 {{ $base_data := index .Site.Data }}
 {{ $compact := .Params.compact }}
 

@@ -27,7 +27,7 @@
                     "enum": ["online", "offline", "unavailable"]
                 },
                 "currently_active": {
-                    "type": "boolean",
+                    "type": boolean,
                     "description": "Whether the user is currently active"
                 },
                 "status_msg": {

@@ -50,8 +50,7 @@ an HTTPS PUT request.
 
 Table of Contents
 
-Changelog
----------
+## Changelog
 
 **Version: %SERVER\_RELEASE\_LABEL%**
 
@@ -77,8 +76,7 @@ chronological order:
 -   [r0.1.1](https://matrix.org/docs/spec/server_server/r0.1.1.html)
 -   [r0.1.0](https://matrix.org/docs/spec/server_server/r0.1.0.html)
 
-API standards
--------------
+## API standards
 
 The mandatory baseline for client-server communication in Matrix is
 exchanging JSON objects over HTTP APIs. More efficient optional
@@ -88,8 +86,7 @@ low-bandwidth/low-roundtrip mobile usage. For the default HTTP
 transport, all API calls use a Content-Type of `application/json`. In
 addition, all strings MUST be encoded as UTF-8.
 
-Server discovery
-----------------
+## Server discovery
 
 ### Resolving server names
 
@@ -241,8 +238,7 @@ queried from multiple servers to mitigate against DNS spoofing.
 
 {{% http-api spec="server-server" api="keys_query" %}}
 
-Authentication
---------------
+## Authentication
 
 ### Request Authentication
 
@@ -329,8 +325,7 @@ A homeserver may provide a TLS client certificate and the receiving
 homeserver may check that the client certificate matches the certificate
 of the origin homeserver.
 
-Transactions
-------------
+## Transactions
 
 The transfer of EDUs and PDUs between homeservers is performed by an
 exchange of Transaction messages, which are encoded as JSON objects,
@@ -342,8 +337,7 @@ EDUs.
 
 {{% http-api spec="server-server" api="transactions" %}}
 
-PDUs
-----
+## PDUs
 
 Each PDU contains a single Room Event which the origin server wants to
 send to the destination.
@@ -592,10 +586,10 @@ to check with other servers to ensure it is receiving the correct auth
 chain. These APIs give the homeserver an avenue for getting the
 information it needs.
 
+{{event\_auth\_ss\_http\_api}}
 {{% http-api spec="server-server" api="event_auth" %}}
 
-EDUs
-----
+## EDUs
 
 EDUs, by comparison to PDUs, do not have an ID, a room ID, or a list of
 "previous" IDs. They are intended to be non-persistent data such as user
@@ -603,8 +597,7 @@ presence, typing notifications, etc.
 
 {{% definition path="api/server-server/definitions/edu" %}}
 
-Room State Resolution
----------------------
+## Room State Resolution
 
 The *state* of a room is a map of `(event_type, state_key)` to
 `event_id`. Each room starts with an empty state, and each state event
@@ -636,8 +629,7 @@ The algorithm to be used for state resolution depends on the room
 version. For a description of each room version's algorithm, please see
 the [room version specification](../index.html#room-versions).
 
-Backfilling and retrieving missing events
------------------------------------------
+## Backfilling and retrieving missing events
 
 Once a homeserver has joined a room, it receives all the events emitted
 by other homeservers in that room, and is thus aware of the entire
@@ -661,8 +653,7 @@ to acquire the events it is missing.
 
 {{% http-api spec="server-server" api="backfill" %}}
 
-Retrieving events
------------------
+## Retrieving events
 
 In some circumstances, a homeserver may be missing a particular event or
 information about the room which cannot be easily determined from
@@ -671,8 +662,7 @@ events and the state of the room at a given point in the timeline.
 
 {{% http-api spec="server-server" api="events" %}}
 
-Joining Rooms
--------------
+## Joining Rooms
 
 When a new user wishes to join a room that the user's homeserver already
 knows about, the homeserver can immediately determine if this is
@@ -753,11 +743,9 @@ the newly-joined room. The resident server must also send the event to
 other servers participating in the room.
 
 {{% http-api spec="server-server" api="joins-v1" %}}
-
 {{% http-api spec="server-server" api="joins-v2" %}}
 
-Inviting to a room
-------------------
+## Inviting to a room
 
 When a user on a given homeserver invites another user on the same
 homeserver, the homeserver may sign the membership event itself and skip
@@ -766,11 +754,9 @@ different homeserver, a request to that homeserver to have the event
 signed and verified must be made.
 
 {{% http-api spec="server-server" api="invites-v1" %}}
-
 {{% http-api spec="server-server" api="invites-v2" %}}
 
-Leaving Rooms (Rejecting Invites)
----------------------------------
+## Leaving Rooms (Rejecting Invites)
 
 Normally homeservers can send appropriate `m.room.member` events to have
 users leave the room, or to reject local invites. Remote invites from
@@ -790,11 +776,9 @@ resident server via `/send_leave`. The resident server will then send
 the event to other servers in the room.
 
 {{% http-api spec="server-server" api="leaving-v1" %}}
-
 {{% http-api spec="server-server" api="leaving-v2" %}}
 
-Third-party invites
--------------------
+## Third-party invites
 
 Note
 
@@ -872,8 +856,7 @@ user's Matrix ID and the token delivered when the invite was stored,
 this verification will prove that the `m.room.member` invite event comes
 from the user owning the invited third-party identifier.
 
-Public Room Directory
----------------------
+## Public Room Directory
 
 To complement the [Client-Server
 API](../client_server/%CLIENT_RELEASE_LABEL%.html)'s room directory,
@@ -883,8 +866,7 @@ the server the room directory should be retrieved for.
 
 {{% http-api spec="server-server" api="public_rooms" %}}
 
-Typing Notifications
---------------------
+## Typing Notifications
 
 When a server's users send typing notifications, those notifications
 need to be sent to other servers in the room so their users are aware of
@@ -893,8 +875,7 @@ room, and is a user belonging to the sending server.
 
 {{% definition path="api/server-server/definitions/event-schemas/m.typing" %}}
 
-Presence
---------
+## Presence
 
 The server API for presence is based entirely on exchange of the
 following EDUs. There are no PDUs or Federation Queries involved.
@@ -905,8 +886,7 @@ room with a given user.
 
 {{% definition path="api/server-server/definitions/event-schemas/m.presence" %}}
 
-Receipts
---------
+## Receipts
 
 Receipts are EDUs used to communicate a marker for a given event.
 Currently the only kind of receipt supported is a "read receipt", or
@@ -918,8 +898,7 @@ event.
 
 {{% definition path="api/server-server/definitions/event-schemas/m.receipt" %}}
 
-Querying for information
-------------------------
+## Querying for information
 
 Queries are a way to retrieve information from a homeserver about a
 resource, such as a user or room. The endpoints here are often called in
@@ -932,8 +911,7 @@ more specific queries that can be made.
 
 {{% http-api spec="server-server" api="query" %}}
 
-OpenID
-------
+## OpenID
 
 Third party services can exchange an access token previously generated
 by the <span class="title-ref">Client-Server API</span> for information
@@ -945,8 +923,7 @@ API and nothing else.
 
 {{% http-api spec="server-server" api="openid" %}}
 
-Device Management
------------------
+## Device Management
 
 Details of a user's devices must be efficiently published to other users
 and kept up-to-date. This is critical for reliable end-to-end
@@ -994,8 +971,7 @@ recognise, it must resynchronise its list by calling the
 
 {{% definition path="api/server-server/definitions/event-schemas/m.device_list_update" %}}
 
-End-to-End Encryption
----------------------
+## End-to-End Encryption
 
 This section complements the [End-to-End Encryption
 module](../client_server/%CLIENT_RELEASE_LABEL%.html#end-to-end-encryption)
@@ -1008,8 +984,7 @@ proxied through to the client.
 
 {{% http-api spec="server-server" api="user_keys" %}}
 
-Send-to-device messaging
-------------------------
+## Send-to-device messaging
 
 The server API for send-to-device messaging is based on the
 `m.direct_to_device` EDU. There are no PDUs or Federation Queries
@@ -1020,8 +995,7 @@ using the following EDU:
 
 {{% definition path="api/server-server/definitions/event-schemas/m.direct_to_device" %}}
 
-Content Repository
-------------------
+## Content Repository
 
 Attachments to events (images, files, etc) are uploaded to a homeserver
 via the Content Repository described in the [Client-Server
@@ -1035,8 +1009,7 @@ download endpoint described in the [Client-Server
 API](../client_server/%CLIENT_RELEASE_LABEL%.html), being sure to use
 the `allow_remote` parameter (set to `false`).
 
-Server Access Control Lists (ACLs)
-----------------------------------
+## Server Access Control Lists (ACLs)
 
 Server ACLs and their purpose are described in the [Server
 ACLs](../client_server/%CLIENT_RELEASE_LABEL%.html#module-server-acls)
@@ -1064,8 +1037,7 @@ The following endpoint prefixes MUST be protected:
 -   `/_matrix/federation/v1/event_auth`
 -   `/_matrix/federation/v1/get_missing_events`
 
-Signing Events
---------------
+## Signing Events
 
 Signing events is complicated by the fact that servers can choose to
 redact non-essential parts of an event.
@@ -1193,8 +1165,7 @@ SHA-256.
 
         return hashlib.sha256(event_json_bytes)
 
-Security considerations
------------------------
+## Security considerations
 
 When a domain's ownership changes, the new controller of the domain can
 masquerade as the previous owner, receiving messages (similarly to

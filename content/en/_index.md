@@ -15,8 +15,9 @@ open real-time communication ecosystem.
 To propose a change to the Matrix Spec, see the explanations at
 [Proposals for Spec Changes to Matrix](proposals).
 
-Matrix APIs
------------
+Table of Contents
+
+## Matrix APIs
 
 The specification consists of the following parts:
 
@@ -82,8 +83,7 @@ API versions:
 </tbody>
 </table>
 
-Introduction to the Matrix APIs
--------------------------------
+## Introduction to the Matrix APIs
 
 Matrix is a set of open APIs for open-federated Instant Messaging (IM),
 Voice over IP (VoIP) and Internet of Things (IoT) communication,
@@ -153,8 +153,7 @@ an interoperable and federated manner.
 To propose a change to the Matrix Spec, see the explanations at
 [Proposals for Spec Changes to Matrix](proposals).
 
-Architecture
-------------
+## Architecture
 
 Matrix defines APIs for synchronising extensible JSON objects known as
 "events" between compatible clients, servers and services. Clients are
@@ -435,8 +434,7 @@ such as client preferences, or server configuration settings which lack
 any other dedicated API. The API is symmetrical to managing Profile
 data.
 
-Common concepts
----------------
+## Common concepts
 
 Various things are common throughout all of the Matrix APIs. They are
 documented here.
@@ -461,8 +459,7 @@ Unless otherwise stated, timestamps are measured as milliseconds since
 the Unix epoch. Throughout the specification this may be referred to as
 POSIX, Unix, or just "time in milliseconds".
 
-Room Versions
--------------
+## Room Versions
 
 Rooms are central to how Matrix operates, and have strict rules for what
 is allowed to be contained within them. Rooms can also have various
@@ -537,8 +534,7 @@ The available room versions are:
 -   [Version 6](rooms/v6.html) - **Stable**. Alters several
     authorization rules for events.
 
-Specification Versions
-----------------------
+## Specification Versions
 
 The specification for each API is versioned in the form `rX.Y.Z`.  
 -   A change to `X` reflects a breaking change: a client implemented
@@ -553,8 +549,7 @@ The specification for each API is versioned in the form `rX.Y.Z`.
     both sides. Typically this implies a clarification to the
     specification, rather than a change which must be implemented.
 
-License
--------
+## License
 
 The Matrix specification is licensed under the [Apache License, Version
 2.0](http://www.apache.org/licenses/LICENSE-2.0).

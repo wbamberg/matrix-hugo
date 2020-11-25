@@ -36,7 +36,6 @@ Clients can upload and download content using the following HTTP APIs.
 
 {{% http-api spec="client-server" api="content-repo" %}}
 
-
 ##### Thumbnails
 
 The homeserver SHOULD be able to supply thumbnails for uploaded images
