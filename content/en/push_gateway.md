@@ -4,8 +4,6 @@ type: docs
 weight: 40
 ---
 
-{{unstable\_warning\_block\_PUSH\_GATEWAY\_RELEASE\_LABEL}}
-
 Clients may want to receive push notifications when events are received
 at the homeserver. This is managed by a distinct entity called the Push
 Gateway.

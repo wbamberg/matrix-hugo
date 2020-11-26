@@ -4,8 +4,6 @@ type: docs
 weight: 40
 ---
 
-{{unstable\_warning\_block\_IDENTITY\_RELEASE\_LABEL}}
-
 The Matrix client-server and server-server APIs are largely expressed in
 Matrix user identifiers. From time to time, it is useful to refer to
 users by other ("third-party") identifiers, or "3PID"s, e.g. their email

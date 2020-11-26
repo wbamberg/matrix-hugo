@@ -4,8 +4,6 @@ type: docs
 weight: 10
 ---
 
-{{unstable\_warning\_block\_CLIENT\_RELEASE\_LABEL}}
-
 The client-server API provides a simple lightweight API to let clients
 send messages, control rooms and synchronise conversation history. It is
 designed to support both lightweight clients which store no state and
