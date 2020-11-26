@@ -43,12 +43,11 @@
 
 <h2>Examples</h2>
 
-{{ $all_examples := .Site.Data.events.examples }}
+{{ $all_examples := index $base_data "event-schemas" "examples" }}
 
 {{ range $example_name, $example := $all_examples }}
-    {{ $pieces := split $example_name "$" }}
-    {{ if eq (index $pieces 0) $event_name }}
-        {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "events/examples" "base_data" $base_data) }}
+    {{ if eq $example_name $event_name }}
+        {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples" "base_data" $base_data) }}
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```
