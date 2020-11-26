@@ -46,7 +46,9 @@
 {{ $all_examples := index $base_data "event-schemas" "examples" }}
 
 {{ range $example_name, $example := $all_examples }}
-    {{ if eq $example_name $event_name }}
+    {{ $pieces := split $example_name "$" }}
+    {{ $example_base_name := index $pieces 0 }}
+    {{ if eq $event_name $example_base_name }}
         {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples" "base_data" $base_data) }}
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}

@@ -112,7 +112,7 @@ A future iteration of the specification will support more powerful and
 extensible message formatting options, such as the proposal
 [MSC1225](https://github.com/matrix-org/matrix-doc/issues/1225).
 
-{{% event-msgtypes %}}
+{{% msgtypes %}}
 
 #### Client behaviour
 
