@@ -1,4 +1,5 @@
 {{ $event_name := .event_name }}
+{{ $desired_example_name := .desired_example_name }}
 {{ $event_data := .event_data }}
 {{ $compact := .compact }}
 {{ $base_data := .base_data }}
@@ -46,13 +47,28 @@
 {{ $all_examples := index $base_data "event-schemas" "examples" }}
 
 {{ range $example_name, $example := $all_examples }}
-    {{ $pieces := split $example_name "$" }}
-    {{ $example_base_name := index $pieces 0 }}
-    {{ if eq $event_name $example_base_name }}
-        {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples" "base_data" $base_data) }}
+
+    {{/* this is to allow the msgtype template to work */}}
+    {{/* it lets callers specify exactly the name of the example they want */}}
+    {{ if $desired_example_name }}
+        {{ if eq $example_name $desired_example_name }}
+            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples" "base_data" $base_data) }}
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```
+        {{ end }}
+    {{/* if $desired_example_name is not given, we will include any */}}
+    {{/* examples whose first part (before "$" matches the event name)*/}}
+    {{ else }}
+
+        {{ $pieces := split $example_name "$" }}
+        {{ $example_base_name := index $pieces 0 }}
+        {{ if eq $event_name $example_base_name }}
+            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples" "base_data" $base_data) }}
+```json
+{{ jsonify (dict "indent" "  ") $example_content }}
+```
+        {{ end }}
     {{ end }}
 {{ end }}
 

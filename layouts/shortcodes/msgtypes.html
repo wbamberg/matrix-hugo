@@ -24,6 +24,6 @@
     {{ $event_data := partial "openapi/resolvers/resolve-allof" $event_data }}
 
     {{ $event_name := index (split . "$") 1 }}
-    {{ partial "events/render-event" (dict "event_name" $event_name "event_data" $event_data "compact" $compact "base_data" $base_data)}}
+    {{ partial "events/render-event" (dict "event_name" $event_name "desired_example_name" . "event_data" $event_data "compact" $compact "base_data" $base_data)}}
 
 {{ end }}
