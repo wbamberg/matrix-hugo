@@ -15,8 +15,6 @@ open real-time communication ecosystem.
 To propose a change to the Matrix Spec, see the explanations at
 [Proposals for Spec Changes to Matrix](proposals).
 
-Table of Contents
-
 ## Matrix APIs
 
 The specification consists of the following parts:
