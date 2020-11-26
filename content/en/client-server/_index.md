@@ -16,8 +16,6 @@ Table of Contents
 
 **Version: %CLIENT\_RELEASE\_LABEL%**
 
-{{client\_server\_changelog}}
-
 This version of the specification is generated from
 [matrix-doc](https://github.com/matrix-org/matrix-doc) as of Git commit
 [{{git\_version}}](https://github.com/matrix-org/matrix-doc/tree/%7B%7Bgit_rev%7D%7D).

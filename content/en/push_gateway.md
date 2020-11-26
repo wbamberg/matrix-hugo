@@ -14,8 +14,6 @@ Table of Contents
 
 **Version: %PUSH\_GATEWAY\_RELEASE\_LABEL%**
 
-{{push\_gateway\_changelog}}
-
 This version of the specification is generated from
 [matrix-doc](https://github.com/matrix-org/matrix-doc) as of Git commit
 [{{git\_version}}](https://github.com/matrix-org/matrix-doc/tree/%7B%7Bgit_rev%7D%7D).

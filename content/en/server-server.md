@@ -52,8 +52,6 @@ Table of Contents
 
 **Version: %SERVER\_RELEASE\_LABEL%**
 
-{{server\_server\_changelog}}
-
 This version of the specification is generated from
 [matrix-doc](https://github.com/matrix-org/matrix-doc) as of Git commit
 [{{git\_version}}](https://github.com/matrix-org/matrix-doc/tree/%7B%7Bgit_rev%7D%7D).
@@ -584,7 +582,6 @@ to check with other servers to ensure it is receiving the correct auth
 chain. These APIs give the homeserver an avenue for getting the
 information it needs.
 
-{{event\_auth\_ss\_http\_api}}
 {{% http-api spec="server-server" api="event_auth" %}}
 
 ## EDUs
