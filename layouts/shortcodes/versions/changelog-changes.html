@@ -10,11 +10,12 @@
     {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $news_path )}}
 {{ else }}
     {{ $releases_path := path.Join $path "releases" }}
-    {{ $version := .Site.Params.version.version }}
+    {{ $major_version := .Site.Params.version.major_version }}
+    {{ $minor_version := .Site.Params.version.minor_version }}
     {{ $releases := partial "reverse-slice" (readDir $releases_path) }}
     {{ range $releases }}
         {{ if .IsDir }}
-<h2 id="{{ .Name }}" class="no-numbers">Version {{ $version }}.{{ .Name }}</h2>
+<h2 id="{{ .Name }}" class="no-numbers">Version {{ $major_version }}.{{ $minor_version }}.{{ .Name }}</h2>
             {{ $release_path := path.Join $releases_path .Name "newsfragments" }}
             {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $release_path )}}
         {{ end }}
