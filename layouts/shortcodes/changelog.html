@@ -24,10 +24,18 @@
 
 {{ end }}
 
-<p>This is version <strong>...</strong> of the specification. This page lists notable changes since the previous version.</p>
+{{ if eq .Site.Params.version.status "unstable" }}
+<p>This is the <strong>unstable</strong> version of the Matrix specification.</p>
+{{ else }}
+<p>This is version {{ .Site.Params.version.version_number }} of the Matrix specification.</p>
+{{ end }}
+
+<h2>Changes</h2>
+
+<p>This section lists notable changes since the previous version.</p>
 
 {{ range $config.tool.towncrier.type }}
-<h2 id="{{.directory}}">{{.name}}</h2>
+<h3 id="{{.directory}}">{{.name}}</h3>
     {{ $changes_of_type := (index $types .directory) }}
     {{ if $changes_of_type }}
 <ul>
