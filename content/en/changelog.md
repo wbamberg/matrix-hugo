@@ -4,4 +4,6 @@ type: docs
 weight: 1000
 ---
 
-{{% changelog %}}
+{{% versions/changelog-description %}}
+
+{{% versions/changelog-changes %}}

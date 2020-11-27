@@ -24,26 +24,17 @@
 
 {{ end }}
 
-{{ if eq .Site.Params.version.status "unstable" }}
-<p>This is the <strong>unstable</strong> version of the Matrix specification.</p>
-{{ else }}
-<p>This is version {{ .Site.Params.version.version_number }} of the Matrix specification.</p>
-{{ end }}
-
-<h2>Changes</h2>
-
-<p>This section lists notable changes since the previous version.</p>
-
+<ul>
 {{ range $config.tool.towncrier.type }}
-<h3 id="{{.directory}}">{{.name}}</h3>
     {{ $changes_of_type := (index $types .directory) }}
     {{ if $changes_of_type }}
-<ul>
+<li><strong>{{.name}}</strong>
+<p><ul>
         {{ range $changes_of_type }}
 <li><a href="https://github.com/matrix-org/matrix-doc/issues/{{.ticket}}"><strong>{{ .ticket }}: </strong></a>{{ .description | markdownify }}</li>
         {{ end }}
-</ul>
-    {{ else }}
-<p>None.
+</ul></p>
+</li>
     {{ end }}
 {{ end }}
+</ul>
