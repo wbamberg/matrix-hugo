@@ -2,39 +2,31 @@
 
 {{ $config_file := path.Join $path "pyproject.toml" }}
 {{ $config := readFile $config_file | transform.Unmarshal }}
-{{ $types := dict }}
-{{ range $config.tool.towncrier.type }}
-    {{ $types = merge $types (dict .directory (slice)) }}
-{{ end }}
 
-{{ $news_path := path.Join $path "newsfragments" }}
+{{ $status := .Site.Params.version.status }}
 
-{{ range (readDir $news_path) }}
-
-    {{ $pieces := split .Name "." }}
-
-    {{ $ticket := index $pieces 0 }}
-    {{ $description := readFile (path.Join $news_path .Name ) }}
-    {{ $change_info := (dict "ticket" $ticket "description" $description )}}
-
-    {{ $type := index $pieces 1 }}
-    {{ $instances := index $types $type }}
-    {{ $instances = $instances | append $change_info }}
-    {{ $types = merge $types (dict $type $instances) }}
-
-{{ end }}
-
-<ul>
-{{ range $config.tool.towncrier.type }}
-    {{ $changes_of_type := (index $types .directory) }}
-    {{ if $changes_of_type }}
-<li><strong>{{.name}}</strong>
-<p><ul>
-        {{ range $changes_of_type }}
-<li><a href="https://github.com/matrix-org/matrix-doc/issues/{{.ticket}}"><strong>{{ .ticket }}: </strong></a>{{ .description | markdownify }}</li>
+{{ if eq $status "unstable" }}
+    {{ $news_path := path.Join $path "newsfragments" }}
+    {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $news_path )}}
+{{ else }}
+    {{ $releases_path := path.Join $path "releases" }}
+    {{ $version := .Site.Params.version.version }}
+    {{ $releases := partial "reverse-slice" (readDir $releases_path) }}
+    {{ range $releases }}
+        {{ if .IsDir }}
+<h2 id="{{ .Name }}" class="no-numbers">Version {{ $version }}.{{ .Name }}</h2>
+            {{ $release_path := path.Join $releases_path .Name "newsfragments" }}
+            {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $release_path )}}
         {{ end }}
-</ul></p>
-</li>
     {{ end }}
 {{ end }}
-</ul>
+
+{{ define "partials/reverse-slice" }}
+{{ $sliceOriginal := . }}
+{{ $len := len $sliceOriginal }}
+{{ $sliceReversed := slice }}
+{{ range seq $len }}
+    {{ $sliceReversed = $sliceReversed | append (index $sliceOriginal (sub $len .)) }}
+{{ end }}
+{{ return $sliceReversed }}
+{{ end }}
