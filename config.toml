@@ -82,8 +82,11 @@ privacy_policy = "https://matrix.org/legal/privacy-notice"
 [params.version]
 # must be one of "unstable", "current", "historical"
 # this is used to decide whether to show a banner pointing to the current release
-status = "unstable"
+status = "current"
 current_version_url = "https://spec.matrix.org/latest"
+major_version = 1
+minor_version = 1
+patch_version = 2
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
 #github_repo = "https://github.com/google/docsy-example"
