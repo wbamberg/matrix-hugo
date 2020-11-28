@@ -8,7 +8,7 @@ weight: 1000
 
 {{% versions/changelog-changes %}}
 
-<h2 class="no-numbers">Historical versions</h2>
+<h2 id="historical-versions" class="no-numbers">Historical versions</h2>
 
 Before version 1.1, versioning was applied at the level of individual API specifications. This section includes links to these versions of the APIs.
 
