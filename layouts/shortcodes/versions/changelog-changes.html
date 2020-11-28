@@ -16,8 +16,14 @@
     {{ range $releases }}
         {{ if .IsDir }}
 <h2 id="{{ .Name }}" class="no-numbers">Version {{ $major_version }}.{{ $minor_version }}.{{ .Name }}</h2>
-            {{ $release_path := path.Join $releases_path .Name "newsfragments" }}
-            {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $release_path )}}
+            {{ $release_path := path.Join $releases_path .Name}}
+            {{ $release_info := readFile (path.Join $release_path "release.yaml") | transform.Unmarshal }}
+<table class="release-info">
+  <tr><th>Git commit</th><td><a href="https://github.com/matrix-org/matrix-doc/tree/{{ $release_info.tag }}">https://github.com/matrix-org/matrix-doc/tree/{{ $release_info.tag }}</a></td>
+  <tr><th>Release date</th><td>{{ $release_info.date }}</td>
+</table>
+            {{ $news_path := path.Join $release_path "newsfragments" }}
+            {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $news_path )}}
         {{ end }}
     {{ end }}
 {{ end }}
