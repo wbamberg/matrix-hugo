@@ -6,7 +6,8 @@
 
 {{ if reflect.IsMap $schema }}
 
-    {{ $result_map := dict }}
+    {{ $scratch := newScratch }}
+    {{ $scratch.Set "result_map" dict }}
 
     {{ $ref_value := index $schema "$ref"}}
     {{ if $ref_value}}
@@ -23,17 +24,21 @@
         {{ end }}
 
         {{ $new_path := (path.Split $full_path).Dir}}
-        {{ $result_map = partial "openapi/resolvers/resolve-refs" (dict "schema" $ref "base_data" $base_data "path" $new_path)}}
+        {{ $result_map := partial "openapi/resolvers/resolve-refs" (dict "schema" $ref "base_data" $base_data "path" $new_path)}}
+        {{ if $result_map}}
+            {{ $scratch.Set "result_map" $result_map }}
+        {{end }}
     {{ end }}
+
 
     {{ range $key, $value := $schema }}
         {{ if ne $key "$ref" }}
             {{ $resolved := partial "openapi/resolvers/resolve-refs" (dict "schema" $value "base_data" $base_data "path" $path) }}
-            {{ $result_map = merge $result_map (dict $key $resolved) }}
+            {{ $scratch.SetInMap "result_map" $key $resolved }}
         {{ end }}
     {{ end }}
 
-    {{ $ret = $result_map }}
+    {{ $ret = $scratch.Get "result_map" }}
 
 {{ end }}
 
