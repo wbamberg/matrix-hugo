@@ -18,34 +18,38 @@ exchange fingerprints between users to build a web of trust.
 
 ##### Overview
 
-    1) Bob publishes the public keys and supported algorithms for his
-       device. This may include long-term identity keys, and/or one-time
-       keys.
+1) Bob publishes the public keys and supported algorithms for his
+   device. This may include long-term identity keys, and/or one-time
+   keys.
 
-                                          +----------+  +--------------+
-                                          | Bob's HS |  | Bob's Device |
-                                          +----------+  +--------------+
-                                                |              |
-                                                |<=============|
-                                                  /keys/upload
+```
+                                      +----------+  +--------------+
+                                      | Bob's HS |  | Bob's Device |
+                                      +----------+  +--------------+
+                                            |              |
+                                            |<=============|
+                                              /keys/upload
+```
+2) Alice requests Bob's public identity keys and supported algorithms.
 
-    2) Alice requests Bob's public identity keys and supported algorithms.
+```
+  +----------------+  +------------+  +----------+
+  | Alice's Device |  | Alice's HS |  | Bob's HS |
+  +----------------+  +------------+  +----------+
+         |                  |               |
+         |=================>|==============>|
+           /keys/query        <federation>
+```
 
-      +----------------+  +------------+  +----------+
-      | Alice's Device |  | Alice's HS |  | Bob's HS |
-      +----------------+  +------------+  +----------+
-             |                  |               |
-             |=================>|==============>|
-               /keys/query        <federation>
-
-    3) Alice selects an algorithm and claims any one-time keys needed.
-
-      +----------------+  +------------+  +----------+
-      | Alice's Device |  | Alice's HS |  | Bob's HS |
-      +----------------+  +------------+  +----------+
-             |                  |               |
-             |=================>|==============>|
-               /keys/claim         <federation>
+3) Alice selects an algorithm and claims any one-time keys needed.
+```
+  +----------------+  +------------+  +----------+
+  | Alice's Device |  | Alice's HS |  | Bob's HS |
+  +----------------+  +------------+  +----------+
+         |                  |               |
+         |=================>|==============>|
+           /keys/claim         <federation>
+```
 
 ##### Key algorithms
 
