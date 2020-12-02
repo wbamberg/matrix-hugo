@@ -62,7 +62,7 @@ addition, all strings MUST be encoded as UTF-8.
 
 Each Matrix homeserver is identified by a server name consisting of a
 hostname and an optional port, as described by the
-[grammar](../appendices.html#server-name). Where applicable, a delegated
+[grammar](/appendices#server-name). Where applicable, a delegated
 server name uses the same grammar.
 
 Server names are resolved to an IP address and port to connect to, and
@@ -752,7 +752,7 @@ the event to other servers in the room.
 Note
 
 More information about third party invites is available in the
-[Client-Server API](../client_server/%CLIENT_RELEASE_LABEL%.html) under
+[Client-Server API](/client-server) under
 the Third Party Invites module.
 
 When an user wants to invite another user in a room but doesn't know the
@@ -761,7 +761,7 @@ an e-mail or a phone number).
 
 This identifier and its bindings to Matrix IDs are verified by an
 identity server implementing the [Identity Service
-API](../identity_service/%IDENTITY_RELEASE_LABEL%.html).
+API](/identity_service_api).
 
 ### Cases where an association exists for a third-party identifier
 
@@ -782,7 +782,7 @@ provided as a response to the invite storage request.
 When a third-party identifier with pending invites gets bound to a
 Matrix ID, the identity server will send a POST request to the ID's
 homeserver as described in the [Invitation
-Storage](../identity_service/%IDENTITY_RELEASE_LABEL%.html#invitation-storage)
+Storage](/identity_service_api#invitation-storage)
 section of the Identity Service API.
 
 The following process applies for each invite sent by the identity
@@ -828,7 +828,7 @@ from the user owning the invited third-party identifier.
 ## Public Room Directory
 
 To complement the [Client-Server
-API](../client_server/%CLIENT_RELEASE_LABEL%.html)'s room directory,
+API](/client-server)'s room directory,
 homeservers need a way to query the public rooms for another server.
 This can be done by making a request to the `/publicRooms` endpoint for
 the server the room directory should be retrieved for.
@@ -899,7 +899,7 @@ and kept up-to-date. This is critical for reliable end-to-end
 encryption, in order for users to know which devices are participating
 in a room. It's also required for to-device messaging to work. This
 section is intended to complement the [Device Management
-module](../client_server/%CLIENT_RELEASE_LABEL%.html#device-management)
+module](/client-server#device-management)
 of the Client-Server API.
 
 Matrix currently uses a custom pubsub system for synchronising
@@ -943,7 +943,7 @@ recognise, it must resynchronise its list by calling the
 ## End-to-End Encryption
 
 This section complements the [End-to-End Encryption
-module](../client_server/%CLIENT_RELEASE_LABEL%.html#end-to-end-encryption)
+module](/client-server#end-to-end-encryption)
 of the Client-Server API. For detailed information about end-to-end
 encryption, please see that module.
 
@@ -968,20 +968,20 @@ using the following EDU:
 
 Attachments to events (images, files, etc) are uploaded to a homeserver
 via the Content Repository described in the [Client-Server
-API](../client_server/%CLIENT_RELEASE_LABEL%.html). When a server wishes
+API](/client-server). When a server wishes
 to serve content originating from a remote server, it needs to ask the
 remote server for the media.
 
 Servers should use the server described in the Matrix Content URI, which
 has the format `mxc://{ServerName}/{MediaID}`. Servers should use the
 download endpoint described in the [Client-Server
-API](../client_server/%CLIENT_RELEASE_LABEL%.html), being sure to use
+API](/client-server), being sure to use
 the `allow_remote` parameter (set to `false`).
 
 ## Server Access Control Lists (ACLs)
 
 Server ACLs and their purpose are described in the [Server
-ACLs](../client_server/%CLIENT_RELEASE_LABEL%.html#module-server-acls)
+ACLs](/client-server#server-acls)
 section of the Client-Server API.
 
 When a remote server makes a request, it MUST be verified to be allowed
@@ -1015,18 +1015,18 @@ redact non-essential parts of an event.
 
 Before signing the event, the *content hash* of the event is calculated
 as described below. The hash is encoded using [Unpadded
-Base64](../appendices.html#unpadded-base64) and stored in the event
+Base64](/appendices#unpadded-base64) and stored in the event
 object, in a `hashes` object, under a `sha256` key.
 
 The event object is then *redacted*, following the [redaction
-algorithm](../client_server/%CLIENT_RELEASE_LABEL%.html#redactions).
+algorithm](/client-server#redactions).
 Finally it is signed as described in [Signing
-JSON](../appendices.html#signing-json), using the server's signing key
+JSON](/appendices#signing-json), using the server's signing key
 (see also [Retrieving server keys](#retrieving-server-keys)).
 
 The signature is then copied back to the original event object.
 
-See [Persistent Data Unit schema](#Persistent Data Unit schema) for an
+See [Persistent Data Unit schema](#pdus) for an
 example of a signed event.
 
 ### Validating hashes and signatures on received events
@@ -1036,10 +1036,10 @@ receiving server should check the hashes and signatures on that event.
 
 First the signature is checked. The event is redacted following the
 [redaction
-algorithm](../client_server/%CLIENT_RELEASE_LABEL%.html#redactions), and
+algorithm](/client-server#redactions), and
 the resultant object is checked for a signature from the originating
 server, following the algorithm described in [Checking for a
-signature](../appendices.html#checking-for-a-signature). Note that this
+signature](/appendices#checking-for-a-signature). Note that this
 step should succeed whether we have been sent the full event or a
 redacted copy.
 
@@ -1075,7 +1075,7 @@ calculated as follows.
 2.  The `signatures`, `age_ts`, and `unsigned` properties are removed
     from the event, if present.
 3.  The event is converted into [Canonical
-    JSON](../appendices.html#canonical-json).
+    JSON](/appendices#canonical-json).
 4.  A sha256 hash is calculated on the resulting JSON object.
 
 ### Calculating the content hash for an event
@@ -1085,7 +1085,7 @@ The *content hash* of an event covers the complete event including the
 
 First, any existing `unsigned`, `signature`, and `hashes` members are
 removed. The resulting object is then encoded as [Canonical
-JSON](../appendices.html#canonical-json), and the JSON is hashed using
+JSON](/appendices#canonical-json), and the JSON is hashed using
 SHA-256.
 
 ### Example code
