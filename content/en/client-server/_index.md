@@ -264,7 +264,7 @@ conscientious decision what to do next.
 Note
 
 Servers hosting the `.well-known` JSON file SHOULD offer CORS headers,
-as per the [CORS](#CORS) section in this specification.
+as per the [CORS](#web-browser-clients) section in this specification.
 
 The `.well-known` method uses a JSON file at a predetermined location to
 specify parameter values. The flow for this method is as follows:
@@ -307,7 +307,7 @@ Most API endpoints require the user to identify themselves by presenting
 previously obtained credentials in the form of an `access_token` query
 parameter or through an Authorization Header of `Bearer $access_token`.
 An access token is typically obtained via the [Login](#login) or
-[Registration](#Registration) processes.
+[Registration](#account-registration-and-management) processes.
 
 Note
 
@@ -339,7 +339,7 @@ Client [devices](../index.html#devices) are closely related to access
 tokens. Matrix servers should record which device each access token is
 assigned to, so that subsequent requests can be handled correctly.
 
-By default, the [Login](#login) and [Registration](#Registration)
+By default, the [Login](#login) and [Registration](#account-registration-and-management)
 processes auto-generate a new `device_id`. A client is also free to
 generate its own `device_id` or, provided the user remains the same,
 reuse a device: in either case the client should pass the `device_id` in
@@ -677,7 +677,7 @@ sign-on provider.
 
 A client wanting to complete authentication using SSO should use the
 [Fallback](#fallback) mechanism. See [SSO during User-Interactive
-Authentication]() for more information.
+Authentication](#sso-during-user-interactive-authentication) for more information.
 
 #### Email-based (identity / homeserver)
 
@@ -987,7 +987,7 @@ respond with `403 Forbidden` and an error code of `M_FORBIDDEN`.
 
 If the homeserver advertises `m.login.sso` as a viable flow, and the
 client supports it, the client should redirect the user to the
-`/redirect` endpoint for [client login via SSO](). After authentication
+`/redirect` endpoint for [client login via SSO](#client-login-via-sso). After authentication
 is complete, the client will need to submit a `/login` request matching
 `m.login.token`.
 
@@ -1421,9 +1421,9 @@ following fields.
 
 The complete event MUST NOT be larger than 65535 bytes, when formatted
 as a [PDU for the Server-Server
-protocol](../server_server/%SERVER_RELEASE_LABEL%#pdus), including any
+protocol](/server-server/#pdus), including any
 signatures, and encoded as [Canonical
-JSON](../appendices.html#canonical-json).
+JSON](/appendices#canonical-json).
 
 There are additional restrictions on sizes per key:
 
@@ -1713,7 +1713,7 @@ of user B to a maximum of level 50. Power levels for users are tracked
 per-room even if the user is not present in the room. The keys contained
 in `m.room.power_levels` determine the levels required for certain
 operations such as kicking, banning and sending state events. See
-[m.room.power\_levels]() for more information.
+[m.room.power_levels](#room-events) for more information.
 
 Clients may wish to assign names to particular power levels. A suggested
 mapping is as follows: - 0 User - 50 Moderator - 100 Admin
