@@ -127,13 +127,13 @@ key, and a number of signed Curve25519 one-time keys.
 ##### Uploading keys
 
 A device uploads the public parts of identity keys to their homeserver
-as a signed JSON object, using the `/keys/upload`\_ API. The JSON object
+as a signed JSON object, using the [`/keys/upload`](#post_matrixclientr0keysupload) API. The JSON object
 must include the public part of the device's Ed25519 key, and must be
 signed by that key, as described in [Signing
 JSON](../appendices.html#signing-json).
 
 One-time keys are also uploaded to the homeserver using the
-`/keys/upload`\_ API.
+[`/keys/upload`](#post_matrixclientr0keysupload) API.
 
 Devices must store the private part of each key they upload. They can
 discard the private part of a one-time key when they receive a message
@@ -148,12 +148,12 @@ too many private keys may discard keys starting with the oldest.
 Before Alice can send an encrypted message to Bob, she needs a list of
 each of his devices and the associated identity keys, so that she can
 establish an encryption session with each device. This list can be
-obtained by calling `/keys/query`\_, passing Bob's user ID in the
+obtained by calling [`/keys/query`](#post_matrixclientr0keysquery), passing Bob's user ID in the
 `device_keys` parameter.
 
 From time to time, Bob may add new devices, and Alice will need to know
 this so that she can include his new devices for later encrypted
-messages. A naive solution to this would be to call `/keys/query`\_
+messages. A naive solution to this would be to call [`/keys/query`](#post_matrixclientr0keysquery)
 before sending each message -however, the number of users and devices
 may be large and this would be inefficient.
 
@@ -171,31 +171,31 @@ process:
     list, and a separate flag to indicate that its list of Bob's devices
     is outdated. Both flags should be in storage which persists over
     client restarts.
-2.  It then makes a request to `/keys/query`\_, passing Bob's user ID in
+2.  It then makes a request to [`/keys/query`](#post_matrixclientr0keysquery), passing Bob's user ID in
     the `device_keys` parameter. When the request completes, it stores
     the resulting list of devices in persistent storage, and clears the
     'outdated' flag.
 3.  During its normal processing of responses to \_, Alice's client
-    inspects the `changed` property of the `device_lists`\_ field. If it
+    inspects the `changed` property of the [`device_lists`](#extensions-to-sync-1) field. If it
     is tracking the device lists of any of the listed users, then it
     marks the device lists for those users outdated, and initiates
-    another request to `/keys/query`\_ for them.
+    another request to [`/keys/query`](#post_matrixclientr0keysquery) for them.
 4.  Periodically, Alice's client stores the `next_batch` field of the
     result from \_ in persistent storage. If Alice later restarts her
     client, it can obtain a list of the users who have updated their
-    device list while it was offline by calling `/keys/changes`\_,
+    device list while it was offline by calling [`/keys/changes`](#get_matrixclientr0keyschanges),
     passing the recorded `next_batch` field as the `from` parameter. If
     the client is tracking the device list of any of the users listed in
     the response, it marks them as outdated. It combines this list with
-    those already flagged as outdated, and initiates a `/keys/query`\_
+    those already flagged as outdated, and initiates a [`/keys/query`](#post_matrixclientr0keysquery)
     request for all of them.
 
 Warning
 
 Bob may update one of his devices while Alice has a request to
-`/keys/query` in flight. Alice's client may therefore see Bob's user ID
+[`/keys/query`](#post_matrixclientr0keysquery) in flight. Alice's client may therefore see Bob's user ID
 in the `device_lists` field of the `/sync` response while the first
-request is in flight, and initiate a second request to `/keys/query`.
+request is in flight, and initiate a second request to [`/keys/query`](#post_matrixclientr0keysquery).
 This may lead to either of two related problems.
 
 The first problem is that, when the first request completes, the client
@@ -209,7 +209,7 @@ completes, the client could overwrite the later results from the second
 request with those from the first request.
 
 Clients MUST guard against these situations. For example, a client could
-ensure that only one request to `/keys/query` is in flight at a time for
+ensure that only one request to [`/keys/query`](#post_matrixclientr0keysquery) is in flight at a time for
 each user, by queuing additional requests until the first completes.
 Alternatively, the client could make a new request immediately, but
 ensure that the first request's results are ignored (possibly by
@@ -353,7 +353,7 @@ Example:
 
 A client wanting to set up a session with another device can claim a
 one-time key for that device. This is done by making a request to the
-`/keys/claim`\_ API.
+[`/keys/claim`](#post_matrixclientr0keysclaim) API.
 
 A homeserver should rate-limit the number of one-time keys that a given
 user or remote server can claim. A homeserver should discard the public
@@ -371,7 +371,7 @@ In Matrix, verification works by Alice meeting Bob in person, or
 contacting him via some other trusted medium, and use [SAS
 Verification](#SAS Verification) to interactively verify Bob's devices.
 Alice and Bob may also read aloud their unpadded base64 encoded Ed25519
-public key, as returned by `/keys/query`.
+public key, as returned by [`/keys/query`](#post_matrixclientr0keysquery).
 
 Device verification may reach one of several conclusions. For example:
 
@@ -1198,7 +1198,7 @@ correspond to the user who sent the event, `recipient` to the local
 user, and `recipient_keys` to the local ed25519 key.
 
 Clients must confirm that the `sender_key` and the `ed25519` field value
-under the `keys` property match the keys returned by `/keys/query`\_ for
+under the `keys` property match the keys returned by [`/keys/query`](#post_matrixclientr0keysquery) for
 the given user, and must also verify the signature of the payload.
 Without this check, a client cannot be sure that the sender device owns
 the private part of the ed25519 key it claims to have in the Olm
@@ -1324,14 +1324,14 @@ messages.
 This module adds an optional `device_lists` property to the \_ response,
 as specified below. The server need only populate this property for an
 incremental `/sync` (ie, one where the `since` parameter was specified).
-The client is expected to use `/keys/query`\_ or `/keys/changes`\_ for
+The client is expected to use [`/keys/query`](#post_matrixclientr0keysquery) or [`/keys/changes`](#get_matrixclientr0keyschanges) for
 the equivalent functionality after an initial sync, as documented in
 [Tracking the device list for a
 user](#tracking-the-device-list-for-a-user).
 
 It also adds a `one_time_keys_count` property. Note the spelling
 difference with the `one_time_key_counts` property in the
-`/keys/upload`\_ response.
+[`/keys/upload`](#post_matrixclientr0keysupload) response.
 
 <table>
 <thead>
