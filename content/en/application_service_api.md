@@ -25,8 +25,7 @@ service.
 
 ### Registration
 
-Note
-
+{{% boxes/note %}}
 Previously, application services could register with a homeserver via
 HTTP APIs. This was removed as it was seen as a security risk. A
 compromised application service could re-register for a global `*` regex
@@ -35,6 +34,7 @@ application services now have to register via configuration files which
 are linked to the homeserver configuration file. The addition of
 configuration files allows homeserver admins to sanity check the
 registration for suspicious regex strings.
+{{% /boxes/note %}}
 
 Application services register "namespaces" of user IDs, room aliases and
 room IDs. These namespaces are represented as regular expressions. An
@@ -190,12 +190,12 @@ below:
           regex: "#_irc_bridge_.*"
       rooms: []
 
-Warning
-
+{{% boxes/warning %}}
 If the homeserver in question has multiple application services, each
 `as_token` and `id` MUST be unique per application service as these are
 used to identify the application service. The homeserver MUST enforce
 this.
+{{% /boxes/warning %}}
 
 ### Homeserver -&gt; Application Service API
 
