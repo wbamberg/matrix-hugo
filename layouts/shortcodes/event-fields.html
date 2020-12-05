@@ -7,16 +7,16 @@
 
 <section class="rendered-data event">
 
-<details {{ if not .Site.Params.ui.rendered_data_collapsed }}open{{ end }}>
-<summary>
-
 <h1>
  <code>{{ humanize $event.title }}</code>
 </h1>
 
-{{ $event.description | markdownify }}
-
 <hr/>
+
+<details {{ if not .Site.Params.ui.rendered_data_collapsed }}open{{ end }}>
+<summary>
+
+{{ $event.description | markdownify }}
 
 </summary>
 
