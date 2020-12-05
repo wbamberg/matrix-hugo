@@ -1,12 +1,11 @@
 {{ $event_name := .event_name }}
 {{ $desired_example_name := .desired_example_name }}
 {{ $event_data := .event_data }}
-{{ $compact := .compact }}
 {{ $base_data := .base_data }}
 
 <section class="rendered-data event">
 
-<details {{ if not $compact }}open{{ end }}>
+<details {{ if not .Site.Params.ui.rendered_data_collapsed }}open{{ end }}>
 <summary>
 
 <h1 id="{{ anchorize $event_name }}">
@@ -56,6 +55,27 @@
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```
+
+{{ if $example_content.content }}
+{{ if $example_content.content.formatted_body }}
+
+{{ $value := "<b>a thing</b>"}}
+{{ $content := dict "key" $value }}
+
+{{ $content.key }}
+{{/* <b>a thing</b> */}}
+
+{{ $content.key | jsonify }}
+{{/* “\u003cb\u003ea thing\u003c/b\u003e” */}}
+
+{{ $content.key | safeJS | jsonify  }}
+{{/* “\u003cb\u003ea thing\u003c/b\u003e” */}}
+
+
+{{end}}
+{{end}}
+
+
         {{ end }}
     {{/* if $desired_example_name is not given, we will include any */}}
     {{/* examples whose first part (before "$" matches the event name)*/}}

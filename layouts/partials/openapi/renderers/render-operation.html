@@ -6,7 +6,7 @@
 
 <section class="rendered-data http-api {{ $method }}">
 
-<details {{ if not .compact }}open{{ end }}>
+<details {{ if not site.Params.ui.rendered_data_collapsed }}open{{ end }}>
 <summary>
 
 <h1 id="{{ lower $method }}{{ anchorize $endpoint }}">

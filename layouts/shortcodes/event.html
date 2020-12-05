@@ -1,9 +1,8 @@
 {{ $event_data := index .Site.Data "event-schemas" "schema" .Params.event }}
 {{ $path := "event-schemas/schema" }}
 {{ $base_data := index .Site.Data }}
-{{ $compact := .Params.compact }}
 
 {{ $event_data = partial "openapi/resolvers/resolve-refs" (dict "schema" $event_data "path" $path "base_data" $base_data) }}
 {{ $event_data := partial "openapi/resolvers/resolve-allof" $event_data }}
 
-{{ partial "events/render-event" (dict "event_name" .Params.event "event_data" $event_data "compact" $compact "base_data" $base_data)}}
+{{ partial "events/render-event" (dict "event_name" .Params.event "event_data" $event_data "base_data" $base_data)}}

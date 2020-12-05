@@ -1,14 +1,13 @@
 {{ $event := index .Site.Data "event-schemas" "schema" "core-event-schema" .Params.event_type }}
 {{ $path := "event-schemas/schema/core-event-schema" }}
 {{ $base_data := index .Site.Data }}
-{{ $compact := .Params.compact }}
 
 {{ $event = partial "openapi/resolvers/resolve-refs" (dict "schema" $event "path" $path "base_data" $base_data) }}
 {{ $event := partial "openapi/resolvers/resolve-allof" $event }}
 
 <section class="rendered-data event">
 
-<details {{ if not $compact }}open{{ end }}>
+<details {{ if not .Site.Params.ui.rendered_data_collapsed }}open{{ end }}>
 <summary>
 
 <h1>
