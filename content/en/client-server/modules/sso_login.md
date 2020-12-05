@@ -28,7 +28,7 @@ used to communicate with the authentication server. Different Matrix
 homeserver implementations might support different SSO protocols.
 
 Clients and homeservers implementing the SSO flow will need to consider
-both [login]() and [user-interactive authentication](). The flow is
+both [login](#login) and [user-interactive authentication](#user-interactive-authentication-api). The flow is
 similar in both cases, but there are slight differences.
 
 Typically, SSO systems require a single "callback" URI to be configured
@@ -43,12 +43,12 @@ endpoints which consume the ticket.
 
 An overview of the process is as follows:
 
-1.  The Matrix client calls `GET /login`\_ to find the supported login
+1.  The Matrix client calls [`GET /login`](#get_matrixclientr0login) to find the supported login
     types, and the homeserver includes a flow with
     `"type": "m.login.sso"` in the response.
 2.  To initiate the `m.login.sso` login type, the Matrix client
     instructs the user's browser to navigate to the
-    `/login/sso/redirect`\_ endpoint on the user's homeserver.
+    [`/login/sso/redirect`](#get_matrixclientr0loginssoredirect) endpoint on the user's homeserver.
 3.  The homeserver responds with an HTTP redirect to the SSO user
     interface, which the browser follows.
 4.  The authentication server and the homeserver interact to verify the
@@ -57,7 +57,7 @@ An overview of the process is as follows:
 5.  The browser is directed to the `redirectUrl` provided by the client
     with a `loginToken` query parameter for the client to log in with.
 6.  The client exchanges the login token for an access token by calling
-    the `/login`\_ endpoint with a `type` of `m.login.token`.
+    the [`/login`](#post_matrixclientr0login) endpoint with a `type` of `m.login.token`.
 
 For native applications, typically steps 1 to 4 are carried out by
 opening an embedded web view.
@@ -83,8 +83,7 @@ These steps are illustrated as follows:
         |---(5) POST /login with login token--->|                   |
         |<-------------access token-------------|                   |
 
-Note
-
+{{% boxes/note %}}
 In the older [r0.4.0
 version](https://matrix.org/docs/spec/client_server/r0.4.0.html#cas-based-client-login)
 of this specification it was possible to authenticate via CAS when the
@@ -94,11 +93,12 @@ which is the same process with the only change being which redirect
 endpoint to use: for `m.login.cas`, use `/cas/redirect` and for
 `m.login.sso` use `/sso/redirect` (described below). The endpoints are
 otherwise the same.
+{{% /boxes/note %}}
 
 ##### Client behaviour
 
 The client starts the process by instructing the browser to navigate to
-`/login/sso/redirect`\_ with an appropriate `redirectUrl`. Once
+[`/login/sso/redirect`](#get_matrixclientr0loginssoredirect) with an appropriate `redirectUrl`. Once
 authentication is successful, the browser will be redirected to that
 `redirectUrl`.
 
@@ -168,15 +168,15 @@ The homeserver then proceeds as follows:
 
 1.  The homeserver MUST map the user details received from the
     authentication server to a valid [Matrix user
-    identifier](../appendices.html#user-identifiers). The guidance in
+    identifier](/appendices#user-identifiers). The guidance in
     [Mapping from other character
-    sets](../appendices.html#mapping-from-other-character-sets) may be
+    sets](/appendices#mapping-from-other-character-sets) may be
     useful.
 2.  If the generated user identifier represents a new user, it should be
     registered as a new user.
 3.  The homeserver should generate a short-term login token. This is an
     opaque token, suitable for use with the `m.login.token` type of the
-    `/login`\_ API. The lifetime of this token SHOULD be limited to
+    [`/login`](#post_matrixclientr0login) API. The lifetime of this token SHOULD be limited to
     around five seconds.
 4.  The homeserver adds a query parameter of `loginToken`, with the
     value of the generated login token, to the `redirectUrl` given in
@@ -210,7 +210,7 @@ The homeserver then proceeds as follows:
 
     It may be appropriate to whitelist a set of known-trusted client
     URLs in this process. In particular, the homeserver's own [login
-    fallback]() implementation could be excluded.
+    fallback](#login-fallback) implementation could be excluded.
 
 2.  For added security, homeservers SHOULD guard against unsolicited
     authentication attempts by tracking pending requests. One way to do
@@ -221,14 +221,14 @@ The homeserver then proceeds as follows:
 
 #### SSO during User-Interactive Authentication
 
-[User-interactive authentication]() is used by client-server endpoints
+[User-interactive authentication](#user-interactive-authentication-api) is used by client-server endpoints
 which require additional confirmation of the user's identity (beyond
 holding an access token). Typically this means that the user must
 re-enter their password, but for homeservers which delegate to an SSO
 server, this means redirecting to the authentication server during
 user-interactive auth.
 
-The implemementation of this is based on the [Fallback]() mechanism for
+The implemementation of this is based on the [Fallback](#fallback) mechanism for
 user-interactive auth.
 
 #### Client behaviour
@@ -272,7 +272,7 @@ may require additional calls to the authentication server, and/or may
 require checking a signature on the response.
 
 The homeserver then returns the [user-interactive authentication
-fallback completion]() page to the user's browser.
+fallback completion](#fallback) page to the user's browser.
 
 ###### Security considerations
 

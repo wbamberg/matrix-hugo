@@ -29,11 +29,11 @@ convention of using underscores to separate words (for example
 `/delete_devices`). The key names in JSON objects passed over the API
 also follow this convention.
 
-Note
-
+{{% boxes/note %}}
 There are a few historical exceptions to this rule, such as
 `/createRoom`. A future version of this specification will address the
 inconsistency.
+{{% /boxes/note %}}
 
 Any errors which occur at the Matrix API level MUST return a "standard
 error response". This is a JSON object which looks like:
@@ -261,10 +261,10 @@ conscientious decision what to do next.
 
 ### Well-known URI
 
-Note
-
+{{% boxes/note %}}
 Servers hosting the `.well-known` JSON file SHOULD offer CORS headers,
-as per the [CORS](#CORS) section in this specification.
+as per the [CORS](#web-browser-clients) section in this specification.
+{{% /boxes/note %}}
 
 The `.well-known` method uses a JSON file at a predetermined location to
 specify parameter values. The flow for this method is as follows:
@@ -285,7 +285,7 @@ specify parameter values. The flow for this method is as follows:
         1.  Parse it as a URL. If it is not a URL, then `FAIL_ERROR`.
         2.  Clients SHOULD validate that the URL points to a valid
             homeserver before accepting it by connecting to the
-            `/_matrix/client/versions`\_ endpoint, ensuring that it does
+            [`/_matrix/client/versions`](#get_matrixclientversions) endpoint, ensuring that it does
             not return an error, and parsing and validating that the
             data conforms with the expected response format. If any step
             in the validation fails, then `FAIL_ERROR`. Validation is
@@ -307,14 +307,14 @@ Most API endpoints require the user to identify themselves by presenting
 previously obtained credentials in the form of an `access_token` query
 parameter or through an Authorization Header of `Bearer $access_token`.
 An access token is typically obtained via the [Login](#login) or
-[Registration](#Registration) processes.
+[Registration](#account-registration-and-management) processes.
 
-Note
-
+{{% boxes/note %}}
 This specification does not mandate a particular format for the access
 token. Clients should treat it as an opaque byte sequence. Servers are
 free to choose an appropriate format. Server implementors may like to
 investigate [macaroons](http://research.google.com/pubs/pub41892.html).
+{{% /boxes/note %}}
 
 ### Using access tokens
 
@@ -339,7 +339,7 @@ Client [devices](../index.html#devices) are closely related to access
 tokens. Matrix servers should record which device each access token is
 assigned to, so that subsequent requests can be handled correctly.
 
-By default, the [Login](#login) and [Registration](#Registration)
+By default, the [Login](#login) and [Registration](#account-registration-and-management)
 processes auto-generate a new `device_id`. A client is also free to
 generate its own `device_id` or, provided the user remains the same,
 reuse a device: in either case the client should pass the `device_id` in
@@ -632,7 +632,7 @@ submit:
     }
 
 Alternatively reply using a 3PID bound to the user's account on the
-homeserver using the `/account/3pid`\_ API rather then giving the `user`
+homeserver using the [`/account/3pid`](#post_matrixclientr0account3pid) API rather then giving the `user`
 explicitly as follows:
 
     {
@@ -677,7 +677,7 @@ sign-on provider.
 
 A client wanting to complete authentication using SSO should use the
 [Fallback](#fallback) mechanism. See [SSO during User-Interactive
-Authentication]() for more information.
+Authentication](#sso-during-user-interactive-authentication) for more information.
 
 #### Email-based (identity / homeserver)
 
@@ -901,8 +901,8 @@ form.
 
 A client can identify a user using a 3PID associated with the user's
 account on the homeserver, where the 3PID was previously associated
-using the `/account/3pid`\_ API. See the [3PID
-Types](../appendices.html#pid-types) Appendix for a list of Third-party
+using the [`/account/3pid`](#post_matrixclientr0account3pid) API. See the [3PID
+Types](/appendices#3pid-types) Appendix for a list of Third-party
 ID media.
 
     "identifier": {
@@ -921,7 +921,7 @@ The user is identified by a phone number.
 
 A client can identify a user using a phone number associated with the
 user's account, where the phone number was previously associated using
-the `/account/3pid`\_ API. The phone number can be passed in as entered
+the [`/account/3pid`](#post_matrixclientr0account3pid) API. The phone number can be passed in as entered
 by the user; the homeserver will be responsible for canonicalising it.
 If the client wishes to canonicalise the phone number, then it can use
 the `m.id.thirdparty` identifier type with a `medium` of `msisdn`
@@ -958,7 +958,7 @@ request as follows:
     }
 
 Alternatively, a client can use a 3PID bound to the user's account on
-the homeserver using the `/account/3pid`\_ API rather then giving the
+the homeserver using the [`/account/3pid`](#post_matrixclientr0account3pid) API rather then giving the
 `user` explicitly, as follows:
 
     {
@@ -987,7 +987,7 @@ respond with `403 Forbidden` and an error code of `M_FORBIDDEN`.
 
 If the homeserver advertises `m.login.sso` as a viable flow, and the
 client supports it, the client should redirect the user to the
-`/redirect` endpoint for [client login via SSO](). After authentication
+`/redirect` endpoint for [client login via SSO](#client-login-via-sso). After authentication
 is complete, the client will need to submit a `/login` request matching
 `m.login.token`.
 
@@ -1017,12 +1017,12 @@ the login endpoint during the login process. For example:
 
 ##### Notes on password management
 
-Warning
-
+{{% boxes/warning %}}
 Clients SHOULD enforce that the password provided is suitably complex.
 The password SHOULD include a lower-case letter, an upper-case letter, a
 number and a symbol and be at a minimum 8 characters in length. Servers
 MAY reject weak passwords with an error code `M_WEAK_PASSWORD`.
+{{% /boxes/warning %}}
 
 ### Adding Account Administrative Contact Information
 
@@ -1030,13 +1030,13 @@ A homeserver may keep some contact information for administrative use.
 This is independent of any information kept by any identity servers,
 though can be proxied (bound) to the identity server in many cases.
 
-Note
-
+{{% boxes/note %}}
 This section deals with two terms: "add" and "bind". Where "add" (or
 "remove") is used, it is speaking about an identifier that was not bound
 to an identity server. As a result, "bind" (or "unbind") references an
 identifier that is found in an identity server. Note that an identifer
 can be added and bound at the same time, depending on context.
+{{% /boxes/note %}}
 
 {{% http-api spec="client-server" api="administrative_contact" %}}
 
@@ -1178,10 +1178,10 @@ default and only stable `available` room version.
 
 ## Pagination
 
-Note
-
+{{% boxes/note %}}
 The paths referred to in this section are not actual endpoints. They
 only serve as examples to explain how pagination functions.
+{{% /boxes/note %}}
 
 Pagination is the process of dividing a dataset into multiple discrete
 pages. Matrix makes use of pagination to allow clients to view extremely
@@ -1311,9 +1311,9 @@ The expected pattern for using lazy-loading is currently:
 
 The current endpoints which support lazy-loading room members are:
 
--   `/sync`\_
--   `/rooms/<room_id>/messages`\_
--   `/rooms/{roomId}/context/{eventId}`\_
+-   [`/sync`](#get_matrixclientr0sync)
+-   [`/rooms/<room_id>/messages`](#get_matrixclientr0roomsroomidmessages)
+-   [`/rooms/{roomId}/context/{eventId}`](#get_matrixclientr0roomsroomidcontexteventid)
 
 ### API endpoints
 
@@ -1328,8 +1328,7 @@ any given point in time:
 
     [E0]->[E1]->[E2]->[E3]->[E4]->[E5]
 
-Warning
-
+{{% boxes/warning %}}
 The format of events can change depending on room version. Check the
 [room version specification](../index.html#room-versions) for specific
 details on what to expect for event formats. Examples contained within
@@ -1341,6 +1340,7 @@ the event ID format being different depending on room version. Clients
 should not be parsing the event ID, and instead be treating it as an
 opaque string. No changes should be required to support the currently
 available room versions.
+{{% /boxes/warning %}}
 
 ### Types of room events
 
@@ -1366,13 +1366,13 @@ follow the Java package naming convention, e.g.
 `com.example.myapp.event`. This ensures event types are suitably
 namespaced for each application and reduces the risk of clashes.
 
-Note
-
+{{% boxes/note %}}
 Events are not limited to the types defined in this specification. New
 or custom event types can be created on a whim using the Java package
 naming convention. For example, a `com.example.game.score` event can be
 sent by clients and other clients would receive it through Matrix,
 assuming the client has access to the `com.example` namespace.
+{{% /boxes/note %}}
 
 Note that the structure of these events may be different than those in
 the server-server API.
@@ -1421,9 +1421,9 @@ following fields.
 
 The complete event MUST NOT be larger than 65535 bytes, when formatted
 as a [PDU for the Server-Server
-protocol](../server_server/%SERVER_RELEASE_LABEL%#pdus), including any
+protocol](/server-server/#pdus), including any
 signatures, and encoded as [Canonical
-JSON](../appendices.html#canonical-json).
+JSON](/appendices#canonical-json).
 
 There are additional restrictions on sizes per key:
 
@@ -1439,9 +1439,9 @@ than that implied by the total 65 KB limit on events.
 
 ### Room Events
 
-Note
-
+{{% boxes/note %}}
 This section is a work in progress.
+{{% /boxes/note %}}
 
 This specification outlines several standard event types, all of which
 are prefixed with `m.`
@@ -1466,13 +1466,13 @@ events.
 ### Syncing
 
 To read events, the intended flow of operation is for clients to first
-call the `/sync`\_ API without a `since` parameter. This returns the
+call the [`/sync`](#get_matrixclientr0sync) API without a `since` parameter. This returns the
 most recent message events for each room, as well as the state of the
 room at the start of the returned timeline. The response also includes a
 `next_batch` field, which should be used as the value of the `since`
 parameter in the next call to `/sync`. Finally, the response includes,
 for each room, a `prev_batch` field, which can be passed as a `start`
-parameter to the `/rooms/<room_id>/messages`\_ API to retrieve earlier
+parameter to the [`/rooms/<room_id>/messages`](#get_matrixclientr0roomsroomidmessages) API to retrieve earlier
 messages.
 
 You can visualise the range of events being returned as:
@@ -1505,7 +1505,7 @@ containing only the most recent message events. A state "delta" is also
 returned, summarising any state changes in the omitted part of the
 timeline. The client may therefore end up with "gaps" in its knowledge
 of the message timeline. The client can fill these gaps using the
-`/rooms/<room_id>/messages`\_ API. This situation looks like this:
+[`/rooms/<room_id>/messages`](#get_matrixclientr0roomsroomidmessages) API. This situation looks like this:
 
     | gap |
     | <-> |
@@ -1514,17 +1514,17 @@ of the message timeline. The client can fill these gaps using the
           |                        |
      prev_batch: 'd-e-f'       next_batch: 'u-v-w'
 
-Warning
 
+{{% boxes/warning %}}
 Events are ordered in this API according to the arrival time of the
 event on the homeserver. This can conflict with other APIs which order
 events based on their partial ordering in the event graph. This can
 result in duplicate events being received (once per distinct API
 called). Clients SHOULD de-duplicate events based on the event ID when
 this happens.
+{{% /boxes/warning %}}
 
-Note
-
+{{% boxes/note %}}
 The `/sync` API returns a `state` list which is separate from the
 `timeline`. This `state` list allows clients to keep their model of the
 room state in sync with that on the server. In the case of an initial
@@ -1542,9 +1542,9 @@ In both cases, it should be noted that the events returned in the
 `state` list did **not** necessarily take place just before the returned
 `timeline`, so clients should not display them to the user in the
 timeline.
+{{% /boxes/note %}}
 
-Rationale
-
+{{% boxes/rationale %}}
 An early design of this specification made the `state` list represent
 the room state at the end of the returned timeline, instead of the
 start. This was unsatisfactory because it led to duplication of events
@@ -1557,6 +1557,7 @@ where that user changes their displayname. If the `state` list
 represents the room state at the end of the timeline, the client must
 take a copy of the state dictionary, and *rewind* S1, in order to
 correctly calculate the display name for M0.
+{{% /boxes/rationale %}}
 
 {{% http-api spec="client-server" api="sync" %}}
 {{% http-api spec="client-server" api="old_sync" %}}
@@ -1631,8 +1632,7 @@ property of the redacted event, under the `redacted_because` key. When a
 client receives a redaction event it should change the redacted event in
 the same way a server does.
 
-Note
-
+{{% boxes/note %}}
 Redacted events can still affect the state of the room. When redacted,
 state events behave as though their properties were simply not
 specified, except those protected by the redaction algorithm. For
@@ -1640,6 +1640,7 @@ example, a redacted `join` event will still result in the user being
 considered joined. Similarly, a redacted topic does not necessarily
 cause the topic to revert to what is was prior to the event - it causes
 the topic to be removed from the room.
+{{% /boxes/note %}}
 
 ##### Events
 
@@ -1696,9 +1697,9 @@ request.
 
 ### Permissions
 
-Note
-
+{{% boxes/note %}}
 This section is a work in progress.
+{{% /boxes/note %}}
 
 Permissions for rooms are done via the concept of power levels - to do
 any action in a room a user must have a suitable power level. Power
@@ -1713,7 +1714,7 @@ of user B to a maximum of level 50. Power levels for users are tracked
 per-room even if the user is not present in the room. The keys contained
 in `m.room.power_levels` determine the levels required for certain
 operations such as kicking, banning and sending state events. See
-[m.room.power\_levels]() for more information.
+[m.room.power_levels](#room-events) for more information.
 
 Clients may wish to assign names to particular power levels. A suggested
 mapping is as follows: - 0 User - 50 Moderator - 100 Admin
@@ -1790,7 +1791,7 @@ A user can leave a room to stop receiving events for that room. A user
 must have been invited to or have joined the room before they are
 eligible to leave the room. Leaving a room to which the user has been
 invited rejects the invite. Once a user leaves a room, it will no longer
-appear in the response to the `/sync`\_ API unless it is explicitly
+appear in the response to the [`/sync`](#get_matrixclientr0sync) API unless it is explicitly
 requested via a filter with the `include_leave` field set to `true`.
 
 Whether or not they actually joined the room, if the room is an
@@ -1798,7 +1799,7 @@ Whether or not they actually joined the room, if the room is an
 re-join the room.
 
 A user can also forget a room which they have left. Rooms which have
-been forgotten will never appear the response to the `/sync`\_ API,
+been forgotten will never appear the response to the [`/sync`](#get_matrixclientr0sync) API,
 until the user re-joins or is re-invited.
 
 A user may wish to force another user to leave a room. This can be done
@@ -1819,7 +1820,7 @@ target user to leave the room and prevents them from re-joining the
 room. A banned user will not be treated as a joined user, and so will
 not be able to send or receive events in the room. In order to ban
 someone, the user performing the ban MUST have the required power level.
-To ban a user, a request should be made to `/rooms/<room_id>/ban`\_
+To ban a user, a request should be made to [`/rooms/<room_id>/ban`](#post_matrixclientr0roomsroomidban)
 with:
 
     {
@@ -1837,7 +1838,7 @@ target member's state, by making a request to
     }
 
 A user must be explicitly unbanned with a request to
-`/rooms/<room_id>/unban`\_ before they can re-join the room or be
+[`/rooms/<room_id>/unban`](#post_matrixclientr0roomsroomidunban) before they can re-join the room or be
 re-invited.
 
 {{% http-api spec="client-server" api="banning" %}}

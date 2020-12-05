@@ -21,49 +21,51 @@
 
 </table>
 
-{{ $ok := index $responses "200" }}
-{{ if $ok.schema }}
+{{ range  $code, $response := $responses }}
 
-    {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $ok.schema "path" $path "base_data" $base_data) }}
-    {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
 
-    {{ if or $schema.properties (eq $schema.type "array") }}
-<h3>200 response body</h3>
+    {{ if $response.schema }}
 
-        {{ if eq $schema.type "array" }}
-            {{ $type_of := "" }}
-            {{ if reflect.IsSlice $schema.items }}
-                {{ $types := slice }}
-                {{ range $schema.items }}
-                    {{ if .title }}
-                        {{ $types = $types | append .title}}
-                    {{ else }}
-                        {{ $types = $types | append .type }}
+        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $response.schema "path" $path "base_data" $base_data) }}
+        {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
+
+        {{ if or $schema.properties (eq $schema.type "array") }}
+<h3>{{ $code}} response</h3>
+
+            {{ if eq $schema.type "array" }}
+                {{ $type_of := "" }}
+                {{ if reflect.IsSlice $schema.items }}
+                    {{ $types := slice }}
+                    {{ range $schema.items }}
+                        {{ if .title }}
+                            {{ $types = $types | append .title}}
+                        {{ else }}
+                            {{ $types = $types | append .type }}
+                        {{ end }}
                     {{ end }}
+                    {{ $type_of = delimit $types ", "}}
+                {{ else }}
+                    {{ $type_of = $schema.items.title }}
                 {{ end }}
-                {{ $type_of = delimit $types ", "}}
-            {{ else }}
-                {{ $type_of = $schema.items.title }}
-            {{ end }}
 <p>Array of <code>{{ $type_of }}</code>.</p>
-        {{ end }}
+            {{ end }}
 
-        {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}
-        {{ $additional_types = uniq $additional_types }}
-        {{ range $additional_types }}
-          {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
-        {{ end }}
+            {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}
+            {{ $additional_types = uniq $additional_types }}
+            {{ range $additional_types }}
+              {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
+            {{ end }}
 
-<h3>200 response body example</h3>
-        {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
-        {{ if $ok.examples }}
-            {{ $example = partial "openapi/resolvers/resolve-refs" (dict "schema" $ok.examples "path" $path "base_data" $base_data) }}
-            {{ $example = index $example "application/json" }}
-        {{ end }}
+            {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
+            {{ if $response.examples }}
+                {{ $example = partial "openapi/resolvers/resolve-refs" (dict "schema" $response.examples "path" $path "base_data" $base_data) }}
+                {{ $example = index $example "application/json" }}
+            {{ end }}
 
 ```json
 {{ jsonify (dict "indent" "  ") $example }}
 ```
 
+        {{ end }}
     {{ end }}
 {{ end }}

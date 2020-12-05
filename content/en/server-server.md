@@ -62,7 +62,7 @@ addition, all strings MUST be encoded as UTF-8.
 
 Each Matrix homeserver is identified by a server name consisting of a
 hostname and an optional port, as described by the
-[grammar](../appendices.html#server-name). Where applicable, a delegated
+[grammar](/appendices#server-name). Where applicable, a delegated
 server name uses the same grammar.
 
 Server names are resolved to an IP address and port to connect to, and
@@ -159,12 +159,12 @@ Transparency](https://www.certificate-transparency.org/) project.
 
 ### Retrieving server keys
 
-Note
-
+{{% boxes/note %}}
 There was once a "version 1" of the key exchange. It has been removed
 from the specification due to lack of significance. It may be reviewed
 [from the historical
 draft](https://github.com/matrix-org/matrix-doc/blob/51faf8ed2e4a63d4cfd6d23183698ed169956cc0/specification/server_server_api.rst#232version-1).
+{{% /boxes/note %}}
 
 Each homeserver publishes its public keys under
 `/_matrix/key/v2/server/{keyId}`. Homeservers query for keys by either
@@ -422,21 +422,20 @@ rejected event where it is a state event.
 If an event in an incoming transaction is rejected, this should not
 cause the transaction request to be responded to with an error response.
 
-Note
-
+{{% boxes/note %}}
 This means that events may be included in the room DAG even though they
 should be rejected.
+{{% /boxes/note %}}
 
-Note
-
+{{% boxes/note %}}
 This is in contrast to redacted events which can still affect the state
 of the room. For example, a redacted `join` event will still result in
 the user being considered joined.
+{{% /boxes/note %}}
 
 #### Soft failure
 
-Rationale
-
+{{% boxes/rationale %}}
 It is important that we prevent users from evading bans (or other power
 restrictions) by creating events which reference old parts of the DAG.
 For example, a banned user could continue to send messages to a room by
@@ -457,6 +456,7 @@ clients about the new event.
 
 This discourages servers from sending events that evade bans etc. in
 this way, as end users won't actually see the events.
+{{% /boxes/rationale %}}
 
 When the homeserver receives a new event over federation it should also
 check whether the event passes auth checks based on the current state of
@@ -470,28 +470,28 @@ nor be referenced by new events created by the homeserver (i.e. they
 should not be added to the server's list of forward extremities of the
 room). Soft failed events are otherwise handled as usual.
 
-Note
-
+{{% boxes/note %}}
 Soft failed events participate in state resolution as normal if further
 events are received which reference it. It is the job of the state
 resolution algorithm to ensure that malicious events cannot be injected
 into the room state via this mechanism.
+{{% /boxes/note %}}
 
-Note
-
+{{% boxes/note %}}
 Because soft failed state events participate in state resolution as
 normal, it is possible for such events to appear in the current state of
 the room. In that case the client should be told about the soft failed
 event in the usual way (e.g. by sending it down in the `state` section
 of a sync response).
+{{% /boxes/note %}}
 
-Note
-
+{{% boxes/note %}}
 A soft failed event should be returned in response to federation
 requests where appropriate (e.g. in `/event/<event_id>`). Note that soft
 failed events are returned in `/backfill` and `/get_missing_events`
 responses only if the requests include events referencing the soft
 failed events.
+{{% /boxes/note %}}
 
 Example
 
@@ -683,7 +683,7 @@ in practice will use just two.
 
 The first part of the handshake usually involves using the directory
 server to request the room ID and join candidates through the
-`/query/directory`\_ API endpoint. In the case of a new user joining a
+[`/query/directory`](#get_matrixfederationv1querydirectory) API endpoint. In the case of a new user joining a
 room as a result of a received invite, the joining user's homeserver
 could optimise this step away by picking the origin server of that
 invite message as the join candidate. However, the joining server should
@@ -749,11 +749,11 @@ the event to other servers in the room.
 
 ## Third-party invites
 
-Note
-
+{{% boxes/note %}}
 More information about third party invites is available in the
-[Client-Server API](../client_server/%CLIENT_RELEASE_LABEL%.html) under
+[Client-Server API](/client-server) under
 the Third Party Invites module.
+{{% /boxes/note %}}
 
 When an user wants to invite another user in a room but doesn't know the
 Matrix ID to invite, they can do so using a third-party identifier (e.g.
@@ -761,7 +761,7 @@ an e-mail or a phone number).
 
 This identifier and its bindings to Matrix IDs are verified by an
 identity server implementing the [Identity Service
-API](../identity_service/%IDENTITY_RELEASE_LABEL%.html).
+API](/identity_service_api).
 
 ### Cases where an association exists for a third-party identifier
 
@@ -782,7 +782,7 @@ provided as a response to the invite storage request.
 When a third-party identifier with pending invites gets bound to a
 Matrix ID, the identity server will send a POST request to the ID's
 homeserver as described in the [Invitation
-Storage](../identity_service/%IDENTITY_RELEASE_LABEL%.html#invitation-storage)
+Storage](/identity_service_api#invitation-storage)
 section of the Identity Service API.
 
 The following process applies for each invite sent by the identity
@@ -828,7 +828,7 @@ from the user owning the invited third-party identifier.
 ## Public Room Directory
 
 To complement the [Client-Server
-API](../client_server/%CLIENT_RELEASE_LABEL%.html)'s room directory,
+API](/client-server)'s room directory,
 homeservers need a way to query the public rooms for another server.
 This can be done by making a request to the `/publicRooms` endpoint for
 the server the room directory should be retrieved for.
@@ -899,7 +899,7 @@ and kept up-to-date. This is critical for reliable end-to-end
 encryption, in order for users to know which devices are participating
 in a room. It's also required for to-device messaging to work. This
 section is intended to complement the [Device Management
-module](../client_server/%CLIENT_RELEASE_LABEL%.html#device-management)
+module](/client-server#device-management)
 of the Client-Server API.
 
 Matrix currently uses a custom pubsub system for synchronising
@@ -943,7 +943,7 @@ recognise, it must resynchronise its list by calling the
 ## End-to-End Encryption
 
 This section complements the [End-to-End Encryption
-module](../client_server/%CLIENT_RELEASE_LABEL%.html#end-to-end-encryption)
+module](/client-server#end-to-end-encryption)
 of the Client-Server API. For detailed information about end-to-end
 encryption, please see that module.
 
@@ -968,20 +968,20 @@ using the following EDU:
 
 Attachments to events (images, files, etc) are uploaded to a homeserver
 via the Content Repository described in the [Client-Server
-API](../client_server/%CLIENT_RELEASE_LABEL%.html). When a server wishes
+API](/client-server). When a server wishes
 to serve content originating from a remote server, it needs to ask the
 remote server for the media.
 
 Servers should use the server described in the Matrix Content URI, which
 has the format `mxc://{ServerName}/{MediaID}`. Servers should use the
 download endpoint described in the [Client-Server
-API](../client_server/%CLIENT_RELEASE_LABEL%.html), being sure to use
+API](/client-server), being sure to use
 the `allow_remote` parameter (set to `false`).
 
 ## Server Access Control Lists (ACLs)
 
 Server ACLs and their purpose are described in the [Server
-ACLs](../client_server/%CLIENT_RELEASE_LABEL%.html#module-server-acls)
+ACLs](/client-server#server-acls)
 section of the Client-Server API.
 
 When a remote server makes a request, it MUST be verified to be allowed
@@ -1015,18 +1015,18 @@ redact non-essential parts of an event.
 
 Before signing the event, the *content hash* of the event is calculated
 as described below. The hash is encoded using [Unpadded
-Base64](../appendices.html#unpadded-base64) and stored in the event
+Base64](/appendices#unpadded-base64) and stored in the event
 object, in a `hashes` object, under a `sha256` key.
 
 The event object is then *redacted*, following the [redaction
-algorithm](../client_server/%CLIENT_RELEASE_LABEL%.html#redactions).
+algorithm](/client-server#redactions).
 Finally it is signed as described in [Signing
-JSON](../appendices.html#signing-json), using the server's signing key
+JSON](/appendices#signing-json), using the server's signing key
 (see also [Retrieving server keys](#retrieving-server-keys)).
 
 The signature is then copied back to the original event object.
 
-See [Persistent Data Unit schema](#Persistent Data Unit schema) for an
+See [Persistent Data Unit schema](#pdus) for an
 example of a signed event.
 
 ### Validating hashes and signatures on received events
@@ -1036,10 +1036,10 @@ receiving server should check the hashes and signatures on that event.
 
 First the signature is checked. The event is redacted following the
 [redaction
-algorithm](../client_server/%CLIENT_RELEASE_LABEL%.html#redactions), and
+algorithm](/client-server#redactions), and
 the resultant object is checked for a signature from the originating
 server, following the algorithm described in [Checking for a
-signature](../appendices.html#checking-for-a-signature). Note that this
+signature](/appendices#checking-for-a-signature). Note that this
 step should succeed whether we have been sent the full event or a
 redacted copy.
 
@@ -1075,7 +1075,7 @@ calculated as follows.
 2.  The `signatures`, `age_ts`, and `unsigned` properties are removed
     from the event, if present.
 3.  The event is converted into [Canonical
-    JSON](../appendices.html#canonical-json).
+    JSON](/appendices#canonical-json).
 4.  A sha256 hash is calculated on the resulting JSON object.
 
 ### Calculating the content hash for an event
@@ -1085,7 +1085,7 @@ The *content hash* of an event covers the complete event including the
 
 First, any existing `unsigned`, `signature`, and `hashes` members are
 removed. The resulting object is then encoded as [Canonical
-JSON](../appendices.html#canonical-json), and the JSON is hashed using
+JSON](/appendices#canonical-json), and the JSON is hashed using
 SHA-256.
 
 ### Example code

@@ -24,9 +24,13 @@
         {{ end }}
 
         {{ if eq $type "array"}}
-            {{ $inner_type := $property.items.type }}
-            {{ if $property.items.title }}
-                {{ $inner_type = $property.items.title }}
+            {{ $items := $property.items }}
+            {{ if $property.items }}
+                {{ $items = partial "openapi/resolvers/resolve-allof" $property.items }}
+            {{ end }}
+            {{ $inner_type := $items.type }}
+            {{ if $items.title }}
+                {{ $inner_type = $items.title }}
             {{ end }}
             {{ $type = delimit (slice "[" $inner_type "]") "" }}
         {{ end }}

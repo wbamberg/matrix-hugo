@@ -55,13 +55,13 @@ exchange fingerprints between users to build a web of trust.
 
 The name `ed25519` corresponds to the
 [Ed25519](http://ed25519.cr.yp.to/) signature algorithm. The key is a
-32-byte Ed25519 public key, encoded using [unpadded Base64](). Example:
+32-byte Ed25519 public key, encoded using [unpadded Base64](/appendices/#unpadded-base64). Example:
 
     "SogYyrkTldLz0BXP+GYWs0qaYacUI0RleEqNT8J3riQ"
 
 The name `curve25519` corresponds to the
 [Curve25519](https://cr.yp.to/ecdh.html) ECDH algorithm. The key is a
-32-byte Curve25519 public key, encoded using [unpadded Base64]().
+32-byte Curve25519 public key, encoded using [unpadded Base64](/appendices/#unpadded-base64).
 Example:
 
     "JGLn/yafz74HB2AbPLYJWIVGnKAtqECOBf11yyXac2Y"
@@ -90,7 +90,7 @@ with a the following properties:
 <td><p>signatures</p></td>
 <td><p>Signatures</p></td>
 <td><p><strong>Required.</strong> Signatures of the key object.</p>
-<p>The signature is calculated using the process described at <a href="../appendices.html#signing-json">Signing JSON</a>.</p></td>
+<p>The signature is calculated using the process described at <a href="/appendices#signing-json">Signing JSON</a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -127,13 +127,13 @@ key, and a number of signed Curve25519 one-time keys.
 ##### Uploading keys
 
 A device uploads the public parts of identity keys to their homeserver
-as a signed JSON object, using the `/keys/upload`\_ API. The JSON object
+as a signed JSON object, using the [`/keys/upload`](#post_matrixclientr0keysupload) API. The JSON object
 must include the public part of the device's Ed25519 key, and must be
 signed by that key, as described in [Signing
 JSON](../appendices.html#signing-json).
 
 One-time keys are also uploaded to the homeserver using the
-`/keys/upload`\_ API.
+[`/keys/upload`](#post_matrixclientr0keysupload) API.
 
 Devices must store the private part of each key they upload. They can
 discard the private part of a one-time key when they receive a message
@@ -148,12 +148,12 @@ too many private keys may discard keys starting with the oldest.
 Before Alice can send an encrypted message to Bob, she needs a list of
 each of his devices and the associated identity keys, so that she can
 establish an encryption session with each device. This list can be
-obtained by calling `/keys/query`\_, passing Bob's user ID in the
+obtained by calling [`/keys/query`](#post_matrixclientr0keysquery), passing Bob's user ID in the
 `device_keys` parameter.
 
 From time to time, Bob may add new devices, and Alice will need to know
 this so that she can include his new devices for later encrypted
-messages. A naive solution to this would be to call `/keys/query`\_
+messages. A naive solution to this would be to call [`/keys/query`](#post_matrixclientr0keysquery)
 before sending each message -however, the number of users and devices
 may be large and this would be inefficient.
 
@@ -171,31 +171,30 @@ process:
     list, and a separate flag to indicate that its list of Bob's devices
     is outdated. Both flags should be in storage which persists over
     client restarts.
-2.  It then makes a request to `/keys/query`\_, passing Bob's user ID in
+2.  It then makes a request to [`/keys/query`](#post_matrixclientr0keysquery), passing Bob's user ID in
     the `device_keys` parameter. When the request completes, it stores
     the resulting list of devices in persistent storage, and clears the
     'outdated' flag.
 3.  During its normal processing of responses to \_, Alice's client
-    inspects the `changed` property of the `device_lists`\_ field. If it
+    inspects the `changed` property of the [`device_lists`](#extensions-to-sync-1) field. If it
     is tracking the device lists of any of the listed users, then it
     marks the device lists for those users outdated, and initiates
-    another request to `/keys/query`\_ for them.
+    another request to [`/keys/query`](#post_matrixclientr0keysquery) for them.
 4.  Periodically, Alice's client stores the `next_batch` field of the
     result from \_ in persistent storage. If Alice later restarts her
     client, it can obtain a list of the users who have updated their
-    device list while it was offline by calling `/keys/changes`\_,
+    device list while it was offline by calling [`/keys/changes`](#get_matrixclientr0keyschanges),
     passing the recorded `next_batch` field as the `from` parameter. If
     the client is tracking the device list of any of the users listed in
     the response, it marks them as outdated. It combines this list with
-    those already flagged as outdated, and initiates a `/keys/query`\_
+    those already flagged as outdated, and initiates a [`/keys/query`](#post_matrixclientr0keysquery)
     request for all of them.
 
-Warning
-
+{{% boxes/warning %}}
 Bob may update one of his devices while Alice has a request to
-`/keys/query` in flight. Alice's client may therefore see Bob's user ID
+[`/keys/query`](#post_matrixclientr0keysquery) in flight. Alice's client may therefore see Bob's user ID
 in the `device_lists` field of the `/sync` response while the first
-request is in flight, and initiate a second request to `/keys/query`.
+request is in flight, and initiate a second request to [`/keys/query`](#post_matrixclientr0keysquery).
 This may lead to either of two related problems.
 
 The first problem is that, when the first request completes, the client
@@ -209,14 +208,14 @@ completes, the client could overwrite the later results from the second
 request with those from the first request.
 
 Clients MUST guard against these situations. For example, a client could
-ensure that only one request to `/keys/query` is in flight at a time for
+ensure that only one request to [`/keys/query`](#post_matrixclientr0keysquery) is in flight at a time for
 each user, by queuing additional requests until the first completes.
 Alternatively, the client could make a new request immediately, but
 ensure that the first request's results are ignored (possibly by
 cancelling the request).
+{{% /boxes/warning %}}
 
-Note
-
+{{% boxes/note %}}
 When Bob and Alice share a room, with Bob tracking Alice's devices, she
 may leave the room and then add a new device. Bob will not be notified
 of this change, as he doesn't share a room anymore with Alice. When they
@@ -227,6 +226,7 @@ thus Bob will update his list of Alice's devices as part of his normal
 processing. Note that Bob can also be notified when he stops sharing any
 room with Alice by inspecting the `left` property of the `device_lists`
 field, and as a result should remove her from its list of tracked users.
+{{% /boxes/note %}}
 
 ##### Sending encrypted attachments
 
@@ -239,12 +239,12 @@ AES key, and encrypt the file using AES-CTR. The counter should be
 Initialization Vector (IV), which together form a 128-bit unique counter
 block.
 
-Warning
-
+{{% boxes/warning %}}
 An IV must never be used multiple times with the same key. This implies
 that if there are multiple files to encrypt in the same message,
 typically an image and its thumbnail, the files must not share both the
 same key and IV.
+{{% /boxes/warning %}}
 
 Then, the encrypted file can be uploaded to the homeserver. The key and
 the IV must be included in the room event along with the resulting
@@ -266,7 +266,7 @@ Extensions to `m.room.message` msgtypes
 
 This module adds `file` and `thumbnail_file` properties, of type
 `EncryptedFile`, to `m.room.message` msgtypes that reference files, such
-as [m.file]() and [m.image](), replacing the `url` and `thumbnail_url`
+as [m.file](#mfile) and [m.image](#mimage), replacing the `url` and `thumbnail_url`
 properties.
 
 `EncryptedFile`
@@ -353,7 +353,7 @@ Example:
 
 A client wanting to set up a session with another device can claim a
 one-time key for that device. This is done by making a request to the
-`/keys/claim`\_ API.
+[`/keys/claim`](#post_matrixclientr0keysclaim) API.
 
 A homeserver should rate-limit the number of one-time keys that a given
 user or remote server can claim. A homeserver should discard the public
@@ -371,7 +371,7 @@ In Matrix, verification works by Alice meeting Bob in person, or
 contacting him via some other trusted medium, and use [SAS
 Verification](#SAS Verification) to interactively verify Bob's devices.
 Alice and Bob may also read aloud their unpadded base64 encoded Ed25519
-public key, as returned by `/keys/query`.
+public key, as returned by [`/keys/query`](#post_matrixclientr0keysquery).
 
 Device verification may reach one of several conclusions. For example:
 
@@ -388,13 +388,13 @@ Device verification may reach one of several conclusions. For example:
     reason to suspect otherwise. The encryption protocol continues to
     protect against passive eavesdroppers.
 
-Note
-
+{{% boxes/note %}}
 Once the signing key has been verified, it is then up to the encryption
 protocol to verify that a given message was sent from a device holding
 that Ed25519 private key, or to encrypt a message so that it may only be
 decrypted by such a device. For the Olm protocol, this is documented at
 <https://matrix.org/docs/olm_signing.html>.
+{{% /boxes/note %}}
 
 ##### Key verification framework
 
@@ -500,7 +500,7 @@ example, if we verify 40 bits, then an attacker has a 1 in
 success. A failed attack would result in a mismatched Short
 Authentication String, alerting users to the attack.
 
-The verification process takes place over [to-device]() messages in two
+The verification process takes place over [to-device](#send-to-device-messaging) messages in two
 phases:
 
 1.  Key agreement phase (based on [ZRTP key
@@ -557,7 +557,7 @@ The process between Alice and Bob verifying each other would be:
     the hash function. HMAC is defined in [RFC
     2104](https://tools.ietf.org/html/rfc2104). The key for the HMAC is
     different for each item and is calculated by generating 32 bytes
-    (256 bits) using [the key verification HKDF](#sas-hkdf).
+    (256 bits) using [the key verification HKDF](#hkdf-calculation).
 18. Alice's device sends Bob's device a `m.key.verification.mac` message
     containing the MAC of Alice's device keys and the MAC of her key IDs
     to be verified. Bob's device does the same for Bob's device keys and
@@ -687,10 +687,10 @@ the info parameter is the concatenation of:
 New implementations are discouraged from implementing the `curve25519`
 method.
 
-Rationale
-
+{{% boxes/rationale %}}
 HKDF is used over the plain shared secret as it results in a harder
 attack as well as more uniform data to work with.
+{{% /boxes/rationale %}}
 
 For verification of each party's device keys, HKDF is as defined in RFC
 5869 and uses SHA-256 as the hash function. The shared secret is
@@ -708,7 +708,7 @@ parameter is the concatenation of:
 
 ###### SAS method: `decimal`
 
-Generate 5 bytes using [HKDF](#sas-hkdf) then take sequences of 13 bits
+Generate 5 bytes using [HKDF](#hkdf-calculation) then take sequences of 13 bits
 to convert to decimal numbers (resulting in 3 numbers between 0 and 8191
 inclusive each). Add 1000 to each calculated number.
 
@@ -726,20 +726,19 @@ separator, such as dashes, or with the numbers on individual lines.
 
 ###### SAS method: `emoji`
 
-Generate 6 bytes using [HKDF](#sas-hkdf) then split the first 42 bits
+Generate 6 bytes using [HKDF](#hkdf-calculation) then split the first 42 bits
 into 7 groups of 6 bits, similar to how one would base64 encode
 something. Convert each group of 6 bits to a number and use the
 following table to get the corresponding emoji:
 
 {{% sas-emojis %}}
 
-Note
-
+{{% boxes/note %}}
 This table is available as JSON at
 <https://github.com/matrix-org/matrix-doc/blob/master/data-definitions/sas-emoji.json>
+{{% /boxes/note %}}
 
-Rationale
-
+{{% boxes/rationale %}}
 The emoji above were chosen to:
 
 -   Be recognisable without colour.
@@ -749,17 +748,18 @@ The emoji above were chosen to:
 -   Easily described by a few words.
 -   Avoid symbols with negative connotations.
 -   Be likely similar across multiple platforms.
+{{% /boxes/rationale %}}
 
 Clients SHOULD show the emoji with the descriptions from the table, or
 appropriate translation of those descriptions. Client authors SHOULD
 collaborate to create a common set of translations for all languages.
 
-Note
-
+{{% boxes/note %}}
 Known translations for the emoji are available from
 <https://github.com/matrix-org/matrix-doc/blob/master/data-definitions/>
 and can be translated online:
 <https://translate.riot.im/projects/matrix-doc/sas-emoji-v1>
+{{% /boxes/note %}}
 
 #### Sharing keys between devices
 
@@ -772,28 +772,28 @@ device to another.
 ##### Key requests
 
 When a device is missing keys to decrypt messages, it can request the
-keys by sending [m.room\_key\_request]() to-device messages to other
+keys by sending [m.room_key_request](#mroom_key_request) to-device messages to other
 devices with `action` set to `request`.
 
 If a device wishes to share the keys with that device, it can forward
 the keys to the first device by sending an encrypted
-[m.forwarded\_room\_key]() to-device message. The first device should
-then send an [m.room\_key\_request]() to-device message with `action`
+[m.forwarded_room_key](#mforwarded_room_key) to-device message. The first device should
+then send an [m.room_key_request](#mroom_key_request) to-device message with `action`
 set to `request_cancellation` to the other devices that it had
 originally sent the key request to; a device that receives a
 `request_cancellation` should disregard any previously-received
 `request` message with the same `request_id` and `requesting_device_id`.
 
 If a device does not wish to share keys with that device, it can
-indicate this by sending an [m.room\_key.withheld]() to-device message,
+indicate this by sending an [m.room_key.withheld](#mroom_key.withheld) to-device message,
 as described in [Reporting that decryption keys are
 withheld](#reporting-that-decryption-keys-are-withheld).
 
-Note
-
+{{% boxes/note %}}
 Key sharing can be a big attack vector, thus it must be done very
 carefully. A reasonable strategy is for a user's client to only send
 keys requested by the verified devices of the same user.
+{{% /boxes/note %}}
 
 ##### Server-side key backups
 
@@ -808,17 +808,17 @@ However, as the session keys are stored on the server encrypted, it
 requires users to enter a decryption key to decrypt the session keys.
 
 To create a backup, a client will call [POST
-/\_matrix/client/r0/room\_keys/version]() and define how the keys are to
+/_matrix/client/r0/room_keys/version](#post_matrixclientr0room_keysversion) and define how the keys are to
 be encrypted through the backup's `auth_data`; other clients can
 discover the backup by calling [GET
-/\_matrix/client/r0/room\_keys/version](). Keys are encrypted according
+/\_matrix/client/r0/room\_keys/version](#get_matrixclientr0room_keysversion). Keys are encrypted according
 to the backup's `auth_data` and added to the backup by calling [PUT
-/\_matrix/client/r0/room\_keys/keys]() or one of its variants, and can
-be retrieved by calling [GET /\_matrix/client/r0/room\_keys/keys]() or
+/\_matrix/client/r0/room\_keys/keys](#put_matrixclientr0room_keyskeys) or one of its variants, and can
+be retrieved by calling [GET /\_matrix/client/r0/room\_keys/keys](#get_matrixclientr0room_keyskeys) or
 one of its variants. Keys can only be written to the most recently
 created version of the backup. Backups can also be deleted using [DELETE
-/\_matrix/client/r0/room\_keys/version/{version}](), or individual keys
-can be deleted using [DELETE /\_matrix/client/r0/room\_keys/keys]() or
+/\_matrix/client/r0/room\_keys/version/{version}](#delete_matrixclientr0room_keysversionversion), or individual keys
+can be deleted using [DELETE /\_matrix/client/r0/room\_keys/keys](#delete_matrixclientr0room_keyskeys) or
 one of its variants.
 
 Clients must only store keys in backups after they have ensured that the
@@ -910,7 +910,7 @@ The `session_data` field in the backups is constructed as follows:
     <tr class="even">
     <td><p>forwarding_curve25519_key_chain</p></td>
     <td><p>[string]</p></td>
-    <td><p><strong>Required.</strong> Chain of Curve25519 keys through which this session was forwarded, via <a href="">m.forwarded_room_key</a> events.</p></td>
+    <td><p><strong>Required.</strong> Chain of Curve25519 keys through which this session was forwarded, via <a href="#mforwarded_room_key">m.forwarded_room_key</a> events.</p></td>
     </tr>
     <tr class="odd">
     <td><p>sender_key</p></td>
@@ -1044,7 +1044,7 @@ objects described as follows:
 <tr class="even">
 <td><p>forwarding_curve25519_key_chain</p></td>
 <td><p>[string]</p></td>
-<td><p>Required. Chain of Curve25519 keys through which this session was forwarded, via <a href="">m.forwarded_room_key</a> events.</p></td>
+<td><p>Required. Chain of Curve25519 keys through which this session was forwarded, via <a href="#mforwarded_room_key">m.forwarded_room_key</a> events.</p></td>
 </tr>
 <tr class="odd">
 <td><p>room_id</p></td>
@@ -1198,7 +1198,7 @@ correspond to the user who sent the event, `recipient` to the local
 user, and `recipient_keys` to the local ed25519 key.
 
 Clients must confirm that the `sender_key` and the `ed25519` field value
-under the `keys` property match the keys returned by `/keys/query`\_ for
+under the `keys` property match the keys returned by [`/keys/query`](#post_matrixclientr0keysquery) for
 the given user, and must also verify the signature of the payload.
 Without this check, a client cannot be sure that the sender device owns
 the private part of the ed25519 key it claims to have in the Olm
@@ -1221,15 +1221,15 @@ of reasons. When this happens to an Olm-encrypted message, the client
 should assume that the Olm session has become corrupted and create a new
 one to replace it.
 
-Note
-
+{{% boxes/note %}}
 Megolm-encrypted messages generally do not have the same problem.
 Usually the key for an undecryptable Megolm-encrypted message will come
 later, allowing the client to decrypt it successfully. Olm does not have
 a way to recover from the failure, making this session replacement
 process required.
+{{% /boxes/note %}}
 
-To establish a new session, the client sends a [m.dummy](#m-dummy)
+To establish a new session, the client sends a [m.dummy](#mdummy)
 to-device event to the other party to notify them of the new session
 details.
 
@@ -1324,14 +1324,14 @@ messages.
 This module adds an optional `device_lists` property to the \_ response,
 as specified below. The server need only populate this property for an
 incremental `/sync` (ie, one where the `since` parameter was specified).
-The client is expected to use `/keys/query`\_ or `/keys/changes`\_ for
+The client is expected to use [`/keys/query`](#post_matrixclientr0keysquery) or [`/keys/changes`](#get_matrixclientr0keyschanges) for
 the equivalent functionality after an initial sync, as documented in
 [Tracking the device list for a
 user](#tracking-the-device-list-for-a-user).
 
 It also adds a `one_time_keys_count` property. Note the spelling
 difference with the `one_time_key_counts` property in the
-`/keys/upload`\_ response.
+[`/keys/upload`](#post_matrixclientr0keysupload) response.
 
 <table>
 <thead>
@@ -1379,13 +1379,13 @@ difference with the `one_time_key_counts` property in the
 </tbody>
 </table>
 
-Note
-
+{{% boxes/note %}}
 For optimal performance, Alice should be added to `changed` in Bob's
 sync only when she adds a new device, or when Alice and Bob now share a
 room but didn't share any room previously. However, for the sake of
 simpler logic, a server may add Alice to `changed` when Alice and Bob
 share a new room, even if they previously already shared a room.
+{{% /boxes/note %}}
 
 Example response:
 

@@ -1,0 +1,8 @@
+{{ $title := .title}}
+{{ $color := .color}}
+{{ $content := .content}}
+
+<div class="alert alert-{{ $color }}" role="alert">
+<h4 class="alert-heading">{{ $title | safeHTML }}</h4>
+{{ $content | markdownify }}
+</div>
