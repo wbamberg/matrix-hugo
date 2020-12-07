@@ -24,7 +24,7 @@
     {{ partial "alert" (dict "title" "Warning" "color" "warning" "content" "This API is deprecated and will be removed from a future release.") }}
 {{ end }}
 
-<p>{{ $operation_data.description }}</p>
+<p>{{ $operation_data.description | markdownify }}</p>
 
 <table class="basic-info">
   <tr>
