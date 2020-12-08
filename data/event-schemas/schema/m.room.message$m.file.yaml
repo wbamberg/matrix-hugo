@@ -12,10 +12,10 @@ properties:
         description: The original filename of the uploaded file.
         type: string
       info:
-        description: Information about the file referred to in ``url``.
+        description: Information about the file referred to in `url`.
         properties:
           mimetype:
-            description: The mimetype of the file e.g. ``application/msword``.
+            description: The mimetype of the file e.g. `application/msword`.
             type: string
           size:
             description: The size of the file in bytes.
@@ -28,13 +28,14 @@ properties:
           thumbnail_file:
             description: |-
               Information on the encrypted thumbnail file, as specified in
-              |encrypted_files|_. Only present if the thumbnail is encrypted.
+              [End-to-End Encryption](/client-server/#end-to-end-encryption).
+              Only present if the thumbnail is encrypted.
             title: EncryptedFile
             type: object
           thumbnail_info:
             allOf:
               - $ref: core-event-schema/msgtype_infos/thumbnail_info.yaml
-            description: Metadata about the image referred to in ``thumbnail_url``.
+            description: Metadata about the image referred to in `thumbnail_url`.
         title: FileInfo
         type: object
       msgtype:
@@ -43,13 +44,13 @@ properties:
         type: string
       url:
         description: |-
-          Required if the file is unencrypted. The URL (typically `MXC URI`_)
-          to the file.
+          Required if the file is unencrypted. The URL (typically
+          [MXC URI](/client-server/#matrix-content-mxc-uris)) to the file.
         type: string
       file:
         description: |-
           Required if the file is encrypted. Information on the encrypted
-          file, as specified in |encrypted_files|_.
+          file, as specified in [End-to-End Encryption](/client-server/#end-to-end-encryption).
         title: EncryptedFile
         type: object
     required:
