@@ -11,20 +11,20 @@ properties:
       info:
         allOf:
           - $ref: core-event-schema/msgtype_infos/image_info.yaml
-        description: Metadata about the image referred to in ``url``.
+        description: Metadata about the image referred to in `url`.
       msgtype:
         enum:
           - m.image
         type: string
       url:
         description: |-
-          Required if the file is unencrypted. The URL (typically `MXC URI`_)
-          to the image.
+          Required if the file is unencrypted. The URL (typically
+          [MXC URI](/client-server/#matrix-content-mxc-uris)) to the image.
         type: string
       file:
         description: |-
           Required if the file is encrypted. Information on the encrypted
-          file, as specified in |encrypted_files|_.
+          file, as specified in [End-to-End Encryption](/client-server/#end-to-end-encryption).
         title: EncryptedFile
         type: object
     required:

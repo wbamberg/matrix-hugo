@@ -31,9 +31,9 @@ paths:
     put:
       summary: Invites a remote user to a room
       description: |-
-        .. Note::
-           This API is nearly identical to the v1 API with the exception of the request
-           body being different, and the response format fixed.
+        **Note:**
+        This API is nearly identical to the v1 API with the exception of the request
+        body being different, and the response format fixed.
 
         Invites a remote user to a room. Once the event has been  signed by both the inviting
         homeserver and the invited homeserver, it can be sent to all of the servers in the
@@ -44,7 +44,7 @@ paths:
         API as the server may be older, if the room version is "1" or "2".
 
         Note that events have a different format depending on the room version - check the
-        `room version specification`_ for precise event formats. **The request and response
+        [room version specification](/rooms) for precise event formats. **The request and response
         bodies here describe the common event fields in more detail and may be missing other
         required fields for a PDU.**
       operationId: sendInviteV2
@@ -111,7 +111,7 @@ paths:
           description: |-
             The event with the invited server's signature added. All other fields of the events
             should remain untouched. Note that events have a different format depending on the
-            room version - check the `room version specification`_ for precise event formats.
+            room version - check the [room version specification](/rooms) for precise event formats.
           schema:
             type: object
             description: An object containing the signed invite event.
@@ -164,7 +164,7 @@ paths:
         400:
           description: |-
             The request is invalid or the room the server is attempting
-            to join has a version that is not listed in the ``ver``
+            to join has a version that is not listed in the `ver`
             parameters.
 
             The error should be passed through to clients so that they
@@ -177,8 +177,8 @@ paths:
                   room_version:
                     type: string
                     description: |-
-                      The version of the room. Required if the ``errcode``
-                      is ``M_INCOMPATIBLE_ROOM_VERSION``.
+                      The version of the room. Required if the `errcode`
+                      is `M_INCOMPATIBLE_ROOM_VERSION`.
           examples:
             application/json: {
               "errcode": "M_INCOMPATIBLE_ROOM_VERSION",

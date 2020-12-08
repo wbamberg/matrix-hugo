@@ -4,8 +4,9 @@ allOf:
 
 description: |-
   This event type is used when sending encrypted events. It can be used either
-  within a room (in which case it will have all of the `Room Event fields`_), or
-  as a `to-device`_ event.
+  within a room (in which case it will have all of the
+  [Room Event fields](/client-server/#room-event-fields), or
+  as a [to-device](/client-server/#send-to-device-messaging) event.
 
 properties:
   content:
@@ -37,7 +38,8 @@ properties:
           The encrypted content of the event. Either the encrypted payload
           itself, in the case of a Megolm event, or a map from the recipient
           Curve25519 identity key to ciphertext information, in the case of an
-          Olm event. For more details, see `Messaging Algorithms`_.
+          Olm event. For more details, see
+          [Messaging Algorithms](/client-server/#messaging-algorithms).
       sender_key:
         type: string
         description: The Curve25519 key of the sender.
