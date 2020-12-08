@@ -424,9 +424,9 @@ paths:
         already associated with an account on this homeserver. This API should
         be used to request validation tokens when adding an email address to an
         account. This API's parameters and response are identical to that of
-        the |/register/email/requestToken|_ endpoint. The homeserver should validate
-        the email itself, either by sending a validation email itself or by using
-        a service it has control over.
+        the [`/register/email/requestToken`](#post_matrixclientr0registeremailrequesttoken)
+        endpoint. The homeserver should validate the email itself, either by
+        sending a validation email itself or by using a service it has control over.
       operationId: requestTokenTo3PIDEmail
       parameters:
         - in: body
@@ -474,9 +474,10 @@ paths:
         already associated with an account on this homeserver. This API should
         be used to request validation tokens when adding a phone number to an
         account. This API's parameters and response are identical to that of
-        the |/register/msisdn/requestToken|_ endpoint. The homeserver should validate
-        the phone number itself, either by sending a validation message itself or by using
-        a service it has control over.
+        the [`/register/msisdn/requestToken`](#post_matrixclientr0registermsisdnrequesttoken)
+        endpoint. The homeserver should validate the phone number itself,
+        either by sending a validation message itself or by using a service
+        it has control over.
       operationId: requestTokenTo3PIDMSISDN
       parameters:
         - in: body
