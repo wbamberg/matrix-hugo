@@ -61,13 +61,13 @@ paths:
                   The full set of authorization events that make up the state
                   of the room, and their authorization events, recursively. Note that
                   events have a different format depending on the room version -
-                  check the `room version specification`_ for precise event formats.
+                  check the [room version specification](/rooms) for precise event formats.
                 items:
                   type: object
                   title: PDU
                   description: |-
-                    The `PDUs <#pdus>`_ contained in the auth chain. The event format
-                    varies depending on the room version - check the `room version specification`_
+                    The [PDUs](#pdus) contained in the auth chain. The event format
+                    varies depending on the room version - check the [room version specification](/rooms)
                     for precise event formats.
                   properties: []
                   example:
@@ -77,13 +77,13 @@ paths:
                 description: |-
                   The fully resolved state of the room at the given event. Note that
                   events have a different format depending on the room version -
-                  check the `room version specification`_ for precise event formats.
+                  check the [room version specification](/rooms) for precise event formats.
                 items:
                   type: object
                   title: PDU
                   description: |-
-                    The `PDUs <#pdus>`_ for the fully resolved state of the room. The event format
-                    varies depending on the room version - check the `room version specification`_
+                    The [PDUs](#pdus) for the fully resolved state of the room. The event format
+                    varies depending on the room version - check the [room version specification](/rooms)
                     for precise event formats.
                   properties: []
                   example:
@@ -94,7 +94,7 @@ paths:
       summary: Get all the state event IDs of a given room
       description: |-
         Retrieves a snapshot of a room's state at a given event, in the form of
-        event IDs. This performs the same function as calling ``/state/{roomId}``,
+        event IDs. This performs the same function as calling `/state/{roomId}`,
         however this returns just the event IDs rather than the full events.
       operationId: getRoomStateIds
       security:
