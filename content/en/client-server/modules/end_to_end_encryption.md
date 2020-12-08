@@ -97,14 +97,16 @@ with a the following properties:
 
 Example:
 
-    {
-      "key":"06UzBknVHFMwgi7AVloY7ylC+xhOhEX4PkNge14Grl8",
-      "signatures": {
-        "@user:example.com": {
-          "ed25519:EGURVBUNJP": "YbJva03ihSj5mPk+CHMJKUKlCXCPFXjXOK6VqBnN9nA2evksQcTGn6hwQfrgRHIDDXO2le49x7jnWJHMJrJoBQ"
-        }
-      }
+```json
+{
+  "key":"06UzBknVHFMwgi7AVloY7ylC+xhOhEX4PkNge14Grl8",
+  "signatures": {
+    "@user:example.com": {
+      "ed25519:EGURVBUNJP": "YbJva03ihSj5mPk+CHMJKUKlCXCPFXjXOK6VqBnN9nA2evksQcTGn6hwQfrgRHIDDXO2le49x7jnWJHMJrJoBQ"
     }
+  }
+}
+```
 
 ##### Device keys
 
@@ -348,6 +350,67 @@ properties.
 </table>
 
 Example:
+
+```json
+{
+  "content": {
+    "body": "something-important.jpg",
+    "file": {
+      "url": "mxc://example.org/FHyPlCeYUSFFxlgbQYZmoEoe",
+      "mimetype": "image/jpeg",
+      "v": "v2",
+      "key": {
+        "alg": "A256CTR",
+        "ext": true,
+        "k": "aWF6-32KGYaC3A_FEUCk1Bt0JA37zP0wrStgmdCaW-0",
+        "key_ops": ["encrypt","decrypt"],
+        "kty": "oct"
+      },
+      "iv": "w+sE15fzSc0AAAAAAAAAAA",
+      "hashes": {
+        "sha256": "fdSLu/YkRx3Wyh3KQabP3rd6+SFiKg5lsJZQHtkSAYA"
+      }
+    },
+    "info": {
+      "mimetype": "image/jpeg",
+      "h": 1536,
+      "size": 422018,
+      "thumbnail_file": {
+        "hashes": {
+          "sha256": "/NogKqW5bz/m8xHgFiH5haFGjCNVmUIPLzfvOhHdrxY"
+        },
+        "iv": "U+k7PfwLr6UAAAAAAAAAAA",
+        "key": {
+          "alg": "A256CTR",
+          "ext": true,
+          "k": "RMyd6zhlbifsACM1DXkCbioZ2u0SywGljTH8JmGcylg",
+          "key_ops": ["encrypt", "decrypt"],
+          "kty": "oct"
+        },
+        "mimetype": "image/jpeg",
+        "url": "mxc://example.org/pmVJxyxGlmxHposwVSlOaEOv",
+        "v": "v2"
+      },
+      "thumbnail_info": {
+        "h": 768,
+        "mimetype": "image/jpeg",
+        "size": 211009,
+        "w": 432
+      },
+      "w": 864
+    },
+    "msgtype": "m.image"
+  },
+  "event_id": "$143273582443PhrSn:example.org",
+  "origin_server_ts": 1432735824653,
+  "room_id": "!jEsUZKDJdhlrceRyVU:example.org",
+  "sender": "@example:example.org",
+  "type": "m.room.message",
+  "unsigned": {
+      "age": 1234
+  }
+}
+```
 
 ##### Claiming one-time keys
 
@@ -1080,22 +1143,24 @@ keys in [Server-side key backups](#server-side-key-backups) but adds the
 
 Example:
 
-    [
-        {
-            "algorithm": "m.megolm.v1.aes-sha2",
-            "forwarding_curve25519_key_chain": [
-                "hPQNcabIABgGnx3/ACv/jmMmiQHoeFfuLB17tzWp6Hw"
-            ],
-            "room_id": "!Cuyf34gef24t:localhost",
-            "sender_key": "RF3s+E7RkTQTGF2d8Deol0FkQvgII2aJDf3/Jp5mxVU",
-            "sender_claimed_keys": {
-                "ed25519": "<device ed25519 identity key>",
-            },
-            "session_id": "X3lUlvLELLYxeTx4yOVu6UDpasGEVO0Jbu+QFnm0cKQ",
-            "session_key": "AgAAAADxKHa9uFxcXzwYoNueL5Xqi69IkD4sni8Llf..."
+```json
+[
+    {
+        "algorithm": "m.megolm.v1.aes-sha2",
+        "forwarding_curve25519_key_chain": [
+            "hPQNcabIABgGnx3/ACv/jmMmiQHoeFfuLB17tzWp6Hw"
+        ],
+        "room_id": "!Cuyf34gef24t:localhost",
+        "sender_key": "RF3s+E7RkTQTGF2d8Deol0FkQvgII2aJDf3/Jp5mxVU",
+        "sender_claimed_keys": {
+            "ed25519": "<device ed25519 identity key>",
         },
-        ...
-    ]
+        "session_id": "X3lUlvLELLYxeTx4yOVu6UDpasGEVO0Jbu+QFnm0cKQ",
+        "session_key": "AgAAAADxKHa9uFxcXzwYoNueL5Xqi69IkD4sni8Llf..."
+    },
+    ...
+]
+```
 
 #### Messaging Algorithms
 
@@ -1138,19 +1203,21 @@ device key, and must publish Curve25519 one-time keys.
 
 An event encrypted using Olm has the following format:
 
-    {
-      "type": "m.room.encrypted",
-      "content": {
-        "algorithm": "m.olm.v1.curve25519-aes-sha2",
-        "sender_key": "<sender_curve25519_key>",
-        "ciphertext": {
-          "<device_curve25519_key>": {
-            "type": 0,
-            "body": "<encrypted_payload_base_64>"
-          }
-        }
+```json
+{
+  "type": "m.room.encrypted",
+  "content": {
+    "algorithm": "m.olm.v1.curve25519-aes-sha2",
+    "sender_key": "<sender_curve25519_key>",
+    "ciphertext": {
+      "<device_curve25519_key>": {
+        "type": 0,
+        "body": "<encrypted_payload_base_64>"
       }
     }
+  }
+}
+```
 
 `ciphertext` is a mapping from device Curve25519 key to an encrypted
 payload for that device. `body` is a Base64-encoded Olm message body.
@@ -1175,18 +1242,20 @@ message.
 
 The plaintext payload is of the form:
 
-    {
-      "type": "<type of the plaintext event>",
-      "content": "<content for the plaintext event>",
-      "sender": "<sender_user_id>",
-      "recipient": "<recipient_user_id>",
-      "recipient_keys": {
-        "ed25519": "<our_ed25519_key>"
-      },
-      "keys": {
-        "ed25519": "<sender_ed25519_key>"
-      }
-    }
+```json
+{
+  "type": "<type of the plaintext event>",
+  "content": "<content for the plaintext event>",
+  "sender": "<sender_user_id>",
+  "recipient": "<recipient_user_id>",
+  "recipient_keys": {
+    "ed25519": "<our_ed25519_key>"
+  },
+  "keys": {
+    "ed25519": "<sender_ed25519_key>"
+  }
+}
+```
 
 The type and content of the plaintext message event are given in the
 payload.
@@ -1259,25 +1328,29 @@ Devices that support Megolm must support Olm, and include
 
 An event encrypted using Megolm has the following format:
 
-    {
-      "type": "m.room.encrypted",
-      "content": {
-        "algorithm": "m.megolm.v1.aes-sha2",
-        "sender_key": "<sender_curve25519_key>",
-        "device_id": "<sender_device_id>",
-        "session_id": "<outbound_group_session_id>",
-        "ciphertext": "<encrypted_payload_base_64>"
-      }
-    }
+```json
+{
+  "type": "m.room.encrypted",
+  "content": {
+    "algorithm": "m.megolm.v1.aes-sha2",
+    "sender_key": "<sender_curve25519_key>",
+    "device_id": "<sender_device_id>",
+    "session_id": "<outbound_group_session_id>",
+    "ciphertext": "<encrypted_payload_base_64>"
+  }
+}
+```
 
 The encrypted payload can contain any message event. The plaintext is of
 the form:
 
-    {
-      "type": "<event_type>",
-      "content": "<event_content>",
-      "room_id": "<the room_id>"
-    }
+```json
+{
+  "type": "<event_type>",
+  "content": "<event_content>",
+  "room_id": "<the room_id>"
+}
+```
 
 We include the room ID in the payload, because otherwise the homeserver
 would be able to change the room a message was sent in.
@@ -1389,22 +1462,24 @@ share a new room, even if they previously already shared a room.
 
 Example response:
 
-    {
-      "next_batch": "s72595_4483_1934",
-      "rooms": {"leave": {}, "join": {}, "invite": {}},
-      "device_lists": {
-        "changed": [
-           "@alice:example.com",
-        ],
-        "left": [
-           "@bob:example.com",
-        ],
-      },
-      "device_one_time_keys_count": {
-        "curve25519": 10,
-        "signed_curve25519": 20
-      }
-    }
+```json
+{
+  "next_batch": "s72595_4483_1934",
+  "rooms": {"leave": {}, "join": {}, "invite": {}},
+  "device_lists": {
+    "changed": [
+       "@alice:example.com",
+    ],
+    "left": [
+       "@bob:example.com",
+    ],
+  },
+  "device_one_time_keys_count": {
+    "curve25519": 10,
+    "signed_curve25519": 20
+  }
+}
+```
 
 #### Reporting that decryption keys are withheld
 
