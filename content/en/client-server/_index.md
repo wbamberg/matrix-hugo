@@ -1938,4 +1938,313 @@ require auth by offering a stage with only the `m.login.dummy` auth
 type, but they must still give a 401 response to requests with no auth
 data.
 
+## Modules
+
+Modules are parts of the Client-Server API which are not universal to all
+endpoints. Modules are strictly defined within this specification and
+should not be mistaken for experimental extensions or optional features.
+A compliant server implementation MUST support all modules and supporting
+specification (unless the implementation only targets clients of certain
+profiles, in which case only the required modules for those feature profiles
+MUST be implemented). A compliant client implementation MUST support all
+the required modules and supporting specification for the [Feature Profile](feature-profiles)
+it targets.
+
+### Feature Profiles
+
+Matrix supports many different kinds of clients: from embedded IoT devices to
+desktop clients. Not all clients can provide the same feature sets as other
+clients e.g. due to lack of physical hardware such as not having a screen.
+Clients can fall into one of several profiles and each profile contains a set
+of features that the client MUST support. This section details a set of
+"feature profiles". Clients are expected to implement a profile in its entirety
+in order for it to be classified as that profile.
+
+#### Summary
+
+<table>
+
+  <tr>
+    <th>Module / Profile</th>
+    <th>Web</th>
+    <th>Mobile</th>
+    <th>Desktop</th>
+    <th>CLI</th>
+    <th>Embedded</th>
+  </tr>
+
+  <tr>
+    <th><a href="#instant-messaging">Instant Messaging</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#direct-messaging">Direct Messaging</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#user-room-and-group-mentions">Mentions</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#presence">Presence</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#push-notifications">Push Notifications</a></th>
+    <td>Optional</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#receipts">Receipts</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#fully-read-markers">Fully read markers</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#typing-notifications">Typing Notifications</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#voice-over-ip">VoIP</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#ignoring-users">Ignoring Users</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#reporting-content">Reporting Content</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#content-repository">Content Repository</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#room-history-visibility">Managing History Visibility</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-side-search">Server Side Search</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#room-upgrades">Room Upgrades</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-administration">Server Administration</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#event-context">Event Context</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#third-party-networks">Third Party Networks</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#send-to-device-messaging">Send-to-Device Messaging</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#device-management">Device Management</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#end-to-end-encryption">End-to-End Encryption</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#guest-access">Guest Accounts</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#room-previews">Room Previews</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#client-config">Client Config</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#sso-client-loginauthentication">SSO Login</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#openid">OpenID</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#sticker-messages">Stickers</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-access-control-lists-acls-for-rooms">Server ACLs</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-notices">Server Notices</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#moderation-policy-lists">Moderation policies</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+</table>
+
+Please see each module for more details on what clients need to implement.
+
 {{% cs-modules %}}
