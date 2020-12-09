@@ -19,23 +19,21 @@ signatures in HTTP Authorization headers at the HTTP layer.
 There are three main kinds of communication that occur between
 homeservers:
 
-Persisted Data Units (PDUs):  
+* **Persisted Data Units (PDUs)**:
 These events are broadcast from one homeserver to any others that have
 joined the same room (identified by Room ID). They are persisted in
 long-term storage and record the history of messages and state for a
-room.
-
-Like email, it is the responsibility of the originating server of a PDU
+room. Like email, it is the responsibility of the originating server of a PDU
 to deliver that event to its recipient servers. However PDUs are signed
 using the originating server's private key so that it is possible to
 deliver them through third-party servers.
 
-Ephemeral Data Units (EDUs):  
+* **Ephemeral Data Units (EDUs)**:
 These events are pushed between pairs of homeservers. They are not
 persisted and are not part of the history of a room, nor does the
 receiving homeserver have to reply to them.
 
-Queries:  
+* **Queries**:
 These are single request/response interactions between a given pair of
 servers, initiated by one side sending an HTTPS GET request to obtain
 some information, and responded by the other. They are not persisted and
@@ -223,18 +221,20 @@ and any query parameters if present, but should not include the leading
 
 Step 1 sign JSON:
 
-    {
-        "method": "GET",
-        "uri": "/target",
-        "origin": "origin.hs.example.com",
-        "destination": "destination.hs.example.com",
-        "content": <request body>,
-        "signatures": {
-            "origin.hs.example.com": {
-                "ed25519:key1": "ABCDEF..."
-            }
+```json
+{
+    "method": "GET",
+    "uri": "/target",
+    "origin": "origin.hs.example.com",
+    "destination": "destination.hs.example.com",
+    "content": <request body>,
+    "signatures": {
+        "origin.hs.example.com": {
+            "ed25519:key1": "ABCDEF..."
         }
     }
+}
+```
 
 The server names in the JSON above are the server names for each
 homeserver involved. Delegation from the [server name resolution
@@ -252,31 +252,33 @@ Step 2 add Authorization header:
 
 Example python code:
 
-    def authorization_headers(origin_name, origin_signing_key,
-                              destination_name, request_method, request_target,
-                              content=None):
-        request_json = {
-             "method": request_method,
-             "uri": request_target,
-             "origin": origin_name,
-             "destination": destination_name,
-        }
+```py
+def authorization_headers(origin_name, origin_signing_key,
+                          destination_name, request_method, request_target,
+                          content=None):
+    request_json = {
+         "method": request_method,
+         "uri": request_target,
+         "origin": origin_name,
+         "destination": destination_name,
+    }
 
-        if content is not None:
-            request_json["content"] = content
+    if content is not None:
+        request_json["content"] = content
 
-        signed_json = sign_json(request_json, origin_name, origin_signing_key)
+    signed_json = sign_json(request_json, origin_name, origin_signing_key)
 
-        authorization_headers = []
+    authorization_headers = []
 
-        for key, sig in signed_json["signatures"][origin_name].items():
-            authorization_headers.append(bytes(
-                "X-Matrix origin=%s,key=\"%s\",sig=\"%s\"" % (
-                    origin_name, key, sig,
-                )
-            ))
+    for key, sig in signed_json["signatures"][origin_name].items():
+        authorization_headers.append(bytes(
+            "X-Matrix origin=%s,key=\"%s\",sig=\"%s\"" % (
+                origin_name, key, sig,
+            )
+        ))
 
-        return ("Authorization", authorization_headers)
+    return ("Authorization", authorization_headers)
+```
 
 ### Response Authentication
 
@@ -1090,49 +1092,51 @@ SHA-256.
 
 ### Example code
 
-    def hash_and_sign_event(event_object, signing_key, signing_name):
-        # First we need to hash the event object.
-        content_hash = compute_content_hash(event_object)
-        event_object["hashes"] = {"sha256": encode_unpadded_base64(content_hash)}
+```py
+def hash_and_sign_event(event_object, signing_key, signing_name):
+    # First we need to hash the event object.
+    content_hash = compute_content_hash(event_object)
+    event_object["hashes"] = {"sha256": encode_unpadded_base64(content_hash)}
 
-        # Strip all the keys that would be removed if the event was redacted.
-        # The hashes are not stripped and cover all the keys in the event.
-        # This means that we can tell if any of the non-essential keys are
-        # modified or removed.
-        stripped_object = strip_non_essential_keys(event_object)
+    # Strip all the keys that would be removed if the event was redacted.
+    # The hashes are not stripped and cover all the keys in the event.
+    # This means that we can tell if any of the non-essential keys are
+    # modified or removed.
+    stripped_object = strip_non_essential_keys(event_object)
 
-        # Sign the stripped JSON object. The signature only covers the
-        # essential keys and the hashes. This means that we can check the
-        # signature even if the event is redacted.
-        signed_object = sign_json(stripped_object, signing_key, signing_name)
+    # Sign the stripped JSON object. The signature only covers the
+    # essential keys and the hashes. This means that we can check the
+    # signature even if the event is redacted.
+    signed_object = sign_json(stripped_object, signing_key, signing_name)
 
-        # Copy the signatures from the stripped event to the original event.
-        event_object["signatures"] = signed_object["signatures"]
+    # Copy the signatures from the stripped event to the original event.
+    event_object["signatures"] = signed_object["signatures"]
 
-    def compute_content_hash(event_object):
-        # take a copy of the event before we remove any keys.
-        event_object = dict(event_object)
+def compute_content_hash(event_object):
+    # take a copy of the event before we remove any keys.
+    event_object = dict(event_object)
 
-        # Keys under "unsigned" can be modified by other servers.
-        # They are useful for conveying information like the age of an
-        # event that will change in transit.
-        # Since they can be modified we need to exclude them from the hash.
-        event_object.pop("unsigned", None)
+    # Keys under "unsigned" can be modified by other servers.
+    # They are useful for conveying information like the age of an
+    # event that will change in transit.
+    # Since they can be modified we need to exclude them from the hash.
+    event_object.pop("unsigned", None)
 
-        # Signatures will depend on the current value of the "hashes" key.
-        # We cannot add new hashes without invalidating existing signatures.
-        event_object.pop("signatures", None)
+    # Signatures will depend on the current value of the "hashes" key.
+    # We cannot add new hashes without invalidating existing signatures.
+    event_object.pop("signatures", None)
 
-        # The "hashes" key might contain multiple algorithms if we decide to
-        # migrate away from SHA-2. We don't want to include an existing hash
-        # output in our hash so we exclude the "hashes" dict from the hash.
-        event_object.pop("hashes", None)
+    # The "hashes" key might contain multiple algorithms if we decide to
+    # migrate away from SHA-2. We don't want to include an existing hash
+    # output in our hash so we exclude the "hashes" dict from the hash.
+    event_object.pop("hashes", None)
 
-        # Encode the JSON using a canonical encoding so that we get the same
-        # bytes on every server for the same JSON object.
-        event_json_bytes = encode_canonical_json(event_object)
+    # Encode the JSON using a canonical encoding so that we get the same
+    # bytes on every server for the same JSON object.
+    event_json_bytes = encode_canonical_json(event_object)
 
-        return hashlib.sha256(event_json_bytes)
+    return hashlib.sha256(event_json_bytes)
+```
 
 ## Security considerations
 
