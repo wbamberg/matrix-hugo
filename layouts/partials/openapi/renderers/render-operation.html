@@ -2,7 +2,6 @@
 {{ $endpoint := .endpoint }}
 {{ $operation_data := .operation_data }}
 {{ $path := .path }}
-{{ $base_data := .base_data }}
 
 <section class="rendered-data http-api {{ $method }}">
 
@@ -37,8 +36,8 @@
  </tr>
 </table>
 
-{{ partial "openapi/renderers/render-request"   (dict "parameters" $operation_data.parameters "path" $path "base_data" $base_data) }}
-{{ partial "openapi/renderers/render-responses" (dict "responses"  $operation_data.responses  "path" $path "base_data" $base_data) }}
+{{ partial "openapi/renderers/render-request"   (dict "parameters" $operation_data.parameters "path" $path) }}
+{{ partial "openapi/renderers/render-responses" (dict "responses"  $operation_data.responses  "path" $path) }}
 
 </details>
 

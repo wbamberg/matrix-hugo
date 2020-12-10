@@ -1,6 +1,5 @@
 {{ $parameters := .parameters }}
 {{ $path := .path }}
-{{ $base_data := .base_data }}
 
 <h2>Request</h2>
 
@@ -22,7 +21,7 @@
 
         {{/* at most one body param is allowed by the spec */}}
         {{ $body_parameter := index $body_parameters 0 }}
-        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $body_parameter.schema "path" $path "base_data" $base_data) }}
+        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $body_parameter.schema "path" $path) }}
         {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
 
         {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}

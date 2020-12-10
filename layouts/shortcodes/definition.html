@@ -1,21 +1,14 @@
 {{ $path := .Params.path }}
-{{ $base_data := index .Site.Data }}
 {{ $compact := .Params.compact }}
 
 {{ $pieces := split $path "/" }}
 
-{{ $definition := $base_data }}
-{{ range $pieces}}
-    {{ if not $definition }}
-        {{ errorf "Failed to handle page %q" $path }}
-    {{ end }}
-    {{ $definition = index $definition . }}
-{{ end }}
+{{ $definition := index .Site.Data $pieces }}
 
 {{ $pieces = first (sub (len $pieces) 1) $pieces}}
 {{ $path = delimit $pieces "/" }}
 
-{{ $definition = partial "openapi/resolvers/resolve-refs" (dict "schema" $definition "path" $path "base_data" $base_data) }}
+{{ $definition = partial "openapi/resolvers/resolve-refs" (dict "schema" $definition "path" $path) }}
 {{ $definition = partial "openapi/resolvers/resolve-allof" $definition }}
 
 <section class="rendered-data definition">

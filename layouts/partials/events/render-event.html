@@ -1,7 +1,6 @@
 {{ $event_name := .event_name }}
 {{ $desired_example_name := .desired_example_name }}
 {{ $event_data := .event_data }}
-{{ $base_data := .base_data }}
 
 <section class="rendered-data event">
 
@@ -43,7 +42,7 @@
 
 <h2>Examples</h2>
 
-{{ $all_examples := index $base_data "event-schemas" "examples" }}
+{{ $all_examples := index site.Data "event-schemas" "examples" }}
 
 {{ range $example_name, $example := $all_examples }}
 
@@ -51,31 +50,10 @@
     {{/* it lets callers specify exactly the name of the example they want */}}
     {{ if $desired_example_name }}
         {{ if eq $example_name $desired_example_name }}
-            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples" "base_data" $base_data) }}
+            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples") }}
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```
-
-{{ if $example_content.content }}
-{{ if $example_content.content.formatted_body }}
-
-{{ $value := "<b>a thing</b>"}}
-{{ $content := dict "key" $value }}
-
-{{ $content.key }}
-{{/* <b>a thing</b> */}}
-
-{{ $content.key | jsonify }}
-{{/* “\u003cb\u003ea thing\u003c/b\u003e” */}}
-
-{{ $content.key | safeJS | jsonify  }}
-{{/* “\u003cb\u003ea thing\u003c/b\u003e” */}}
-
-
-{{end}}
-{{end}}
-
-
         {{ end }}
     {{/* if $desired_example_name is not given, we will include any */}}
     {{/* examples whose first part (before "$" matches the event name)*/}}
@@ -84,7 +62,7 @@
         {{ $pieces := split $example_name "$" }}
         {{ $example_base_name := index $pieces 0 }}
         {{ if eq $event_name $example_base_name }}
-            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples" "base_data" $base_data) }}
+            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples") }}
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```

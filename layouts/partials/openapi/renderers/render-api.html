@@ -1,5 +1,4 @@
 {{ $api_data := index .api_data }}
-{{ $base_data := index .base_data }}
 {{ $base_url := .base_url }}
 {{ $path := .path }}
 
@@ -9,7 +8,7 @@
 
     {{/* note that a `paths` entry can be a $ref */}}
 
-    {{ $params := dict "endpoint" $endpoint "path" $path "base_data" $base_data }}
+    {{ $params := dict "endpoint" $endpoint "path" $path }}
 
     {{ with $path_data.get }}
 
