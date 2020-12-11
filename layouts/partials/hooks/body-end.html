@@ -1,7 +1,15 @@
 <script>
 
+  /*
+  Account for id attributes that are in the sidebar nav
+  */
+  function populateIds() {
+    const navItems = document.querySelectorAll(".td-sidebar-nav li");
+    return Array.from(navItems).map(item => item.id).filter(id => id != "");
+  }
+
   function fixHeadingIds(headings) {
-    const uniqueIDs = [];
+    const uniqueIDs = populateIds();
     for (let heading of headings) {
       const uniqueID = uniquify(heading.id, uniqueIDs);
       uniqueIDs.push(uniqueID);
