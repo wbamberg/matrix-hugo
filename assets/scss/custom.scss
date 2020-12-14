@@ -62,7 +62,7 @@ Custom SCSS for the Matrix spec
   }
 
   p code, table code {
-    background-color: inherit;
+    background-color: $gray-100;
   }
 
   caption {
@@ -185,7 +185,7 @@ table.release-info {
    margin-bottom: 2rem;
 
    th, td {
-     background-color: $gray-100;;
+     background-color: $gray-100;
      border: 1px solid $gray-300;
    }
 
