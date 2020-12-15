@@ -4,9 +4,9 @@ type: docs
 weight: 1000
 ---
 
-{{% versions/changelog-description %}}
+{{% changelog/changelog-description %}}
 
-{{% versions/changelog-changes %}}
+{{% changelog/changelog-changes %}}
 
 <h2 id="historical-versions" class="no-numbers">Historical versions</h2>
 
