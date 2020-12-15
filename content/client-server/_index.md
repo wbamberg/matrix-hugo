@@ -38,10 +38,12 @@ inconsistency.
 Any errors which occur at the Matrix API level MUST return a "standard
 error response". This is a JSON object which looks like:
 
-    {
-      "errcode": "<error code>",
-      "error": "<error message>"
-    }
+```json
+{
+  "errcode": "<error code>",
+  "error": "<error message>"
+}
+```
 
 The `error` string will be a human-readable error message, usually a
 sentence explaining what went wrong. The `errcode` string will be a
@@ -406,33 +408,33 @@ homeserver returns an HTTP 401 response, with a JSON body, as follows:
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
+```json
+{
+  "flows": [
     {
-      "flows": [
-        {
-          "stages": [ "example.type.foo", "example.type.bar" ]
-        },
-        {
-          "stages": [ "example.type.foo", "example.type.baz" ]
-        }
-      ],
-      "params": {
-          "example.type.baz": {
-              "example_key": "foobar"
-          }
-      },
-      "session": "xxxxxx"
+      "stages": [ "example.type.foo", "example.type.bar" ]
+    },
+    {
+      "stages": [ "example.type.foo", "example.type.baz" ]
     }
+  ],
+  "params": {
+      "example.type.baz": {
+          "example_key": "foobar"
+      }
+  },
+  "session": "xxxxxx"
+}
+```
 
 In addition to the `flows`, this object contains some extra information:
 
-params  
-This section contains any information that the client will need to know
+* **`params`**: This section contains any information that the client will need to know
 in order to use a given type of authentication. For each authentication
 type presented, that type may be present as a key in this dictionary.
 For example, the public part of an OAuth client ID could be given here.
 
-session  
-This is a session identifier that the client must pass back to the
+* **`session`**: This is a session identifier that the client must pass back to the
 homeserver, if one is provided, in subsequent attempts to authenticate
 in the same API call.
 
@@ -449,15 +451,17 @@ type `example.type.foo`, it might submit something like this:
     POST /_matrix/client/r0/endpoint HTTP/1.1
     Content-Type: application/json
 
-    {
-      "a_request_parameter": "something",
-      "another_request_parameter": "something else",
-      "auth": {
-          "type": "example.type.foo",
-          "session": "xxxxxx",
-          "example_credential": "verypoorsharedsecret"
-      }
-    }
+```json
+{
+  "a_request_parameter": "something",
+  "another_request_parameter": "something else",
+  "auth": {
+      "type": "example.type.foo",
+      "session": "xxxxxx",
+      "example_credential": "verypoorsharedsecret"
+  }
+}
+```
 
 If the homeserver deems the authentication attempt to be successful but
 still requires more stages to be completed, it returns HTTP status 401
@@ -468,23 +472,25 @@ client has completed successfully:
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
+```json
+{
+  "completed": [ "example.type.foo" ],
+  "flows": [
     {
-      "completed": [ "example.type.foo" ],
-      "flows": [
-        {
-          "stages": [ "example.type.foo", "example.type.bar" ]
-        },
-        {
-          "stages": [ "example.type.foo", "example.type.baz" ]
-        }
-      ],
-      "params": {
-          "example.type.baz": {
-              "example_key": "foobar"
-          }
-      },
-      "session": "xxxxxx"
+      "stages": [ "example.type.foo", "example.type.bar" ]
+    },
+    {
+      "stages": [ "example.type.foo", "example.type.baz" ]
     }
+  ],
+  "params": {
+      "example.type.baz": {
+          "example_key": "foobar"
+      }
+  },
+  "session": "xxxxxx"
+}
+```
 
 Individual stages may require more than one request to complete, in
 which case the response will be as if the request was unauthenticated
@@ -498,25 +504,27 @@ status 401 response as above, with the addition of the standard
     HTTP/1.1 401 Unauthorized
     Content-Type: application/json
 
+```json
+{
+  "errcode": "M_FORBIDDEN",
+  "error": "Invalid password",
+  "completed": [ "example.type.foo" ],
+  "flows": [
     {
-      "errcode": "M_FORBIDDEN",
-      "error": "Invalid password",
-      "completed": [ "example.type.foo" ],
-      "flows": [
-        {
-          "stages": [ "example.type.foo", "example.type.bar" ]
-        },
-        {
-          "stages": [ "example.type.foo", "example.type.baz" ]
-        }
-      ],
-      "params": {
-          "example.type.baz": {
-              "example_key": "foobar"
-          }
-      },
-      "session": "xxxxxx"
+      "stages": [ "example.type.foo", "example.type.bar" ]
+    },
+    {
+      "stages": [ "example.type.foo", "example.type.baz" ]
     }
+  ],
+  "params": {
+      "example.type.baz": {
+          "example_key": "foobar"
+      }
+  },
+  "session": "xxxxxx"
+}
+```
 
 If the request fails for a reason other than authentication, the server
 returns an error message in the standard format. For example:
@@ -524,10 +532,12 @@ returns an error message in the standard format. For example:
     HTTP/1.1 400 Bad request
     Content-Type: application/json
 
-    {
-      "errcode": "M_EXAMPLE_ERROR",
-      "error": "Something was wrong"
-    }
+```json
+{
+  "errcode": "M_EXAMPLE_ERROR",
+  "error": "Something was wrong"
+}
+```
 
 If the client has completed all stages of a flow, the homeserver
 performs the API call and returns the result as normal. Completed stages
@@ -596,24 +606,24 @@ This specification defines the following auth types:
 
 #### Password-based
 
-Type  
-`m.login.password`
+* **Type**: `m.login.password`
 
-Description  
-The client submits an identifier and secret password, both sent in
+* **Description**: The client submits an identifier and secret password, both sent in
 plain-text.
 
 To use this authentication type, clients should submit an auth dict as
 follows:
 
-    {
-      "type": "m.login.password",
-      "identifier": {
-        ...
-      },
-      "password": "<password>",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.password",
+  "identifier": {
+    ...
+  },
+  "password": "<password>",
+  "session": "<session ID>"
+}
+```
 
 where the `identifier` property is a user identifier object, as
 described in [Identifier types](#identifier-types).
@@ -621,58 +631,60 @@ described in [Identifier types](#identifier-types).
 For example, to authenticate using the user's Matrix ID, clients would
 submit:
 
-    {
-      "type": "m.login.password",
-      "identifier": {
-        "type": "m.id.user",
-        "user": "<user_id or user localpart>"
-      },
-      "password": "<password>",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.password",
+  "identifier": {
+    "type": "m.id.user",
+    "user": "<user_id or user localpart>"
+  },
+  "password": "<password>",
+  "session": "<session ID>"
+}
+```
 
 Alternatively reply using a 3PID bound to the user's account on the
 homeserver using the [`/account/3pid`](#post_matrixclientr0account3pid) API rather then giving the `user`
 explicitly as follows:
 
-    {
-      "type": "m.login.password",
-      "identifier": {
-        "type": "m.id.thirdparty",
-        "medium": "<The medium of the third party identifier.>",
-        "address": "<The third party address of the user>"
-      },
-      "password": "<password>",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.password",
+  "identifier": {
+    "type": "m.id.thirdparty",
+    "medium": "<The medium of the third party identifier.>",
+    "address": "<The third party address of the user>"
+  },
+  "password": "<password>",
+  "session": "<session ID>"
+}
+```
 
 In the case that the homeserver does not know about the supplied 3PID,
 the homeserver must respond with 403 Forbidden.
 
 #### Google ReCaptcha
 
-Type  
-`m.login.recaptcha`
+* **Type**: `m.login.recaptcha`
 
-Description  
-The user completes a Google ReCaptcha 2.0 challenge
+* **Description**: The user completes a Google ReCaptcha 2.0 challenge.
 
 To use this authentication type, clients should submit an auth dict as
 follows:
 
-    {
-      "type": "m.login.recaptcha",
-      "response": "<captcha response>",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.recaptcha",
+  "response": "<captcha response>",
+  "session": "<session ID>"
+}
+```
 
 #### Single Sign-On
 
-Type  
-`m.login.sso`
+* **Type**: `m.login.sso`
 
-Description  
-Authentication is supported by authorising with an external single
+* **Description**: Authentication is supported by authorising with an external single
 sign-on provider.
 
 A client wanting to complete authentication using SSO should use the
@@ -681,11 +693,9 @@ Authentication](#sso-during-user-interactive-authentication) for more informatio
 
 #### Email-based (identity / homeserver)
 
-Type  
-`m.login.email.identity`
+* **Type**: `m.login.email.identity`
 
-Description  
-Authentication is supported by authorising an email address with an
+* **Description**: Authentication is supported by authorising an email address with an
 identity server, or homeserver if supported.
 
 Prior to submitting this, the client should authenticate with an
@@ -695,29 +705,29 @@ information should be submitted to the homeserver.
 To use this authentication type, clients should submit an auth dict as
 follows:
 
+```json
+{
+  "type": "m.login.email.identity",
+  "threepidCreds": [
     {
-      "type": "m.login.email.identity",
-      "threepidCreds": [
-        {
-          "sid": "<identity server session id>",
-          "client_secret": "<identity server client secret>",
-          "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
-          "id_access_token": "<access token previously registered with the identity server>"
-        }
-      ],
-      "session": "<session ID>"
+      "sid": "<identity server session id>",
+      "client_secret": "<identity server client secret>",
+      "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
+      "id_access_token": "<access token previously registered with the identity server>"
     }
+  ],
+  "session": "<session ID>"
+}
+```
 
 Note that `id_server` (and therefore `id_access_token`) is optional if
 the `/requestToken` request did not include them.
 
 #### Phone number/MSISDN-based (identity / homeserver)
 
-Type  
-`m.login.msisdn`
+* **Type**: `m.login.msisdn`
 
-Description  
-Authentication is supported by authorising a phone number with an
+* **Description**: Authentication is supported by authorising a phone number with an
 identity server, or homeserver if supported.
 
 Prior to submitting this, the client should authenticate with an
@@ -727,29 +737,29 @@ information should be submitted to the homeserver.
 To use this authentication type, clients should submit an auth dict as
 follows:
 
+```json
+{
+  "type": "m.login.msisdn",
+  "threepidCreds": [
     {
-      "type": "m.login.msisdn",
-      "threepidCreds": [
-        {
-          "sid": "<identity server session id>",
-          "client_secret": "<identity server client secret>",
-          "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
-          "id_access_token": "<access token previously registered with the identity server>"
-        }
-      ],
-      "session": "<session ID>"
+      "sid": "<identity server session id>",
+      "client_secret": "<identity server client secret>",
+      "id_server": "<url of identity server authed with, e.g. 'matrix.org:8090'>",
+      "id_access_token": "<access token previously registered with the identity server>"
     }
+  ],
+  "session": "<session ID>"
+}
+```
 
 Note that `id_server` (and therefore `id_access_token`) is optional if
 the `/requestToken` request did not include them.
 
 #### Dummy Auth
 
-Type  
-`m.login.dummy`
+* **Type**: `m.login.dummy`
 
-Description  
-Dummy authentication always succeeds and requires no extra parameters.
+* **Description**: Dummy authentication always succeeds and requires no extra parameters.
 Its purpose is to allow servers to not require any form of
 User-Interactive Authentication to perform a request. It can also be
 used to differentiate flows where otherwise one flow would be a subset
@@ -763,10 +773,12 @@ server can instead send flows `m.login.recaptcha, m.login.dummy` and
 To use this authentication type, clients should submit an auth dict with
 just the type and session, if provided:
 
-    {
-      "type": "m.login.dummy",
-      "session": "<session ID>"
-    }
+```json
+{
+  "type": "m.login.dummy",
+  "session": "<session ID>"
+}
+```
 
 ##### Fallback
 
@@ -785,11 +797,13 @@ This MUST return an HTML page which can perform this authentication
 stage. This page must use the following JavaScript when the
 authentication has been completed:
 
-    if (window.onAuthDone) {
-        window.onAuthDone();
-    } else if (window.opener && window.opener.postMessage) {
-        window.opener.postMessage("authDone", "*");
-    }
+```js
+if (window.onAuthDone) {
+    window.onAuthDone();
+} else if (window.opener && window.opener.postMessage) {
+    window.opener.postMessage("authDone", "*");
+}
+```
 
 This allows the client to either arrange for the global function
 `onAuthDone` to be defined in an embedded browser, or to use the HTML5
@@ -801,64 +815,68 @@ Once a client receives the notificaton that the authentication stage has
 been completed, it should resubmit the request with an auth dict with
 just the session ID:
 
-    {
-      "session": "<session ID>"
-    }
+```json
+{
+  "session": "<session ID>"
+}
+```
 
 #### Example
 
 A client webapp might use the following javascript to open a popup
 window which will handle unknown login types:
 
-    /**
-     * Arguments:
-     *     homeserverUrl: the base url of the homeserver (eg "https://matrix.org")
-     *
-     *     apiEndpoint: the API endpoint being used (eg
-     *        "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/password")
-     *
-     *     loginType: the loginType being attempted (eg "m.login.recaptcha")
-     *
-     *     sessionID: the session ID given by the homeserver in earlier requests
-     *
-     *     onComplete: a callback which will be called with the results of the request
-     */
-    function unknownLoginType(homeserverUrl, apiEndpoint, loginType, sessionID, onComplete) {
-        var popupWindow;
+```js
+/**
+ * Arguments:
+ *     homeserverUrl: the base url of the homeserver (eg "https://matrix.org")
+ *
+ *     apiEndpoint: the API endpoint being used (eg
+ *        "/_matrix/client/%CLIENT_MAJOR_VERSION%/account/password")
+ *
+ *     loginType: the loginType being attempted (eg "m.login.recaptcha")
+ *
+ *     sessionID: the session ID given by the homeserver in earlier requests
+ *
+ *     onComplete: a callback which will be called with the results of the request
+ */
+function unknownLoginType(homeserverUrl, apiEndpoint, loginType, sessionID, onComplete) {
+    var popupWindow;
 
-        var eventListener = function(ev) {
-            // check it's the right message from the right place.
-            if (ev.data !== "authDone" || ev.origin !== homeserverUrl) {
-                return;
-            }
+    var eventListener = function(ev) {
+        // check it's the right message from the right place.
+        if (ev.data !== "authDone" || ev.origin !== homeserverUrl) {
+            return;
+        }
 
-            // close the popup
-            popupWindow.close();
-            window.removeEventListener("message", eventListener);
+        // close the popup
+        popupWindow.close();
+        window.removeEventListener("message", eventListener);
 
-            // repeat the request
-            var requestBody = {
-                auth: {
-                    session: sessionID,
-                },
-            };
-
-            request({
-                method:'POST', url:apiEndpint, json:requestBody,
-            }, onComplete);
+        // repeat the request
+        var requestBody = {
+            auth: {
+                session: sessionID,
+            },
         };
 
-        window.addEventListener("message", eventListener);
+        request({
+            method:'POST', url:apiEndpint, json:requestBody,
+        }, onComplete);
+    };
 
-        var url = homeserverUrl +
-            "/_matrix/client/%CLIENT_MAJOR_VERSION%/auth/" +
-            encodeURIComponent(loginType) +
-            "/fallback/web?session=" +
-            encodeURIComponent(sessionID);
+    window.addEventListener("message", eventListener);
+
+    var url = homeserverUrl +
+        "/_matrix/client/%CLIENT_MAJOR_VERSION%/auth/" +
+        encodeURIComponent(loginType) +
+        "/fallback/web?session=" +
+        encodeURIComponent(sessionID);
 
 
-       popupWindow = window.open(url);
-    }
+   popupWindow = window.open(url);
+}
+```
 
 ##### Identifier types
 
@@ -875,28 +893,26 @@ This specification defines the following identifier types:
 
 #### Matrix User ID
 
-Type  
-`m.id.user`
+* **Type**: `m.id.user`
 
-Description  
-The user is identified by their Matrix ID.
+* **Description**: The user is identified by their Matrix ID.
 
 A client can identify a user using their Matrix ID. This can either be
 the fully qualified Matrix user ID, or just the localpart of the user
 ID.
 
-    "identifier": {
-      "type": "m.id.user",
-      "user": "<user_id or user localpart>"
-    }
+```json
+"identifier": {
+  "type": "m.id.user",
+  "user": "<user_id or user localpart>"
+}
+```
 
 #### Third-party ID
 
-Type  
-`m.id.thirdparty`
+* **Type**: `m.id.thirdparty`
 
-Description  
-The user is identified by a third-party identifier in canonicalised
+* **Description**: The user is identified by a third-party identifier in canonicalised
 form.
 
 A client can identify a user using a 3PID associated with the user's
@@ -905,19 +921,19 @@ using the [`/account/3pid`](#post_matrixclientr0account3pid) API. See the [3PID
 Types](/appendices#3pid-types) Appendix for a list of Third-party
 ID media.
 
-    "identifier": {
-      "type": "m.id.thirdparty",
-      "medium": "<The medium of the third party identifier>",
-      "address": "<The canonicalised third party address of the user>"
-    }
+```json
+"identifier": {
+  "type": "m.id.thirdparty",
+  "medium": "<The medium of the third party identifier>",
+  "address": "<The canonicalised third party address of the user>"
+}
+```
 
 #### Phone number
 
-Type  
-`m.id.phone`
+* **Type**: `m.id.phone`
 
-Description  
-The user is identified by a phone number.
+* **Description**: The user is identified by a phone number.
 
 A client can identify a user using a phone number associated with the
 user's account, where the phone number was previously associated using
@@ -927,11 +943,13 @@ If the client wishes to canonicalise the phone number, then it can use
 the `m.id.thirdparty` identifier type with a `medium` of `msisdn`
 instead.
 
-    "identifier": {
-      "type": "m.id.phone",
-      "country": "<The country that the phone number is from>",
-      "phone": "<The phone number>"
-    }
+```json
+"identifier": {
+  "type": "m.id.phone",
+  "country": "<The country that the phone number is from>",
+  "phone": "<The phone number>"
+}
+```
 
 The `country` is the two-letter uppercase ISO-3166-1 alpha-2 country
 code that the number in `phone` should be parsed as if it were dialled
@@ -948,27 +966,31 @@ API](#user-interactive-authentication-api).
 For a simple username/password login, clients should submit a `/login`
 request as follows:
 
-    {
-      "type": "m.login.password",
-      "identifier": {
-        "type": "m.id.user",
-        "user": "<user_id or user localpart>"
-      },
-      "password": "<password>"
-    }
+```json
+{
+  "type": "m.login.password",
+  "identifier": {
+    "type": "m.id.user",
+    "user": "<user_id or user localpart>"
+  },
+  "password": "<password>"
+}
+```
 
 Alternatively, a client can use a 3PID bound to the user's account on
 the homeserver using the [`/account/3pid`](#post_matrixclientr0account3pid) API rather then giving the
 `user` explicitly, as follows:
 
-    {
-      "type": "m.login.password",
-      "identifier": {
-        "medium": "<The medium of the third party identifier>",
-        "address": "<The canonicalised third party address of the user>"
-      },
-      "password": "<password>"
-    }
+```json
+{
+  "type": "m.login.password",
+  "identifier": {
+    "medium": "<The medium of the third party identifier>",
+    "address": "<The canonicalised third party address of the user>"
+  },
+  "password": "<password>"
+}
+```
 
 In the case that the homeserver does not know about the supplied 3PID,
 the homeserver must respond with `403 Forbidden`.
@@ -976,10 +998,12 @@ the homeserver must respond with `403 Forbidden`.
 To log in using a login token, clients should submit a `/login` request
 as follows:
 
-    {
-      "type": "m.login.token",
-      "token": "<login token>"
-    }
+```json
+{
+  "type": "m.login.token",
+  "token": "<login token>"
+}
+```
 
 As with [token-based]() interactive login, the `token` must encode the
 user ID. In the case that the token is not valid, the homeserver must
@@ -1130,13 +1154,15 @@ to change their password.
 
 An example of the capability API's response for this capability is:
 
-    {
-      "capabilities": {
-        "m.change_password": {
-          "enabled": false
-        }
-      }
+```json
+{
+  "capabilities": {
+    "m.change_password": {
+      "enabled": false
     }
+  }
+}
+```
 
 ### `m.room_versions` capability
 
@@ -1147,19 +1173,21 @@ upgrade their rooms.
 
 An example of the capability API's response for this capability is:
 
-    {
-      "capabilities": {
-        "m.room_versions": {
-          "default": "1",
-          "available": {
-            "1": "stable",
-            "2": "stable",
-            "3": "unstable",
-            "custom-version": "unstable"
-          }
-        }
+```json
+{
+  "capabilities": {
+    "m.room_versions": {
+      "default": "1",
+      "available": {
+        "1": "stable",
+        "2": "stable",
+        "3": "unstable",
+        "custom-version": "unstable"
       }
     }
+  }
+}
+```
 
 This capability mirrors the same restrictions of [room
 versions](../index.html#room-versions) to describe which versions are
@@ -1823,19 +1851,23 @@ someone, the user performing the ban MUST have the required power level.
 To ban a user, a request should be made to [`/rooms/<room_id>/ban`](#post_matrixclientr0roomsroomidban)
 with:
 
-    {
-      "user_id": "<user id to ban>"
-      "reason": "string: <reason for the ban>"
-    }
+```json
+{
+  "user_id": "<user id to ban>",
+  "reason": "string: <reason for the ban>"
+}
+```
 
 Banning a user adjusts the banned member's membership state to `ban`.
 Like with other membership changes, a user can directly adjust the
 target member's state, by making a request to
 `/rooms/<room id>/state/m.room.member/<user id>`:
 
-    {
-      "membership": "ban"
-    }
+```json
+{
+  "membership": "ban"
+}
+```
 
 A user must be explicitly unbanned with a request to
 [`/rooms/<room_id>/unban`](#post_matrixclientr0roomsroomidunban) before they can re-join the room or be
@@ -1889,11 +1921,13 @@ Homeservers SHOULD implement rate limiting to reduce the risk of being
 overloaded. If a request is refused due to rate limiting, it should
 return a standard error response of the form:
 
-    {
-      "errcode": "M_LIMIT_EXCEEDED",
-      "error": "string",
-      "retry_after_ms": integer (optional)
-    }
+```json
+{
+  "errcode": "M_LIMIT_EXCEEDED",
+  "error": "string",
+  "retry_after_ms": integer (optional)
+}
+```
 
 The `retry_after_ms` key SHOULD be included to tell the client how long
 they have to wait in milliseconds before they can try again.
@@ -1903,5 +1937,314 @@ never succeeds without auth. Homeservers may allow requests that don't
 require auth by offering a stage with only the `m.login.dummy` auth
 type, but they must still give a 401 response to requests with no auth
 data.
+
+## Modules
+
+Modules are parts of the Client-Server API which are not universal to all
+endpoints. Modules are strictly defined within this specification and
+should not be mistaken for experimental extensions or optional features.
+A compliant server implementation MUST support all modules and supporting
+specification (unless the implementation only targets clients of certain
+profiles, in which case only the required modules for those feature profiles
+MUST be implemented). A compliant client implementation MUST support all
+the required modules and supporting specification for the [Feature Profile](feature-profiles)
+it targets.
+
+### Feature Profiles
+
+Matrix supports many different kinds of clients: from embedded IoT devices to
+desktop clients. Not all clients can provide the same feature sets as other
+clients e.g. due to lack of physical hardware such as not having a screen.
+Clients can fall into one of several profiles and each profile contains a set
+of features that the client MUST support. This section details a set of
+"feature profiles". Clients are expected to implement a profile in its entirety
+in order for it to be classified as that profile.
+
+#### Summary
+
+<table>
+
+  <tr>
+    <th>Module / Profile</th>
+    <th>Web</th>
+    <th>Mobile</th>
+    <th>Desktop</th>
+    <th>CLI</th>
+    <th>Embedded</th>
+  </tr>
+
+  <tr>
+    <th><a href="#instant-messaging">Instant Messaging</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#direct-messaging">Direct Messaging</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#user-room-and-group-mentions">Mentions</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#presence">Presence</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#push-notifications">Push Notifications</a></th>
+    <td>Optional</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#receipts">Receipts</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#fully-read-markers">Fully read markers</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#typing-notifications">Typing Notifications</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#voice-over-ip">VoIP</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#ignoring-users">Ignoring Users</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#reporting-content">Reporting Content</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#content-repository">Content Repository</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#room-history-visibility">Managing History Visibility</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-side-search">Server Side Search</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#room-upgrades">Room Upgrades</a></th>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Required</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-administration">Server Administration</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#event-context">Event Context</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#third-party-networks">Third Party Networks</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#send-to-device-messaging">Send-to-Device Messaging</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#device-management">Device Management</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#end-to-end-encryption">End-to-End Encryption</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#guest-access">Guest Accounts</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#room-previews">Room Previews</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#client-config">Client Config</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#sso-client-loginauthentication">SSO Login</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#openid">OpenID</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#sticker-messages">Stickers</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-access-control-lists-acls-for-rooms">Server ACLs</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#server-notices">Server Notices</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+  <tr>
+    <th><a href="#moderation-policy-lists">Moderation policies</a></th>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+    <td>Optional</td>
+  </tr>
+
+</table>
+
+Please see each module for more details on what clients need to implement.
 
 {{% cs-modules %}}

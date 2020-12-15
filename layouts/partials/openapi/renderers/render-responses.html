@@ -1,6 +1,5 @@
 {{ $responses := .responses }}
 {{ $path := .path }}
-{{ $base_data := .base_data }}
 
 <h2>Responses</h2>
 
@@ -26,7 +25,7 @@
 
     {{ if $response.schema }}
 
-        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $response.schema "path" $path "base_data" $base_data) }}
+        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $response.schema "path" $path) }}
         {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
 
         {{ if or $schema.properties (eq $schema.type "array") }}
@@ -58,7 +57,7 @@
 
             {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
             {{ if $response.examples }}
-                {{ $example = partial "openapi/resolvers/resolve-refs" (dict "schema" $response.examples "path" $path "base_data" $base_data) }}
+                {{ $example = partial "openapi/resolvers/resolve-refs" (dict "schema" $response.examples "path" $path) }}
                 {{ $example = index $example "application/json" }}
             {{ end }}
 

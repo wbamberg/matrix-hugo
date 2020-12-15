@@ -2,20 +2,19 @@
 {{ $endpoint := .endpoint }}
 {{ $operation_data := .operation_data }}
 {{ $path := .path }}
-{{ $base_data := .base_data }}
 
 <section class="rendered-data http-api {{ $method }}">
 
+  <h1 id="{{ lower $method }}{{ anchorize $endpoint }}">
+   <span class="http-api-method {{ $method }}">{{ $method }}</span>
+   <span class="endpoint"><code>{{ $endpoint }}</code></span>
+   {{ if $operation_data.deprecated }}<span class="deprecated-inline"></span>{{ end }}
+  </h1>
+
+  <hr/>
+
 <details {{ if not site.Params.ui.rendered_data_collapsed }}open{{ end }}>
 <summary>
-
-<h1 id="{{ lower $method }}{{ anchorize $endpoint }}">
- <span class="http-api-method {{ $method }}">{{ $method }}</span>
- <span class="endpoint"><code>{{ $endpoint }}</code></span>
- {{ if $operation_data.deprecated }}<span class="deprecated-inline"></span>{{ end }}
-</h1>
-
-<hr/>
 
 {{ if $operation_data.deprecated }}
     {{ partial "alert" (dict "title" "Warning" "color" "warning" "content" "This API is deprecated and will be removed from a future release.") }}
@@ -37,8 +36,8 @@
  </tr>
 </table>
 
-{{ partial "openapi/renderers/render-request"   (dict "parameters" $operation_data.parameters "path" $path "base_data" $base_data) }}
-{{ partial "openapi/renderers/render-responses" (dict "responses"  $operation_data.responses  "path" $path "base_data" $base_data) }}
+{{ partial "openapi/renderers/render-request"   (dict "parameters" $operation_data.parameters "path" $path) }}
+{{ partial "openapi/renderers/render-responses" (dict "responses"  $operation_data.responses  "path" $path) }}
 
 </details>
 

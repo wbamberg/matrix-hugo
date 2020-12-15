@@ -39,6 +39,12 @@
             {{ $type = "enum" }}
         {{ end }}
 
+        {{ if reflect.IsMap $property.additionalProperties }}
+            {{ if $property.additionalProperties.title }}
+                {{ $type = delimit (slice "{ string: " $property.additionalProperties.title "}" ) "" }}
+            {{ end }}
+        {{ end }}
+
         {{/* handle two ways of indicating "required", one for simple parameters, the other for request and response body objects */}}
         {{ $required := cond (or (in $required $property_name) ( eq $property.required true )) true false }}
 
