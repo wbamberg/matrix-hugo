@@ -1,3 +1,17 @@
+{{/*
+
+  This template is used to render an event.
+
+  It expects to be passed a `group_name` parameter. For example:
+
+      {{% event-group group_name="m.call" %}}
+
+  The template will then render all events whose schema starts with the given name.
+
+  This template replaces the old {{*_event}} template.
+
+*/}}
+
 {{ $path := "event-schemas/schema" }}
 
 {{ $events := index .Site.Data "event-schemas" "schema" }}

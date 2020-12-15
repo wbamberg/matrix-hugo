@@ -1,13 +1,28 @@
+{{/*
+
+  This template is used to render EDUs and PDUs in the server-server and room versions specs.
+
+  It expects to be passed a `path` parameter, which is a path, relative to /data,
+  pointing to a schema file. The file extension is omitted. For example:
+
+      {{% definition path="api/server-server/definitions/edu" %}}
+
+  This template replaces the old {{definition_*}} template.
+
+*/}}
+
 {{ $path := .Params.path }}
 {{ $compact := .Params.compact }}
-
 {{ $pieces := split $path "/" }}
 
+{{/* The definition is referenced by the .path parameter */}}
 {{ $definition := index .Site.Data $pieces }}
 
+{{/* The base path, which we use to resolve $ref, omits the last component */}}
 {{ $pieces = first (sub (len $pieces) 1) $pieces}}
 {{ $path = delimit $pieces "/" }}
 
+{{/* Resolve $ref and allOf */}}
 {{ $definition = partial "openapi/resolvers/resolve-refs" (dict "schema" $definition "path" $path) }}
 {{ $definition = partial "openapi/resolvers/resolve-allof" $definition }}
 

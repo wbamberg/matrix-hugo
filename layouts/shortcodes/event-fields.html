@@ -1,3 +1,17 @@
+{{/*
+
+  This template is used to render the fields that all basic events and room events
+  must or may contain.
+
+  It expects to be passed an `event_type` parameter, is the name of a file under
+  /data/event-schemas/core-event-schema. The file extension is omitted. For example:
+
+      {{% event-fields event_type="room_event" %}}
+
+  This template replaces the old {{common_event_fields}} and {{common_room_event_fields}} templates.
+
+*/}}
+
 {{ $event := index .Site.Data "event-schemas" "schema" "core-event-schema" .Params.event_type }}
 {{ $path := "event-schemas/schema/core-event-schema" }}
 

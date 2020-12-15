@@ -1,3 +1,19 @@
+{{/*
+
+  This template is used to render the set of changes in the changelog page.
+
+  If this version of the spec is unstable, it expects to find a
+  "changelog/newsfragments" directory containing all unreleased changes,
+  and renders them all.
+
+  Otherwise it expects to find a "changelog/releases" directory, under which
+  is one or more directories whose name is a patch number, like "0", "1", and so on.
+
+  It renders each of these subdirectories as a separate patch, including
+  a table containing basic info about that patch and the set of changes in it.
+
+*/}}
+
 {{ $path := path.Join "changelog" }}
 
 {{ $config_file := path.Join $path "pyproject.toml" }}

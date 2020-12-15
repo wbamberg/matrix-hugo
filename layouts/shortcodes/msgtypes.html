@@ -1,10 +1,28 @@
+{{/*
+
+  This template is used to render the `m.room.message` events.
+
+  It replaces the old {{msgtype_events}} template.
+
+*/}}
+
 {{ $path := "event-schemas/schema" }}
 {{ $compact := false }}
 
+{{/*
+  The old template starts with an explicit list of events, presumably
+  to define the order in which they are rendered.
+*/}}
 {{ $msgtypes := (slice "m.room.message$m.text" "m.room.message$m.emote" "m.room.message$m.notice" "m.room.message$m.image" "m.room.message$m.file") }}
 
+{{/*
+  It excludes `m.room.message$m.server_notice`
+*/}}
 {{ $excluded := slice "m.room.message$m.server_notice" }}
 
+{{/*
+  It then adds any other events that start `m.room.message`.
+*/}}
 {{ $events := index .Site.Data "event-schemas" "schema" }}
 {{ $expected_prefix := "m.room.message$"}}
 {{ range $object_name, $event_data := $events }}

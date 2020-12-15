@@ -1,3 +1,21 @@
+{{/*
+
+  This template is used to render an HTTP API, given an OpenAPI/Swagger definition.
+
+  It expects to be passed two parameters:
+
+  * a `spec` parameter identifying the spec, which must be the name of
+  a directory under /data/api
+  * an `api` parameter, identifying an OpenAPI/Swagger definition,
+  which is the name of a schema file under "data/api/$spec".
+  The file extension is omitted. For example:
+
+      {{% http-api spec="server-server" api="public_rooms" %}}
+
+  This template replaces the old {{*_http_api}} template.
+
+*/}}
+
 {{ $spec := .Params.spec}}
 {{ $api := .Params.api}}
 

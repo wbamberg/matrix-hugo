@@ -1,3 +1,9 @@
+{{/*
+
+  This template is used to render the table of SAS emoji table.
+
+*/}}
+
 {{ $emoji_json := readFile "data-definitions/sas-emoji.json" | transform.Unmarshal }}
 
 <table>

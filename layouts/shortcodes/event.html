@@ -1,3 +1,16 @@
+{{/*
+
+  This template is used to render an event.
+
+  It expects to be passed an `event` parameter, which is the name of a schema file under
+  "data/event-schemas/schema". The file extension is omitted. For example:
+
+      {{% event event="m.accepted_terms" %}}
+
+  This template replaces the old {{*_event}} template.
+
+*/}}
+
 {{ $event_data := index .Site.Data "event-schemas" "schema" .Params.event }}
 {{ $path := "event-schemas/schema" }}
 
