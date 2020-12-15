@@ -7,7 +7,7 @@
 
 {{ if eq $status "unstable" }}
     {{ $news_path := path.Join $path "newsfragments" }}
-    {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $news_path )}}
+    {{ partial "render-newsfragments"  (dict "config" $config "news_path" $news_path )}}
 {{ else }}
     {{ $releases_path := path.Join $path "releases" }}
     {{ $major_version := .Site.Params.version.major_version }}
@@ -23,10 +23,11 @@
   <tr><th>Release date</th><td>{{ $release_info.date }}</td>
 </table>
             {{ $news_path := path.Join $release_path "newsfragments" }}
-            {{ partial "changelog/render-newsfragments"  (dict "config" $config "news_path" $news_path )}}
+            {{ partial "render-newsfragments"  (dict "config" $config "news_path" $news_path )}}
         {{ end }}
     {{ end }}
 {{ end }}
+
 
 {{ define "partials/reverse-slice" }}
 {{ $sliceOriginal := . }}
@@ -36,4 +37,45 @@
     {{ $sliceReversed = $sliceReversed | append (index $sliceOriginal (sub $len .)) }}
 {{ end }}
 {{ return $sliceReversed }}
+{{ end }}
+
+
+{{ define "partials/render-newsfragments" }}
+{{ $config := .config }}
+{{ $news_path := .news_path }}
+
+{{ $types := dict }}
+{{ range $config.tool.towncrier.type }}
+    {{ $types = merge $types (dict .directory (slice)) }}
+{{ end }}
+
+{{ range (readDir $news_path) }}
+
+    {{ $pieces := split .Name "." }}
+
+    {{ $ticket := index $pieces 0 }}
+    {{ $description := readFile (path.Join $news_path .Name ) }}
+    {{ $change_info := (dict "ticket" $ticket "description" $description )}}
+
+    {{ $type := index $pieces 1 }}
+    {{ $instances := index $types $type }}
+    {{ $instances = $instances | append $change_info }}
+    {{ $types = merge $types (dict $type $instances) }}
+
+{{ end }}
+
+<ul>
+{{ range $config.tool.towncrier.type }}
+    {{ $changes_of_type := (index $types .directory) }}
+    {{ if $changes_of_type }}
+<li><strong>{{.name}}</strong>
+<p><ul>
+        {{ range $changes_of_type }}
+<li><a href="https://github.com/matrix-org/matrix-doc/issues/{{.ticket}}"><strong>{{ .ticket }}: </strong></a>{{ .description | markdownify }}</li>
+        {{ end }}
+</ul></p>
+</li>
+    {{ end }}
+{{ end }}
+</ul>
 {{ end }}
