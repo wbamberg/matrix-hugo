@@ -1,14 +1,17 @@
 {{/*
 
-  A copy of the breadcrumb.html partial in Docsy, only modified
-	to include the homepage, since we in our site the root document
-	is the Matrix Specification overview page.
+  A copy of the breadcrumb.html partial in Docsy, modified
+	to:
+  * omit breadcrumbs when this is the homepage
+  * otherwise, include the homepage in the breadcrumbs
 
 */}}
 
 <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
 	<ol class="breadcrumb spb-1">
-		{{ template "breadcrumbnav" (dict "p1" . "p2" .) }}
+{{ if not .IsHome }}
+{{ template "breadcrumbnav" (dict "p1" . "p2" .) }}
+{{ end }}
 	</ol>
 </nav	>
 {{ define "breadcrumbnav" }}
