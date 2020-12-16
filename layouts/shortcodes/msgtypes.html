@@ -39,8 +39,8 @@
 {{ range $msgtypes }}
 
     {{ $event_data := index $site_data "event-schemas" "schema" . }}
-    {{ $event_data = partial "openapi/resolvers/resolve-refs" (dict "schema" $event_data "path" $path) }}
-    {{ $event_data := partial "openapi/resolvers/resolve-allof" $event_data }}
+    {{ $event_data = partial "json-schema/resolve-refs" (dict "schema" $event_data "path" $path) }}
+    {{ $event_data := partial "json-schema/resolve-allof" $event_data }}
 
     {{ $event_name := index (split . "$") 1 }}
     {{ partial "events/render-event" (dict "event_name" $event_name "desired_example_name" . "event_data" $event_data)}}

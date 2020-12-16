@@ -22,8 +22,8 @@
     {{ $prefix := substr $event_name 0 (len $group_name) }}
     {{ if eq $prefix $group_name }}
 
-        {{ $event_data = partial "openapi/resolvers/resolve-refs" (dict "schema" $event_data "path" $path) }}
-        {{ $event_data := partial "openapi/resolvers/resolve-allof" $event_data }}
+        {{ $event_data = partial "json-schema/resolve-refs" (dict "schema" $event_data "path" $path) }}
+        {{ $event_data := partial "json-schema/resolve-allof" $event_data }}
 
         {{ partial "events/render-event" (dict "event_name" $event_name "event_data" $event_data)}}
 

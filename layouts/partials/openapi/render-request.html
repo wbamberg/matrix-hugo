@@ -23,9 +23,9 @@
     {{ if $simple_parameters }}
 <h3>Request parameters</h3>
 
-        {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "header" "caption" "header parameters") }}
-        {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "path" "caption" "path parameters") }}
-        {{ partial "openapi/renderers/render-parameters" (dict "parameters" $simple_parameters "type" "query" "caption" "query parameters") }}
+        {{ partial "openapi/render-parameters" (dict "parameters" $simple_parameters "type" "header" "caption" "header parameters") }}
+        {{ partial "openapi/render-parameters" (dict "parameters" $simple_parameters "type" "path" "caption" "path parameters") }}
+        {{ partial "openapi/render-parameters" (dict "parameters" $simple_parameters "type" "query" "caption" "query parameters") }}
 
     {{ end }}
 
@@ -35,17 +35,17 @@
 
         {{/* at most one body param is allowed by the spec */}}
         {{ $body_parameter := index $body_parameters 0 }}
-        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $body_parameter.schema "path" $path) }}
-        {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
+        {{ $schema := partial "json-schema/resolve-refs" (dict "schema" $body_parameter.schema "path" $path) }}
+        {{ $schema := partial "json-schema/resolve-allof" $schema }}
 
-        {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}
+        {{ $additional_types := partial "json-schema/resolve-additional-types" $schema }}
         {{ $additional_types = uniq $additional_types }}
         {{ range $additional_types }}
-            {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
+            {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
         {{ end }}
 
 <h3>Request body example</h3>
-        {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
+        {{ $example := partial "json-schema/resolve-example" $schema }}
 ```json
 {{ jsonify (dict "indent" "  ") $example }}
 ```

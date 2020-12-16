@@ -29,7 +29,7 @@
 
     {{ range $property_name, $property := $properties }}
 
-        {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
+        {{ $property := partial "json-schema/resolve-allof" $property }}
 
         {{/*
             If the property has a `title`, use that rather than `type`.
@@ -47,7 +47,7 @@
         {{ if eq $type "array"}}
             {{ $items := $property.items }}
             {{ if $property.items }}
-                {{ $items = partial "openapi/resolvers/resolve-allof" $property.items }}
+                {{ $items = partial "json-schema/resolve-allof" $property.items }}
             {{ end }}
             {{ $inner_type := $items.type }}
             {{ if $items.title }}

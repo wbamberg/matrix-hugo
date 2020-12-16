@@ -26,28 +26,28 @@
     {{ with $path_data.get }}
 
         {{ $operation_params := merge $params (dict "method" "GET" "operation_data" . ) }}
-        {{ partial "openapi/renderers/render-operation" $operation_params }}
+        {{ partial "openapi/render-operation" $operation_params }}
 
     {{ end }}
 
     {{ with $path_data.post }}
 
         {{ $operation_params := merge $params (dict "method" "POST" "operation_data" . ) }}
-        {{ partial "openapi/renderers/render-operation" $operation_params }}
+        {{ partial "openapi/render-operation" $operation_params }}
 
     {{ end }}
 
     {{ with $path_data.put }}
 
         {{ $operation_params := merge $params (dict "method" "PUT" "operation_data" . ) }}
-        {{ partial "openapi/renderers/render-operation" $operation_params }}
+        {{ partial "openapi/render-operation" $operation_params }}
 
     {{ end }}
 
     {{ with $path_data.delete }}
 
         {{ $operation_params := merge $params (dict "method" "DELETE" "operation_data" . ) }}
-        {{ partial "openapi/renderers/render-operation" $operation_params }}
+        {{ partial "openapi/render-operation" $operation_params }}
 
     {{ end }}
 

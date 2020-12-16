@@ -15,8 +15,8 @@
 {{ $event := index .Site.Data "event-schemas" "schema" "core-event-schema" .Params.event_type }}
 {{ $path := "event-schemas/schema/core-event-schema" }}
 
-{{ $event = partial "openapi/resolvers/resolve-refs" (dict "schema" $event "path" $path) }}
-{{ $event := partial "openapi/resolvers/resolve-allof" $event }}
+{{ $event = partial "json-schema/resolve-refs" (dict "schema" $event "path" $path) }}
+{{ $event := partial "json-schema/resolve-allof" $event }}
 
 <section class="rendered-data event">
 
@@ -35,9 +35,9 @@
 
 {{ $event = merge $event (dict "title" "") }}
 
-{{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $event }}
+{{ $additional_types := partial "json-schema/resolve-additional-types" $event }}
 {{ range $additional_types }}
-    {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
+    {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
 {{end}}
 
 </details>

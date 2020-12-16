@@ -68,7 +68,7 @@
 */}}
 {{ if ne $ret.allOf $original.allOf }}
 
-    {{ $resolved := partial "openapi/resolvers/resolve-allof" $ret }}
+    {{ $resolved := partial "json-schema/resolve-allof" $ret }}
     {{ $ret = merge $ret $resolved }}
 
 {{ end }}

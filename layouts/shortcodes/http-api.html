@@ -23,4 +23,4 @@
 {{ $base_url := replace $api_data.basePath "%CLIENT_MAJOR_VERSION%"  "r0" }}
 {{ $path := delimit (slice "api" $spec) "/" }}
 
-{{ partial "openapi/renderers/render-api" (dict "api_data" $api_data "base_url" $base_url "path" $path) }}
+{{ partial "openapi/render-api" (dict "api_data" $api_data "base_url" $base_url "path" $path) }}

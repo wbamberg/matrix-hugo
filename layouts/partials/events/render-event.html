@@ -46,10 +46,10 @@
 
 <h2>Content</h2>
 
-{{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $event_data.properties.content }}
+{{ $additional_types := partial "json-schema/resolve-additional-types" $event_data.properties.content }}
 
 {{ range $additional_types }}
-    {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
+    {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
 {{end}}
 
 <h2>Examples</h2>
@@ -64,7 +64,7 @@
     */}}
     {{ if $desired_example_name }}
         {{ if eq $example_name $desired_example_name }}
-            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples") }}
+            {{ $example_content := partial "json-schema/resolve-refs" (dict "schema" $example "path" "event-schemas/examples") }}
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```
@@ -78,7 +78,7 @@
         {{ $pieces := split $example_name "$" }}
         {{ $example_base_name := index $pieces 0 }}
         {{ if eq $event_name $example_base_name }}
-            {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples") }}
+            {{ $example_content := partial "json-schema/resolve-refs" (dict "schema" $example "path" "event-schemas/examples") }}
 ```json
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```

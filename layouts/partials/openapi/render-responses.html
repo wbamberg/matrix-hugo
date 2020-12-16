@@ -39,8 +39,8 @@
 
     {{ if $response.schema }}
 
-        {{ $schema := partial "openapi/resolvers/resolve-refs" (dict "schema" $response.schema "path" $path) }}
-        {{ $schema := partial "openapi/resolvers/resolve-allof" $schema }}
+        {{ $schema := partial "json-schema/resolve-refs" (dict "schema" $response.schema "path" $path) }}
+        {{ $schema := partial "json-schema/resolve-allof" $schema }}
 
         {{ if or $schema.properties (eq $schema.type "array") }}
 <h3>{{ $code}} response</h3>
@@ -67,15 +67,15 @@
 <p>Array of <code>{{ $type_of }}</code>.</p>
             {{ end }}
 
-            {{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $schema }}
+            {{ $additional_types := partial "json-schema/resolve-additional-types" $schema }}
             {{ $additional_types = uniq $additional_types }}
             {{ range $additional_types }}
-                {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
+                {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
             {{ end }}
 
-            {{ $example := partial "openapi/resolvers/resolve-example" $schema }}
+            {{ $example := partial "json-schema/resolve-example" $schema }}
             {{ if $response.examples }}
-                {{ $example = partial "openapi/resolvers/resolve-refs" (dict "schema" $response.examples "path" $path) }}
+                {{ $example = partial "json-schema/resolve-refs" (dict "schema" $response.examples "path" $path) }}
                 {{ $example = index $example "application/json" }}
             {{ end }}
 

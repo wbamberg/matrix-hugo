@@ -56,8 +56,8 @@
  </tr>
 </table>
 
-{{ partial "openapi/renderers/render-request"   (dict "parameters" $operation_data.parameters "path" $path) }}
-{{ partial "openapi/renderers/render-responses" (dict "responses"  $operation_data.responses  "path" $path) }}
+{{ partial "openapi/render-request"   (dict "parameters" $operation_data.parameters "path" $path) }}
+{{ partial "openapi/render-responses" (dict "responses"  $operation_data.responses  "path" $path) }}
 
 </details>
 

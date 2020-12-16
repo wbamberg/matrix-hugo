@@ -16,7 +16,7 @@
 
 */}}
 
-{{ $this_object := partial "openapi/resolvers/resolve-allof" . }}
+{{ $this_object := partial "json-schema/resolve-allof" . }}
 {{ $additional_objects := slice }}
 
 {{ if eq $this_object.type "object" }}
@@ -71,8 +71,8 @@
 {{ define "partials/get-additional-objects" }}
     {{ $additional_objects := .additional_objects }}
 
-    {{ $this_object := partial "openapi/resolvers/resolve-allof" .this_object }}
-    {{ $more_objects := partial "openapi/resolvers/resolve-additional-types" $this_object }}
+    {{ $this_object := partial "json-schema/resolve-allof" .this_object }}
+    {{ $more_objects := partial "json-schema/resolve-additional-types" $this_object }}
     {{/*
       As far as I know we don't have something like Array.concat(), so add them one at a time
     */}}

@@ -23,8 +23,8 @@
 {{ $path = delimit $pieces "/" }}
 
 {{/* Resolve $ref and allOf */}}
-{{ $definition = partial "openapi/resolvers/resolve-refs" (dict "schema" $definition "path" $path) }}
-{{ $definition = partial "openapi/resolvers/resolve-allof" $definition }}
+{{ $definition = partial "json-schema/resolve-refs" (dict "schema" $definition "path" $path) }}
+{{ $definition = partial "json-schema/resolve-allof" $definition }}
 
 <section class="rendered-data definition">
 
@@ -41,16 +41,16 @@
 
 </summary>
 
-{{ $additional_types := partial "openapi/resolvers/resolve-additional-types" $definition }}
+{{ $additional_types := partial "json-schema/resolve-additional-types" $definition }}
 {{ $additional_types = uniq $additional_types }}
 
 {{ range $additional_types }}
-    {{ partial "openapi/renderers/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
+    {{ partial "openapi/render-object-table" (dict "caption" .title "properties" .properties "required" .required) }}
 {{end}}
 
 <h2>Examples</h2>
 
-{{ $example := partial "openapi/resolvers/resolve-example" $definition }}
+{{ $example := partial "json-schema/resolve-example" $definition }}
 
 ```json
 {{ jsonify (dict "indent" "  ") $example }}

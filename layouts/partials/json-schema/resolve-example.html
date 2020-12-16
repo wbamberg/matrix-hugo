@@ -9,7 +9,7 @@
 
 */}}
 
-{{ $this_object := partial "openapi/resolvers/resolve-allof" . }}
+{{ $this_object := partial "json-schema/resolve-allof" . }}
 
 {{ if eq $this_object.type "object" }}
 
@@ -18,7 +18,7 @@
     {{ end }}
 
     {{ range $key, $property := $this_object.properties}}
-        {{ $this_property_example := partial "openapi/resolvers/resolve-example" $property }}
+        {{ $this_property_example := partial "json-schema/resolve-example" $property }}
         {{ if $this_property_example }}
             {{ $this_object = merge (dict "example" (dict $key $this_property_example)) $this_object }}
         {{ end }}
