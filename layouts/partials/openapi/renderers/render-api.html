@@ -1,3 +1,16 @@
+{{/*
+
+  Render an HTTP API, given:
+
+  * `api_data`: the OpenAPI/Swagger data
+  * `base_url`: the base URL: that is, the part we glue onto the front
+  of each value in `paths` to get a complete URL.
+  * `path`: the directory under /data where we found this API definition.
+  We use this to resolve "$ref" values, since they are relative to the schema's
+  location.
+
+*/}}
+
 {{ $api_data := index .api_data }}
 {{ $base_url := .base_url }}
 {{ $path := .path }}

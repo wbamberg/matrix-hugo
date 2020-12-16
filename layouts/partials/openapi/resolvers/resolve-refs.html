@@ -1,3 +1,14 @@
+{{/*
+
+  Resolves the `$ref` JSON schema keyword, by recursively replacing
+  it with the object it points to.
+
+  This template uses [`Scratch`](https://gohugo.io/functions/scratch/)
+  rather than a normal `dict` because with `dict` you can't replace key values:
+  https://discourse.gohugo.io/t/how-can-i-add-set-and-delete-keys-in-a-dictionary/29661
+
+*/}}
+
 {{ $schema := .schema }}
 {{ $path := .path}}
 
@@ -11,6 +22,9 @@
     {{ $ref_value := index $schema "$ref"}}
     {{ if $ref_value}}
         {{ $full_path := path.Join $path $ref_value }}
+        {{/*
+          Apparently Hugo doesn't give us a nice way to split the extension off a filename.
+        */}}
         {{ $without_ext := replaceRE "\\.[^\\.]*$" "" $full_path }}
         {{ $pieces := split $without_ext "/" }}
 

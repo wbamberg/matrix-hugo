@@ -1,3 +1,11 @@
+{{/*
+
+  This template is included at the end of each page's `<head>`.
+
+  We're using it here to include the custom CSS for the Matrix spec.
+
+*/}}
+
 {{ $scss := "scss/custom.scss"}}
 {{ if .Site.IsServer }}
 {{/* Note the missing postCSS. This makes it snappier to develop in Chrome, but makes it look sub-optimal in other browsers. */}}

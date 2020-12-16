@@ -1,3 +1,23 @@
+{{/*
+
+  Render a single HTTP API operation: that is, a method+endpoint combination, given:
+
+  * `method`: the method, e.g. GET, PUT
+  * `endpoint`: the endpoint
+  * `operation_data`: the OpenAPI/Swagger data for the operation
+  * `path`: the path where this definition was found, to enable us to resolve "$ref"
+
+  This template renders the operation as a `<section>` containing:
+
+    * an `<h1>` heading containing the method and endpoint
+    * a `<details>` element containing the details, including:
+      * operation description
+      * basic info about the operation
+      * request details
+      * response details
+
+*/}}
+
 {{ $method := .method }}
 {{ $endpoint := .endpoint }}
 {{ $operation_data := .operation_data }}

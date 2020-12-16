@@ -1,3 +1,16 @@
+{{/*
+
+  This template is included at the end of each page's `<body>`.
+
+  We're using it here to include the JS that generates the table of contents.
+
+  It would be better to generate the table of contents as part of the
+  Hugo build process, but that doesn't work nicely with the way we want to
+  author client-server modules as separate files.
+
+*/}}
+
+
 <script>
 
   /*
@@ -8,15 +21,10 @@
     return Array.from(navItems).map(item => item.id).filter(id => id != "");
   }
 
-  function fixHeadingIds(headings) {
-    const uniqueIDs = populateIds();
-    for (let heading of headings) {
-      const uniqueID = uniquify(heading.id, uniqueIDs);
-      uniqueIDs.push(uniqueID);
-      heading.id = uniqueID;
-    }
-  }
-
+  /*
+  Given an ID and an array of IDs, return s version of the original ID that's
+  not equal to any of the IDs in the array.
+  */
   function uniquify(id, uniqueIDs) {
     const baseId = id;
     let counter = 0;
@@ -27,6 +35,26 @@
     return id;
   }
 
+  /*
+  Given an array of heading nodes, ensure they all have unique IDs.
+
+  We have to do this mostly because of client-server modules, which are
+  rendered separately then glued together with a template.
+  Because heading IDs are generated in rendering, this means they can and will
+  end up with duplicate IDs.
+  */
+  function fixHeadingIds(headings) {
+    const uniqueIDs = populateIds();
+    for (let heading of headings) {
+      const uniqueID = uniquify(heading.id, uniqueIDs);
+      uniqueIDs.push(uniqueID);
+      heading.id = uniqueID;
+    }
+  }
+
+  /*
+  Generate a table of contents based on the headings in the document.
+  */
   function makeToc() {
 
     // make the title from the H1
@@ -39,8 +67,9 @@
     // make the content
     const content = document.body.querySelector(".td-content");
     let headings = [].slice.call(content.querySelectorAll("h2, h3, h4, h5, h6"));
+    // we'll omit headings that don't have IDs.
     headings = headings.filter(heading => heading.id);
-
+    // we have to adjust heading IDs to ensure that they are unique
     fixHeadingIds(headings);
     const nav = document.createElement("nav");
     nav.id = "TableOfContents";
@@ -53,6 +82,7 @@
     toc.appendChild(nav);
   }
 
+  // create a single ToC entry
   function makeTocEntry(heading) {
     const li = document.createElement("li");
     const a = document.createElement("a");
@@ -62,6 +92,11 @@
     return li;
   }
 
+  /*
+  Each ToC section is an `<ol>` element.
+  ToC entries are `<li>` elements and these contain nested ToC sections,
+  whenever we go to the next heading level down.
+  */
   function makeTocSection(headings, index) {
     const ol = document.createElement("ol");
     let previousHeading = null;

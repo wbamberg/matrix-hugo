@@ -1,3 +1,17 @@
+{{/*
+
+  Render the request part of a single HTTP API operation, given:
+
+  * `parameters`: OpenAPI/Swagger data specifying the parameters
+  * `path`: the path where this definition was found, to enable us to resolve "$ref"
+
+  This template renders:
+  * the "simple parameters" (header, path, query parameters)
+  * body parameters, which may be more complex, containing nested objects
+  * response body examples
+
+*/}}
+
 {{ $parameters := .parameters }}
 {{ $path := .path }}
 

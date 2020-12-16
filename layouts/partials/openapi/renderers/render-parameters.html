@@ -1,3 +1,15 @@
+{{/*
+
+  Render the parameters of a given type, given:
+
+  * `parameters`: OpenAPI/Swagger data specifying the parameters
+  * `type`: the type of parameters to render: "header, ""path", "query"
+  * `caption`: caption to use for the table
+
+  This template renders a single table containing parameters of the given type.
+
+*/}}
+
 {{ $parameters := .parameters }}
 {{ $type := .type }}
 {{ $caption := .caption }}

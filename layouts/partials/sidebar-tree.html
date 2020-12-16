@@ -1,3 +1,15 @@
+{{/*
+
+  A copy of the sidebar-tree.html partial in Docsy, with a few small modifications:
+
+  * include `div#toc` for the ToC
+  * start the sidebar at the root (homepage) since for us that is the Matrix
+  overview page
+  * omit module pages, which we don't want to be directly accessible
+  (we only use them as raw material for the client-server spec)
+
+*/}}
+
 {{/* We cache this partial for bigger sites and set the active class client side. */}}
 {{ $shouldDelayActive := ge (len .Site.Pages) 2000 }}
 <div id="td-sidebar-menu" class="td-sidebar__inner{{ if $shouldDelayActive }} d-none{{ end }}">

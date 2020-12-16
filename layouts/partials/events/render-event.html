@@ -1,3 +1,15 @@
+{{/*
+
+  Renders a single event, given:
+
+    * `event_name`: the name we want to display for the event
+    * `event_data`: the event specification
+    * `desired_example_name` (optional): the exact name of the examples to render.
+    If `desired_example_name` is omitted we render all examples
+    whose names start with the `event_name`.
+
+*/}}
+
 {{ $event_name := .event_name }}
 {{ $desired_example_name := .desired_example_name }}
 {{ $event_data := .event_data }}
@@ -46,8 +58,10 @@
 
 {{ range $example_name, $example := $all_examples }}
 
-    {{/* this is to allow the msgtype template to work */}}
-    {{/* it lets callers specify exactly the name of the example they want */}}
+    {{/*
+      This is to allow the msgtype template to work.
+      It lets callers specify exactly the name of the example they want
+    */}}
     {{ if $desired_example_name }}
         {{ if eq $example_name $desired_example_name }}
             {{ $example_content := partial "openapi/resolvers/resolve-refs" (dict "schema" $example "path" "event-schemas/examples") }}
@@ -55,8 +69,10 @@
 {{ jsonify (dict "indent" "  ") $example_content }}
 ```
         {{ end }}
-    {{/* if $desired_example_name is not given, we will include any */}}
-    {{/* examples whose first part (before "$" matches the event name)*/}}
+    {{/*
+      If `$desired_example_name` is not given, we will include any
+      examples whose first part (before "$") matches the event name
+    */}}
     {{ else }}
 
         {{ $pieces := split $example_name "$" }}

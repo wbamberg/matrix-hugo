@@ -1,3 +1,16 @@
+{{/*
+
+  Render a table listing the properties of an object, given:
+
+  * `caption`: optional caption for the table
+  * `properties`: dictionary of the properties to list, each given as:
+  `property_name` : `property_data`
+  * `required`: array containing the names of required properties.
+  In some cases (such as response body specifications) this isn't used, and
+  instead properties have a `required` boolean attribute. We support this too.
+
+*/}}
+
 {{ $caption := .caption }}
 {{ $properties := .properties}}
 {{ $required := .required}}
@@ -18,11 +31,19 @@
 
         {{ $property := partial "openapi/resolvers/resolve-allof" $property }}
 
+        {{/*
+            If the property has a `title`, use that rather than `type`.
+            This means we can write things like `EventFilter` rather than `object`.
+        */}}
         {{ $type := $property.type}}
         {{ if $property.title }}
             {{ $type = $property.title }}
         {{ end }}
 
+        {{/*
+            If the property is an array, indicate this with square brackets,
+            like`[type]`.
+        */}}
         {{ if eq $type "array"}}
             {{ $items := $property.items }}
             {{ if $property.items }}
@@ -35,17 +56,27 @@
             {{ $type = delimit (slice "[" $inner_type "]") "" }}
         {{ end }}
 
+        {{/*
+            If the property is an enum, indicate this.
+        */}}
         {{ if (and (eq $type "string") ($property.enum)) }}
             {{ $type = "enum" }}
         {{ end }}
 
+        {{/*
+            If the property uses `additionalProperties` to describe its
+            internal structure, handle this.
+        */}}
         {{ if reflect.IsMap $property.additionalProperties }}
             {{ if $property.additionalProperties.title }}
                 {{ $type = delimit (slice "{ string: " $property.additionalProperties.title "}" ) "" }}
             {{ end }}
         {{ end }}
 
-        {{/* handle two ways of indicating "required", one for simple parameters, the other for request and response body objects */}}
+        {{/*
+          Handle two ways of indicating "required", one for simple parameters,
+          the other for request and response body objects.
+        */}}
         {{ $required := cond (or (in $required $property_name) ( eq $property.required true )) true false }}
 
  <tr>
