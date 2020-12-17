@@ -23,7 +23,7 @@ Custom SCSS for the Matrix spec
     color: $warning;
     font-weight: $font-weight-bold;
 
-    &:before {
+    &:after {
       content: " — DEPRECATED";
     }
   }

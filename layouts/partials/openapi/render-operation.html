@@ -27,8 +27,7 @@
 
   <h1 id="{{ lower $method }}{{ anchorize $endpoint }}">
    <span class="http-api-method {{ $method }}">{{ $method }}</span>
-   <span class="endpoint"><code>{{ $endpoint }}</code></span>
-   {{ if $operation_data.deprecated }}<span class="deprecated-inline"></span>{{ end }}
+   <span class="endpoint{{ if $operation_data.deprecated }} deprecated-inline{{ end }}"><code>{{ $endpoint }}</code></span>
   </h1>
 
   <hr/>
