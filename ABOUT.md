@@ -1,20 +1,19 @@
-## Hugo spec platform
 
 This document describes the components of the new spec platform, and the changes that have been made to the old spec content to make it work in the new platform.
 
 It lists each top-level directory in the repo and describes what it contains and what it does in the platform.
 
-### assets
+## assets
 
 This contains:
 * the Matrix logo, which we're including in the header.
 * Sass files we're using to customise the styles provided by our Hugo theme (Docsy).
 
-### changelog
+## changelog
 
 This contains towncrier-formatted metadata and newsfragments. There's more information about this directory in the issue about specification versions: https://github.com/matrix-org/matrix-doc/issues/2877.
 
-### content
+## content
 
 This is where the specification's prose content lives. In Hugo "/content" is the default directory for page content, and by default MD files in here get published as web pages, with the URL structure mirroring the directory structure.
 
@@ -31,7 +30,7 @@ The main changes from the old spec content are:
 
 As in the old spec (and following the discussion in https://github.com/matrix-org/matrix-doc/issues/2838), we maintain modules in separate files, under "client-server/modules". But I've included "feature_profiles" in the main client-server spec. Also, I've pushed the heading levels for module files down so they match their destination, rather than having to adjust heading levels in the build process.
 
-### data
+## data
 
 This is where we keep specification data - OpenAPI data, event schemas and examples, and the "server-signatures.yaml" file.
 
