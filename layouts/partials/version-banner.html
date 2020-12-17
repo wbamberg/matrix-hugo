@@ -9,7 +9,7 @@
 {{ $status := .Site.Params.version.status }}
 {{ $latest_version := .Site.Params.version.current_version_url }}
 {{ if eq $status "unstable"}}
-<div class="pageinfo pageinfo-{{ $color }}">
+<div class="pageinfo pageinfo-{{ $color }} pageinfo-unstable">
   <p>You're looking at an unstable version of this specification.
   Unstable specifications may change at any time without notice.</p>
   <p><a href="{{ $latest_version | safeURL }}">Switch to the current stable release</a>.</p>

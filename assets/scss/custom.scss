@@ -5,6 +5,42 @@ Custom SCSS for the Matrix spec
 @import "variables_project";
 @import "variables";
 
+a, a:hover {
+  color: $secondary;
+}
+
+/* Overrides for the navbar */
+.td-navbar {
+  box-shadow: 0px 0px 8px rgba(179, 179, 179, 0.25);
+  min-height: 5rem;
+
+  .navbar-brand {
+    font-size: 1.1rem;
+
+    .navbar-version {
+      color: $secondary;
+    }
+
+  }
+
+  a {
+    color: $black;
+  }
+}
+
+.pageinfo-primary {
+  border: 0;
+  border-left: solid 5px $secondary;
+  background-color: $gray-100;
+}
+
+.pageinfo-unstable {
+  background-image: url('/icons/unstable.png');
+  background-position: left 1rem center;
+  background-repeat: no-repeat;
+  padding-left: 100px;
+}
+
 /* Styles for sections that are rendered from data, such as HTTP APIs and event schemas */
 .rendered-data {
   margin: 1rem 0 3rem 0;
@@ -167,7 +203,7 @@ Custom SCSS for the Matrix spec
     padding-top: 0.375rem;
   }
 
-  li a::before {
+  li a:before {
     counter-increment: section;
     content: counters(section, ".") " ";
   }
