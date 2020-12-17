@@ -5,11 +5,9 @@
 
 */}}
 
-{{ $title := .title}}
-{{ $color := .color}}
+{{ $type := .type}}
 {{ $content := .content}}
 
-<div class="alert alert-{{ $color }}" role="alert">
-<h4 class="alert-heading">{{ $title | safeHTML }}</h4>
+<div class="alert {{ $type }}" role="alert">
 {{ $content | markdownify }}
 </div>

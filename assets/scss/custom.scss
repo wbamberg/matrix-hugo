@@ -41,6 +41,40 @@ a, a:hover {
   padding-left: 100px;
 }
 
+
+.alert {
+  &.note {
+    &:before {
+      content: "INFO: ";
+      font-weight: $font-weight-bold;
+    }
+    border: 2px solid $note;
+    border-left-width: 5px;
+    background: $note-background;
+  }
+
+  &.rationale {
+    &:before {
+      content: "RATIONALE: ";
+      font-weight: $font-weight-bold;
+    }
+    border: 2px solid $note;
+    border-left-width: 5px;
+    background: $note-background;
+  }
+
+  &.warning {
+    &:before {
+      content: "WARNING: ";
+      font-weight: $font-weight-bold;
+    }
+    border: 2px solid $warning;
+    border-left-width: 5px;
+    background: $warning-background;
+  }
+}
+
+
 /* Styles for sections that are rendered from data, such as HTTP APIs and event schemas */
 .rendered-data {
   margin: 1rem 0 3rem 0;
