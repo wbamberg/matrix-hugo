@@ -115,7 +115,9 @@ Shortcodes are templates that can be called directly from content. All the exist
 
 This contains the Docsy theme as a submodule, which in turn pulls in Bootstrap and Font Awesome as submodules. Since we're not using much of these, it might make sense at some point to carve out the bits we are using and discard the rest.
 
-## config.toml
+## significant top-level files
+
+### config.toml
 
 Hugo config file. This starts with the Docsy config and makes a few changes. Notable things we have added:=
 
@@ -123,6 +125,6 @@ Hugo config file. This starts with the Docsy config and makes a few changes. Not
 * `params.version.current_version_url`: points to the URL for the  current version.
 * `params.version.major_version`, `params.version.minor_version`, `params.version.patch_version`: used to describe the actual version number for this version. These are omitted if the current version status is "unstable".
 
-## package.json
+### package.json
 
 We unfortunately apparently have to have a Node dependency, I think for autoprefixing CSS properties.
