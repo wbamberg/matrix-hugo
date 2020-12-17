@@ -90,9 +90,9 @@ Most significantly, partials do most of the work to render content from OpenAPI/
 ```
 render-api
     -> render-operation
-        -> render-request -> render-object-table
+        -> render-request        -> render-object-table
             -> render-parameters -> render-object-table
-        -> render-responses -> render-object-table
+        -> render-responses      -> render-object-table
 ```
 
 * `json-schema`: this provides basic support for working with JSON schema and is called by both `render-event` and the `openapi` templates. It includes templates to handle the `$ref` and `allOf` keywords. This is probably the most complicated bit of code here and could definitely use some careful review.
@@ -118,10 +118,11 @@ This contains the Docsy theme as a submodule, which in turn pulls in Bootstrap a
 
 ## config.toml
 
-Hugo config file. This starts with the Docsy config and makes a few changes. Notable things we have added:
-    * `params.version.status`: indicates the status of this version, one of "unstable", "current", "historical".
-    * `params.version.current_version_url`: points to the URL for the  current version.
-    * `params.version.major_version`, `params.version.minor_version`, `params.version.patch_version`: used to describe the actual version number for this version. These are omitted if the current version status is "unstable".
+Hugo config file. This starts with the Docsy config and makes a few changes. Notable things we have added:=
+
+* `params.version.status`: indicates the status of this version, one of "unstable", "current", "historical".
+* `params.version.current_version_url`: points to the URL for the  current version.
+* `params.version.major_version`, `params.version.minor_version`, `params.version.patch_version`: used to describe the actual version number for this version. These are omitted if the current version status is "unstable".
 
 ## package.json
 
