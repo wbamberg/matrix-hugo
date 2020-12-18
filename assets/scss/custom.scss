@@ -103,6 +103,10 @@ a, a:hover {
     font-size: 1.3rem;
     line-height: 1.5;
     margin-bottom: 0;
+
+    .endpoint {
+      color: $secondary;
+    }
   }
 
   h2 {
@@ -123,7 +127,7 @@ a, a:hover {
   }
 
   hr {
-    border: 1px solid;
+    border-bottom: 2px solid $dark;
     margin-bottom: 1.5rem;
   }
 
@@ -147,23 +151,35 @@ a, a:hover {
     margin: 1rem 0 .5rem 0;
     border: 2px solid white;
 
+    th, td {
+      padding: 1rem;
+    }
+
     td {
-      padding: .3rem;
       border: 2px solid white;
+    }
+
+    th {
+      background-color: $white;
+    }
+
+    tr {
+      background-color: $table-row-default;
+    }
+
+    tr:nth-child(even) {
+      background-color: $table-row-alternate;
     }
 
     &.basic-info, &.basic-info th, &.basic-info td {
       table-layout: fixed;
       border: initial;
       margin: 1rem 0 .5rem 0;
+      background-color: $white;
     }
 
     &.basic-info th {
       width: 14rem;
-    }
-
-    thead {
-      background-color: $gray-100;
     }
 
     .col-name, .col-type, .col-status {
@@ -180,25 +196,13 @@ a, a:hover {
 
   }
 
+  pre {
+    border: 0;
+    border-left: solid 5px $secondary;
+  }
+
   .http-api-method {
     font-weight: $font-weight-bold;
-  }
-
-  /* distinct colors for HTTP API and Event sections */
-  &.http-api {
-    background-color: rgba(0, 152, 212, .1);
-
-    hr {
-      border-color: rgb(0, 152, 212)
-    }
-  }
-
-  &.event, &.definition {
-    background-color: rgba(132, 184, 23, .1);
-
-    hr {
-      border-color: rgb(132, 184, 23)
-    }
   }
 
 }
