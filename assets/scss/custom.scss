@@ -5,10 +5,6 @@ Custom SCSS for the Matrix spec
 @import "variables_project";
 @import "variables";
 
-a, a:hover {
-  color: $secondary;
-}
-
 /* Overrides for the navbar */
 .td-navbar {
   box-shadow: 0px 0px 8px rgba(179, 179, 179, 0.25);
@@ -27,20 +23,6 @@ a, a:hover {
     color: $black;
   }
 }
-
-.pageinfo-primary {
-  border: 0;
-  border-left: solid 5px $secondary;
-  background-color: $gray-100;
-}
-
-.pageinfo-unstable {
-  background-image: url('/icons/unstable.png');
-  background-position: left 1rem center;
-  background-repeat: no-repeat;
-  padding-left: 100px;
-}
-
 
 .alert {
   &.note {
@@ -74,14 +56,12 @@ a, a:hover {
   }
 }
 
-
 /* Styles for sections that are rendered from data, such as HTTP APIs and event schemas */
 .rendered-data {
   margin: 1rem 0 3rem 0;
   padding: 1rem;
 
   details {
-    padding: 0 1rem;
 
     summary {
       padding: .5rem 0;
@@ -101,8 +81,6 @@ a, a:hover {
   h1 {
     display: inline-block;
     font-size: 1.3rem;
-    line-height: 1.5;
-    margin-bottom: 0;
 
     .endpoint {
       color: $secondary;
@@ -118,8 +96,7 @@ a, a:hover {
   h3 {
     font-weight: $font-weight-bold;
     font-size: 1.1rem;
-    margin: 1.5rem 0 0 0;
-    padding-bottom: .75rem;
+    margin: 1.5rem 0 .75rem 0;
   }
 
   h2 + table, h3 + table, h3 + div.highlight {
@@ -136,34 +113,30 @@ a, a:hover {
   }
 
   p code, table code {
-    background-color: $gray-100;
-  }
-
-  caption {
-    caption-side: top;
-    color: $dark;
-    font-size: 1rem;
+    background-color: $white;
   }
 
   table {
     table-layout: fixed;
     width: 100%;
-    margin: 1rem 0 .5rem 0;
-    border: 2px solid white;
+    margin: 4rem 0;
 
-    th, td {
-      padding: 1rem;
+    caption {
+      caption-side: top;
+      color: $dark;
+      font-size: 1rem;
+      font-weight: $font-weight-bold;
     }
 
-    td {
-      border: 2px solid white;
+    th, td, caption {
+      padding: 1rem;
     }
 
     th {
       background-color: $white;
     }
 
-    tr {
+    caption, tr {
       background-color: $table-row-default;
     }
 
@@ -173,13 +146,12 @@ a, a:hover {
 
     &.basic-info, &.basic-info th, &.basic-info td {
       table-layout: fixed;
-      border: initial;
       margin: 1rem 0 .5rem 0;
       background-color: $white;
     }
 
     &.basic-info th {
-      width: 14rem;
+      width: 15rem;
     }
 
     .col-name, .col-type, .col-status {
@@ -328,6 +300,11 @@ body {
 
 /* Miscellaneous custom bits */
 
+/* Update link colours for MAtrix style */
+a, a:hover {
+  color: $secondary;
+}
+
 /* This is needed to stop the bottom of the Matrix icon from getting snipped off. */
 .td-navbar .navbar-brand svg {
   height: 32px;
@@ -347,6 +324,16 @@ Make padding symmetrical (this selector is used to apply padding-left: 3rem)
 
 /* Adjust default styles for info banner */
 .pageinfo-primary {
-max-width: 80%;
-margin-left: 0;
+  max-width: 80%;
+  margin-left: 0;
+  border: 0;
+  border-left: solid 5px $secondary;
+  background-color: $gray-100;
+}
+
+.pageinfo-unstable {
+  background-image: url('/icons/unstable.png');
+  background-position: left 1rem center;
+  background-repeat: no-repeat;
+  padding-left: 100px;
 }

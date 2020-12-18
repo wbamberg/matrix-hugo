@@ -55,7 +55,9 @@
  </tr>
 </table>
 
+<hr/>
 {{ partial "openapi/render-request"   (dict "parameters" $operation_data.parameters "path" $path) }}
+<hr/>
 {{ partial "openapi/render-responses" (dict "responses"  $operation_data.responses  "path" $path) }}
 
 </details>
