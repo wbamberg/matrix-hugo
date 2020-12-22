@@ -176,8 +176,14 @@
   */
   window.addEventListener('DOMContentLoaded', () => {
 
-    const observer = new IntersectionObserver(headings => {
+    const toc = document.querySelector("#toc");
+    toc.addEventListener("click", event => {
+      if (event.target.tagName === "A") {
+        setTocEntry(event.target);
+      }
+    });
 
+    const observer = new IntersectionObserver(headings => {
       /* Special case: If the current URL hash matches a ToC entry, and
       the corresponding heading is visible in the viewport, then that is
       made the current ToC entry, and we don't even look at the intersection
@@ -205,21 +211,11 @@
           const id = heading.target.getAttribute('id');
           const entry = document.querySelector(`nav li a[href="#${id}"]`);
           if (entry) {
-            newEntry = entry;
-            if (document.location.hash && document.location.hash.substring(1) === id) {
-              break;
-            }
+            setTocEntry(entry);
+            return;
           }
         }
     }
-
-      /*
-      If a new heading did enter the viewport, clear any previously
-      highlighted ToC items, set the new one, and adjust the ToC scroll position.
-      */
-      if (newEntry) {
-        setTocEntry(newEntry);
-      }
 
   });
 
