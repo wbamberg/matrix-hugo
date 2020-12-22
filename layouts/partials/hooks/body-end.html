@@ -155,10 +155,20 @@
     }
 
     newEntry.classList.add('active');
+
+    // don't scroll the nav if the main content is not scrolled
     const nav = document.querySelector("#td-section-nav");
-    nav.scrollTop = newEntry.offsetTop - 100;
+    const content = document.querySelector("html");
+    if (content.scrollTop !== 0) {
+      nav.scrollTop = newEntry.offsetTop - 100;
+    } else {
+      nav.scrollTop = 0;
+    }
   }
 
+  /*
+  Test whether a node is in the viewport
+  */
   function isInViewport(node) {
     const rect = node.getBoundingClientRect();
 
@@ -183,11 +193,16 @@
       }
     });
 
-    const observer = new IntersectionObserver(headings => {
-      /* Special case: If the current URL hash matches a ToC entry, and
+    const observer = new IntersectionObserver(entries => {
+
+      /*
+      Special case: If the current URL hash matches a ToC entry, and
       the corresponding heading is visible in the viewport, then that is
       made the current ToC entry, and we don't even look at the intersection
-      observer data. */
+      observer data.
+      This means that if the user has clicked on a ToC entry,
+      we won't unselect it through the intersection observer.
+      */
       const hash = document.location.hash;
       if (hash) {
         const tocEntryForHash = document.querySelector(`nav li a[href="${hash}"]`);
@@ -202,25 +217,39 @@
 
       let newEntry = null;
 
-      /*
-      Get the ToC entry for the first entry that entered the viewport, if there
-      was  one.
-      */
-      for (const heading of headings) {
-        if (heading.intersectionRatio > 0) {
-          const id = heading.target.getAttribute('id');
-          const entry = document.querySelector(`nav li a[href="#${id}"]`);
-          if (entry) {
-            setTocEntry(entry);
+      for (const entry of entries) {
+        if (entry.intersectionRatio > 0) {
+          const heading = entry.target;
+          /*
+          If the H1 (title) has started intersecting, then just scroll the nav
+          back to the top. This enables us to show the sitenav
+          in the sidebar when the user scrolls back up to the top.
+          */
+          if (heading.tagName === "H1") {
+            const nav = document.querySelector("#td-section-nav");
+            nav.scrollTop = 0;
             return;
           }
+          /*
+          Otherwise, get the ToC entry for the first entry that
+          entered the viewport, if there was one.
+          */
+          const id = entry.target.getAttribute('id');
+          const tocEntry = document.querySelector(`nav li a[href="#${id}"]`);
+          if (tocEntry && !newEntry) {
+            newEntry = tocEntry;
+          }
         }
-    }
+      }
+
+      if (newEntry) {
+        setTocEntry(newEntry);
+        return;
+      }
 
   });
 
-  // Track all headings
-  document.querySelectorAll("h2, h3, h4, h5, h6").forEach((section) => {
+  document.querySelectorAll(".td-content>h1, h2, h3, h4, h5, h6").forEach((section) => {
     observer.observe(section);
   });
 
