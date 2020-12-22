@@ -214,7 +214,8 @@ Custom SCSS for the Matrix spec
   a, a.td-sidebar-link {
     color: $gray-800;
     font-weight: $font-weight-normal;
-    padding: .2rem;
+    padding-top: .2rem;
+    padding-bottom: .2rem;
 
     display: block;
     transition: all 100ms ease-in-out;
