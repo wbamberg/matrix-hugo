@@ -162,7 +162,9 @@
           const entry = document.querySelector(`nav li a[href="#${id}"]`);
           if (entry) {
             newEntry = entry;
-            break;
+            if (document.location.hash && document.location.hash.substring(1) === id) {
+              break;
+            }
           }
         }
     }
