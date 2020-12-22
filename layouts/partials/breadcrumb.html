@@ -7,13 +7,14 @@
 
 */}}
 
+{{ if not .IsHome }}
 <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
 	<ol class="breadcrumb spb-1">
-{{ if not .IsHome }}
 {{ template "breadcrumbnav" (dict "p1" . "p2" .) }}
-{{ end }}
 	</ol>
 </nav	>
+{{ end }}
+
 {{ define "breadcrumbnav" }}
 {{ if .p1.Parent }}
 {{ template "breadcrumbnav" (dict "p1" .p1.Parent "p2" .p2 )  }}
