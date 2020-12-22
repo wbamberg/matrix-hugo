@@ -2,14 +2,17 @@
 
   This template is included at the end of each page's `<body>`.
 
-  We're using it here to include the JS that generates the table of contents.
+  We're using it here to:
 
-  It would be better to generate the table of contents as part of the
-  Hugo build process, but that doesn't work nicely with the way we want to
-  author client-server modules as separate files.
+  1) include the JS that generates the table of contents. It would be better
+  to generate the table of contents as part of the Hugo build process, but
+  that doesn't work nicely with the way we want to author client-server modules
+  as separate files.
+
+  2) highlight and scroll the ToC in the sidebar to match the place we are at
+  in the document.
 
 */}}
-
 
 <script>
 
@@ -139,5 +142,53 @@
   }
 
   makeToc();
+
+  /*
+  Track when headings enter the viewport, and use this to update the highlight
+  for the corresponding ToC entry.
+  */
+  window.addEventListener('DOMContentLoaded', () => {
+
+    const observer = new IntersectionObserver(headings => {
+      let newEntry = null;
+
+      /*
+      Get the ToC entry for the first entry that entered the viewport, if there
+      was  one.
+      */
+      for (const heading of headings) {
+        if (heading.intersectionRatio > 0) {
+          const id = heading.target.getAttribute('id');
+          const entry = document.querySelector(`nav li a[href="#${id}"]`);
+          if (entry) {
+            newEntry = entry;
+            break;
+          }
+        }
+    }
+
+      /*
+      If a new heading did enter the viewport, clear any previously
+      highlighted ToC items, set the new one, and adjust the ToC scroll position.
+      */
+      if (newEntry) {
+        const activeEntries = document.querySelectorAll("#toc a.active");
+        for (const activeEntry of activeEntries) {
+          activeEntry.classList.remove('active');
+        }
+
+        newEntry.classList.add('active');
+        const nav = document.querySelector("#td-section-nav");
+        nav.scrollTop = newEntry.offsetTop - 100;
+      }
+
+  });
+
+  // Track all headings
+  document.querySelectorAll("h2, h3, h4, h5, h6").forEach((section) => {
+    observer.observe(section);
+  });
+
+  });
 
 </script>
