@@ -46,7 +46,7 @@
   Because heading IDs are generated in rendering, this means they can and will
   end up with duplicate IDs.
   */
-  function fixHeadingIds(headings) {
+  function uniquifyHeadingIds(headings) {
     const uniqueIDs = populateIds();
     for (let heading of headings) {
       const uniqueID = uniquify(heading.id, uniqueIDs);
@@ -102,12 +102,12 @@
 
     // exclude headings that don't have IDs.
     headings = headings.filter(heading => heading.id);
+    uniquifyHeadingIds(headings);
 
     // exclude .rendered-data > h1 headings from the ToC
     const tocTargets = headings.filter(heading => heading.tagName !== "H1");
 
     // we have to adjust heading IDs to ensure that they are unique
-    fixHeadingIds(tocTargets);
     const nav = document.createElement("nav");
     nav.id = "TableOfContents";
 
