@@ -207,10 +207,6 @@ request is strongly recommended.
 
 {{% http-api spec="client-server" api="versions" %}}
 
-### Index of HTTP APIs
-
-{{% http-api-index spec="client-server" %}}
-
 ## Web Browser Clients
 
 It is realistic to expect that some clients will be written to be run
