@@ -45,10 +45,18 @@
         {{ end }}
 
 <h3>Request body example</h3>
+
         {{ $example := partial "json-schema/resolve-example" $schema }}
+        {{ if $example }}
+
 ```json
 {{ jsonify (dict "indent" "  ") $example }}
 ```
+
+        {{ else }}
+            {{ partial "alert" (dict "type" "warning" "omit_title" "true" "color" "warning" "content" "The specification for this operation does not include an example.") }}
+        {{ end }}
+
     {{ end }}
 
 {{ else }}

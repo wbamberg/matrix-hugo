@@ -27,7 +27,7 @@ Custom SCSS for the Matrix spec
 /* Styles for alert boxes */
 .alert {
   &.note {
-    &:before {
+    &:not(.omit-title):before {
       content: "INFO: ";
       font-weight: $font-weight-bold;
     }
@@ -37,7 +37,7 @@ Custom SCSS for the Matrix spec
   }
 
   &.rationale {
-    &:before {
+    &:not(.omit-title):before {
       content: "RATIONALE: ";
       font-weight: $font-weight-bold;
     }
@@ -47,7 +47,7 @@ Custom SCSS for the Matrix spec
   }
 
   &.warning {
-    &:before {
+    &:not(.omit-title):before {
       content: "WARNING: ";
       font-weight: $font-weight-bold;
     }
