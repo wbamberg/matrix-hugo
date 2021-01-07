@@ -56,6 +56,35 @@
   }
 
   /*
+  The document contains "normal" headings, and these have corresponding items
+  in the ToC.
+
+  The document might also contain H1 headings that act as titles for blocks of
+  rendered data, like HTTP APIs or event schemas. Unlike "normal" headings,
+  these headings don't appear in the ToC. But they do have anchor IDs to enable
+  links to them. When someone follows a link to one of these "rendered data"
+  headings we want to scroll the ToC to the item corresponding to the "normal"
+  heading preceding the "rendered data" heading we have visited.
+
+  To support this we need to add `data` attributes to ToC items.
+  These attributes identify which "rendered data" headings live underneath
+  the heading corresponding to that ToC item.
+  */
+  function setTocItemChildren(toc, headings) {
+    let tocEntryForHeading  = null;
+    for (const heading of headings) {
+      // H1 headings are rendered-data headings
+      if (heading.tagName !== "H1") {
+        tocEntryForHeading = document.querySelector(`nav li a[href="#${heading.id}"]`);
+      } else {
+        // on the ToC entry for the parent heading,
+        // set a data-* attribute whose name is the child's fragment ID
+        tocEntryForHeading.setAttribute(`data-${heading.id}`, "true");
+      }
+    }
+  }
+
+  /*
   Generate a table of contents based on the headings in the document.
   */
   function makeToc() {
@@ -69,20 +98,28 @@
 
     // make the content
     const content = document.body.querySelector(".td-content");
-    let headings = [].slice.call(content.querySelectorAll("h2, h3, h4, h5, h6"));
-    // we'll omit headings that don't have IDs.
+    let headings = [].slice.call(content.querySelectorAll("h2, h3, h4, h5, h6, .rendered-data > h1"));
+
+    // exclude headings that don't have IDs.
     headings = headings.filter(heading => heading.id);
+
+    // exclude .rendered-data > h1 headings from the ToC
+    const tocTargets = headings.filter(heading => heading.tagName !== "H1");
+
     // we have to adjust heading IDs to ensure that they are unique
-    fixHeadingIds(headings);
+    fixHeadingIds(tocTargets);
     const nav = document.createElement("nav");
     nav.id = "TableOfContents";
 
-    const section = makeTocSection(headings, 0);
+    const section = makeTocSection(tocTargets, 0);
     nav.appendChild(section.content);
     // append title and content to the #toc placeholder
     const toc = document.body.querySelector("#toc");
     toc.appendChild(title);
     toc.appendChild(nav);
+
+    // tell ToC items about any rendered-data headings they contain
+    setTocItemChildren(section.content, headings);
   }
 
   // create a single ToC entry
@@ -205,7 +242,12 @@
       */
       const hash = document.location.hash;
       if (hash) {
-        const tocEntryForHash = document.querySelector(`nav li a[href="${hash}"]`);
+        let tocEntryForHash = document.querySelector(`nav li a[href="${hash}"]`);
+        // if the hash isn't a direct match for a ToC item, check the data attributes
+        if (!tocEntryForHash) {
+          const fragment = hash.substring(1);
+          tocEntryForHash = document.querySelector(`nav li a[data-${fragment}]`);
+        }
         if (tocEntryForHash) {
           const headingForHash = document.querySelector(hash);
           if (headingForHash && isInViewport(headingForHash)) {
@@ -225,7 +267,7 @@
           back to the top. This enables us to show the sitenav
           in the sidebar when the user scrolls back up to the top.
           */
-          if (heading.tagName === "H1") {
+          if (heading.tagName === "H1" && heading.parentNode.tagName === "DIV") {
             const nav = document.querySelector("#td-section-nav");
             nav.scrollTop = 0;
             return;
@@ -235,7 +277,11 @@
           entered the viewport, if there was one.
           */
           const id = entry.target.getAttribute('id');
-          const tocEntry = document.querySelector(`nav li a[href="#${id}"]`);
+          let tocEntry = document.querySelector(`nav li a[href="#${id}"]`);
+          // if the id isn't a direct match for a ToC item, check the data attributes
+          if (!tocEntry) {
+            tocEntry = document.querySelector(`nav li a[data-${id}]`);
+          }
           if (tocEntry && !newEntry) {
             newEntry = tocEntry;
           }
@@ -249,7 +295,7 @@
 
   });
 
-  document.querySelectorAll(".td-content>h1, h2, h3, h4, h5, h6").forEach((section) => {
+  document.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((section) => {
     observer.observe(section);
   });
 
