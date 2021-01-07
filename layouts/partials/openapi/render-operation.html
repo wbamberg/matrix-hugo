@@ -25,15 +25,15 @@
 
 <section class="rendered-data http-api {{ $method }}">
 
+<details {{ if not site.Params.ui.rendered_data_collapsed }}open{{ end }}>
+<summary>
+
   <h1 id="{{ lower $method }}{{ anchorize $endpoint }}">
    <span class="http-api-method {{ $method }}">{{ $method }}</span>
    <span class="endpoint{{ if $operation_data.deprecated }} deprecated-inline{{ end }}">{{ $endpoint }}</span>
   </h1>
 
   <hr/>
-
-<details {{ if not site.Params.ui.rendered_data_collapsed }}open{{ end }}>
-<summary>
 
 {{ if $operation_data.deprecated }}
     {{ partial "alert" (dict "title" "Warning" "color" "warning" "content" "This API is deprecated and will be removed from a future release.") }}

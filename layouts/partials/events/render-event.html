@@ -16,14 +16,14 @@
 
 <section class="rendered-data event">
 
-<h1 id="{{ anchorize $event_name }}">
- <code>{{ $event_name }}</code>
-</h1>
-
-<hr/>
-
 <details {{ if not .Site.Params.ui.rendered_data_collapsed }}open{{ end }}>
 <summary>
+
+  <h1 id="{{ anchorize $event_name }}">
+   <code>{{ $event_name }}</code>
+  </h1>
+
+  <hr/>
 
 {{ $event_data.description | markdownify }}
 

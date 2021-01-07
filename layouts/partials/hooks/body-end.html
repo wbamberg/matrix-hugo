@@ -98,7 +98,7 @@
 
     // make the content
     const content = document.body.querySelector(".td-content");
-    let headings = [].slice.call(content.querySelectorAll("h2, h3, h4, h5, h6, .rendered-data > h1"));
+    let headings = [].slice.call(content.querySelectorAll("h2, h3, h4, h5, h6, .rendered-data > details > summary > h1"));
 
     // exclude headings that don't have IDs.
     headings = headings.filter(heading => heading.id);
