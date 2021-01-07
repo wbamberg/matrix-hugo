@@ -54,7 +54,7 @@
 ```
 
         {{ else }}
-            {{ partial "alert" (dict "type" "warning" "omit_title" "true" "color" "warning" "content" "The specification for this operation does not include an example.") }}
+            {{ partial "alert" (dict "type" "warning" "omit_title" "true" "color" "warning" "content" "Specification error: Example invalid or not present") }}
         {{ end }}
 
     {{ end }}
