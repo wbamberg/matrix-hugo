@@ -111,6 +111,13 @@ Shortcodes are templates that can be called directly from content. All the exist
 * `msgtypes`: replaces the old {{msgtype_events}} template.
 * `sas-emojis`: replaces the old {{sas_emoji_table}} template.
 
+## static
+
+This includes static assets that don't need processing (assets that do need processing, such as SCSS, live in /assets):
+
+* /icons
+* /js/toc.js -> client-side JS to implement the table of contents
+
 ## themes
 
 This contains the Docsy theme as a submodule, which in turn pulls in Bootstrap and Font Awesome as submodules. Since we're not using much of these, it might make sense at some point to carve out the bits we are using and discard the rest.
