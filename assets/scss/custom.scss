@@ -29,7 +29,7 @@ Custom SCSS for the Matrix spec
   scroll-behavior: smooth;
 
   /* This overrides calc(100vh - 10rem);, which gives us a blank space at the bottom of the sidebar */
-  max-height: calc(100vh - 5rem);
+  max-height: calc(100vh - 6rem);
 
   &>.td-sidebar-nav__section {
     margin-top: 1rem;
@@ -73,6 +73,12 @@ Custom SCSS for the Matrix spec
       font-weight: $font-weight-normal;
     }
   }
+}
+
+/* Customise footer */
+footer {
+  min-height: 108px;
+  border-top: 4px solid $dark;
 }
 
 /* Auto numbering for headings */
