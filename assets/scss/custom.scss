@@ -308,11 +308,9 @@ table.release-info {
 }
 
 /* Auto numbering for headings */
-body {
-  counter-reset: h2
-}
-
 .td-content {
+
+  counter-reset: h2;
 
   &> h2 {
     counter-reset: h3
