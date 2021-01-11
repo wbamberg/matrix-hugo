@@ -34,7 +34,7 @@
     {{ $shouldDelayActive := .delayActive }}
     {{ $indent := .indent }}
     {{ $active := eq $p.RelPermalink $s.RelPermalink }}
-    {{ $show := or (and (not $p.Site.Params.ui.sidebar_menu_compact) ($p.IsAncestor $s)) ($p.IsDescendant $s) }}
+    {{ $show := or ($p.IsAncestor $s) ($p.IsDescendant $s) }}
     {{ $sid := $s.RelPermalink | anchorize }}
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
