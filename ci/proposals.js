@@ -62,6 +62,9 @@ function getShepherd(issue) {
 }
 
 function processIssues()  {
+  if (!fs.existsSync(outputDir)){
+    fs.mkdirSync(outputDir);
+  }
   for (const label of labels) {
     let issuesForLabel = issues.filter(msc => {
       return msc.labels.some(l => l.name === label);
