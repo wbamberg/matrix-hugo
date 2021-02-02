@@ -4,6 +4,7 @@
   "description": "Hugo theme for the Matrix specification.",
   "main": "none.js",
   "scripts": {
+    "get-proposals": "node ./ci/proposals.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^9.8.6",
+    "node-fetch": "2.6.1",
     "postcss-cli": "^7.1.2"
   }
 }

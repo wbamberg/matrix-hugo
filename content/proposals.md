@@ -591,3 +591,5 @@ Other metadata:
     Please make sure @username is a GitHub user (include the @!)
 -   A shepherd can be assigned by adding a "Shepherd: @username" line in
     the issue description. Again, make sure this is a real GitHub user.
+
+{{% proposal-tables %}}

@@ -1,0 +1,8 @@
+{{ $labels := .Site.Data.msc}}
+
+    {{ range $label, $issue_list := $labels }}
+<h3>{{ $label }}</h3>
+        {{ range $issue_list }}
+{{ .number }}
+        {{ end }}
+    {{ end }}
